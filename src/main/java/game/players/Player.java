@@ -19,19 +19,17 @@ public abstract class Player {
      */
 
     private static final int RACK_SIZE = 7; // amount of tiles a player can hold
-    private LinkedList<Tile> rack;          // collection of tiles the player can directly interact with
+    private LinkedList<Tile> rack = new LinkedList<>();          // collection of tiles the player can directly interact with
     private boolean human;                  // true if player is human
     private boolean turn = false;           // true if it is the player's turn
     private Game game;                      // the game which the player takes part in
     private Board board;                    // Board the player can sees and can manipulate
     private int score;                      // Score
-    private ArrayList<String> wordsFound;   // Words the player found
+    private ArrayList<String> wordsFound = new ArrayList<>();   // Words the player found
 
 
-    public Player(Game game, boolean human) {
+    public Player(boolean human) {
         this.human = human;
-        this.game = game;
-        rack = new LinkedList<>();
     }
 
     public void setGame(Game game) {
@@ -121,10 +119,12 @@ public abstract class Player {
     }
 
     /**
-     * Adds a word to the player's list of found words
+     * Adds given words to the player's list of found words
      */
-    public void addFoundWord(String word) {
-        wordsFound.add(word);
+    public void addFoundWords(String... words) {
+        for (String word : words) {
+            wordsFound.add(word);
+        }
     }
 
     public Board getBoard() {

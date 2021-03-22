@@ -2,6 +2,12 @@ package game.components;
 
 public class BoardField {
 
+    /**
+     * @author yuzun
+     * <p>
+     * Single tile on the board which can hold a tile
+     */
+
     private FieldType type;     // Type of field
     private Tile tile;          // Tile placed on this field
 

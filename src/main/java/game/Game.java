@@ -2,6 +2,7 @@ package game;
 
 import game.components.Board;
 import game.components.Tile;
+import game.players.HumanPlayer;
 import game.players.Player;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Game {
     /**
      * @author yuzun
      * <p>
+     * Single instance running on the host's computer
      * The game flow itself, handling turns, player moves, etc.
      */
 
@@ -26,6 +28,7 @@ public class Game {
     private int[] letterScores;                 // nth element is (n+1)th letter of alphabet's score
     private LinkedList<Tile> bag = new LinkedList<>();           // bag of tiles in the game
     private ArrayList<String> wordsFound = new ArrayList<>();  // a list of words found up to this point
+    private HumanPlayer host;
 
     /**
      * A game expects
@@ -40,6 +43,8 @@ public class Game {
     public Game(ArrayList<Player> players, int[] letterDistribution, int[] letterScores) {
         // Players participating
         this.players = players;
+        players.forEach(player -> player.setGame(this));
+
         // Set running to true
         this.running = true;
 
@@ -56,7 +61,7 @@ public class Game {
         }
         Collections.shuffle(bag);
 
-        // Give each player 7 tiles (and remove them from the bag
+        // Give each player 7 tiles and remove them from the bag
         for (Player player : players) {
             player.addTilesToRack(bag.pop(), bag.pop(), bag.pop(), bag.pop(), bag.pop(), bag.pop(), bag.pop());
         }
@@ -103,6 +108,7 @@ public class Game {
      * @param playerBoard Board of the player, who made the move
      */
     public int place(Player player, Board playerBoard) {
+        ArrayList<String> newFoundWords = new ArrayList<>();    // Words discovered by this placement
         return 0;
     }
 

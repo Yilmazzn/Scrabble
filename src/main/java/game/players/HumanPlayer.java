@@ -6,11 +6,16 @@ public class HumanPlayer extends Player {
 
     /**
      * @author yuzun
+     * <p>
+     * Human player connected
      */
 
     private Game game;
+    private Object client;  // TODO client
 
-    public HumanPlayer(Game game) {
-        super(game, true);
+    public HumanPlayer(Object client) {
+        super(true);
+        this.client = client;
     }
+
 }

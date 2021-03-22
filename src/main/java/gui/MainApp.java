@@ -1,10 +1,18 @@
+package gui;
+
+import game.Game;
 import game.players.HumanPlayer;
+import game.players.Player;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
-public class Client extends Application {
+import java.util.ArrayList;
+
+public class MainApp extends Application {
 
     private HumanPlayer player;
+    private Object client;          // TODO Client
 
 
     public static void main(String[] args) {
@@ -21,14 +29,13 @@ public class Client extends Application {
         int[] defaultLS = new int[]{
                 1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10, 0};
 
-
-        //Game game = new Game(players, defaultLD, defaultLS);
-
+        player = new HumanPlayer(null);
         player.setTurn(true);
+        ArrayList<Player> players = new ArrayList<>();
+        Game game = new Game(players, defaultLD, defaultLS);
 
 
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/boardField.fxml"));
-        //loader.setController(field);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/playerView.fxml"));
         //stage.setScene(new Scene(loader.load()));
         stage.show();
     }

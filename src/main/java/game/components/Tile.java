@@ -4,6 +4,8 @@ public class Tile {
 
     /**
      * @author yuzun
+     *
+     * Single playing piece
      */
 
     private char letter;            // letter of this tile
