@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="452.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/11.0.1"
+            fx:controller="gui.PlayerController">
+    <bottom>
+        <VBox prefHeight="106.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox fx:id="exchangeRackGui" alignment="CENTER" prefHeight="37.0" prefWidth="600.0"/>
+                <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" spacing="40.0">
+                    <children>
+                        <Button fx:id="passButton" mnemonicParsing="false" onAction="#pass" prefHeight="10.0"
+                                prefWidth="62.0" text="Pass"/>
+                        <Button fx:id="exchangeButton" mnemonicParsing="false" onAction="#exchange" prefHeight="17.0"
+                                prefWidth="78.0" text="Exchange"/>
+                        <Button fx:id="placeButton" mnemonicParsing="false" onAction="#place" prefHeight="16.0"
+                                prefWidth="62.0" text="Place"/>
+                    </children>
+                </HBox>
+                <HBox fx:id="rackGui" alignment="CENTER" prefHeight="34.0" prefWidth="590.0" spacing="20.0"/>
+            </children>
+        </VBox>
+    </bottom>
+    <center>
+        <GridPane fx:id="boardGui" gridLinesVisible="true" BorderPane.alignment="CENTER">
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+            </rowConstraints>
+            <columnConstraints>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+        </GridPane>
+    </center>
+</BorderPane>

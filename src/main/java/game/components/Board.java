@@ -2,17 +2,17 @@ package game.components;
 
 import java.util.ArrayList;
 
+/**
+ * @author yuzun
+ * <p>
+ * The board is the main object in the game of scrabble
+ * This class handles all interactions with the board itself -- Integrated Game Logic --
+ */
+
 public class Board {
 
     private static final int BOARD_SIZE = 15;   // width and height of board
-    /**
-     * @author yuzun
-     * <p>
-     * The main object of the game
-     * Handles all interactions with the board
-     */
-
-    private BoardField[][] fields;      // 2D array to represent the board
+    public BoardField[][] fields;      // 2D array to represent the board (PUBLIC)
 
     /**
      * Initializes an empty board
@@ -30,13 +30,13 @@ public class Board {
         fields[14][7] = new BoardField(BoardField.FieldType.TWS);
 
         fields[1][1] = new BoardField(BoardField.FieldType.DWS);
-        fields[1][13] = new BoardField(BoardField.FieldType.DWS);
+        fields[13][1] = new BoardField(BoardField.FieldType.DWS);
         fields[2][2] = new BoardField(BoardField.FieldType.DWS);
-        fields[2][12] = new BoardField(BoardField.FieldType.DWS);
+        fields[12][2] = new BoardField(BoardField.FieldType.DWS);
         fields[3][3] = new BoardField(BoardField.FieldType.DWS);
-        fields[3][11] = new BoardField(BoardField.FieldType.DWS);
+        fields[11][3] = new BoardField(BoardField.FieldType.DWS);
         fields[4][4] = new BoardField(BoardField.FieldType.DWS);
-        fields[4][10] = new BoardField(BoardField.FieldType.DWS);
+        fields[10][4] = new BoardField(BoardField.FieldType.DWS);
 
         fields[1][5] = new BoardField(BoardField.FieldType.TLS);
         fields[5][1] = new BoardField(BoardField.FieldType.TLS);
@@ -77,37 +77,6 @@ public class Board {
     }
 
     /**
-     * Set given tile at given row and column
-     */
-    public void setTile(Tile tile, int row, int col) {
-        if (isEmpty(row, col)) {
-            fields[row][col].setTile(tile);
-        }
-    }
-
-    /**
-     * Returns true if field is empty
-     */
-    public boolean isEmpty(int row, int col) {
-        return fields[row][col].getTile() == null;
-    }
-
-
-    /**
-     * Makes a deep-copy of this board and returns it
-     */
-    public Board clone() {
-        Board clone = new Board();
-        clone.fields = new BoardField[BOARD_SIZE][BOARD_SIZE];
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                clone.fields[i][j] = new BoardField(this.fields[i][j].getType(), this.fields[i][j].getTile());
-            }
-        }
-        return clone;
-    }
-
-    /**
      * TODO Checks validity of board
      * checks if STAR field is covered
      * checks that there are no tiles not adjacent to others
@@ -119,7 +88,42 @@ public class Board {
     /**
      * TODO Extracts every valid word placed on the board
      */
-    public ArrayList<String> scan() {
+    public ArrayList<String> getFoundWords() {
         return null;
+    }
+
+    /**
+     * Set given tile at given row and column
+     */
+    public void setTile(Tile tile, int row, int col) {
+        fields[row][col].setTile(tile);
+    }
+
+    /**
+     * Returns true if field is empty
+     */
+    public boolean isEmpty(int row, int col) {
+        return fields[row][col].isEmpty();
+    }
+
+    /**
+     * Returns the tile at given row and column
+     */
+    public Tile getTile(int row, int col) {
+        return fields[row][col].getTile();
+    }
+
+    /**
+     * Returns true if field at given row and column is empty
+     */
+    public boolean fieldIsEmpty(int row, int col) {
+        return fields[row][col].isEmpty();
+    }
+
+    /**
+     * Returns the BoardField at given row and column
+     */
+    public BoardField getField(int row, int col) {
+        return fields[row][col];
     }
 }

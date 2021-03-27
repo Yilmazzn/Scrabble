@@ -1,39 +1,45 @@
 package game.components;
 
+/**
+ * @author yuzun
+ * <p>
+ * Single tile on the board which can hold a tile
+ */
+
 public class BoardField {
 
-    /**
-     * @author yuzun
-     * <p>
-     * Single tile on the board which can hold a tile
-     */
-
-    private FieldType type;     // Type of field
+    private final FieldType type;     // Type of field
     private Tile tile;          // Tile placed on this field
 
     /**
-     * BoardField object is instantiated with the type of field it represents
+     * Initialize the field with the type of field this instance represents
      */
     public BoardField(FieldType type) {
         this.type = type;
     }
 
     /**
-     * BoardField object is instantiated with the type of field it represents and the tile it holds
+     * Returns true if field is empty
      */
-    public BoardField(FieldType type, Tile tile) {
-        this.type = type;
-        this.tile = tile;
+    public boolean isEmpty() {
+        return tile == null;
     }
 
+    /**
+     * Returns the tile this field holds (null if none)
+     */
     public Tile getTile() {
         return tile;
     }
 
+    /**
+     * Places the given tile on this field
+     */
     public void setTile(Tile tile) {
         this.tile = tile;
     }
 
+    /** Returns the type of this field */
     public FieldType getType() {
         return type;
     }
@@ -46,6 +52,6 @@ public class BoardField {
 
     // Types of fields
     public enum FieldType {
-        NORMAL, STAR, DLS, TLS, DWS, TWS
+        NORMAL, STAR, DWS, DLS, TLS, TWS
     }
 }
