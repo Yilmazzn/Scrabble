@@ -1,6 +1,5 @@
 package gui.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -52,33 +52,33 @@ public class playerProfileController {
         window.show();
     }
 
-    public void exitGame(MouseEvent mouseEvent) throws IOException {
+    public void exitGame() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
         Parent exitGameView = loader.load();
-        exitGameController controller = loader.getController();
+        //exitGameController controller = loader.getController();
 
         Scene exitGameScene = new Scene(exitGameView);
         Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Exit Game");
         window.setScene(exitGameScene);
         window.setWidth(300);
         window.setHeight(200);
-        window.show();
-
+        window.showAndWait();
     }
 
-    //Spaceholder
+    //Placeholder
     public void previousPlayer(MouseEvent mouseEvent) {
         System.out.println("PreviousPlayer");
     }
 
-    //Spaceholder
+    //Placeholder
     public void nextPlayer(MouseEvent mouseEvent) {
         System.out.println("NextPlayer");
     }
 
-    //Spaceholder
+    //Placeholder
     public void createNewProfile(MouseEvent mouseEvent){
         System.out.println("CreateNewProfile");
     }

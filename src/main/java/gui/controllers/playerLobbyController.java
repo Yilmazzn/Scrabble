@@ -1,8 +1,5 @@
 package gui.controllers;
 
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
@@ -29,10 +27,6 @@ public class playerLobbyController {
         System.out.println("PlayScrabble");
     }
 
-    public void manageProfiles(MouseEvent mouseEvent) {
-        System.out.println("ManageProfiles");
-    }
-
     public void settings(MouseEvent mouseEvent) {
         System.out.println("Settings");
     }
@@ -41,19 +35,20 @@ public class playerLobbyController {
         System.out.println("BackToLogin");
     }
 
-    public void exitGame(MouseEvent mouseEvent) throws IOException {
+    public void exitGame() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
         Parent exitGameView = loader.load();
-        exitGameController controller = loader.getController();
+        //exitGameController controller = loader.getController();
 
         Scene exitGameScene = new Scene(exitGameView);
         Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Exit Game");
         window.setScene(exitGameScene);
         window.setWidth(300);
         window.setHeight(200);
-        window.show();
+        window.showAndWait();
 
        /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setWidth(800.0);
