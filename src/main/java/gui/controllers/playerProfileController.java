@@ -1,35 +1,86 @@
 package gui.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class playerProfileController {
 
-    @FXML
-    private Label username;
+    @FXML private Label playerNo;
+    @FXML private Label playerName;
+    @FXML private Label playerTotalPoints;
+    @FXML private Label playerCurrentHighscore;
+    @FXML private Label playerPlaytime;
+    @FXML private Label playerPlayedGames;
+    @FXML private Label playerWins;
+    @FXML private Label playerLosses;
+    @FXML private Label playerScrabblerSince;
+
 
     public void InitData(){
-        username.setText("Enton123");
+        playerNo.setText("1");
+        playerName.setText("Enton123");
+        playerTotalPoints.setText("350 Points");
+        playerCurrentHighscore.setText("350 Points");
+        playerPlaytime.setText("0h 20min 10sec");
+        playerPlayedGames.setText("1 Game");
+        playerWins.setText("1 Win");
+        playerLosses.setText("0 Losses");
+        playerScrabblerSince.setText("01.04.2021");
     }
 
-    public void playScrabble(MouseEvent mouseEvent) {
-        System.out.println("PlayScrabble");
+    public void backToLogin(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
+        Parent playerLobbyView = loader.load();
+        playerLobbyController controller = loader.getController();
+        controller.InitData();
+
+        //Parent profileControllerView = FXMLLoader.load(getClass().getResource("/views/playerProfileView.fxml"));
+
+        Scene profileControllerScene = new Scene(playerLobbyView);
+        Stage window = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
+        window.setScene(profileControllerScene);
+        window.show();
     }
 
-    public void manageProfiles(MouseEvent mouseEvent){
-        System.out.println("ManageProfiles");
+    public void exitGame(MouseEvent mouseEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
+        Parent exitGameView = loader.load();
+        exitGameController controller = loader.getController();
+
+        Scene exitGameScene = new Scene(exitGameView);
+        Stage window = new Stage();
+        window.setTitle("Exit Game");
+        window.setScene(exitGameScene);
+        window.setWidth(300);
+        window.setHeight(200);
+        window.show();
+
     }
 
-    public void settings(MouseEvent mouseEvent) {
-        System.out.println("Settings");
+    //Spaceholder
+    public void previousPlayer(MouseEvent mouseEvent) {
+        System.out.println("PreviousPlayer");
     }
 
-    public void backToLogin(MouseEvent mouseEvent){
-        System.out.println("BackToLogin");
+    //Spaceholder
+    public void nextPlayer(MouseEvent mouseEvent) {
+        System.out.println("NextPlayer");
     }
 
-    public void exitGame(MouseEvent mouseEvent){
-        System.out.println("Exit");
+    //Spaceholder
+    public void createNewProfile(MouseEvent mouseEvent){
+        System.out.println("CreateNewProfile");
     }
+
 }

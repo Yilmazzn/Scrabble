@@ -24,8 +24,8 @@ public class Client extends Application {
         controller.InitData();
 
         primaryStage.setScene(new Scene(root));
-        primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(700);
+        primaryStage.setMinWidth(900);
         primaryStage.show();
     }
 }

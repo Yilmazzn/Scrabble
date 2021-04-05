@@ -26,14 +26,36 @@
             <Font name="Chalkboard" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="990.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#exitGame" prefHeight="35.0" prefWidth="140.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="EXIT" textAlignment="CENTER" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+      <Button alignment="CENTER" layoutX="990.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#exitGame" prefHeight="35.0" prefWidth="140.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="EXIT" textAlignment="CENTER" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="Chalkboard" size="18.0" />
          </font>
       </Button>
-      <BorderPane layoutX="477.0" layoutY="206.0" prefHeight="200.0" prefWidth="346.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
-         <center>
-            <VBox minWidth="300.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #edece1; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-border-width: 0;" BorderPane.alignment="CENTER">
+      <BorderPane layoutX="477.0" layoutY="206.0" prefHeight="200.0" prefWidth="346.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
+      <HBox alignment="CENTER" layoutY="594.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#createNewProfile" prefHeight="45.0" prefWidth="200.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Create New Profile" textAlignment="CENTER">
+               <font>
+                  <Font name="Chalkboard" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#previousPlayer" prefHeight="40.0" prefWidth="100.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Previous">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" maxHeight="500.0" maxWidth="450.0" minWidth="300.0" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: #edece1; -fx-background-radius: 15; -fx-border-color: black; -fx-border-radius: 15; -fx-border-width: 0;">
                <children>
                   <GridPane prefHeight="500.0" prefWidth="452.0">
                     <columnConstraints>
@@ -60,12 +82,12 @@
                               <Insets bottom="30.0" left="20.0" top="40.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Label" GridPane.columnIndex="1">
+                        <Label fx:id="playerNo" text="Label" GridPane.columnIndex="1">
                            <font>
                               <Font name="Chalkboard" size="24.0" />
                            </font>
                            <GridPane.margin>
-                              <Insets bottom="30.0" top="40.0" />
+                              <Insets bottom="30.0" left="15.0" top="40.0" />
                            </GridPane.margin>
                         </Label>
                         <Label text="Name:" GridPane.rowIndex="1">
@@ -76,10 +98,13 @@
                               <Insets left="20.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label fx:id="playerName" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font name="Chalkboard" size="24.0" />
                            </font>
+                           <GridPane.margin>
+                              <Insets left="15.0" />
+                           </GridPane.margin>
                         </Label>
                         <Label text="Total Point:" GridPane.rowIndex="2">
                            <font>
@@ -89,10 +114,13 @@
                               <Insets left="20.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label fx:id="playerTotalPoints" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font name="Chalkboard" size="24.0" />
                            </font>
+                           <GridPane.margin>
+                              <Insets left="15.0" />
+                           </GridPane.margin>
                         </Label>
                         <Label text="Current Highscore:" GridPane.rowIndex="3">
                            <font>
@@ -102,10 +130,13 @@
                               <Insets left="20.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Label fx:id="playerCurrentHighscore" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font name="Chalkboard" size="24.0" />
                            </font>
+                           <GridPane.margin>
+                              <Insets left="15.0" />
+                           </GridPane.margin>
                         </Label>
                         <Label text="Playtime:" GridPane.rowIndex="4">
                            <font>
@@ -115,10 +146,13 @@
                               <Insets left="20.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <Label fx:id="playerPlaytime" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <font>
                               <Font name="Chalkboard" size="24.0" />
                            </font>
+                           <GridPane.margin>
+                              <Insets left="15.0" />
+                           </GridPane.margin>
                         </Label>
                         <Label text="Played Games:" GridPane.rowIndex="5">
                            <font>
@@ -152,58 +186,60 @@
                               <Insets bottom="20.0" left="20.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <font>
-                              <Font name="Chalkboard" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                           <font>
-                              <Font name="Chalkboard" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                           <font>
-                              <Font name="Chalkboard" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                        <Label fx:id="playerPlayedGames" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <font>
                               <Font name="Chalkboard" size="24.0" />
                            </font>
                            <GridPane.margin>
-                              <Insets bottom="20.0" />
+                              <Insets left="15.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="playerWins" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                           <font>
+                              <Font name="Chalkboard" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="15.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="playerLosses" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                           <font>
+                              <Font name="Chalkboard" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="15.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="playerScrabblerSince" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                           <font>
+                              <Font name="Chalkboard" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="20.0" left="15.0" />
                            </GridPane.margin>
                         </Label>
                      </children>
                   </GridPane>
                </children>
-               <BorderPane.margin>
-                  <Insets bottom="30.0" left="15.0" right="15.0" top="30.0" />
-               </BorderPane.margin>
                <effect>
                   <DropShadow blurType="TWO_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
                </effect>
+               <HBox.margin>
+                  <Insets bottom="25.0" top="25.0" />
+               </HBox.margin>
             </VBox>
-         </center>
-         <left>
-            <AnchorPane prefHeight="200.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="200.0">
                <children>
-                  <Button layoutX="148.0" layoutY="234.0" mnemonicParsing="false" text="Button" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#nextPlayer" prefHeight="40.0" prefWidth="100.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Next">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
-            </AnchorPane>
-         </left>
-         <right>
-            <AnchorPane prefHeight="200.0" prefWidth="350.0" BorderPane.alignment="CENTER" />
-         </right>
-      </BorderPane>
-      <HBox alignment="CENTER" layoutY="594.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#backToLogin" prefHeight="45.0" prefWidth="200.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Create New Profile" textAlignment="CENTER">
-               <font>
-                  <Font name="Chalkboard" size="18.0" />
-               </font>
-            </Button>
+            </VBox>
          </children>
       </HBox>
    </children>

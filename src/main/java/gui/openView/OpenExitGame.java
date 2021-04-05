@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class OpenPlayerProfile extends Application {
+public class OpenExitGame extends Application {
     public static void main(String[] args) {
 
         launch(args);
@@ -18,15 +18,10 @@ public class OpenPlayerProfile extends Application {
 
         primaryStage.setTitle("Scrabble 13");
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/views/playerProfileView.fxml"));
+        loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
         Parent root = loader.load();
-        //Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
-        playerProfileController controller = loader.getController();
-        controller.InitData();
 
         primaryStage.setScene(new Scene(root));
-        primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(800);
         primaryStage.show();
     }
 }
