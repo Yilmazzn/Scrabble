@@ -1,15 +1,15 @@
-package game.server;
+package game;
 
 import game.components.Board;
 import game.components.Tile;
-import game.server.players.AiPlayer;
-import game.server.players.Player;
+import game.players.AiPlayer;
+import game.players.Player;
 
 import java.util.*;
 
 /**
  * @author yuzun
- * <p>
+ *
  * Single instance running on the hosted server
  * Handles game flow and logic
  */
@@ -22,12 +22,13 @@ public class Game {
     private final HashMap<Character, Integer> letterScores;                // Map representing letter's score
     private final LinkedList<Tile> bag = new LinkedList<>();           // bag of tiles in the game
     private final ArrayList<String> wordsFound = new ArrayList<>();  // a list of words found up to this point
-    private Board board;                                // Game Board
+    private Board board = new Board();                                // Game Board
+    private Board lastValidBoard = new Board();                        // Game Board which was last accepted as valid to reset after invalid player turns
     private int roundNum;                                   // amount of total rounds since start
     private int roundsSinceLastScore;                   // last n amount of rounds without points
     private Object dictionary;                              // Dictionary this game relies on   TODO Dictionary class, getter&setter
-    private long startTime;     // startTime
-    private Player playerInTurn;            // Player who is in turn
+    private Player playerInTurn;            // Player whose turn it is
+
 
     /**
      * A game instance is created by the server, when the host decided to start the game
@@ -35,7 +36,6 @@ public class Game {
      * a list of players,
      * an array in which the nth element represents the amount of tiles of the (n+1)th letter in the alphabet  (26th element is the joker tile)
      * an array in which the nth element represents the score of the (n+1)th letter in the alphabet            (26th element is the joker tile)
-     * <p>
      * When a game is created
      * it sets the status 'running' to true
      * creates a board
@@ -94,57 +94,34 @@ public class Game {
     }
 
     /**
-     * Passes the round if it is the player's turn, else it sends an appropriate error message
-     */
-    public void passRound(Player player) {
-        if (player.isTurn()) {
-            System.out.println(playerInTurn.getUsername() + " passed the round");
-            nextRound();
-        } else {
-            // Send Error Message
-        }
-    }
-
-    /**
      * Removes the tiles given to the game from the player's rack
      * Gets equal amount of tiles out of the bag and adds them to the rack of the player
      * The new tiles from the player are put back in the bag and the bag gets shuffled
      *
-     * @param player Player who made the move
-     * @param tiles  collection of tiles the player wants to exchange
+     * @param tilesFromPlayer collection of tiles the player wants to exchange
      */
-    public void exchange(Player player, Tile... tiles) {
-        List<Tile> tilesFromPlayer = new LinkedList<>();  // tiles the player wants to exchange
-        List<Tile> tilesFromBag = new LinkedList<>();     // tiles that are to be given back
+    public void exchange(Collection<Tile> tilesFromPlayer) {
 
-        for (int i = 0; i < tiles.length; i++) {
+        Collection<Tile> tilesFromBag = new LinkedList<>();     // tiles that are to be given back
+
+        for (int i = 0; i < tilesFromPlayer.size(); i++) {
             tilesFromBag.add(bag.pop());
         }
-        for (Tile tile : tiles) {
-            tilesFromPlayer.add(tile);
-        }
 
-        player.removeTilesFromRack(tilesFromPlayer);
-        player.addTilesToRack(tilesFromBag);
+        playerInTurn.addTilesToRack(tilesFromBag);
         Collections.shuffle(bag);
         nextRound();
     }
 
-    public void play() {
-
-    }
-
     /**
-     * Called when player makes a play
-     * TODO Scans words which were found new
-     * TODO Evaluates the score difference of two different board states and returns difference (score of last play)
-     *
-     * @param player      Player who made the move
-     * @param playerBoard Board of the player, who made the move
+     * TODO
      */
-    public int place(Player player, Board playerBoard) {
-        ArrayList<String> newFoundWords = new ArrayList<>();    // Words discovered by this placement
-        return 0;
+    public void submit() {
+        if (board.check()) {    // TODO pass dictionary
+            // TODO score
+        } else {
+            // TODO error not valid board state
+        }
     }
 
 

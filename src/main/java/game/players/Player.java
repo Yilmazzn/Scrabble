@@ -1,32 +1,38 @@
-package game.server.players;
+package game.players;
 
+import game.Game;
 import game.components.Board;
 import game.components.Tile;
-import game.server.Game;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author yuzun
  * <p>
- * The primary actor in the game on the server-side
+ * The primary actor in the game (game participant)
  */
 
 public abstract class Player {
 
-    private final String username;
+
     private final boolean human;              // true if player is human
     private final ArrayList<String> foundWords = new ArrayList<>();    // words the player found in the current game session
     private boolean turn;               // true if it is player's turn
     private Game game;                  // the game the player participates in
     private int sessionScore;                  // score accumulated since the game round started
     private int lobbyScore;                    // score accumulated since joining the server
+    private ArrayList<Tile> rack = new ArrayList<>();   // rack which holds the tiles the user can interact with
+    private long overtime = 600000L;              // Overtime of player in ms
+    private long turnStartTime;                     // Time when player started his turn
 
-    public Player(String username, boolean human) {
-        this.username = username;
+
+    public Player(boolean human) {
         this.human = human;
     }
+
+    public abstract void updateBoard(Board board);              // Update player's board
 
     /**
      * Makes the player join the game so it can interact with the game
@@ -37,23 +43,46 @@ public abstract class Player {
 
 
     /**
-     * ============= Called by the game
+     * Adds given tiles to player's rack
      */
-    public abstract void addTilesToRack(Collection<Tile> tiles);         // Adds tiles to player's rack
-
-    public abstract void removeTilesFromRack(Collection<Tile> tiles);    // Removes tiles from player's tile
-
-    public abstract void updateBoard(Board board);              // Update player's board
-
-    public abstract int getRackSize();                          // Returns the amount of tiles on the player's rack
-
+    public void addTilesToRack(Collection<Tile> tiles) {
+        rack.addAll(tiles);
+    }
 
     /**
-     * ============= Called by the player
+     * Remove given tiles from player's rack
      */
-    public void pass() {
+    public void removeTilesFromRack(Collection<Tile> tiles) {
+        rack.removeAll(tiles);
+    }
+
+    /**
+     * Returns the amount of tiles on the player's rack
+     */
+    public int getRackSize() {
+        return rack.size();
+    }
+
+    /**
+     * Called to submit a play (or pass)
+     */
+    public void submit() {
         if (turn) {
-            game.passRound(this);
+            game.submit();
+        }
+    }
+
+    /**
+     * Called to exchange tiles with game's bag, costing the player his or her turn
+     */
+    public void exchange(Collection<Tile> tiles) {
+        if (turn) {
+            if (game.getBagSize() >= tiles.size()) {
+                removeTilesFromRack(tiles);
+                game.exchange(tiles);
+            } else {
+                // TODO error not enough tiles
+            }
         }
     }
 
@@ -64,12 +93,6 @@ public abstract class Player {
         return human;
     }
 
-    /**
-     * Returns the username of the player
-     */
-    public String getUsername() {
-        return username;
-    }
 
     /**
      * Returns if it is the player's turn
@@ -80,9 +103,17 @@ public abstract class Player {
 
     /**
      * Sets turn of player
+     * if player's turn just started (true) then time is saved so turn duration
+     * if player's turn just ended (false) then difference is subtracted from overtime
      */
     public void setTurn(boolean turn) {
         this.turn = turn;
+        if (turn) {
+            turnStartTime = System.currentTimeMillis();
+        } else {
+            overtime = overtime - (System.currentTimeMillis() - turnStartTime);
+        }
+
     }
 
     /**
@@ -101,7 +132,7 @@ public abstract class Player {
     }
 
     /**
-     * Returns the lobby score
+     * Returns the lobby score of the player
      */
     public int getLobbyScore() {
         return lobbyScore;
@@ -110,10 +141,8 @@ public abstract class Player {
     /**
      * Add words to the user's list of found words
      */
-    public void addFoundWords(String... words) {
-        for (String word : words) {
-            foundWords.add(word);
-        }
+    public void addFoundWords(List<String> words) {
+        words.forEach(e -> foundWords.add(e));
     }
 
     /**

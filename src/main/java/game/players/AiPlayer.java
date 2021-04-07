@@ -1,4 +1,4 @@
-package game.server.players;
+package game.players;
 
 import game.components.Board;
 import game.components.Tile;
@@ -16,7 +16,7 @@ public abstract class AiPlayer extends Player {
     private final LinkedList<Tile> rack = new LinkedList<>();     // rack of the player
 
     public AiPlayer() {
-        super("AI", false);
+        super(false);
     }
 
     /**

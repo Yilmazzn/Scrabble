@@ -1,4 +1,4 @@
-package game.server.players;
+package game.players;
 
 /**
  * @author yuzun
