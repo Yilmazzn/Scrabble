@@ -1,10 +1,8 @@
 package game.components;
 
-import java.util.ArrayList;
-
 /**
  * @author yuzun
- * <p>
+ *
  * The board is the main object in the game of scrabble
  * This class handles all interactions with the board itself -- Integrated Game Logic --
  */
@@ -12,7 +10,7 @@ import java.util.ArrayList;
 public class Board {
 
     private static final int BOARD_SIZE = 15;   // width and height of board
-    public BoardField[][] fields;      // 2D array to represent the board (PUBLIC)
+    private BoardField[][] fields;      // 2D array to represent the board fields
 
     /**
      * Initializes an empty board
@@ -76,26 +74,11 @@ public class Board {
         }
     }
 
-    /**
-     * TODO Checks validity of board
-     * checks if STAR field is covered
-     * checks that there are no tiles not adjacent to others
-     */
-    public boolean check() {
-        return false;
-    }
-
-    /**
-     * TODO Extracts every valid word placed on the board
-     */
-    public ArrayList<String> getFoundWords() {
-        return null;
-    }
 
     /**
      * Set given tile at given row and column
      */
-    public void setTile(Tile tile, int row, int col) {
+    public void placeTile(Tile tile, int row, int col) {
         fields[row][col].setTile(tile);
     }
 
@@ -121,9 +104,77 @@ public class Board {
     }
 
     /**
-     * Returns the BoardField at given row and column
+     * Returns the BoardField at given row and column counting from 0
      */
     public BoardField getField(int row, int col) {
         return fields[row][col];
     }
+
+    /**
+     * Checks validity of board state
+     * checks if STAR field is covered
+     * checks that there are no tiles not adjacent to others
+     * checks that valid words are formed on the board based on the dictionary
+     * As it checks it sets fields which hold invalid tiles as invalid (field.valid = false)
+     * TODO DICTIONARY
+     */
+    public boolean check() {
+
+        // Every field is valid default
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                fields[i][j].setValid(true);
+            }
+        }
+
+        // Check: Star field is covered
+        //  --> mark every tile on board as invalid
+        if (fields[7][7].isEmpty()) {
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                for (int j = 0; j < BOARD_SIZE; j++) {
+                    fields[i][j].setValid(fields[i][j].isEmpty());
+                }
+            }
+            return false;
+        }
+
+        // Check adjacency
+        boolean placementCheck = true;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (!fields[i][j].isEmpty()) {
+                    boolean isAdjacent = false;
+                    if (i > 0 && !fields[i - 1][j].isEmpty()) {                 //up
+                        isAdjacent = true;
+                        continue;
+                    }
+                    if (i < BOARD_SIZE - 1 && !fields[i + 1][j].isEmpty()) {    //down
+                        isAdjacent = true;
+                        continue;
+                    }
+                    if (j > 0 && !fields[i][j - 1].isEmpty()) {                 //left
+                        isAdjacent = true;
+                        continue;
+                    }
+                    if (j < BOARD_SIZE - 1 && !fields[i][j + 1].isEmpty()) {    //right
+                        isAdjacent = true;
+                    }
+                    fields[i][j].setValid(isAdjacent);
+                    if (!isAdjacent) {
+                        placementCheck = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!placementCheck) {
+            return false;
+        }
+
+        // Check: Valid words are formed (Dictionary
+        // TODO
+
+        return true;
+    }
+
 }
