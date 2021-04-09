@@ -22,15 +22,17 @@ public class XMLDocument {
 	*/
 	
 	public static Document xmlDoc;
-	
+	private final static String sep = System.getProperty("file.separator");
+	private final static String datadir = System.getProperty("user.dir") +  sep + "src/main/resources/";
+	public final static String xmlPath =  datadir + "player.xml";
 	
 	// This method create a new XML Document with all the important values
     // First initialization
 	
 	// Where is the xml doc i cant find it
-	static void createNewPlayer(NewPlayer nPlayer){
+	static void createNewPlayer(PlayerProfile nPlayer){
 		Element rootEle = new Element("Players");  
-		Element play = PlayerToElement.playerToElement(nPlayer);
+		Element play = XMLHandler.playerToElement(nPlayer);
 		xmlDoc = new Document(rootEle);		
 		if (play != null) {
 			xmlDoc.getRootElement().addContent(play);
@@ -52,7 +54,7 @@ public class XMLDocument {
 		xmlOutput.setFormat(Format.getPrettyFormat().setEncoding("UTF-8"));
 		try {
 			// Save XML
-			xmlOutput.output(xmlDoc, new FileOutputStream(XmlPath.xmlPath));
+			xmlOutput.output(xmlDoc, new FileOutputStream(xmlPath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -67,7 +69,7 @@ public class XMLDocument {
 			SAXBuilder builder = new SAXBuilder();
 			try {
 				// Make sure the XML file exists and return it
-				File xmlFile = new File(XmlPath.xmlPath);
+				File xmlFile = new File(xmlPath);
 				if (xmlFile.exists() && xmlFile.canRead()){
 					xmlDoc = builder.build(xmlFile);
 				
@@ -77,10 +79,6 @@ public class XMLDocument {
 			}
 		} 
 		return xmlDoc;
-	}
-	
-	public static void main(String[] args) {
-		
 	}
 
 }

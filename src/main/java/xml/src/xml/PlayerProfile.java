@@ -3,7 +3,7 @@ package xml.src.xml;
 import java.time.LocalDate;
 import java.util.*;
 
-public class NewPlayer {
+public class PlayerProfile {
 
 	// @author nsiebler
 	// This class creates a new Player instance with all the values
@@ -12,7 +12,7 @@ public class NewPlayer {
 	private int highscore;
     private int playedGames;
     private int wins;
-    private int looses;
+    private int losses;
     private LocalDate creation;
     
     // This functionality will be implemented by this week  
@@ -24,25 +24,19 @@ public class NewPlayer {
     // ask also what last logged in means
     
     // Icon will be added, just have to clear which format will be excepted
-    
-    
-    
-	public static void main(String[] args) {
-	
 
-	}
 
 
 	// Constructor which will be used very often in the xml files
-	public NewPlayer(String name, int highscore, int playtime, int playedGames, int wins, int looses,
-			double averageScore, LocalDate creation, LocalDate lastLogged) {
+	public PlayerProfile(String name, int highscore, int playtime, int playedGames, int wins, int looses,
+						 double averageScore, LocalDate creation, LocalDate lastLogged) {
 		super();
 		this.name = name;
 		this.highscore = highscore;
 		this.playtime = playtime;
 		this.playedGames = playedGames;
 		this.wins = wins;
-		this.looses = looses;
+		this.losses = looses;
 		this.averageScore = averageScore;
 		this.creation = creation;
 		this.lastLogged = lastLogged;
@@ -103,11 +97,11 @@ public class NewPlayer {
 	}
 
 	public int getLooses() {
-		return looses;
+		return losses;
 	}
 
-	public void setLooses(int looses) {
-		this.looses = looses;
+	public void setLosses(int losses) {
+		this.losses = losses;
 	}
 
 	public double getAverageScore() {
@@ -134,4 +128,11 @@ public class NewPlayer {
 		this.lastLogged = lastLogged;
 	}
 
+
+	public String toString(){
+		return "Name: "+ this.getName()+"\nHighscore: "+ this.getHighscore()+ "\nPlaytime: " +
+				this.getPlaytime()+ "\nPlayed Games: "+this.getPlayedGames()+"\nWins:"+this.getWins()+
+				"\nLosses: "+this.getLooses() + "\nAverage Score: "+ this.getAverageScore()+
+				"\nCreationDate: " + this.getCreation() + "\nLastLogged: "+this.getLastLogged();
+	}
 }
