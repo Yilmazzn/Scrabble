@@ -3,6 +3,9 @@ package xml.src.xml;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -79,6 +82,17 @@ public class XMLDocument {
 			}
 		} 
 		return xmlDoc;
+	}
+
+	static void  deleteXML (){
+		try {
+			Files.delete(Path.of(xmlPath));
+		} catch (NoSuchFileException x) {
+			System.err.format("%s: no such" + " file or directory%n", xmlPath);
+		} catch (IOException x) {
+			System.err.println(x);
+		}
+
 	}
 
 }

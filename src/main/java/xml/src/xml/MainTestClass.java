@@ -12,7 +12,7 @@ public class MainTestClass {
 // Just a test class to see if we can create the xml file
 	public static void main(String[] args) {
 		// all the values here will be read out of the other game classes later on
-
+/*
 		LocalDate date = LocalDate.now();
 		for(int i = 0; i <= 5; i++) {
 			PlayerProfile n = new PlayerProfile("Player " + Integer.toString(i+10), 100, 10, 0, 0, 0, 1.0, date, date);
@@ -24,20 +24,17 @@ public class MainTestClass {
         XMLDocument.saveXML();
 
 		List<PlayerProfile> play = XMLHandler.read();
-		System.out.println("Size of Play "+ play);
 		Iterator<PlayerProfile> it = play.iterator();
 
 		while(it.hasNext()){
 			PlayerProfile a = it.next();
-			System.out.println("Bin hier");
 			System.out.println(a);
 		}
-
-
-
 		XMLDocument.saveXML();
+	}
 
-		
+*/
+
 	}
 
 }
