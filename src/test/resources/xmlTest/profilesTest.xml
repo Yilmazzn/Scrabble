@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PlayerProfiles>
+  <profile>
+    <name>Profile 1</name>
+    <highscore>237</highscore>
+    <wins>56</wins>
+    <losses>149</losses>
+    <totalScore>785171</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 2</name>
+    <highscore>294</highscore>
+    <wins>125</wins>
+    <losses>182</losses>
+    <totalScore>705175</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 3</name>
+    <highscore>287</highscore>
+    <wins>156</wins>
+    <losses>155</losses>
+    <totalScore>148996</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 4</name>
+    <highscore>967</highscore>
+    <wins>158</wins>
+    <losses>127</losses>
+    <totalScore>564374</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 5</name>
+    <highscore>264</highscore>
+    <wins>172</wins>
+    <losses>194</losses>
+    <totalScore>859379</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 6</name>
+    <highscore>466</highscore>
+    <wins>62</wins>
+    <losses>140</losses>
+    <totalScore>603443</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 7</name>
+    <highscore>570</highscore>
+    <wins>73</wins>
+    <losses>192</losses>
+    <totalScore>147350</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 8</name>
+    <highscore>419</highscore>
+    <wins>105</wins>
+    <losses>85</losses>
+    <totalScore>556074</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 9</name>
+    <highscore>322</highscore>
+    <wins>26</wins>
+    <losses>26</losses>
+    <totalScore>186706</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 10</name>
+    <highscore>808</highscore>
+    <wins>102</wins>
+    <losses>141</losses>
+    <totalScore>378054</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 11</name>
+    <highscore>279</highscore>
+    <wins>13</wins>
+    <losses>34</losses>
+    <totalScore>712629</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 12</name>
+    <highscore>211</highscore>
+    <wins>158</wins>
+    <losses>172</losses>
+    <totalScore>788312</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 13</name>
+    <highscore>126</highscore>
+    <wins>82</wins>
+    <losses>12</losses>
+    <totalScore>522354</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 14</name>
+    <highscore>515</highscore>
+    <wins>70</wins>
+    <losses>106</losses>
+    <totalScore>331138</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 15</name>
+    <highscore>652</highscore>
+    <wins>109</wins>
+    <losses>40</losses>
+    <totalScore>954340</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 16</name>
+    <highscore>962</highscore>
+    <wins>75</wins>
+    <losses>167</losses>
+    <totalScore>658039</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 17</name>
+    <highscore>560</highscore>
+    <wins>139</wins>
+    <losses>36</losses>
+    <totalScore>849844</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 18</name>
+    <highscore>749</highscore>
+    <wins>144</wins>
+    <losses>55</losses>
+    <totalScore>46464</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 19</name>
+    <highscore>541</highscore>
+    <wins>177</wins>
+    <losses>72</losses>
+    <totalScore>4056</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 20</name>
+    <highscore>465</highscore>
+    <wins>176</wins>
+    <losses>190</losses>
+    <totalScore>218708</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 21</name>
+    <highscore>73</highscore>
+    <wins>42</wins>
+    <losses>161</losses>
+    <totalScore>739060</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 22</name>
+    <highscore>488</highscore>
+    <wins>195</wins>
+    <losses>131</losses>
+    <totalScore>805213</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 23</name>
+    <highscore>915</highscore>
+    <wins>87</wins>
+    <losses>145</losses>
+    <totalScore>895700</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 24</name>
+    <highscore>542</highscore>
+    <wins>76</wins>
+    <losses>168</losses>
+    <totalScore>754246</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 25</name>
+    <highscore>457</highscore>
+    <wins>20</wins>
+    <losses>117</losses>
+    <totalScore>719428</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 26</name>
+    <highscore>452</highscore>
+    <wins>42</wins>
+    <losses>8</losses>
+    <totalScore>39600</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 27</name>
+    <highscore>445</highscore>
+    <wins>48</wins>
+    <losses>181</losses>
+    <totalScore>537272</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 28</name>
+    <highscore>708</highscore>
+    <wins>62</wins>
+    <losses>77</losses>
+    <totalScore>621519</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 29</name>
+    <highscore>593</highscore>
+    <wins>34</wins>
+    <losses>123</losses>
+    <totalScore>148689</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 30</name>
+    <highscore>579</highscore>
+    <wins>179</wins>
+    <losses>87</losses>
+    <totalScore>305500</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 31</name>
+    <highscore>454</highscore>
+    <wins>112</wins>
+    <losses>122</losses>
+    <totalScore>148881</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 32</name>
+    <highscore>805</highscore>
+    <wins>3</wins>
+    <losses>73</losses>
+    <totalScore>13460</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 33</name>
+    <highscore>26</highscore>
+    <wins>121</wins>
+    <losses>7</losses>
+    <totalScore>3737</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 34</name>
+    <highscore>460</highscore>
+    <wins>94</wins>
+    <losses>8</losses>
+    <totalScore>515061</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 35</name>
+    <highscore>327</highscore>
+    <wins>39</wins>
+    <losses>123</losses>
+    <totalScore>588660</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 36</name>
+    <highscore>348</highscore>
+    <wins>26</wins>
+    <losses>138</losses>
+    <totalScore>696195</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 37</name>
+    <highscore>190</highscore>
+    <wins>78</wins>
+    <losses>26</losses>
+    <totalScore>519163</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 38</name>
+    <highscore>416</highscore>
+    <wins>104</wins>
+    <losses>75</losses>
+    <totalScore>866761</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 39</name>
+    <highscore>593</highscore>
+    <wins>193</wins>
+    <losses>94</losses>
+    <totalScore>166800</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 40</name>
+    <highscore>954</highscore>
+    <wins>142</wins>
+    <losses>101</losses>
+    <totalScore>181256</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 41</name>
+    <highscore>401</highscore>
+    <wins>79</wins>
+    <losses>182</losses>
+    <totalScore>456221</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 42</name>
+    <highscore>965</highscore>
+    <wins>13</wins>
+    <losses>43</losses>
+    <totalScore>369680</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 43</name>
+    <highscore>26</highscore>
+    <wins>83</wins>
+    <losses>151</losses>
+    <totalScore>648862</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 44</name>
+    <highscore>411</highscore>
+    <wins>86</wins>
+    <losses>129</losses>
+    <totalScore>677339</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 45</name>
+    <highscore>704</highscore>
+    <wins>105</wins>
+    <losses>11</losses>
+    <totalScore>67728</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 46</name>
+    <highscore>367</highscore>
+    <wins>72</wins>
+    <losses>19</losses>
+    <totalScore>951479</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 47</name>
+    <highscore>725</highscore>
+    <wins>9</wins>
+    <losses>45</losses>
+    <totalScore>630499</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 48</name>
+    <highscore>560</highscore>
+    <wins>85</wins>
+    <losses>177</losses>
+    <totalScore>996799</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 49</name>
+    <highscore>155</highscore>
+    <wins>93</wins>
+    <losses>117</losses>
+    <totalScore>411949</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 50</name>
+    <highscore>350</highscore>
+    <wins>160</wins>
+    <losses>130</losses>
+    <totalScore>793854</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 51</name>
+    <highscore>115</highscore>
+    <wins>111</wins>
+    <losses>157</losses>
+    <totalScore>81861</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 52</name>
+    <highscore>140</highscore>
+    <wins>126</wins>
+    <losses>179</losses>
+    <totalScore>655672</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 53</name>
+    <highscore>810</highscore>
+    <wins>23</wins>
+    <losses>121</losses>
+    <totalScore>829524</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 54</name>
+    <highscore>403</highscore>
+    <wins>10</wins>
+    <losses>1</losses>
+    <totalScore>78106</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 55</name>
+    <highscore>133</highscore>
+    <wins>90</wins>
+    <losses>13</losses>
+    <totalScore>787765</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 56</name>
+    <highscore>391</highscore>
+    <wins>155</wins>
+    <losses>193</losses>
+    <totalScore>202930</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 57</name>
+    <highscore>567</highscore>
+    <wins>171</wins>
+    <losses>137</losses>
+    <totalScore>522035</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 58</name>
+    <highscore>455</highscore>
+    <wins>85</wins>
+    <losses>109</losses>
+    <totalScore>177396</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 59</name>
+    <highscore>527</highscore>
+    <wins>1</wins>
+    <losses>174</losses>
+    <totalScore>95298</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 60</name>
+    <highscore>584</highscore>
+    <wins>92</wins>
+    <losses>14</losses>
+    <totalScore>43746</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 61</name>
+    <highscore>208</highscore>
+    <wins>126</wins>
+    <losses>37</losses>
+    <totalScore>527558</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 62</name>
+    <highscore>658</highscore>
+    <wins>172</wins>
+    <losses>189</losses>
+    <totalScore>455319</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 63</name>
+    <highscore>904</highscore>
+    <wins>182</wins>
+    <losses>161</losses>
+    <totalScore>31985</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 64</name>
+    <highscore>433</highscore>
+    <wins>48</wins>
+    <losses>177</losses>
+    <totalScore>700369</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 65</name>
+    <highscore>418</highscore>
+    <wins>175</wins>
+    <losses>13</losses>
+    <totalScore>541782</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 66</name>
+    <highscore>101</highscore>
+    <wins>174</wins>
+    <losses>19</losses>
+    <totalScore>57360</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 67</name>
+    <highscore>226</highscore>
+    <wins>31</wins>
+    <losses>133</losses>
+    <totalScore>870964</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 68</name>
+    <highscore>34</highscore>
+    <wins>31</wins>
+    <losses>144</losses>
+    <totalScore>962087</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 69</name>
+    <highscore>78</highscore>
+    <wins>19</wins>
+    <losses>126</losses>
+    <totalScore>203001</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 70</name>
+    <highscore>209</highscore>
+    <wins>62</wins>
+    <losses>54</losses>
+    <totalScore>992586</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 71</name>
+    <highscore>747</highscore>
+    <wins>157</wins>
+    <losses>134</losses>
+    <totalScore>822110</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 72</name>
+    <highscore>247</highscore>
+    <wins>96</wins>
+    <losses>170</losses>
+    <totalScore>164803</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 73</name>
+    <highscore>372</highscore>
+    <wins>164</wins>
+    <losses>129</losses>
+    <totalScore>802775</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 74</name>
+    <highscore>374</highscore>
+    <wins>125</wins>
+    <losses>57</losses>
+    <totalScore>146119</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 75</name>
+    <highscore>869</highscore>
+    <wins>145</wins>
+    <losses>136</losses>
+    <totalScore>422909</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 76</name>
+    <highscore>491</highscore>
+    <wins>188</wins>
+    <losses>95</losses>
+    <totalScore>819511</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 77</name>
+    <highscore>842</highscore>
+    <wins>27</wins>
+    <losses>64</losses>
+    <totalScore>184453</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 78</name>
+    <highscore>583</highscore>
+    <wins>77</wins>
+    <losses>147</losses>
+    <totalScore>477826</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 79</name>
+    <highscore>786</highscore>
+    <wins>80</wins>
+    <losses>127</losses>
+    <totalScore>520452</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 80</name>
+    <highscore>459</highscore>
+    <wins>95</wins>
+    <losses>52</losses>
+    <totalScore>503361</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 81</name>
+    <highscore>314</highscore>
+    <wins>160</wins>
+    <losses>65</losses>
+    <totalScore>267186</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 82</name>
+    <highscore>324</highscore>
+    <wins>107</wins>
+    <losses>123</losses>
+    <totalScore>664251</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 83</name>
+    <highscore>287</highscore>
+    <wins>186</wins>
+    <losses>52</losses>
+    <totalScore>743741</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 84</name>
+    <highscore>281</highscore>
+    <wins>102</wins>
+    <losses>113</losses>
+    <totalScore>286459</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 85</name>
+    <highscore>506</highscore>
+    <wins>7</wins>
+    <losses>121</losses>
+    <totalScore>520177</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 86</name>
+    <highscore>245</highscore>
+    <wins>183</wins>
+    <losses>145</losses>
+    <totalScore>639374</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 87</name>
+    <highscore>725</highscore>
+    <wins>142</wins>
+    <losses>143</losses>
+    <totalScore>613977</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 88</name>
+    <highscore>302</highscore>
+    <wins>35</wins>
+    <losses>151</losses>
+    <totalScore>842452</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 89</name>
+    <highscore>916</highscore>
+    <wins>118</wins>
+    <losses>118</losses>
+    <totalScore>629457</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 90</name>
+    <highscore>674</highscore>
+    <wins>25</wins>
+    <losses>72</losses>
+    <totalScore>349264</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 91</name>
+    <highscore>896</highscore>
+    <wins>83</wins>
+    <losses>80</losses>
+    <totalScore>927978</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 92</name>
+    <highscore>249</highscore>
+    <wins>36</wins>
+    <losses>123</losses>
+    <totalScore>880966</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 93</name>
+    <highscore>11</highscore>
+    <wins>111</wins>
+    <losses>146</losses>
+    <totalScore>203235</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 94</name>
+    <highscore>69</highscore>
+    <wins>96</wins>
+    <losses>0</losses>
+    <totalScore>58534</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 95</name>
+    <highscore>722</highscore>
+    <wins>94</wins>
+    <losses>27</losses>
+    <totalScore>801780</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 96</name>
+    <highscore>560</highscore>
+    <wins>53</wins>
+    <losses>186</losses>
+    <totalScore>384926</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 97</name>
+    <highscore>458</highscore>
+    <wins>175</wins>
+    <losses>198</losses>
+    <totalScore>295111</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 98</name>
+    <highscore>480</highscore>
+    <wins>128</wins>
+    <losses>51</losses>
+    <totalScore>280299</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 99</name>
+    <highscore>409</highscore>
+    <wins>193</wins>
+    <losses>9</losses>
+    <totalScore>415199</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Profile 100</name>
+    <highscore>888</highscore>
+    <wins>70</wins>
+    <losses>15</losses>
+    <totalScore>451271</totalScore>
+    <creationDate>12.04.2021</creationDate>
+    <lastLogged>12.04.2021</lastLogged>
+  </profile>
+</PlayerProfiles>
