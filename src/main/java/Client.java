@@ -1,17 +1,27 @@
-import ft.TxtFileHandler;
+import client.PlayerProfile;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.LinkedList;
+
+/**
+ * @author yuzun
+ * <p>
+ * Main class
+ * launches JavaFX window and manages navigation between scenes
+ * holds application-scope data
+ */
+
 public class Client extends Application {
-  public static void main(String[] args) {
-    launch(args);
-    //TxtFileHandler tfh =
-        new TxtFileHandler(
-            "C:\\Users\\Valentin\\Downloads\\Collins Scrabble Words (2019) with definitions.txt");
-  }
+
+    private LinkedList<PlayerProfile> playerProfiles;       // List of player profiles
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
   @Override
   public void start(Stage stage) throws Exception {
