@@ -3,13 +3,12 @@ package ft;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 
 /**
  * @author vkaczmar Class that is able to load, read and manage all words from the wordlist in a BST
  *     Accessible via root Node
  */
-public class TxtFileHandler {
+public class Dictionary {
   private BufferedReader br;
   private ArrayList<String> uneditedLines, words;
   private NodeWordlist root;
@@ -19,7 +18,7 @@ public class TxtFileHandler {
    *     creation of the binary search tree
    * @param absolutePath Requires the absolute Path to the wordlist itself
    */
-  public TxtFileHandler(String absolutePath) {
+  public Dictionary(String absolutePath) {
     File f = new File(absolutePath);
     try {
       br = new BufferedReader(new FileReader(f));
@@ -73,12 +72,21 @@ public class TxtFileHandler {
   }
 
   /**
+   * @author vkaczmar
+   * @param word Requires word, in a non case sensitive way
+   * @return Returns true, if word exists
+   */
+  public boolean wordExists(String word) {
+    return wordExists(root, word);
+  }
+
+  /**
    * @author vkaczmar Checks wether a certain word exists in wordlist.
    * @param node Requires node to start searching with
    * @param word Requires word, in a non case sensitive way
    * @return Returns true, if word exists
    */
-  public boolean wordExists(NodeWordlist node, String word) {
+  private boolean wordExists(NodeWordlist node, String word) {
     if (node == null) {
       return false;
     } else if (node.getData().compareTo(word.toUpperCase()) == 0) {
