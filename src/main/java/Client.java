@@ -1,10 +1,24 @@
+import client.PlayerProfile;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.LinkedList;
+
+/**
+ * @author yuzun
+ * <p>
+ * Main class
+ * launches JavaFX window and manages navigation between scenes
+ * holds application-scope data
+ */
+
 public class Client extends Application {
+
+    private LinkedList<PlayerProfile> playerProfiles;       // List of player profiles
+
     public static void main(String[] args) {
         launch(args);
     }
