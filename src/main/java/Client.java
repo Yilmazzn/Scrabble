@@ -23,12 +23,12 @@ public class Client extends Application {
         launch(args);
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
+  @Override
+  public void start(Stage stage) throws Exception {
 
-        stage.setTitle("Scrabble 13");
-        Parent root = FXMLLoader.load(this.getClass().getResource("/sample.fxml"));
-        stage.setScene(new Scene(root, 350, 200));
-        stage.show();
-    }
+    stage.setTitle("Scrabble 13");
+    Parent root = FXMLLoader.load(this.getClass().getResource("/sample.fxml"));
+    stage.setScene(new Scene(root, 350, 200));
+    stage.show();
+  }
 }

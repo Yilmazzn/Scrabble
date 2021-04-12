@@ -1,10 +1,7 @@
-#output
-target
-classes
-out
-
-#IDE/Project data
-Scrabble.iml
 .idea
 .project
+.gitignore
+out
+classes
 .classpath
+Scrabble.iml
