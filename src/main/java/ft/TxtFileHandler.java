@@ -1,17 +1,19 @@
 package ft;
 
+import game.Dictionary;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 
 /**
  * @author vkaczmar Class that is able to load, read and manage all words from the wordlist in a BST
- *     Accessible via root Node
+ * Accessible via root Node
  */
 public class TxtFileHandler {
   private BufferedReader br;
-  private ArrayList<String> uneditedLines, words;
+  private ArrayList<String> uneditedLines = new ArrayList<>();
+  private ArrayList<String> words = new ArrayList<>();
   private NodeWordlist root;
 
   /**
@@ -26,12 +28,9 @@ public class TxtFileHandler {
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
-    uneditedLines = new ArrayList<String>();
     getUneditedLines();
-    words = new ArrayList<String>();
     getWords();
-    BinarySearchTreeWordlist bst = new BinarySearchTreeWordlist();
-    root = bst.createBSTFromArrayList(words, 0, words.size() - 1);
+    root = createBSTFromArrayList(words, 0, words.size() - 1);  // creates binary search tree
   }
 
   /**
@@ -60,7 +59,7 @@ public class TxtFileHandler {
     Iterator<String> it = uneditedLines.iterator();
     while (it.hasNext()) {
       splitLine = it.next().split("\\s");
-      words.add(splitLine[0]);
+      words.add(splitLine[0].toUpperCase());
     }
   }
 
@@ -72,23 +71,26 @@ public class TxtFileHandler {
     return root;
   }
 
+
   /**
-   * @author vkaczmar Checks wether a certain word exists in wordlist.
-   * @param node Requires node to start searching with
-   * @param word Requires word, in a non case sensitive way
-   * @return Returns true, if word exists
+   * @author Creates BST from ArrayList<String>
+   * @param words Requires ArrayList<String> with all words
+   * @param start Requires int value to start with, usually 0 at creation
+   * @param end Requires int value to end with, usually words.size() - 1 at creation
+   * @return Returns root node from BST
    */
-  public boolean wordExists(NodeWordlist node, String word) {
-    if (node == null) {
-      return false;
-    } else if (node.getData().compareTo(word.toUpperCase()) == 0) {
-      return true;
-    } else if (node.getData().compareTo(word.toUpperCase()) > 0) {
-      return wordExists(node.getLeft(), word);
-    } else if (node.getData().compareTo(word.toUpperCase()) < 0) {
-      return wordExists(node.getRight(), word);
-    } else {
-      return false;
+  public NodeWordlist createBSTFromArrayList(ArrayList<String> words, int start, int end) {
+    if (start > end) {
+      return null;
     }
+    int middle = (start + end) / 2;
+    NodeWordlist node = new NodeWordlist(words.get(middle));
+    node.setLeft(createBSTFromArrayList(words, start, middle - 1));
+    node.setRight(createBSTFromArrayList(words, middle + 1, end));
+    return node;
+  }
+
+  public Dictionary readDictionary() {
+    return new Dictionary(root);
   }
 }
