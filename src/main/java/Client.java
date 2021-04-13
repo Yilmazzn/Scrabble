@@ -1,3 +1,4 @@
+import client.PlayerProfile;
 import gui.controllers.playerLobbyController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

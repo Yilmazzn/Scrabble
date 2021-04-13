@@ -12,6 +12,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * @author mnetzer
+ * <p>
+ * Controller for the playerProfileView
+ */
+
 public class playerProfileController {
 
     @FXML private Label playerNo;

@@ -15,6 +15,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * @author mnetzer
+ * <p>
+ * Controller for the playerLobbyView
+ */
+
 public class playerLobbyController {
 
     @FXML private Label username;

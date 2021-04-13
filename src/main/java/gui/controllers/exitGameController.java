@@ -5,6 +5,12 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+/**
+ * @author mnetzer
+ * <p>
+ * Controller for the exitGameView
+ */
+
 
 public class exitGameController {
 
