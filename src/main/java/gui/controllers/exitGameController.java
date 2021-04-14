@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 
 /**
  * @author mnetzer
- * <p>
  * Controller for the exitGameView
  */
 

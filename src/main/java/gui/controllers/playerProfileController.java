@@ -14,7 +14,6 @@ import java.io.IOException;
 
 /**
  * @author mnetzer
- * <p>
  * Controller for the playerProfileView
  */
 
