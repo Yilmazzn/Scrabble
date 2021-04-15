@@ -1,6 +1,7 @@
 package game;
 
 import game.components.Board;
+import game.components.BoardField;
 import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
@@ -24,11 +25,13 @@ public class Game {
     private final ArrayList<String> wordsFound = new ArrayList<>();  // a list of words found up to this point
     private Board board = new Board();                                // Game Board
     private Board lastValidBoard = new Board();                        // Game Board which was last accepted as valid to reset after invalid player turns
-    private int roundNum;                                   // amount of total rounds since start
-    private int roundsSinceLastScore;                   // last n amount of rounds without points
+    private int roundNum = 0;                                   // amount of total rounds since start
+    private int roundsSinceLastScore = 0;                   // last n amount of rounds without points
     private Object dictionary;                              // Dictionary this game relies on   TODO Dictionary class, getter&setter
     private Player playerInTurn;            // Player whose turn it is
-
+    private List<BoardField> placementsInTurn = new LinkedList<>(); // Placements on the board in the last turn
+    private OvertimeWatch overtime;        // Thread which counts down from 10mins, is reset each turn
+    private Scoreboard scoreboard;          // Scoreboard containing game statistics
 
     /**
      * A game instance is created by the server, when the host decided to start the game
@@ -71,6 +74,9 @@ public class Game {
             }
             player.addTilesToRack(tilesToDistribute);
         }
+
+        // Start first round
+        nextRound();
     }
 
 
@@ -80,13 +86,23 @@ public class Game {
      * assigns turn, if it is the turn of an AI player, then trigger it to to think and make a move
      */
     public void nextRound() {
-        players.get((roundNum - 1) % players.size()).setTurn(false);     // set turn of last round's player to false
-        playerInTurn = players.get(roundNum % players.size());          // Player, whose turn it is
+        // Stop overtime of last round's player
+        overtime.stop();
+
+        // increment round number
+        roundNum++;
+
+        // reassign turns
+        players.get((roundNum - 1) % players.size()).setTurn(false);
+        playerInTurn = players.get(roundNum % players.size());
         playerInTurn.setTurn(true);
 
-        roundNum++;     // increment round number
+        // reset countdown and tracked placements
+        overtime = new OvertimeWatch(this);
+        new Thread(overtime).start();
+        placementsInTurn = new LinkedList<>();
 
-        // Trigger Ai to think
+        // If player is Ai, then trigger it to think
         if (!playerInTurn.isHuman()) { // player is not human
             AiPlayer ai = (AiPlayer) playerInTurn;
             ai.think();
@@ -114,13 +130,27 @@ public class Game {
     }
 
     /**
+     * Ends game        (can also be called by running instance of OvertimeWatch if user runs out of time)
+     * If ended abruptly, then because of a user running out of time --> removing pending placements from the board
+     * Else just end normally and show every human player scoreboard
+     */
+    public void end() {
+        // Remove placements in this turn
+        placementsInTurn.forEach(bf -> bf.setTile(null));
+
+        // TODO Update Scoreboard and .....
+    }
+
+    /**
      * TODO
      */
-    public void submit() {
+    public boolean submit() {
         if (board.check()) {    // TODO pass dictionary
             // TODO score
+            return true;
         } else {
-            // TODO error not valid board state
+            // TODO mark non-valid boardfields
+            return false;
         }
     }
 
@@ -131,6 +161,13 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    /**
+     * Evaluates Score of board placements last turn
+     */
+    public void evaluateScore() {
+
     }
 
 

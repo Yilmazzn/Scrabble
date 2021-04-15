@@ -24,8 +24,6 @@ public abstract class Player {
     private int sessionScore;                  // score accumulated since the game round started
     private int lobbyScore;                    // score accumulated since joining the server
     private ArrayList<Tile> rack = new ArrayList<>();   // rack which holds the tiles the user can interact with
-    private long overtime = 600000L;              // Overtime of player in ms
-    private long turnStartTime;                     // Time when player started his turn
 
 
     public Player(boolean human) {
@@ -41,6 +39,10 @@ public abstract class Player {
         this.game = game;
     }
 
+
+    public void placeTile(Tile tile, int row, int col) {
+
+    }
 
     /**
      * Adds given tiles to player's rack
@@ -64,11 +66,16 @@ public abstract class Player {
     }
 
     /**
-     * Called to submit a play (or pass)
+     * Called to submit a play (or pass if no placements)
+     * Submission is only possible if it is player's turn
+     *
+     * @return
      */
-    public void submit() {
+    public boolean submit() {
         if (turn) {
-            game.submit();
+            return game.submit();
+        } else {
+            return false;
         }
     }
 
@@ -103,17 +110,9 @@ public abstract class Player {
 
     /**
      * Sets turn of player
-     * if player's turn just started (true) then time is saved so turn duration
-     * if player's turn just ended (false) then difference is subtracted from overtime
      */
     public void setTurn(boolean turn) {
         this.turn = turn;
-        if (turn) {
-            turnStartTime = System.currentTimeMillis();
-        } else {
-            overtime = overtime - (System.currentTimeMillis() - turnStartTime);
-        }
-
     }
 
     /**
