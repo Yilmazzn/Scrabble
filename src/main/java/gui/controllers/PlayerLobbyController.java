@@ -5,8 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -20,7 +18,7 @@ import java.io.IOException;
  * Controller for the playerLobbyView
  */
 
-public class playerLobbyController {
+public class PlayerLobbyController {
 
     @FXML private Label username;
 
@@ -36,8 +34,17 @@ public class playerLobbyController {
         System.out.println("Settings");
     }
 
-    public void backToLogin(MouseEvent mouseEvent) {
-        System.out.println("BackToLogin");
+    public void backToLogin(MouseEvent mouseEvent) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(this.getClass().getResource("/views/welcomeView.fxml"));
+        Parent welcomeView = loader.load();
+        WelcomeViewController controller = loader.getController();
+
+        Scene welcomeScene = new Scene(welcomeView);
+        Stage window = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
+        window.setScene(welcomeScene);
+        window.show();
     }
 
     public void exitGame() throws IOException {
@@ -78,7 +85,7 @@ public class playerLobbyController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/views/playerProfileView.fxml"));
         Parent profileControllerView = loader.load();
-        playerProfileController controller = loader.getController();
+        PlayerProfileController controller = loader.getController();
         controller.InitData();
 
         //Parent profileControllerView = FXMLLoader.load(getClass().getResource("/views/playerProfileView.fxml"));

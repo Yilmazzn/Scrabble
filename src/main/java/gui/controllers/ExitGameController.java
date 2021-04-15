@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  */
 
 
-public class exitGameController {
+public class ExitGameController {
 
     public void exitGame(MouseEvent mouseEvent) {
         Stage window = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();

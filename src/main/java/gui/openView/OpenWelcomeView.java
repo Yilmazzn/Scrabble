@@ -1,13 +1,13 @@
 package gui.openView;
 
-import gui.controllers.PlayerProfileController;
+import gui.controllers.WelcomeViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class OpenPlayerProfile extends Application {
+public class OpenWelcomeView extends Application {
     public static void main(String[] args) {
 
         launch(args);
@@ -18,15 +18,15 @@ public class OpenPlayerProfile extends Application {
 
         primaryStage.setTitle("Scrabble 13");
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/views/playerProfileView.fxml"));
+        loader.setLocation(this.getClass().getResource("/views/welcomeView.fxml"));
         Parent root = loader.load();
         //Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
-        PlayerProfileController controller = loader.getController();
-        controller.InitData();
+        WelcomeViewController controller = loader.getController();
+        //controller.InitData();
 
         primaryStage.setScene(new Scene(root));
-        primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(700);
+        primaryStage.setMinWidth(900);
         primaryStage.show();
     }
 }

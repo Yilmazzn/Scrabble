@@ -1,5 +1,5 @@
 import client.PlayerProfile;
-import gui.controllers.playerLobbyController;
+import gui.controllers.WelcomeViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,11 +33,10 @@ public class Client extends Application {
 
         primaryStage.setTitle("Scrabble 13");
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
+        loader.setLocation(this.getClass().getResource("/views/welcomeView.fxml"));
         Parent root = loader.load();
         //Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
-        playerLobbyController controller = loader.getController();
-        controller.InitData();
+        WelcomeViewController controller = loader.getController();
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinHeight(700);

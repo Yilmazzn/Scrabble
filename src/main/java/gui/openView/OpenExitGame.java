@@ -1,6 +1,5 @@
 package gui.openView;
 
-import gui.controllers.playerProfileController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

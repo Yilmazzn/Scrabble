@@ -17,7 +17,7 @@ import java.io.IOException;
  * Controller for the playerProfileView
  */
 
-public class playerProfileController {
+public class PlayerProfileController {
 
     @FXML private Label playerNo;
     @FXML private Label playerName;
@@ -46,7 +46,7 @@ public class playerProfileController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
         Parent playerLobbyView = loader.load();
-        playerLobbyController controller = loader.getController();
+        PlayerLobbyController controller = loader.getController();
         controller.InitData();
 
         //Parent profileControllerView = FXMLLoader.load(getClass().getResource("/views/playerProfileView.fxml"));
