@@ -11,12 +11,16 @@ public class BoardField {
     private final FieldType type;     // Type of field
     private Tile tile;          // Tile placed on this field
     private boolean valid = true;        // true if valid placement was made on this field
+    private int row;                // Row on the board this field is located at
+    private int col;                // Column on the board this field is located at
 
     /**
      * Initialize the field with the type of field this instance represents
      */
-    public BoardField(FieldType type) {
+    public BoardField(FieldType type, int row, int col) {
         this.type = type;
+        this.row = row;
+        this.col = col;
     }
 
     /**
@@ -57,6 +61,20 @@ public class BoardField {
      */
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    /**
+     * Returns row this field is located at on the board
+     */
+    public int getRow() {
+        return row;
+    }
+
+    /**
+     * Returns column this field is located at on the board
+     */
+    public int getColumn() {
+        return col;
     }
 
     // Types of fields

@@ -19,49 +19,49 @@ public class Board {
         fields = new BoardField[BOARD_SIZE][BOARD_SIZE];
 
         // Initializing one half of the board and then mirroring
-        fields[7][7] = new BoardField(BoardField.FieldType.STAR);
+        fields[7][7] = new BoardField(BoardField.FieldType.STAR, 7, 7);
 
-        fields[0][0] = new BoardField(BoardField.FieldType.TWS);
-        fields[0][7] = new BoardField(BoardField.FieldType.TWS);
-        fields[7][0] = new BoardField(BoardField.FieldType.TWS);
-        fields[14][0] = new BoardField(BoardField.FieldType.TWS);
-        fields[14][7] = new BoardField(BoardField.FieldType.TWS);
+        fields[0][0] = new BoardField(BoardField.FieldType.TWS, 0, 0);
+        fields[0][7] = new BoardField(BoardField.FieldType.TWS, 0, 7);
+        fields[7][0] = new BoardField(BoardField.FieldType.TWS, 7, 0);
+        fields[14][0] = new BoardField(BoardField.FieldType.TWS, 14, 0);
+        fields[14][7] = new BoardField(BoardField.FieldType.TWS, 14, 7);
 
-        fields[1][1] = new BoardField(BoardField.FieldType.DWS);
-        fields[13][1] = new BoardField(BoardField.FieldType.DWS);
-        fields[2][2] = new BoardField(BoardField.FieldType.DWS);
-        fields[12][2] = new BoardField(BoardField.FieldType.DWS);
-        fields[3][3] = new BoardField(BoardField.FieldType.DWS);
-        fields[11][3] = new BoardField(BoardField.FieldType.DWS);
-        fields[4][4] = new BoardField(BoardField.FieldType.DWS);
-        fields[10][4] = new BoardField(BoardField.FieldType.DWS);
+        fields[1][1] = new BoardField(BoardField.FieldType.DWS, 1, 1);
+        fields[13][1] = new BoardField(BoardField.FieldType.DWS, 13, 1);
+        fields[2][2] = new BoardField(BoardField.FieldType.DWS, 2, 2);
+        fields[12][2] = new BoardField(BoardField.FieldType.DWS, 12, 2);
+        fields[3][3] = new BoardField(BoardField.FieldType.DWS, 3, 3);
+        fields[11][3] = new BoardField(BoardField.FieldType.DWS, 11, 3);
+        fields[4][4] = new BoardField(BoardField.FieldType.DWS, 4, 4);
+        fields[10][4] = new BoardField(BoardField.FieldType.DWS, 10, 4);
 
-        fields[1][5] = new BoardField(BoardField.FieldType.TLS);
-        fields[5][1] = new BoardField(BoardField.FieldType.TLS);
-        fields[5][5] = new BoardField(BoardField.FieldType.TLS);
-        fields[9][1] = new BoardField(BoardField.FieldType.TLS);
-        fields[9][5] = new BoardField(BoardField.FieldType.TLS);
-        fields[13][5] = new BoardField(BoardField.FieldType.TLS);
+        fields[1][5] = new BoardField(BoardField.FieldType.TLS, 1, 5);
+        fields[5][1] = new BoardField(BoardField.FieldType.TLS, 5, 1);
+        fields[5][5] = new BoardField(BoardField.FieldType.TLS, 5, 5);
+        fields[9][1] = new BoardField(BoardField.FieldType.TLS, 9, 1);
+        fields[9][5] = new BoardField(BoardField.FieldType.TLS, 9, 5);
+        fields[13][5] = new BoardField(BoardField.FieldType.TLS, 13, 5);
 
-        fields[0][3] = new BoardField(BoardField.FieldType.DLS);
-        fields[2][6] = new BoardField(BoardField.FieldType.DLS);
-        fields[3][0] = new BoardField(BoardField.FieldType.DLS);
-        fields[3][7] = new BoardField(BoardField.FieldType.DLS);
-        fields[6][2] = new BoardField(BoardField.FieldType.DLS);
-        fields[6][6] = new BoardField(BoardField.FieldType.DLS);
-        fields[7][3] = new BoardField(BoardField.FieldType.DLS);
-        fields[8][2] = new BoardField(BoardField.FieldType.DLS);
-        fields[8][6] = new BoardField(BoardField.FieldType.DLS);
-        fields[11][0] = new BoardField(BoardField.FieldType.DLS);
-        fields[11][7] = new BoardField(BoardField.FieldType.DLS);
-        fields[12][6] = new BoardField(BoardField.FieldType.DLS);
-        fields[14][3] = new BoardField(BoardField.FieldType.DLS);
+        fields[0][3] = new BoardField(BoardField.FieldType.DLS, 0, 3);
+        fields[2][6] = new BoardField(BoardField.FieldType.DLS, 2, 6);
+        fields[3][0] = new BoardField(BoardField.FieldType.DLS, 3, 0);
+        fields[3][7] = new BoardField(BoardField.FieldType.DLS, 3, 7);
+        fields[6][2] = new BoardField(BoardField.FieldType.DLS, 6, 2);
+        fields[6][6] = new BoardField(BoardField.FieldType.DLS, 6, 6);
+        fields[7][3] = new BoardField(BoardField.FieldType.DLS, 7, 3);
+        fields[8][2] = new BoardField(BoardField.FieldType.DLS, 8, 2);
+        fields[8][6] = new BoardField(BoardField.FieldType.DLS, 8, 6);
+        fields[11][0] = new BoardField(BoardField.FieldType.DLS, 11, 0);
+        fields[11][7] = new BoardField(BoardField.FieldType.DLS, 11, 7);
+        fields[12][6] = new BoardField(BoardField.FieldType.DLS, 12, 6);
+        fields[14][3] = new BoardField(BoardField.FieldType.DLS, 14, 3);
 
         // Fill rest of fields with normal fields
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j <= 7; j++) {
                 if (fields[i][j] == null) {
-                    fields[i][j] = new BoardField(BoardField.FieldType.NORMAL);
+                    fields[i][j] = new BoardField(BoardField.FieldType.NORMAL, i, j);
                 }
             }
         }
@@ -69,7 +69,7 @@ public class Board {
         // Mirror
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < 7; j++) {
-                fields[i][BOARD_SIZE - j - 1] = new BoardField(fields[i][j].getType());
+                fields[i][BOARD_SIZE - j - 1] = new BoardField(fields[i][j].getType(), i, BOARD_SIZE - j - 1);
             }
         }
     }

@@ -163,12 +163,7 @@ public class Game {
         return board;
     }
 
-    /**
-     * Evaluates Score of board placements last turn
-     */
-    public void evaluateScore() {
 
-    }
 
 
 }
