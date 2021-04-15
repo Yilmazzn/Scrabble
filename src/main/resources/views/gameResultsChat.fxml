@@ -17,12 +17,12 @@
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="75.0" layoutY="325.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="50.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <Button layoutX="25.0" layoutY="12.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/buttonstyle.css" text="&lt;Back to Menu">
+      <Button layoutX="25.0" layoutY="12.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="&lt;Back to Menu">
          <font>
             <Font name="Chalkboard" size="13.0" />
          </font>
       </Button>
-      <Button layoutX="531.0" layoutY="12.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/buttonstyle.css" text="Exit">
+      <Button layoutX="531.0" layoutY="12.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="Exit">
          <font>
             <Font name="Chalkboard" size="13.0" />
          </font>
@@ -211,7 +211,7 @@
       </Text>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="240.0" layoutX="363.0" layoutY="64.0" stroke="BLACK" strokeType="INSIDE" width="220.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#edece1" height="40.0" layoutX="373.0" layoutY="255.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-      <Button layoutX="514.0" layoutY="262.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/buttonstyle.css" text="SEND">
+      <Button layoutX="514.0" layoutY="262.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="SEND">
          <font>
             <Font name="Chalkboard" size="13.0" />
          </font>

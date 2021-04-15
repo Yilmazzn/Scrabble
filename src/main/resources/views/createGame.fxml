@@ -57,27 +57,27 @@
             <Image url="@../pictures/scrabble-2.png" />
          </image>
       </ImageView>
-      <Button layoutX="531.0" layoutY="13.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/buttonstyle.css" text="Exit">
+      <Button layoutX="531.0" layoutY="13.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="Exit">
          <font>
             <Font name="Chalkboard" size="13.0" />
          </font>
       </Button>
-      <Button layoutX="21.0" layoutY="14.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/buttonstyle.css" text="&lt;Back to Player Lobby">
+      <Button layoutX="21.0" layoutY="14.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="&lt;Back to Player Lobby">
          <font>
             <Font name="Chalkboard" size="13.0" />
          </font>
       </Button>
-      <Button layoutX="263.0" layoutY="210.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/buttonstyle.css" text="+">
+      <Button layoutX="263.0" layoutY="210.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="+">
          <font>
             <Font name="Chalkboard" size="13.0" />
          </font>
       </Button>
-      <Button layoutX="237.0" layoutY="260.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/buttonstyle.css" text="START">
+      <Button layoutX="237.0" layoutY="260.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="START">
          <font>
             <Font name="Chalkboard" size="13.0" />
          </font>
       </Button>
-      <Button layoutX="444.0" layoutY="265.0" mnemonicParsing="false" styleClass="bigButton" stylesheets="@/buttonstyle.css" text="Game Settings">
+      <Button layoutX="444.0" layoutY="265.0" mnemonicParsing="false" styleClass="bigButton" stylesheets="@/stylesheets/buttonstyle.css" text="Game Settings">
          <font>
             <Font size="18.0" />
          </font>
