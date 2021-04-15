@@ -26,7 +26,7 @@ public class Client extends Application {
 
     /**
      * @author mnetzer
-     * open window with first fxml
+     * open window with first fxml: start game
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
