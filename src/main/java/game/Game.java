@@ -145,7 +145,7 @@ public class Game {
      * TODO
      */
     public boolean submit() {
-        if (board.check()) {    // TODO pass dictionary
+        if (board.check(placementsInTurn, dictionary)) {    // TODO pass dictionary
             // TODO score
             return true;
         } else {

@@ -1,8 +1,6 @@
 package gui;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Client extends Application {
@@ -15,20 +13,7 @@ public class Client extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-
-        primaryStage.setTitle("Scrabble 13");
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/views/playerView.fxml"));
-        PlayerController playerController = new PlayerController();
-
-        playerController = loader.getController();
-        primaryStage.setScene(new Scene(loader.load()));
-        primaryStage.show();
-
-
-
-
+    public void start(Stage primaryStage) {
 
         /*
         int[] defaultLDArr = new int[]{

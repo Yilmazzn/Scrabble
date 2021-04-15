@@ -1,8 +1,12 @@
 package game.components;
 
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * @author yuzun
- *
+ * <p>
  * The board is the main object in the game of scrabble
  * This class handles all interactions with the board itself -- Integrated Game Logic --
  */
@@ -117,8 +121,11 @@ public class Board {
      * checks that valid words are formed on the board based on the dictionary
      * As it checks it sets fields which hold invalid tiles as invalid (field.valid = false)
      * TODO DICTIONARY
+     *
+     * @param placements placements in the last turn
+     * @param dictionary Dictionary the game is based on
      */
-    public boolean check() {
+    public boolean check(List<BoardField> placements, Object dictionary) {
 
         // Every field is valid default
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -130,40 +137,47 @@ public class Board {
         // Check: Star field is covered
         //  --> mark every tile on board as invalid
         if (fields[7][7].isEmpty()) {
-            for (int i = 0; i < BOARD_SIZE; i++) {
-                for (int j = 0; j < BOARD_SIZE; j++) {
-                    fields[i][j].setValid(fields[i][j].isEmpty());
-                }
-            }
+            placements.forEach(bf -> bf.setValid(false));
+            return false;
+        }
+
+        // Check placements are all in a specific row or column
+        Set<Integer> uniqueRows = new TreeSet<>();
+        Set<Integer> uniqueColumns = new TreeSet<>();
+
+        for (BoardField bf : placements) {
+            uniqueRows.add(bf.getRow());
+            uniqueColumns.add(bf.getColumn());
+        }
+
+        if (uniqueRows.size() > 1 && uniqueColumns.size() > 1) {
             return false;
         }
 
         // Check adjacency
         boolean placementCheck = true;
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                if (!fields[i][j].isEmpty()) {
-                    boolean isAdjacent = false;
-                    if (i > 0 && !fields[i - 1][j].isEmpty()) {                 //up
-                        isAdjacent = true;
-                        continue;
-                    }
-                    if (i < BOARD_SIZE - 1 && !fields[i + 1][j].isEmpty()) {    //down
-                        isAdjacent = true;
-                        continue;
-                    }
-                    if (j > 0 && !fields[i][j - 1].isEmpty()) {                 //left
-                        isAdjacent = true;
-                        continue;
-                    }
-                    if (j < BOARD_SIZE - 1 && !fields[i][j + 1].isEmpty()) {    //right
-                        isAdjacent = true;
-                    }
-                    fields[i][j].setValid(isAdjacent);
-                    if (!isAdjacent) {
-                        placementCheck = false;
-                        break;
-                    }
+        for (BoardField bf : placements) {
+
+            int i = bf.getRow();        // row
+            int j = bf.getColumn();     // column
+
+            if (!fields[i][j].isEmpty()) {
+                boolean isAdjacent = false;
+                if (i > 0 && !fields[i - 1][j].isEmpty()) {                 //up
+                    isAdjacent = true;
+                }
+                if (i < BOARD_SIZE - 1 && !fields[i + 1][j].isEmpty()) {    //down
+                    isAdjacent = true;
+                }
+                if (j > 0 && !fields[i][j - 1].isEmpty()) {                 //left
+                    isAdjacent = true;
+                }
+                if (j < BOARD_SIZE - 1 && !fields[i][j + 1].isEmpty()) {    //right
+                    isAdjacent = true;
+                }
+                fields[i][j].setValid(isAdjacent);
+                if (!isAdjacent) {
+                    placementCheck = false;
                 }
             }
         }
@@ -171,8 +185,58 @@ public class Board {
             return false;
         }
 
+
         // Check: Valid words are formed (Dictionary
-        // TODO
+        // Check horizontal
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE - 1; j++) {
+
+                // if this field or field to the right is empty then skip
+                if (isEmpty(i, j) || isEmpty(i, j + 1)) {
+                    continue;
+                }
+
+                // traverse to the right until field is empty or out of bounds
+                String word = "";    // horizontal word
+                int k = j;      // column of first tile of the word
+                while (k < BOARD_SIZE && !isEmpty(i, k)) {
+                    word += getTile(i, k++);        // Append tile letter to found word
+                }
+
+                /* TODO UNCOMMENT DICTIONARY CHECK
+                if (!dictionary.wordExists(word)) {
+                    return false;
+                }
+                */
+                j = k;  // sets j to the field after the word (out of bounds or empty)
+            }
+        }
+
+        // Check vertical
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE - 1; j++) {
+
+                // if this field or field to the right is empty then skip
+                if (isEmpty(j, i) || isEmpty(j + 1, i)) {
+                    continue;
+                }
+
+                // traverse to the right until field is empty or out of bounds
+                String word = "";    // horizontal word
+                int k = j;      // row of first tile of the word
+                while (k < BOARD_SIZE && !isEmpty(k, i)) {
+                    word += getTile(k++, i);        // Append tile letter to found word
+                }
+
+                /* TODO UNCOMMENT DICTIONARY CHECK
+                if (!dictionary.wordExists(word)) {
+                    return false;
+                }
+                */
+                j = k;  // sets j to the field after the word (out of bounds or empty)
+            }
+        }
+
 
         return true;
     }
