@@ -38,6 +38,7 @@ public class ClientProtocol extends Thread {
   }
 
   /*
+  Test
   public void toServer(Message m) throws IOException {
     this.out.writeObject(m);
     out.flush();
