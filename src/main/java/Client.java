@@ -24,6 +24,10 @@ public class Client extends Application {
         launch(args);
     }
 
+    /**
+     * @author mnetzer
+     * open window with first fxml
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 

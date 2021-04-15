@@ -81,7 +81,7 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" top="35.0" />
                      </HBox.margin>
                      <image>
-                        <Image url="@../pictures/player_profile.png" />
+                        <Image url="@../pictures/ProfileIcon.png" />
                      </image>
                   </ImageView>
                </children>
