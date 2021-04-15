@@ -4,7 +4,7 @@ package game;
  * @author yuzun
  * <p>
  * Thread which runs parallel to the game application
- * Counts down from 10mins and ends the game of associated game object if player runs out of time
+ * Counts down from 10mins and ends the associated game object if player runs out of time
  */
 
 public class OvertimeWatch implements Runnable {
@@ -18,12 +18,27 @@ public class OvertimeWatch implements Runnable {
         this.game = game;
     }
 
+    /**
+     * As long as stopwatch is running, stopwatch if overtime was exceeded
+     * To save resources it checks every 10 seconds (to make sure thread is killed if move was made before then and running became false) at the beginning
+     * If there are 15 seconds or less then it checks every 1/10th second
+     */
     public void run() {
         this.turnStartTime = System.currentTimeMillis();
         while (running) {
             if (System.currentTimeMillis() - turnStartTime > OVERTIME) {
                 game.end();        // Game ends
+                break;              // stop countdown
             }
+            // Wait
+            try {
+                // 10s if time left > 15s, else 0.1s
+                int millisToWait = (OVERTIME - (System.currentTimeMillis() - turnStartTime) > 15000) ? 10000 : 100;
+                Thread.sleep(millisToWait);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -36,7 +51,6 @@ public class OvertimeWatch implements Runnable {
 
     /**
      * Returns overtime
-     *
      * @return time since start of countdown in ms
      */
     public long getOvertime() {
