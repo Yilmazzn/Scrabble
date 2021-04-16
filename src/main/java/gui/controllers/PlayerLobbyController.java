@@ -23,13 +23,13 @@ public class PlayerLobbyController {
 
   public void playScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
-    Parent gameView = loader.load();
-    GameViewController controller = loader.getController();
+    loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
+    Parent playScrabbleView = loader.load();
+    PlayScrabbleController controller = loader.getController();
 
-    Scene welcomeScene = new Scene(gameView);
+    Scene playScrabbleScene = new Scene(playScrabbleView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-    window.setScene(welcomeScene);
+    window.setScene(playScrabbleScene);
     window.show();
   }
 
