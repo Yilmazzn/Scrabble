@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/** @author mnetzer Controller for the playerScrabbleView */
 public class PlayScrabbleController {
 
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {

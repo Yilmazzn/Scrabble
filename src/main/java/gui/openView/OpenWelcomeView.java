@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/** @author mnetzer Class for opening certain views separately */
 public class OpenWelcomeView extends Application {
   public static void main(String[] args) {
 
