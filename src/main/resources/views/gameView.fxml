@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
@@ -25,15 +26,15 @@
         </Label>
         <Label layoutX="278.0" layoutY="331.0" prefHeight="100.0" style="-fx-background-color: #fdf8da;"
                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
-        <Button mnemonicParsing="false" onMouseClicked="#backToLogin" prefHeight="35.0" prefWidth="140.0"
-                styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Back To Login"
-                textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+        <Button mnemonicParsing="false" onMouseClicked="#backToPlayerLobby" prefHeight="35.0" styleClass="smallButton"
+                stylesheets="@../stylesheets/buttonstyle.css" text="Back To Player Lobby" textAlignment="CENTER"
+                AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
             <font>
                 <Font name="Chalkboard" size="18.0"/>
             </font>
         </Button>
-        <Button layoutX="990.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#exitGame" prefHeight="35.0"
-                prefWidth="140.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="EXIT"
+        <Button layoutX="990.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#settings" prefHeight="35.0"
+                prefWidth="140.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Settings"
                 textAlignment="CENTER" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
             <font>
                 <Font name="Chalkboard" size="18.0"/>
@@ -44,7 +45,7 @@
             <left>
                 <VBox alignment="CENTER" prefHeight="520.0" prefWidth="250.0" BorderPane.alignment="CENTER">
                     <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#playerOne" prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -72,8 +73,11 @@
                                     </HBox.margin>
                                 </VBox>
                             </children>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#playerTwo" prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -101,8 +105,12 @@
                                     </HBox.margin>
                                 </VBox>
                             </children>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#playerThree" prefHeight="100.0"
+                              prefWidth="200.0">
                             <children>
                                 <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -130,8 +138,11 @@
                                     </HBox.margin>
                                 </VBox>
                             </children>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#playerFour" prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -159,6 +170,9 @@
                                     </HBox.margin>
                                 </VBox>
                             </children>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
                         </HBox>
                     </children>
                 </VBox>
@@ -166,8 +180,9 @@
             <right>
                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="15.0"
-                                prefWidth="120.0" style="-fx-background-color: #edece1;" text="Chat">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                                onMouseClicked="#chat" prefHeight="15.0" prefWidth="120.0"
+                                style="-fx-background-color: #edece1;" text="Chat">
                             <VBox.margin>
                                 <Insets bottom="40.0" right="30.0"/>
                             </VBox.margin>
@@ -177,6 +192,9 @@
                             <effect>
                                 <DropShadow blurType="GAUSSIAN" height="10.0" radius="4.5" width="10.0"/>
                             </effect>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
                         </Button>
                     </children>
                 </VBox>
@@ -186,7 +204,7 @@
                     <children>
                         <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../pictures/ScrabbleBoard.png"/>
+                                <Image url="file:/Users/max/IdeaProjects/scrabble13/src/main/resources/pictures/ScrabbleBoard.png"/>
                             </image>
                         </ImageView>
                     </children>
@@ -199,14 +217,17 @@
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="353.0" spacing="30.0"
                       BorderPane.alignment="CENTER">
                     <children>
-                        <Label alignment="CENTER" prefHeight="55.0" prefWidth="90.0"
+                        <Label alignment="CENTER" onMouseClicked="#tiles" prefHeight="55.0" prefWidth="90.0"
                                style="-fx-background-color: #edece1; -fx-background-radius: 7; -fx-border-color: black; -fx-border-radius: 7; -fx-effect: innershadow(gaussian, rgba(0,0,0,0.7), 7,0,0,0);"
                                text="Tiles">
                             <font>
                                 <Font name="Chalkboard" size="18.0"/>
                             </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND"/>
+                            </cursor>
                         </Label>
-                        <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="90.0"
+                        <Button mnemonicParsing="false" onMouseClicked="#shuffle" prefHeight="55.0" prefWidth="90.0"
                                 style="-fx-background-color: #edece1;" styleClass="smallButton"
                                 stylesheets="@../stylesheets/buttonstyle.css" text="Shuffle">
                             <font>
@@ -220,12 +241,15 @@
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="353.0" spacing="30.0"
                       BorderPane.alignment="CENTER">
                     <children>
-                        <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="150.0"
+                        <Button mnemonicParsing="false" onMouseClicked="#submit" prefHeight="55.0" prefWidth="175.0"
                                 style="-fx-background-color: #edece1;" styleClass="smallButton"
                                 stylesheets="@../stylesheets/buttonstyle.css" text="Submit">
                             <font>
                                 <Font name="Chalkboard" size="24.0"/>
                             </font>
+                            <HBox.margin>
+                                <Insets left="25.0"/>
+                            </HBox.margin>
                         </Button>
                     </children>
                 </HBox>

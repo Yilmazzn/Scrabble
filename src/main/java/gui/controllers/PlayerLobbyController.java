@@ -21,8 +21,16 @@ public class PlayerLobbyController {
     username.setText("Enton123");
   }
 
-  public void playScrabble(MouseEvent mouseEvent) {
-    System.out.println("PlayScrabble");
+  public void playScrabble(MouseEvent mouseEvent) throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
+    Parent gameView = loader.load();
+    GameViewController controller = loader.getController();
+
+    Scene welcomeScene = new Scene(gameView);
+    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    window.setScene(welcomeScene);
+    window.show();
   }
 
   public void settings(MouseEvent mouseEvent) {

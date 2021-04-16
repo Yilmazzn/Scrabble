@@ -14,37 +14,55 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
 /** @author mnetzer Controller for the GameView */
 public class GameViewController {
 
-
-  public void backToLogin(MouseEvent mouseEvent) throws IOException {
-
+  public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/welcomeView.fxml"));
-    Parent welcomeView = loader.load();
-    WelcomeViewController controller = loader.getController();
+    loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
+    Parent playerLobbyView = loader.load();
+    PlayerLobbyController controller = loader.getController();
+    controller.InitData();
 
-    Scene welcomeScene = new Scene(welcomeView);
+    Scene profileControllerScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-    window.setScene(welcomeScene);
+    window.setScene(profileControllerScene);
     window.show();
   }
 
-  public void exitGame() throws IOException {
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
-    Parent exitGameView = loader.load();
-    // exitGameController controller = loader.getController();
+  public void settings() throws IOException {
+    System.out.println("Settings");
+  }
 
-    Scene exitGameScene = new Scene(exitGameView);
-    Stage window = new Stage();
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Exit Game");
-    window.setScene(exitGameScene);
-    window.setWidth(300);
-    window.setHeight(200);
-    window.showAndWait();
+  public void tiles() {
+    System.out.println("tiles");
+  }
+
+  public void shuffle() {
+    System.out.println("Shuffle");
+  }
+
+  public void submit() {
+    System.out.println("Submit");
+  }
+
+  public void chat() {
+    System.out.println("Chat");
+  }
+
+  public void playerOne() {
+    System.out.println("Player1");
+  }
+
+  public void playerTwo() {
+    System.out.println("Player2");
+  }
+
+  public void playerThree() {
+    System.out.println("Player3");
+  }
+
+  public void playerFour() {
+    System.out.println("Player4");
   }
 }
