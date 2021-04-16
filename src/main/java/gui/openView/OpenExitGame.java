@@ -7,20 +7,20 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class OpenExitGame extends Application {
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        launch(args);
-    }
+    launch(args);
+  }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+  @Override
+  public void start(Stage primaryStage) throws Exception {
 
-        primaryStage.setTitle("Scrabble 13");
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
-        Parent root = loader.load();
+    primaryStage.setTitle("Scrabble 13");
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
+    Parent root = loader.load();
 
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-    }
+    primaryStage.setScene(new Scene(root));
+    primaryStage.show();
+  }
 }

@@ -13,209 +13,232 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.gameResultsChat">
-   <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="75.0" layoutY="325.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="50.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <Button layoutX="25.0" layoutY="12.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="&lt;Back to Menu">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Button>
-      <Button layoutX="531.0" layoutY="12.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="Exit">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Button>
-      <Text layoutX="247.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Results">
-         <font>
-            <Font name="Chalkboard" size="20.0" />
-         </font>
-      </Text>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="197.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/trophy.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="378.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/scrabble-4.png" />
-         </image>
-      </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="75.0" layoutX="15.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="300.0">
-         <fill>
-            <LinearGradient endX="1.0" endY="0.5107913669064748">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.8947368264198303" green="0.654483437538147" blue="0.8867284059524536" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </fill>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" layoutX="15.0" layoutY="145.0" stroke="BLACK" strokeType="INSIDE" width="250.0">
-         <fill>
-            <LinearGradient endX="1.0" endY="0.5011990407673861">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.707054078578949" green="0.9013828039169312" blue="0.9605262875556946" />
-                     </color>
-                  </Stop>
-                  <Stop offset="0.9962335216572504">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </fill>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" layoutX="15.0" layoutY="265.0" stroke="BLACK" strokeType="INSIDE" width="250.0">
-         <fill>
-            <LinearGradient endX="1.0" endY="0.5107913669064748">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.9342105388641357" green="0.930462121963501" blue="0.7093079686164856" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </fill>
-      </Rectangle>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" layoutX="15.0" layoutY="205.0" stroke="BLACK" strokeType="INSIDE" width="250.0">
-         <fill>
-            <LinearGradient endX="1.0" endY="0.5011990407673861">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.8706140518188477" green="0.9473684430122375" blue="0.8157894611358643" />
-                     </color>
-                  </Stop>
-                  <Stop offset="0.9962335216572504">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </fill>
-      </Rectangle>
-      <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="27.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/profile.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="25.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/profile.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="24.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/profile.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/profile.jpg" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="216.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/3.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="216.0" layoutY="269.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/4.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="217.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/2.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="241.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../pictures/1-2.png" />
-         </image>
-      </ImageView>
-      <Text layoutX="192.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You´ve won!" wrappingWidth="88.2855542148651">
-         <font>
-            <Font name="Chalkboard" size="20.0" />
-         </font>
-      </Text>
-      <Text layoutX="94.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Points">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="70.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Points">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="70.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Points">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="70.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Points">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="92.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="70.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player ">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="70.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Text>
-      <Text layoutX="70.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Text>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="240.0" layoutX="363.0" layoutY="64.0" stroke="BLACK" strokeType="INSIDE" width="220.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#edece1" height="40.0" layoutX="373.0" layoutY="255.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-      <Button layoutX="514.0" layoutY="262.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@/stylesheets/buttonstyle.css" text="SEND">
-         <font>
-            <Font name="Chalkboard" size="13.0" />
-         </font>
-      </Button>
-      <TextField layoutX="381.0" layoutY="262.0" prefHeight="27.0" prefWidth="128.0" />
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.gameResultsChat">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="75.0" layoutY="325.0" stroke="BLACK"
+                   strokeType="INSIDE" width="600.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="50.0" stroke="BLACK" strokeType="INSIDE"
+                   width="600.0"/>
+        <Button layoutX="25.0" layoutY="12.0" mnemonicParsing="false" styleClass="smallButton"
+                stylesheets="@/stylesheets/buttonstyle.css" text="&lt;Back to Menu">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Button>
+        <Button layoutX="531.0" layoutY="12.0" mnemonicParsing="false" styleClass="smallButton"
+                stylesheets="@/stylesheets/buttonstyle.css" text="Exit">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Button>
+        <Text layoutX="247.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Results">
+            <font>
+                <Font name="Chalkboard" size="20.0"/>
+            </font>
+        </Text>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="197.0" layoutY="7.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/trophy.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="378.0" layoutY="7.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/scrabble-4.png"/>
+            </image>
+        </ImageView>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="75.0" layoutX="15.0" layoutY="60.0" stroke="BLACK"
+                   strokeType="INSIDE" width="300.0">
+            <fill>
+                <LinearGradient endX="1.0" endY="0.5107913669064748">
+                    <stops>
+                        <Stop>
+                            <color>
+                                <Color red="0.8947368264198303" green="0.654483437538147" blue="0.8867284059524536"/>
+                            </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                            <color>
+                                <Color red="1.0" green="1.0" blue="1.0"/>
+                            </color>
+                        </Stop>
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Rectangle>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" layoutX="15.0" layoutY="145.0" stroke="BLACK"
+                   strokeType="INSIDE" width="250.0">
+            <fill>
+                <LinearGradient endX="1.0" endY="0.5011990407673861">
+                    <stops>
+                        <Stop>
+                            <color>
+                                <Color red="0.707054078578949" green="0.9013828039169312" blue="0.9605262875556946"/>
+                            </color>
+                        </Stop>
+                        <Stop offset="0.9962335216572504">
+                            <color>
+                                <Color red="1.0" green="1.0" blue="1.0"/>
+                            </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                            <color>
+                                <Color red="1.0" green="1.0" blue="1.0"/>
+                            </color>
+                        </Stop>
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Rectangle>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" layoutX="15.0" layoutY="265.0" stroke="BLACK"
+                   strokeType="INSIDE" width="250.0">
+            <fill>
+                <LinearGradient endX="1.0" endY="0.5107913669064748">
+                    <stops>
+                        <Stop>
+                            <color>
+                                <Color red="0.9342105388641357" green="0.930462121963501" blue="0.7093079686164856"/>
+                            </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                            <color>
+                                <Color red="1.0" green="1.0" blue="1.0"/>
+                            </color>
+                        </Stop>
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Rectangle>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="50.0" layoutX="15.0" layoutY="205.0" stroke="BLACK"
+                   strokeType="INSIDE" width="250.0">
+            <fill>
+                <LinearGradient endX="1.0" endY="0.5011990407673861">
+                    <stops>
+                        <Stop>
+                            <color>
+                                <Color red="0.8706140518188477" green="0.9473684430122375" blue="0.8157894611358643"/>
+                            </color>
+                        </Stop>
+                        <Stop offset="0.9962335216572504">
+                            <color>
+                                <Color red="1.0" green="1.0" blue="1.0"/>
+                            </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                            <color>
+                                <Color red="1.0" green="1.0" blue="1.0"/>
+                            </color>
+                        </Stop>
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Rectangle>
+        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="27.0" layoutY="68.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/profile.jpg"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="25.0" layoutY="150.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/profile.jpg"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="24.0" layoutY="210.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/profile.jpg"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="26.0" layoutY="270.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/profile.jpg"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="216.0" layoutY="210.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/3.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="216.0" layoutY="269.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/4.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="217.0" layoutY="150.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/2.png"/>
+            </image>
+        </ImageView>
+        <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="241.0" layoutY="64.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../pictures/1-2.png"/>
+            </image>
+        </ImageView>
+        <Text layoutX="192.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You´ve won!"
+              wrappingWidth="88.2855542148651">
+            <font>
+                <Font name="Chalkboard" size="20.0"/>
+            </font>
+        </Text>
+        <Text layoutX="94.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Points">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Text>
+        <Text layoutX="70.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Points">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Text>
+        <Text layoutX="70.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Points">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Text>
+        <Text layoutX="70.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Points">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Text>
+        <Text layoutX="92.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Text>
+        <Text layoutX="70.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player ">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Text>
+        <Text layoutX="70.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Text>
+        <Text layoutX="70.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Text>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="240.0" layoutX="363.0" layoutY="64.0"
+                   stroke="BLACK" strokeType="INSIDE" width="220.0"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#edece1" height="40.0" layoutX="373.0" layoutY="255.0"
+                   stroke="BLACK" strokeType="INSIDE" width="200.0"/>
+        <Button layoutX="514.0" layoutY="262.0" mnemonicParsing="false" styleClass="smallButton"
+                stylesheets="@/stylesheets/buttonstyle.css" text="SEND">
+            <font>
+                <Font name="Chalkboard" size="13.0"/>
+            </font>
+        </Button>
+        <TextField layoutX="381.0" layoutY="262.0" prefHeight="27.0" prefWidth="128.0"/>
+    </children>
 </AnchorPane>

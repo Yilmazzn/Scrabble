@@ -40,7 +40,7 @@ public class Client extends Application {
 
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinHeight(700);
-        primaryStage.setMinWidth(900);
+        primaryStage.setMinWidth(1000);
         primaryStage.show();
     }
 }
