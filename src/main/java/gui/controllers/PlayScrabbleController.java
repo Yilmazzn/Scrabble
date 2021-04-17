@@ -29,26 +29,26 @@ public class PlayScrabbleController {
   public void createGame(MouseEvent mouseEvent) throws IOException {
     System.out.println("createGame");
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
-    Parent gameView = loader.load();
-    GameViewController controller = loader.getController();
+    loader.setLocation(this.getClass().getResource("/views/createGame.fxml"));
+    Parent createGameView = loader.load();
+    CreateGameController controller = loader.getController();
 
-    Scene welcomeScene = new Scene(gameView);
+    Scene createGameScene = new Scene(createGameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-    window.setScene(welcomeScene);
+    window.setScene(createGameScene);
     window.show();
   }
 
   public void joinGame(MouseEvent mouseEvent) throws IOException {
     System.out.println("JoinGame");
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
-    Parent gameView = loader.load();
-    GameViewController controller = loader.getController();
+    loader.setLocation(this.getClass().getResource("/views/joinGameView.fxml"));
+    Parent joinGameView = loader.load();
+    JoinGameController controller = loader.getController();
 
-    Scene welcomeScene = new Scene(gameView);
+    Scene joinGameScene = new Scene(joinGameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-    window.setScene(welcomeScene);
+    window.setScene(joinGameScene);
     window.show();
   }
 

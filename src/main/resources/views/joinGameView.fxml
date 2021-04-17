@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.PlayerLobbyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.JoinGameController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Join Game" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -16,7 +16,7 @@
             </font>
         </Label>
         <Label layoutX="278.0" layoutY="331.0" prefHeight="100.0" style="-fx-background-color: #fdf8da;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-        <Button mnemonicParsing="false" onMouseClicked="#backToLogin" prefHeight="37.0" prefWidth="207.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Back To Player Lobby" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+        <Button mnemonicParsing="false" onMouseClicked="#backToPlayScrabble" prefHeight="37.0" prefWidth="207.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Back To Player Lobby" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
             <font>
                 <Font name="Chalkboard" size="18.0" />
             </font>
@@ -28,9 +28,9 @@
         </Button>
         <BorderPane layoutX="477.0" layoutY="206.0" prefHeight="200.0" prefWidth="346.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
             <center>
-                <VBox alignment="CENTER" onMouseClicked="#startJoiningGame" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#playScrabble" prefHeight="100.0" prefWidth="400.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="Wating to join Game..." textAlignment="CENTER">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#gameView" prefHeight="100.0" prefWidth="400.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="Wating to join Game..." textAlignment="CENTER">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
@@ -38,12 +38,12 @@
                                 <Font name="Chalkboard" size="24.0" />
                             </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#changeToProfileView" prefHeight="100.0" prefWidth="400.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="Enter IP..">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#gameView" prefHeight="100.0" prefWidth="400.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="Enter IP..">
                             <font>
                                 <Font name="Chalkboard" size="24.0" />
                             </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#startJoiningGame" prefHeight="100.0" prefWidth="169.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="JOIN">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#gameView" prefHeight="100.0" prefWidth="169.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="JOIN">
                             <font>
                                 <Font name="Chalkboard" size="24.0" />
                             </font>
