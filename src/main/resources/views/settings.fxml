@@ -1,112 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.PlayerLobbyController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="50.0" stroke="BLACK" strokeType="INSIDE"
-                   width="600.0"/>
-        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="-11.0" layoutY="300.0" pickOnBounds="true"
-                   preserveRatio="true" rotate="-10.0">
-            <image>
-                <Image url="@../pictures/profile.jpg"/>
-            </image>
-        </ImageView>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="75.0" layoutY="325.0" stroke="BLACK"
-                   strokeType="INSIDE" width="600.0"/>
-        <Text layoutX="264.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings "
-              wrappingWidth="100.0">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Settings" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
-                <Font name="Chalkboard" size="20.0"/>
+                <Font name="Chalkboard" size="48.0" />
             </font>
-        </Text>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fbf8da" height="230.0" layoutX="166.0" layoutY="75.0"
-                   opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="270.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c4c4c4" height="50.0" layoutX="190.0" layoutY="238.0"
-                   opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="220.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c4c4c4" height="50.0" layoutX="190.0" layoutY="165.0"
-                   opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="220.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c4c4c4" height="50.0" layoutX="190.0" layoutY="93.0"
-                   opacity="0.5" stroke="BLACK" strokeType="INSIDE" width="220.0"/>
-        <Text layoutX="209.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sound">
+        </Label>
+        <Label layoutX="278.0" layoutY="331.0" prefHeight="100.0" style="-fx-background-color: #fdf8da;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        <Button mnemonicParsing="false" onMouseClicked="#backToLogin" prefHeight="37.0" prefWidth="207.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Back To Player Lobby" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
             <font>
-                <Font name="Chalkboard" size="24.0"/>
-            </font>
-        </Text>
-        <Text layoutX="201.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Animation">
-            <font>
-                <Font name="Chalkboard" size="24.0"/>
-            </font>
-        </Text>
-        <Text layoutX="200.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Default Dictionary">
-            <font>
-                <Font name="Chalkboard" size="24.0"/>
-            </font>
-        </Text>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d96c" height="25.0" layoutX="326.0" layoutY="103.0"
-                   stroke="BLACK" strokeType="INSIDE" width="25.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d96c" height="25.0" layoutX="364.0" layoutY="175.0"
-                   stroke="BLACK" strokeType="INSIDE" width="25.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d96c" height="25.0" layoutX="323.0" layoutY="175.0"
-                   stroke="BLACK" strokeType="INSIDE" width="25.0"/>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d96c" height="25.0" layoutX="364.0" layoutY="103.0"
-                   stroke="BLACK" strokeType="INSIDE" width="25.0"/>
-        <Text layoutX="329.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ON">
-            <font>
-                <Font name="Chalkboard" size="14.0"/>
-            </font>
-        </Text>
-        <Text layoutX="364.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OFF">
-            <font>
-                <Font name="Chalkboard" size="14.0"/>
-            </font>
-        </Text>
-        <Text layoutX="325.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ON">
-            <font>
-                <Font size="14.0"/>
-            </font>
-        </Text>
-        <Text layoutX="364.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OFF">
-            <font>
-                <Font name="Chalkboard" size="14.0"/>
-            </font>
-        </Text>
-        <ImageView fitHeight="40.0" fitWidth="50.0" layoutX="351.0" layoutY="6.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../pictures/scrabble.png"/>
-            </image>
-        </ImageView>
-        <ImageView fitHeight="40.0" fitWidth="50.0" layoutX="209.0" layoutY="5.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@../pictures/settings.png"/>
-            </image>
-        </ImageView>
-        <Button layoutX="21.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="151.0"
-                stylesheets="@/stylesheets/buttonstyle.css" text="&lt;Back to player Lobby">
-            <font>
-                <Font name="Chalkboard" size="13.0"/>
-            </font>
-            <styleClass>
-                <String fx:value=".smallButton"/>
-                <String fx:value="smallButton"/>
-            </styleClass>
-        </Button>
-        <Button layoutX="527.0" layoutY="12.0" mnemonicParsing="false" styleClass="smallButton"
-                stylesheets="@/stylesheets/buttonstyle.css" text="Exit ">
-            <font>
-                <Font name="Chalkboard" size="13.0"/>
+                <Font name="Chalkboard" size="18.0" />
             </font>
         </Button>
+        <Button layoutX="990.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#exitGame" prefHeight="35.0" prefWidth="140.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="EXIT" textAlignment="CENTER" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+            <font>
+                <Font name="Chalkboard" size="18.0" />
+            </font>
+        </Button>
+        <BorderPane layoutX="477.0" layoutY="206.0" prefHeight="200.0" prefWidth="346.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+            <center>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#playScrabble" prefHeight="100.0" prefWidth="400.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="Sound" textAlignment="CENTER">
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                            <font>
+                                <Font name="Chalkboard" size="18.0" />
+                            </font>
+                        </Button>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#changeToProfileView" prefHeight="100.0" prefWidth="400.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="Animation">
+                            <font>
+                                <Font name="Chalkboard" size="18.0" />
+                            </font>
+                        </Button>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#settings" prefHeight="100.0" prefWidth="400.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="Default Dictionary">
+                            <font>
+                                <Font name="Chalkboard" size="18.0" />
+                            </font>
+                        </Button>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="50.0" />
+                    </BorderPane.margin>
+                </VBox>
+            </center>
+        </BorderPane>
     </children>
 </AnchorPane>
