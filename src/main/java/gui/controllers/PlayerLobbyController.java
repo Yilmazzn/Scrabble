@@ -33,8 +33,16 @@ public class PlayerLobbyController {
     window.show();
   }
 
-  public void settings(MouseEvent mouseEvent) {
-    System.out.println("Settings");
+  public void settings(MouseEvent mouseEvent) throws IOException{
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/settings.fxml"));
+    Parent settings = loader.load();
+    SettingsController controller = loader.getController();
+
+    Scene settingsScene = new Scene(settings);
+    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    window.setScene(settingsScene);
+    window.show();
   }
 
   public void backToLogin(MouseEvent mouseEvent) throws IOException {
