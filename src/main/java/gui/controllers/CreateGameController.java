@@ -9,7 +9,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-/** @author vihofman Controller for Creating Game */
+
+/** @author mnetzer Controller for the createGame */
 public class CreateGameController {
 
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
@@ -17,6 +18,7 @@ public class CreateGameController {
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
     Parent playScrabbleView = loader.load();
     PlayScrabbleController controller = loader.getController();
+
     Scene playScrabbleScene = new Scene(playScrabbleView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(playScrabbleScene);
@@ -27,6 +29,8 @@ public class CreateGameController {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
+    // exitGameController controller = loader.getController();
+
     Scene exitGameScene = new Scene(exitGameView);
     Stage window = new Stage();
     window.initModality(Modality.APPLICATION_MODAL);
@@ -43,6 +47,7 @@ public class CreateGameController {
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
+
     Scene welcomeScene = new Scene(gameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(welcomeScene);

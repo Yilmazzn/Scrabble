@@ -33,7 +33,7 @@ public class PlayerLobbyController {
     window.show();
   }
 
-  public void settings(MouseEvent mouseEvent) throws IOException{
+  public void settings(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/settings.fxml"));
     Parent settings = loader.load();
