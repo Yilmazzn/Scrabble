@@ -22,14 +22,15 @@ import java.util.List;
 
 public class XmlHandler {
 
-    /* @author nsiebler
+    /**
+     * @author Nicolas Siebler
      * This is the class that contains the Methods to Handle the XML files
      * With that i mean create new files and update
      * files  that are already existing as well as read the values out of
      * the data. This is made by the playertoElement and elementToPlayer functions
      * Get Player Functionality is made by the ArrayList
-     *
-     *  This class creates the XML Document based on the NewPlayer Class
+     * <p>
+     * This class creates the XML Document based on the NewPlayer Class
      * We want a method that just creates the Document here. The deletion and change of
      * values is done on another Class. We just wanna make sure that we can create the
      * doc that we created here
@@ -81,16 +82,16 @@ public class XmlHandler {
     }
 
 
-    // This Method creates a New Player Instance, which can be changed
-    // based on new Values for example
+    /**
+     * This Method creates a New Player Instance, which can be changed
+     * based on new Values for example
+     */
     public static PlayerProfile elementToPlayer(Element player) {
         PlayerProfile nPlayer = null;
         try {
 
             // Local Date logged is 0/0/0
             // And String from creation needs to be changed into a date
-
-
             // Create the LocalDate Values from the String
             String[] datumStr = player.getChild("creationDate").getText().split("\\.");
             LocalDate creation = LocalDate.of(Integer.parseInt(datumStr[2]), Integer.parseInt(datumStr[1]), Integer.parseInt(datumStr[0]));
@@ -114,7 +115,12 @@ public class XmlHandler {
         return nPlayer;
     }
 
-    // This Method creates an Element which can be added to the xml file
+    /**
+     * This Method creates an Element which can be added to the xml file
+     *
+     * @param nPlayer
+     * @return Element that can be added to the xml
+     */
     public static Element playerToElement(PlayerProfile nPlayer) {
         // Root Element
         Element newPlayer = new Element("profile");
@@ -156,10 +162,12 @@ public class XmlHandler {
     }
 
 
-    // read method
+    /**
+     * Worked Sav Method which generates a updatet XML-file
+     * the normal save method still has to be their because this method saves the xml document itself
+     */
 
-    // Worked Sav Method which generates a updatet XML-file
-    // the normal save method still has to be their because this method saves the xml document itself
+
     public static List<PlayerProfile> loadProfiles() {
         // Have to reset the List every time
         List<PlayerProfile> players = new ArrayList<PlayerProfile>();
@@ -180,6 +188,10 @@ public class XmlHandler {
         return players;
     }
 
+    /**
+     * Deletes the old Document when the Player Instances are changed and added
+     * to a new xml file
+     */
     static void deleteXML() {
         try {
             Files.delete(Path.of(XML_PATH));
