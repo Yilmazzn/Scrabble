@@ -1,4 +1,3 @@
 package gui.controllers;
 
-public class SettingsController {
-}
+public class SettingsController {}
