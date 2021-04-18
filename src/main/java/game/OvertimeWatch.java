@@ -1,15 +1,13 @@
 package game;
 
 /**
- * @author yuzun
- *     <p>Thread which runs parallel to the game application Counts down from 10mins and ends the
- *     associated game object if player runs out of time
+ * @author yuzun Thread which runs parallel to the game application Counts down from 10mins and ends
+ *     the associated game object if player runs out of time If player made a move before then, then
+ *     thread is interrupted
  */
-public class OvertimeWatch implements Runnable {
+public class OvertimeWatch extends Thread {
 
   private static final long OVERTIME = 600000L; // 10 mins of overtime
-  private long turnStartTime; // Start time of turn in ms (initialized when object is instantiated)
-  private boolean running = true; // true it is still the player's turn
   private Game game; // Game which runs the thread
 
   public OvertimeWatch(Game game) {
@@ -17,40 +15,23 @@ public class OvertimeWatch implements Runnable {
   }
 
   /**
-   * As long as stopwatch is running, stopwatch if overtime was exceeded To save resources it checks
-   * every 10 seconds (to make sure thread is killed if move was made before then and running became
-   * false) at the beginning If there are 15 seconds or less then it checks every 1/10th second
+   * Waits for 10mins after calling and ends game if not stopped till then Thread is interrupted by
+   * game if player made a move
    */
+  @Override
   public void run() {
-    this.turnStartTime = System.currentTimeMillis();
-    while (running) {
-      if (System.currentTimeMillis() - turnStartTime > OVERTIME) {
-        game.end(); // Game ends
-        break; // stop countdown
-      }
-      // Wait
-      try {
-        // 10s if time left > 15s, else 0.1s
-        int millisToWait =
-            (OVERTIME - (System.currentTimeMillis() - turnStartTime) > 15000) ? 10000 : 100;
-        Thread.sleep(millisToWait);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+    try {
+      Thread.sleep(OVERTIME);
+      // only reaches here if player did not make move for 10mins since beginning of their round
+      game.end();
+    } catch (InterruptedException e) {
+    } // catch exception and do nothing with it since expected
+  }
+
+  /** Stops countdown by interrupting and killing this thread */
+  public void stopCountdown() {
+    if (!this.isInterrupted()) {
+      this.interrupt();
     }
-  }
-
-  /** Stops countdown */
-  public void stop() {
-    running = false;
-  }
-
-  /**
-   * Returns overtime
-   *
-   * @return time since start of countdown in ms
-   */
-  public long getOvertime() {
-    return System.currentTimeMillis() - turnStartTime;
   }
 }

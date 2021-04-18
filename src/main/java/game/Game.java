@@ -88,8 +88,8 @@ public class Game {
    * player, then trigger it to to think and make a move
    */
   public void nextRound() {
-    // Stop overtime of last round's player
-    overtime.stop();
+    // Stop overtime of last round's player (interrupt thread)
+    overtime.stopCountdown();
 
     // increment round number
     roundNum++;
@@ -101,7 +101,7 @@ public class Game {
 
     // reset countdown and tracked placements
     overtime = new OvertimeWatch(this);
-    new Thread(overtime).start();
+    overtime.start();
     placementsInTurn = new LinkedList<>();
 
     // If player is Ai, then trigger it to think
