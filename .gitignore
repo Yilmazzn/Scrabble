@@ -4,8 +4,7 @@ classes
 out
 
 #IDE/Project data
-Scrabble.iml
-Scrabble_13.iml
+*.iml
 .idea
 .project
 .classpath
