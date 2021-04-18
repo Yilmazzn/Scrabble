@@ -1,21 +1,12 @@
 package game.players;
 
-/**
- * @author yuzun
- */
-
+/** @author yuzun */
 public class HardAiPlayer extends AiPlayer {
 
+  public HardAiPlayer() {
+    super();
+  }
 
-    public HardAiPlayer() {
-        super();
-    }
-
-
-    @Override
-    public void think() {
-
-    }
-
-
+  @Override
+  public void think() {}
 }

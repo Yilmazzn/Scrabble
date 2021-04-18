@@ -1,19 +1,12 @@
 package game.players;
 
-/**
- * @author yuzun
- */
-
+/** @author yuzun */
 public class SimpleAiPlayer extends AiPlayer {
 
+  public SimpleAiPlayer() {
+    super();
+  }
 
-    public SimpleAiPlayer() {
-        super();
-    }
-
-    @Override
-    public void think() {
-
-    }
-
+  @Override
+  public void think() {}
 }
