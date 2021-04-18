@@ -30,7 +30,7 @@ public class SettingsController {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
-    SettingsController controller = loader.getController();
+    PlayerLobbyController controller = loader.getController();
     Scene playerLobbyScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(playerLobbyScene);
