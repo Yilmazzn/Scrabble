@@ -1,4 +1,5 @@
 import client.PlayerProfile;
+import gui.controllers.WelcomeViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,12 +24,23 @@ public class Client extends Application {
         launch(args);
     }
 
-  @Override
-  public void start(Stage stage) throws Exception {
+    /**
+     * @author mnetzer
+     * open window with first fxml: start game
+     */
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
-    stage.setTitle("Scrabble 13");
-    Parent root = FXMLLoader.load(this.getClass().getResource("/sample.fxml"));
-    stage.setScene(new Scene(root, 350, 200));
-    stage.show();
-  }
+        primaryStage.setTitle("Scrabble 13");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(this.getClass().getResource("/views/welcomeView.fxml"));
+        Parent root = loader.load();
+        //Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
+        WelcomeViewController controller = loader.getController();
+
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setMinHeight(700);
+        primaryStage.setMinWidth(1000);
+        primaryStage.show();
+    }
 }
