@@ -1,9 +1,9 @@
 package net.client;
 
-import net.message.Connect;
-import net.message.Disconnect;
+import net.message.ConnectMessage;
+import net.message.DisconnectMessage;
 import net.message.Message;
-import net.message.StartGame;
+import net.message.StartGameMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,7 +30,7 @@ public class ClientProtocol extends Thread {
       this.clientSocket = new Socket(ip, 12975);
       this.out = new ObjectOutputStream(clientSocket.getOutputStream());
       this.in = new ObjectInputStream(clientSocket.getInputStream());
-      this.out.writeObject(new Connect(client));
+      this.out.writeObject(new ConnectMessage(client));
       out.flush();
     } catch (IOException e) {
       e.printStackTrace();
@@ -50,7 +50,7 @@ public class ClientProtocol extends Thread {
     running = false;
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new Disconnect(client));
+        this.out.writeObject(new DisconnectMessage(client));
         clientSocket.close();
       }
     } catch (IOException e) {
@@ -62,7 +62,7 @@ public class ClientProtocol extends Thread {
   public void startGame() {
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new StartGame());
+        this.out.writeObject(new StartGameMessage());
       }
     } catch (IOException e) {
       e.printStackTrace();
