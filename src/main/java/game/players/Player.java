@@ -55,14 +55,10 @@ public abstract class Player {
   /**
    * Called to submit a play (or pass if no placements) Submission is only possible if it is
    * player's turn
-   *
-   * @return true, if submission left board in a valid state
    */
-  public boolean submit() {
+  public void submit() {
     if (turn) {
-      return game.submit();
-    } else {
-      return false;
+      game.submit();
     }
   }
 
@@ -111,7 +107,7 @@ public abstract class Player {
 
   /** Add words to the user's list of found words */
   public void addFoundWords(List<String> words) {
-    words.addAll(words);
+    foundWords.addAll(words);
   }
 
   /** Returns the list of words the player has found in the current session */

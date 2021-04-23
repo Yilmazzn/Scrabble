@@ -5,14 +5,14 @@ import game.components.Tile;
 
 import java.util.Collection;
 
-public class HumanPlayer extends Player {
+public class RemotePlayer extends Player {
 
   private final boolean host;
   // private ServerProtocol connection;
 
-  public HumanPlayer(boolean host
-      /* , ServerProtocol connection */
-      ) {
+  public RemotePlayer(boolean host
+          /* , ServerProtocol connection */
+  ) {
     super(true);
     this.host = host;
   }
