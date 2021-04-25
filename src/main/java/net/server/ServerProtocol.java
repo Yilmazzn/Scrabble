@@ -3,6 +3,7 @@ package net.server;
 import net.message.ConnectMessage;
 import net.message.DisconnectMessage;
 import net.message.Message;
+import net.message.PlayerReadyMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
