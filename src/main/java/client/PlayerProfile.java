@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class PlayerProfile {
 
     /**
-     * @author nsiebler
+     * @author nico
      * This class creates a new Player instance with all the values
      * that are saved in the xml file later
      */

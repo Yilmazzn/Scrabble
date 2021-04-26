@@ -23,7 +23,7 @@ import java.util.List;
 public class XmlHandler {
 
     /**
-     * @author Nicolas Siebler
+     * @author nico
      * This is the class that contains the Methods to Handle the XML files
      * With that i mean create new files and update
      * files  that are already existing as well as read the values out of
