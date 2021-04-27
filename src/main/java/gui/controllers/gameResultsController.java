@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 /** @author vihofman Controller for the Game Results */
-public class GameResultsChatController {
+public class gameResultsController {
 
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -36,4 +36,21 @@ public class GameResultsChatController {
     window.setScene(playerLobbyScene);
     window.show();
   }
+  public void openChat() throws IOException{
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/lastChat.fxml"));
+    Parent lastChat = loader.load();
+    Scene lastChatScene = new Scene(lastChat);
+    Stage window = new Stage();
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Chat");
+    window.setScene(lastChatScene);
+    window.setWidth(300);
+    window.setHeight(200);
+    window.showAndWait();
+  }
+  public void playerOne(){}
+  public void playerTwo(){}
+  public void playerThree(){}
+  public void playerFour(){}
 }
