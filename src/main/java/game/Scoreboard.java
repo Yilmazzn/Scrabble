@@ -1,3 +1,5 @@
 package game;
 
-public class Scoreboard {}
+public class Scoreboard {
+
+}
