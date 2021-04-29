@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class Client {
   private ClientProtocol connection;
-  private final String ipAdr = "192.168.178.24";
+  private final String ipAdr = "25.93.29.50";
   private String username; // username from playersprofile
   private int points;
   private Dictionary dictionary;

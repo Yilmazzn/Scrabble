@@ -2,6 +2,7 @@ package net.client;
 
 import client.PlayerProfile;
 import game.components.Tile;
+import net.server.Server;
 
 import java.io.File;
 

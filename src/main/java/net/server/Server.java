@@ -31,7 +31,7 @@ public class Server {
 
   /** Constructor to create server, sets serverIP */
   public Server() {
-    this.serverIp = "192.168.178.24";
+    this.serverIp = "25.93.29.50";
   }
 
   /**
