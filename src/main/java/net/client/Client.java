@@ -1,7 +1,11 @@
 package net.client;
 
+import client.PlayerProfile;
+import game.Dictionary;
 import game.components.Board;
+import game.components.Tile;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -11,8 +15,11 @@ import java.io.IOException;
  */
 public class Client {
   private ClientProtocol connection;
-  private final String ipAdr = "25.93.29.50";
+  private final String ipAdr = "192.168.178.24";
   private String username; // username from playersprofile
+  private int points;
+  private Dictionary dictionary;
+  private PlayerProfile profile;
 
   /**
    * a constructor to create a client
@@ -21,8 +28,9 @@ public class Client {
    * @author ygarip
    */
   // TODO Probably remove later
-  public Client(String user) {
+  public Client(String user, PlayerProfile profile) {
     this.username = user;
+    this.profile = profile;
   }
 
   /**
@@ -30,7 +38,7 @@ public class Client {
    *     calls this method
    */
   // TODO change ClientTestClass to the class, that starts everything
-  public void createGame(ClientTestClass ctc) {
+  public static void createGame(ClientTestClass ctc) {
     ctc.startServer();
   }
 
@@ -40,7 +48,7 @@ public class Client {
    * @author ygarip
    */
   public void connect() {
-    this.connection = new ClientProtocol(this.ipAdr, username);
+    this.connection = new ClientProtocol(this.ipAdr, this);
     this.connection.start();
   }
 
@@ -59,8 +67,8 @@ public class Client {
    *
    * @author ygarip
    */
-  public void startGame() {
-    this.connection.startGame();
+  public void startGame(File file) {
+    this.connection.startGame(file);
   }
 
   /** @author vkaczmar sends text message to all other clients */
@@ -97,20 +105,10 @@ public class Client {
    * @author vkaczmar a method to update the points of the players
    * @param currentState requires the current state of the board
    * @param previousState requires the state from teh beginning of the turn
-   * @param username requires the player's username
    */
-  public void updatePoints(Board currentState, Board previousState, String username) {
-    this.connection.updatePoints(currentState, previousState, username);
+  public void updatePoints(Board currentState, Board previousState) {
+    this.connection.updatePoints(currentState, previousState);
   }
-
-  /**
-   * @author ygarip
-   * @param points requires the points of the player client
-   */
-  /*
-  public void sendStatistics(int points) {
-    this.connection.sendStatistics(points);
-  } */
 
   /**
    * @author vkaczmar a method to get the username of client
@@ -118,5 +116,56 @@ public class Client {
    */
   public String getUsername() {
     return this.username;
+  }
+
+  /**
+   * @author vkaczmar
+   * @return returns points
+   */
+  public int getPoints() {
+    return points;
+  }
+
+  /**
+   * @author ygarip a method to set the wished dictionary
+   * @param dictionary requires the dictionary to be set
+   */
+  public void setDictionary(Dictionary dictionary) {
+    this.dictionary = dictionary;
+  }
+
+  /**
+   * @author vkaczmar a method to look up a word in dictionary and send back if it exists or not
+   * @param word requires the word to be tested
+   * @return returns true if word exists otherwise false
+   */
+  public boolean wordExists(String word) {
+    return dictionary.wordExists(word);
+  }
+
+  /** @author ygarip a method to send the playerdata to the server */
+  public void sendPlayerData(int id) {
+    connection.sendPlayerData(id);
+  }
+
+  /**
+   * @author vkaczmar a method to return the player profile
+   * @return returns the players profile
+   */
+  public PlayerProfile getPlayerProfile() {
+    return profile;
+  }
+
+  /** @author ygarip a method to get the tile from server */
+  public void getTile() {
+    connection.getTile();
+  }
+
+  /**
+   * @author vkaczmar a method to request the bag amount
+   * @param oldTiles requires the tiles to exchange the tiles with the bag
+   */
+  public void exchangeTiles(Tile[] oldTiles) {
+    connection.exchangeTiles(oldTiles);
   }
 }
