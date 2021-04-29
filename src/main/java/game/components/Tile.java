@@ -1,10 +1,12 @@
 package game.components;
 
+import java.io.Serializable;
+
 /**
  * @author yuzun
  *     <p>Single playing piece
  */
-public class Tile {
+public class Tile implements Serializable {
 
   private final int score; // score of this letter
   private final boolean joker; // true if this tile is a joker tile

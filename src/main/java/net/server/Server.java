@@ -1,5 +1,7 @@
 package net.server;
 
+import client.PlayerProfile;
+import game.components.Tile;
 import net.message.ConnectMessage;
 import net.message.Message;
 
@@ -23,11 +25,15 @@ public class Server {
   private ArrayList<String> clientNames = new ArrayList<>();
   private HashMap<String, Boolean> playersReady = new HashMap<>();
   private int clientID = 0;
-  private int[] points = new int[] {-1, -1, -1, -1};
+  private int[] points = new int[5];
+  private int clientCounter = 0;
+  private PlayerProfile[] profiles = new PlayerProfile[5];
 
+  /** Constructor to create server, sets serverIP */
   public Server() {
-    this.serverIp = "25.93.29.50";
+    this.serverIp = "192.168.178.24";
   }
+
   /**
    * starts the serverSocket and listens for incoming clients which want to connect to the server
    */
@@ -42,7 +48,6 @@ public class Server {
         clients.add(clientThread);
         clientThread.start();
       }
-
     } catch (IOException e) {
       if (serverSocket != null && serverSocket.isClosed()) {
         System.out.println("Server stopped");
@@ -141,9 +146,7 @@ public class Server {
    * @param b requires the boolean state of player's readiness
    */
   public synchronized void setPlayersReady(String s, Boolean b) {
-    // System.out.println("here");
     if (playersReady.get(s)) {
-      // System.out.println("here2");
       playersReady.remove(s);
     }
     playersReady.put(s, b);
@@ -164,18 +167,57 @@ public class Server {
    * @param username requires the username of the client
    * @return returns the ConnectMessage to connect
    */
-  public synchronized ConnectMessage setID(String username) {
-    ConnectMessage cm = new ConnectMessage(username);
+  public synchronized ConnectMessage setID(String username, PlayerProfile profile) {
+    ConnectMessage cm = new ConnectMessage(username, profile);
     cm.setID(clientID++);
     return cm;
   }
 
-  /*
-  public synchronized void setPoints(int[] points) {
-    for (int i = 0; i < points.length; i++) {
-      if (this.points[i] == -1) {
-        this.points[i] += (points[i] + 1);
-      }
+  /**
+   * a method to set the playerprofile
+   *
+   * @param id requires the id of the clientplayer
+   * @param profile requires the playerprofile of the clientplayer
+   */
+  public synchronized void setPlayerProfiles(int id, PlayerProfile profile) {
+    profiles[id] = profile;
+  }
+
+  /**
+   * a method go get the playerProfile
+   *
+   * @param id requires the id of the clientplayer
+   * @return returns the PlayerProfile
+   */
+  public synchronized PlayerProfile getProfile(int id) {
+    return profiles[id];
+  }
+
+  // TODO remove one tile from bag,increment bag
+  // send this one back to the server protocol
+  /** @return returns a Tile from the bag */
+  public synchronized Tile getTile() {
+    return new Tile('A', 2);
+  }
+
+  /**
+   * @param value requires the value of the requested tiles
+   * @return Returns true, if value is bigger than bag amount
+   */
+  public synchronized boolean getAmountOverValue(int value) {
+    // TODO if bag amount >= value then
+    if ((value >= 0) && (value <= 7)) {
+      return true;
     }
-  }*/
+    return false;
+  }
+
+  /**
+   * a method to add the old tiles to the bag
+   *
+   * @param oldTiles requires the oldTiles array of tiles
+   */
+  public synchronized void addTiles(Tile[] oldTiles) {
+    // TODO add the old tiles to the bag
+  }
 }

@@ -1,5 +1,6 @@
 package game.components;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -9,7 +10,7 @@ import java.util.TreeSet;
  *     <p>The board is the main object in the game of scrabble This class handles all interactions
  *     with the board itself -- Integrated Game Logic --
  */
-public class Board {
+public class Board implements Serializable {
 
   private static final int BOARD_SIZE = 15; // width and height of board
   private BoardField[][] fields; // 2D array to represent the board fields

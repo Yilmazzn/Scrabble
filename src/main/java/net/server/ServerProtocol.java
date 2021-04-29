@@ -1,16 +1,14 @@
 package net.server;
 
-import net.message.ConnectMessage;
-import net.message.DisconnectMessage;
-import net.message.Message;
-import net.message.PlayerReadyMessage;
+import client.PlayerProfile;
+import game.components.Tile;
+import net.message.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * A ServerProtocol class to handle serverside messages
@@ -74,10 +72,12 @@ public class ServerProtocol extends Thread {
         switch (m.getMessageType()) {
           case CONNECT:
             username = ((ConnectMessage) m).getUsername();
+            PlayerProfile profile = ((ConnectMessage) m).getProfile();
             server.setReady(username);
             this.clientName = username;
             server.addClientName(username);
-            ConnectMessage cm = server.setID(username);
+            ConnectMessage cm = server.setID(username, profile);
+            server.setPlayerProfiles(cm.getID(), profile);
             System.out.println("Server added: " + username);
             server.sendToAll(cm);
             break;
@@ -101,9 +101,8 @@ public class ServerProtocol extends Thread {
             boolean ready = true;
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
             server.setPlayersReady(prm.getUsername(), prm.getReady());
-            Iterator<String> player = playersReady.keySet().iterator();
-            while (player.hasNext()) {
-              ready = ready && playersReady.get(player.next());
+            for (String s : playersReady.keySet()) {
+              ready = ready && playersReady.get(s);
             }
             if (ready) {
               server.sendToAll(m);
@@ -121,10 +120,28 @@ public class ServerProtocol extends Thread {
             // TODO add pointUpdating method
             server.sendToAll(m);
             break;
-          case SENDSTATISTICS:
-            server.sendToAll(m);
+          case SENDPLAYERDATA:
+            SendPlayerDataMessage spdm = (SendPlayerDataMessage) m;
+            spdm.setProfile(server.getProfile(spdm.getID()));
+            sendToClient(spdm);
             break;
-          case DISPLAYSTATISTICS:
+          case GETTILE:
+            ((GetTileMessage) m).setTile(server.getTile());
+            sendToClient(m);
+            break;
+          case EXCHANGETILES:
+            ExchangeTileMessage etm = (ExchangeTileMessage) m;
+            Tile[] newTiles = new Tile[etm.getOldTiles().length];
+            if (server.getAmountOverValue(etm.getOldTiles().length)) {
+              for (int i = 0; i < etm.getOldTiles().length; i++) {
+                newTiles[i] = server.getTile();
+              }
+              etm.setNewTiles(newTiles);
+              server.addTiles(etm.getOldTiles());
+            } else {
+              etm.setError("Requested tile amount exceeds the amount of tiles in bag!");
+            }
+            sendToClient(etm);
             break;
           default:
             break;
