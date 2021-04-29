@@ -1,5 +1,8 @@
 package net.message;
 
+import client.PlayerProfile;
+import game.players.Player;
+
 /**
  * An message that handles the player's connect Request to the server
  *
@@ -8,16 +11,19 @@ package net.message;
 public class ConnectMessage extends Message {
   private String username;
   private int id = 0;
+  private PlayerProfile profile;
 
   /**
    * an constructor to create a ConnectMessage with the username of the player which sends a connect
    * Request to the server
    *
-   * @param username the username of the player who wants to connect
+   * @param username requires the username of the player who wants to connect
+   * @param profile requires PlayerProfile
    */
-  public ConnectMessage(String username) {
+  public ConnectMessage(String username, PlayerProfile profile) {
     super(MessageType.CONNECT);
     this.username = username;
+    this.profile = profile;
   }
 
   /**
@@ -41,5 +47,10 @@ public class ConnectMessage extends Message {
   /** @return returns the id of the ConnectMessage object */
   public int getID() {
     return id;
+  }
+
+  /** @return returns the playerprofile */
+  public PlayerProfile getProfile() {
+    return profile;
   }
 }

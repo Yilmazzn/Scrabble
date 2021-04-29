@@ -6,20 +6,20 @@ import game.components.Board;
 public class UpdatePointsMessage extends Message {
   private Board currentState;
   private Board previousState;
-  private String username;
+  private int id;
 
   /**
    * constructor for creating a Message to update the points
    *
    * @param currentState of the Board
    * @param previousState of the Board
-   * @param username of the client
+   * @param id of the client
    */
-  public UpdatePointsMessage(Board currentState, Board previousState, String username) {
+  public UpdatePointsMessage(Board currentState, Board previousState, int id) {
     super(MessageType.UPDATEPOINTS);
     this.currentState = currentState;
     this.previousState = previousState;
-    this.username = username;
+    this.id = id;
   }
 
   /** @return returns the currentBoardState */
@@ -33,7 +33,7 @@ public class UpdatePointsMessage extends Message {
   }
 
   /** @return returns username */
-  public String getUsername() {
-    return username;
+  public int getId() {
+    return id;
   }
 }

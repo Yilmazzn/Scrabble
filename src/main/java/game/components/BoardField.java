@@ -1,10 +1,12 @@
 package game.components;
 
+import java.io.Serializable;
+
 /**
  * @author yuzun
  *     <p>Single tile on the board which can hold a tile
  */
-public class BoardField {
+public class BoardField implements Serializable {
 
   private final FieldType type; // Type of field
   private Tile tile; // Tile placed on this field
