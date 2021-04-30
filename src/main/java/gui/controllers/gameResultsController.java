@@ -30,7 +30,7 @@ public class gameResultsController {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
-    SettingsController controller = loader.getController();
+    PlayerLobbyController controller = loader.getController();
     Scene playerLobbyScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(playerLobbyScene);
@@ -38,7 +38,7 @@ public class gameResultsController {
   }
   public void openChat() throws IOException{
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/lastChat.fxml"));
+    loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
     Parent lastChat = loader.load();
     Scene lastChatScene = new Scene(lastChat);
     Stage window = new Stage();
