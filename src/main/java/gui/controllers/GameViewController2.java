@@ -5,7 +5,6 @@ import game.components.BoardField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,46 +14,40 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 
 /** @author mnetzer Controller for the GameView */
 public class GameViewController2 {
 
   @FXML private Label buchstabe1;
-  @FXML private Label field00;
-  @FXML private Label field01;
-  @FXML private Label field02;
   @FXML private GridPane board;
 
   public void initBoard(){
     buchstabe1.setText("A");
-
-    field00.setText("");
-    field01.setText("");
-    field02.setText("");
-
-
-
-    Label test = new Label();
-    test.setText("test");
 
     Board initBoard = new Board();
 
 
     for(int i=0; i<15; i++){
       for(int j=0; j<15; j++){
-        //initBoard.getField(j,i).getType();
-        AnchorPane testPane = createTile(i,j,initBoard.getField(j,i).getType());
-        board.add(testPane, i, j);
+        AnchorPane anchorPane = createTile(i,j,initBoard.getField(j,i).getType());
+        board.add(anchorPane, i, j);
+
+        if (i==7 && j==7){
+          StackPane stackPane = new StackPane();
+          Image image = new Image(getClass().getResource("/pictures/Star.png").toExternalForm());
+          ImageView view = new ImageView(image);
+          view.setFitHeight(25.0);
+          view.setFitWidth(25.0);
+
+          stackPane.getChildren().add(view);
+          board.add(stackPane, 7,7);
+        }
       }
     }
-
-    //AnchorPane testPane = createTile(2,2,1);
-    //board.add(testPane, 2, 2);
-
 
   }
 
@@ -138,15 +131,6 @@ public class GameViewController2 {
       label.getStyleClass().add("tileStar");
     }
     pane.getChildren().add(label);
-
-    if (row == 7 && col == 7){
-      //File file = new File("/pictures/Star.png");
-      //Image image = new Image("/pictures/Star.png");
-      Image image = new Image(getClass().getResource("/pictures/Star.png").toExternalForm());
-      ImageView view = new ImageView(image);
-      //view.setImage(image);
-      pane.getChildren().add(view);
-    }
 
     return pane;
   }
