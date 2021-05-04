@@ -17,24 +17,51 @@
 .tileTWS {
     -fx-background-color: #E13838;
     -fx-background-radius: 2;
+    -fx-font-family: "Chalkboard";
+    -fx-font-size: 18px;
 }
 
 .tileDWS {
     -fx-background-color: #FF6AEA;
     -fx-background-radius: 2;
+    -fx-font-family: "Chalkboard";
+    -fx-font-size: 18px;
 }
 
 .tileDLS {
     -fx-background-color: #00C8F9;
     -fx-background-radius: 2;
+    -fx-font-family: "Chalkboard";
+    -fx-font-size: 18px;
 }
 
 .tileTLS {
     -fx-background-color: #0056F9;
     -fx-background-radius: 2;
+    -fx-font-family: "Chalkboard";
+    -fx-font-size: 18px;
 }
 
 .tileStar {
     -fx-background-color: #FF6AEA;
     -fx-background-radius: 2;
+    -fx-font-family: "Chalkboard";
+    -fx-font-size: 18px;
 }
+
+.tileWithLetter {
+    -fx-background-color: #EDECE1;
+    -fx-background-radius: 2;
+    -fx-font-family: "Chalkboard";
+    -fx-font-size: 18px;
+}
+
+.tileBottom {
+    -fx-background-color: #EDECE1;
+    -fx-background-radius: 4;
+    -fx-font-family: "Chalkboard";
+    -fx-font-size: 18px;
+    -fx-border-color: black;
+    -fx-border-radius: 4;
+}
+
