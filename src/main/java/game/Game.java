@@ -134,6 +134,40 @@ public class Game {
     nextRound();
   }
 
+
+  /**
+   * Places give tile on field at given row and column if field is empty. Adds placement to the
+   * list of placements this turn. Checks new board state.
+   */
+  public void placeTile(Tile tile, int row, int col) {
+    if (board.isEmpty(row, col)) {
+      board.placeTile(tile, row, col);
+      placementsInTurn.add(board.getField(row, col));
+      board.check(placementsInTurn, dictionary);
+    }
+  }
+
+  /**
+   * Removes tile at given row and column. Removes placmeent from the list of placements in this turn.
+   * Checks new board state. If field was empty, then nothing happens.
+   */
+  public void removeTile(int row, int col) {
+    if (!board.isEmpty(row, col)) {
+      board.placeTile(null, row, col);
+      placementsInTurn.remove(board.getField(row, col));
+      board.check(placementsInTurn, dictionary);
+    }
+  }
+
+  /**
+   * Checks whether game is in a valid state
+   *
+   * @return true if board state is valid
+   */
+  public boolean checkBoard() {
+    return board.check(placementsInTurn, dictionary);
+  }
+
   /**
    * Ends game (can also be called by running instance of OvertimeWatch if user runs out of time) If
    * ended abruptly, then because of a user running out of time --> removing pending placements from
@@ -153,6 +187,13 @@ public class Game {
     if (board.check(placementsInTurn, dictionary)) {
       nextRound();
     }
+  }
+
+  /***
+   * TODO
+   */
+  public int evaluateScore() {
+    return 0;
   }
 
   public int getBagSize() {
