@@ -1,21 +1,24 @@
 package game.components;
 
+import game.Dictionary;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * @author yuzun
- *     <p>The board is the main object in the game of scrabble This class handles all interactions
- *     with the board itself -- Integrated Game Logic --
+ * @author yuzun The board is the main object in the game of scrabble This class handles all
+ * interactions with the board itself -- Integrated Board Validity Check --
  */
 public class Board implements Serializable {
 
-  private static final int BOARD_SIZE = 15; // width and height of board
-  private BoardField[][] fields; // 2D array to represent the board fields
+  public static final int BOARD_SIZE = 15; // width and height of board
+  private final BoardField[][] fields; // 2D array to represent the board fields
 
-  /** Initializes an empty board */
+  /**
+   * Initializes an empty board
+   */
   public Board() {
     fields = new BoardField[BOARD_SIZE][BOARD_SIZE];
 
@@ -71,46 +74,66 @@ public class Board implements Serializable {
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < 7; j++) {
         fields[i][BOARD_SIZE - j - 1] =
-            new BoardField(fields[i][j].getType(), i, BOARD_SIZE - j - 1);
+                new BoardField(fields[i][j].getType(), i, BOARD_SIZE - j - 1);
       }
     }
   }
 
-  /** Set given tile at given row and column */
+  /**
+   * Set given tile at given row and column
+   *
+   * @param tile Tile to place
+   * @param row  Row number of field on board (starting from 0)
+   * @param col  Column number of field on board (starting from 0)
+   */
   public void placeTile(Tile tile, int row, int col) {
     fields[row][col].setTile(tile);
   }
 
-  /** Returns true if field is empty */
+  /**
+   * Returns true if field is empty
+   *
+   * @param row Row number of field on board (starting from 0)
+   * @param col Column number of field on board (starting from 0)
+   * @return true, if field at given row and col on board is empty
+   */
   public boolean isEmpty(int row, int col) {
     return fields[row][col].isEmpty();
   }
 
-  /** Returns the tile at given row and column */
+  /**
+   * Returns the tile at given row and column
+   *
+   * @param row Row number of field on board (starting from 0)
+   * @param col Column number of field on board (starting from 0)
+   * @return tile at given row and column on board
+   */
   public Tile getTile(int row, int col) {
     return fields[row][col].getTile();
   }
 
-  /** Returns true if field at given row and column is empty */
-  public boolean fieldIsEmpty(int row, int col) {
-    return fields[row][col].isEmpty();
-  }
-
-  /** Returns the BoardField at given row and column counting from 0 */
+  /**
+   * Returns the BoardField at given row and column counting from 0
+   *
+   * @param row Row number of field on board (starting from 0)
+   * @param col Column number of field on board (starting from 0)
+   * @return field at given row and column on board
+   */
   public BoardField getField(int row, int col) {
     return fields[row][col];
   }
 
   /**
-   * Checks validity of board state checks if STAR field is covered checks that there are no tiles
-   * not adjacent to others checks that valid words are formed on the board based on the dictionary
-   * As it checks it sets fields which hold invalid tiles as invalid (field.valid = false) TODO
-   * DICTIONARY
+   * Checks validity of board state checks if STAR field is covered, checks that there are no tiles
+   * not adjacent to others, checks that valid words are formed on the board based on the
+   * dictionary, As it checks it sets fields which hold invalid tiles as invalid (field.valid =
+   * false)
    *
    * @param placements placements in the last turn
    * @param dictionary Dictionary the game is based on
+   * @return true, if board is in a valid state after placements
    */
-  public boolean check(List<BoardField> placements, Object dictionary) {
+  public boolean check(List<BoardField> placements, Dictionary dictionary) {
 
     // Every field is valid default
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -187,11 +210,9 @@ public class Board implements Serializable {
           word += getTile(i, k++); // Append tile letter to found word
         }
 
-        /* TODO UNCOMMENT DICTIONARY CHECK
         if (!dictionary.wordExists(word)) {
-            return false;
+          return false;
         }
-        */
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
     }
@@ -212,11 +233,9 @@ public class Board implements Serializable {
           word += getTile(k++, i); // Append tile letter to found word
         }
 
-        /* TODO UNCOMMENT DICTIONARY CHECK
         if (!dictionary.wordExists(word)) {
-            return false;
+          return false;
         }
-        */
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
     }

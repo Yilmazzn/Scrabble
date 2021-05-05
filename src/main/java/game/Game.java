@@ -15,24 +15,24 @@ import java.util.*;
 public class Game {
 
   private final ArrayList<Player>
-      players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
+          players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
   // second last player, ...]
   private final boolean running; // true if game is running
   private final HashMap<Character, Integer> letterScores; // Map representing letter's score
   private final LinkedList<Tile> bag = new LinkedList<>(); // bag of tiles in the game
   private final ArrayList<String> wordsFound =
-      new ArrayList<>(); // a list of words found up to this point
-  private Board board = new Board(); // Game Board
-  private Board lastValidBoard =
-      new Board(); // Game Board which was last accepted as valid to reset after invalid player
+          new ArrayList<>(); // a list of words found up to this point
+  private final Board board = new Board(); // Game Board
+  private final Board lastValidBoard =
+          new Board(); // Game Board which was last accepted as valid to reset after invalid player
   // turns
   private int roundNum = 0; // amount of total rounds since start
-  private int roundsSinceLastScore = 0; // last n amount of rounds without points
-  private Object
-      dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
+  private final int roundsSinceLastScore = 0; // last n amount of rounds without points
+  private final Dictionary
+          dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
   private Player playerInTurn; // Player whose turn it is
   private List<BoardField> placementsInTurn =
-      new LinkedList<>(); // Placements on the board in the last turn
+          new LinkedList<>(); // Placements on the board in the last turn
   private OvertimeWatch overtime; // Thread which counts down from 10mins, is reset each turn
   private Scoreboard scoreboard; // Scoreboard containing game statistics
 
@@ -46,10 +46,13 @@ public class Game {
    * the players
    */
   public Game(
-      ArrayList<Player> players,
-      HashMap<Character, Integer> letterDistribution,
-      HashMap<Character, Integer> letterScores) {
+          ArrayList<Player> players,
+          HashMap<Character, Integer> letterDistribution,
+          HashMap<Character, Integer> letterScores,
+          Dictionary dictionary) {
+
     this.letterScores = letterScores;
+    this.dictionary = dictionary;
 
     // Players participating
     this.players = players;
@@ -143,9 +146,13 @@ public class Game {
     // TODO Update Scoreboard and .....
   }
 
-  /** TODO change some things maybe... */
-  public boolean submit() {
-    return board.check(placementsInTurn, dictionary);
+  /**
+   * TODO change some things maybe...
+   */
+  public void submit() {
+    if (board.check(placementsInTurn, dictionary)) {
+      nextRound();
+    }
   }
 
   public int getBagSize() {
