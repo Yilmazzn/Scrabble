@@ -72,7 +72,7 @@
                               </Button>
                         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <CheckBox mnemonicParsing="false" text="ON">
+                              <CheckBox fx:id="soundOn" mnemonicParsing="false" onAction="#enableSound" onMouseClicked="#enableSound" text="ON">
                                  <font>
                                     <Font name="Chalkboard" size="36.0" />
                                  </font>
@@ -80,7 +80,7 @@
                                     <Insets top="20.0" />
                                  </HBox.margin>
                               </CheckBox>
-                              <CheckBox mnemonicParsing="false" text="OFF">
+                              <CheckBox fx:id="soundOff" mnemonicParsing="false" onAction="#disableSound" onMouseClicked="#disableSound" text="OFF">
                                  <HBox.margin>
                                     <Insets left="10.0" top="20.0" />
                                  </HBox.margin>
@@ -92,7 +92,7 @@
                         </HBox>
                         <HBox layoutX="556.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <CheckBox mnemonicParsing="false" text="ON">
+                              <CheckBox fx:id="animationsOn" mnemonicParsing="false" onAction="#enableAnimations" onMouseClicked="#enableAnimations" text="ON">
                                  <font>
                                     <Font name="Chalkboard" size="36.0" />
                                  </font>
@@ -100,7 +100,7 @@
                                     <Insets top="20.0" />
                                  </HBox.margin>
                               </CheckBox>
-                              <CheckBox mnemonicParsing="false" text="OFF">
+                              <CheckBox fx:id="animationsOff" mnemonicParsing="false" onAction="#disableAnimations" onMouseClicked="#disableAnimations" text="OFF">
                                  <HBox.margin>
                                     <Insets left="10.0" top="20.0" />
                                  </HBox.margin>

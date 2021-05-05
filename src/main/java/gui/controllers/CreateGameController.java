@@ -1,18 +1,44 @@
 package gui.controllers;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/** @author mnetzer Controller for the createGame */
 public class CreateGameController {
+  /** @author vihofman for gameSettings and functionality */
+  //setup for joined players
+  @FXML
+  private TextArea PlayerTwo;
+  @FXML
+  private TextArea PlayerThree;
+  @FXML
+  private TextArea PlayerFour;
+  // fill the names of joined players once they have connected to the creating game
+  public void fillPlayers(){
+    PlayerTwo.setText("playerTwo.getName()");
+    PlayerThree.setText("playerThree.getName()");
+    PlayerFour.setText("playerFour.getName()");
+  }
+  public void gameSettings(MouseEvent mouseEvent) throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/gameSettings.fxml"));
+    Parent gameSettings = loader.load();
+    gameSettingsController controller = loader.getController();
 
+    Scene gameSettingsScene = new Scene(gameSettings);
+    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    window.setScene(gameSettingsScene);
+    window.show();
+  }
+  /** @author mnetzer Controller for more createGame methods*/
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));

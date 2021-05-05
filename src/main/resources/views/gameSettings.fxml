@@ -3,18 +3,17 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.SettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.gameSettingsController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Game Settings" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -22,7 +21,7 @@
             </font>
         </Label>
         <Label layoutX="278.0" layoutY="331.0" prefHeight="100.0" style="-fx-background-color: #fdf8da;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-        <Button mnemonicParsing="false" onMouseClicked="#backToPlayerLobby" prefHeight="37.0" prefWidth="207.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Back To Player Lobby" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+        <Button mnemonicParsing="false" onMouseClicked="#backToCreateGame" prefHeight="37.0" prefWidth="207.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Back To CreateGame " textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
             <font>
                 <Font name="Chalkboard" size="18.0" />
             </font>
@@ -49,726 +48,6 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="F">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="110.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="K">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="L">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="G">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="210.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="H">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="M">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="P">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="U">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Q">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="T">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="W">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="N">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="I">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="R">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="V">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="S">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A">
@@ -779,246 +58,46 @@
                         <Font name="Chalkboard SE Light" size="18.0" />
                      </font>
                   </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="E">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="J">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="O">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="487.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="487.0" layoutY="110.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Y">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-               </children>
-            </VBox>
-            <VBox layoutX="169.0" layoutY="410.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Z">
-                     <VBox.margin>
-                        <Insets left="75.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard SE Light" size="18.0" />
-                     </font>
-                  </Text>
-                  <SplitMenuButton mnemonicParsing="false" text="Value">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
-                  <SplitMenuButton mnemonicParsing="false" text="Distribution">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font name="Chalkboard" size="13.0" />
-                     </font>
-                  </SplitMenuButton>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Upload Dictionary: " GridPane.columnIndex="5" GridPane.rowIndex="1">
@@ -1045,6 +124,1361 @@
                   <Font name="Chalkboard" size="13.0" />
                </font>
             </Button>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="B">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="3" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="C">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="3" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="4" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="A">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="9" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="E">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="12">
+                           <font>
+                              <Font size="10.0" />
+                           </font></TextField>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="F">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="4" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="G">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="3" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="H">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="4" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="I">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="9" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="J">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="8" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="K">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="5" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="L">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="4" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="M">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="3" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="N">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="6" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="O">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="8" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="P">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="3" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Q">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="10" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="R">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="6" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="S">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="4" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="T">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="6" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="U">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="4" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="V">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="4" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="W">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="4" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="8" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Y">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="4" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="2" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Z">
+                     <VBox.margin>
+                        <Insets left="75.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Chalkboard SE Light" size="18.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="34.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="36.0" text="10" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="31.0" prefWidth="159.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Text>
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="-">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                        <TextField prefHeight="27.0" prefWidth="32.0" text="1" />
+                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="27.0" text="+">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </GridPane>
     </children>

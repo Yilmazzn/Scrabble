@@ -1,16 +1,39 @@
 package gui.controllers;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 /** @author vihofman Controller for the Settings */
 public class SettingsController {
+  //setup for settings
+  @FXML
+  private CheckBox soundOn;
+  @FXML
+  private CheckBox soundOff;
+  @FXML
+  private CheckBox animationsOn;
+  @FXML
+  private CheckBox animationsOff;
+  //settings logic
+  public void enableSound(){
+    soundOff.setSelected(false);
+  }
+  public void disableSound(){
+    soundOn.setSelected(false);
+  }
+  public void enableAnimations(){
+    animationsOff.setSelected(false);
+  }
+  public void disableAnimations(){
+    animationsOn.setSelected(false);
+  }
 
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -36,4 +59,5 @@ public class SettingsController {
     window.setScene(playerLobbyScene);
     window.show();
   }
+
 }

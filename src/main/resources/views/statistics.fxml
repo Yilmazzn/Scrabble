@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -13,14 +13,26 @@
    <children>
       <VBox layoutX="100.0" layoutY="-1.0" prefHeight="403.0" prefWidth="288.0" style="-fx-background-color: #fbf8da #fbf8da;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="41.0" text="X">
-               <VBox.margin>
-                  <Insets left="240.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font name="Chalkboard" size="18.0" />
-               </font>
-            </Button>
+            <HBox prefHeight="24.0" prefWidth="288.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#setText" prefHeight="35.0" prefWidth="80.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Evaluate">
+                     <font>
+                        <Font name="Chalkboard" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onMouseClicked="#closeStatistics" prefHeight="35.0" prefWidth="35.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="X">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="150.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <HBox prefHeight="42.0" prefWidth="288.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NAME: " wrappingWidth="154.1856346130371">
@@ -31,11 +43,11 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField prefHeight="27.0" prefWidth="142.0">
+                  <TextArea fx:id="name">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets bottom="5.0" right="10.0" />
                      </HBox.margin>
-                  </TextField>
+                  </TextArea>
                </children>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -51,11 +63,11 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField>
+                  <TextArea fx:id="totalPoints" prefHeight="200.0" prefWidth="200.0">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets bottom="5.0" right="10.0" />
                      </HBox.margin>
-                  </TextField>
+                  </TextArea>
                </children>
             </HBox>
             <HBox prefHeight="42.0" prefWidth="288.0">
@@ -68,11 +80,11 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField>
+                  <TextArea fx:id="currentPoints" prefHeight="200.0" prefWidth="200.0">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets bottom="5.0" right="10.0" />
                      </HBox.margin>
-                  </TextField>
+                  </TextArea>
                </children>
             </HBox>
             <HBox prefHeight="42.0" prefWidth="288.0">
@@ -85,11 +97,11 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField>
+                  <TextArea fx:id="playtime" prefHeight="200.0" prefWidth="200.0">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets bottom="5.0" right="10.0" />
                      </HBox.margin>
-                  </TextField>
+                  </TextArea>
                </children>
             </HBox>
             <HBox prefHeight="42.0" prefWidth="288.0">
@@ -102,11 +114,11 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField prefHeight="27.0" prefWidth="155.0">
+                  <TextArea fx:id="playedGames" prefHeight="200.0" prefWidth="200.0">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets bottom="5.0" right="10.0" />
                      </HBox.margin>
-                  </TextField>
+                  </TextArea>
                </children>
             </HBox>
             <HBox prefHeight="42.0" prefWidth="288.0">
@@ -119,11 +131,11 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField>
+                  <TextArea fx:id="wins" prefHeight="200.0" prefWidth="200.0">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets bottom="5.0" right="10.0" />
                      </HBox.margin>
-                  </TextField>
+                  </TextArea>
                </children>
             </HBox>
             <HBox prefHeight="42.0" prefWidth="288.0">
@@ -136,11 +148,11 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField>
+                  <TextArea fx:id="losses" prefHeight="200.0" prefWidth="200.0">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets bottom="5.0" right="10.0" />
                      </HBox.margin>
-                  </TextField>
+                  </TextArea>
                </children>
             </HBox>
             <HBox prefHeight="42.0" prefWidth="288.0">
@@ -153,11 +165,11 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField>
+                  <TextArea fx:id="scrabblerSince" prefHeight="200.0" prefWidth="200.0">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets bottom="5.0" right="10.0" />
                      </HBox.margin>
-                  </TextField>
+                  </TextArea>
                </children>
             </HBox>
          </children>
