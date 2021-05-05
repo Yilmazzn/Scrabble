@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GameViewController2">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="SCRABBLE" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <font>
+                <Font name="Chalkboard" size="48.0" />
+            </font>
+        </Label>
+        <Label layoutX="278.0" layoutY="331.0" prefHeight="100.0" style="-fx-background-color: #fdf8da;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        <Button mnemonicParsing="false" onMouseClicked="#backToPlayerLobby" prefHeight="35.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Back To Player Lobby" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+            <font>
+                <Font name="Chalkboard" size="18.0" />
+            </font>
+        </Button>
+        <Button layoutX="990.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#settings" prefHeight="35.0" prefWidth="140.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Settings" textAlignment="CENTER" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
+            <font>
+                <Font name="Chalkboard" size="18.0" />
+            </font>
+        </Button>
+        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+            <left>
+                <VBox alignment="CENTER" prefHeight="520.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#playerOne" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../pictures/ProfileIcon.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets left="30.0" right="10.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
+                                    <children>
+                                        <Label text="Player 1">
+                                            <font>
+                                                <Font name="Chalkboard" size="24.0" />
+                                            </font>
+                                        </Label>
+                                        <Label text="0">
+                                            <font>
+                                                <Font name="Chalkboard" size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#playerTwo" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../pictures/ProfileIcon.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets left="30.0" right="10.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
+                                    <children>
+                                        <Label text="Player 2">
+                                            <font>
+                                                <Font name="Chalkboard" size="24.0" />
+                                            </font>
+                                        </Label>
+                                        <Label text="0">
+                                            <font>
+                                                <Font name="Chalkboard" size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#playerThree" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../pictures/ProfileIcon.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets left="30.0" right="10.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
+                                    <children>
+                                        <Label text="Player 3">
+                                            <font>
+                                                <Font name="Chalkboard" size="24.0" />
+                                            </font>
+                                        </Label>
+                                        <Label text="0">
+                                            <font>
+                                                <Font name="Chalkboard" size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#playerFour" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../pictures/ProfileIcon.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets left="30.0" right="10.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
+                                    <children>
+                                        <Label text="Player 4">
+                                            <font>
+                                                <Font name="Chalkboard" size="24.0" />
+                                            </font>
+                                        </Label>
+                                        <Label text="0">
+                                            <font>
+                                                <Font name="Chalkboard" size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </HBox>
+                    </children>
+                </VBox>
+            </left>
+            <right>
+                <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#chat" prefHeight="15.0" prefWidth="120.0" style="-fx-background-color: #edece1;" text="Chat">
+                            <VBox.margin>
+                                <Insets bottom="40.0" right="30.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font name="Chalkboard" size="18.0" />
+                            </font>
+                            <effect>
+                                <DropShadow blurType="GAUSSIAN" height="10.0" radius="4.5" width="10.0" />
+                            </effect>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+                    </children>
+                </VBox>
+            </right>
+         <center>
+            <GridPane fx:id="board" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" style="-fx-background-color: #c4c4c4; -fx-background-radius: 10; -fx-border-color: #c4c4c4; -fx-border-width: 5; -fx-border-radius: 10;" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <BorderPane.margin>
+                  <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+               </BorderPane.margin>
+            </GridPane>
+         </center>
+        </BorderPane>
+        <BorderPane prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <left>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="353.0" spacing="30.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label alignment="CENTER" onMouseClicked="#tiles" prefHeight="55.0" prefWidth="90.0" style="-fx-background-color: #edece1; -fx-background-radius: 7; -fx-border-color: black; -fx-border-radius: 7; -fx-effect: innershadow(gaussian, rgba(0,0,0,0.7), 7,0,0,0);" text="Tiles">
+                            <font>
+                                <Font name="Chalkboard" size="18.0" />
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Label>
+                        <Button mnemonicParsing="false" onMouseClicked="#shuffle" prefHeight="55.0" prefWidth="90.0" style="-fx-background-color: #edece1;" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Shuffle">
+                            <font>
+                                <Font name="Chalkboard" size="18.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </left>
+            <right>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="353.0" spacing="30.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button mnemonicParsing="false" onMouseClicked="#submit" prefHeight="55.0" prefWidth="175.0" style="-fx-background-color: #edece1;" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Submit">
+                            <font>
+                                <Font name="Chalkboard" size="24.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="25.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </right>
+         <center>
+            <GridPane fx:id="tiles" alignment="CENTER" hgap="10.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <BorderPane.margin>
+                  <Insets bottom="25.0" left="35.0" right="35.0" top="25.0" />
+               </BorderPane.margin>
+            </GridPane>
+         </center>
+        </BorderPane>
+    </children>
+</AnchorPane>
