@@ -25,8 +25,26 @@ public class GameViewController2 {
 
   @FXML private GridPane board;
   @FXML private GridPane tiles;
+  @FXML private Label player1;
+  @FXML private Label player2;
+  @FXML private Label player3;
+  @FXML private Label player4;
+  @FXML private Label pointsPlayer1;
+  @FXML private Label pointsPlayer2;
+  @FXML private Label pointsPlayer3;
+  @FXML private Label pointsPlayer4;
 
   public void initBoard(){
+
+    player1.setText("Spieler 1");
+    player2.setText("Spieler 2");
+    player3.setText("Spieler 3");
+    player4.setText("Spieler 4");
+    pointsPlayer1.setText("1");
+    pointsPlayer2.setText("2");
+    pointsPlayer3.setText("3");
+    pointsPlayer4.setText("4");
+
 
     Board initBoard = new Board();
 

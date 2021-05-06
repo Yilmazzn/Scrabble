@@ -50,12 +50,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 1">
+                                        <Label fx:id="player1" text="Player 1">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="0">
+                                        <Label fx:id="pointsPlayer1" text="0">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -82,12 +82,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 2">
+                                        <Label fx:id="player2" text="Player 2">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="0">
+                                        <Label fx:id="pointsPlayer2" text="0">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -114,12 +114,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 3">
+                                        <Label fx:id="player3" text="Player 3">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="0">
+                                        <Label fx:id="pointsPlayer3" text="0">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -146,12 +146,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 4">
+                                        <Label fx:id="player4" text="Player 4">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="0">
+                                        <Label fx:id="pointsPlayer4" text="0">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
