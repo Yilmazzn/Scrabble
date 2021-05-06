@@ -32,7 +32,7 @@ public class JoinGameController {
     window.initModality(Modality.APPLICATION_MODAL);
     window.setTitle("Exit Game");
     window.setScene(exitGameScene);
-    window.setWidth(300);
+    window.setWidth(200);
     window.setHeight(200);
     window.showAndWait();
   }

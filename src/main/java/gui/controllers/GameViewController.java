@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +17,8 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,6 +36,8 @@ public class GameViewController {
   @FXML private Label pointsPlayer2;
   @FXML private Label pointsPlayer3;
   @FXML private Label pointsPlayer4;
+
+  public static String player = "";
 
   public void initBoard(){
 
@@ -70,10 +75,67 @@ public class GameViewController {
       AnchorPane bottomPane = createBottomTile();
       tiles.add(bottomPane, i,0);
     }
-
-
+  }
+  /** @author vihofman for chat */
+  public void openChat() throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
+    Parent gameChat = loader.load();
+    Scene gameChatScene = new Scene(gameChat);
+    Stage window = new Stage();
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("gameChat");
+    window.setScene(gameChatScene);
+    window.setWidth(300);
+    window.setHeight(500);
+    window.show();
+    Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+    double x = bounds.getMinX() + (bounds.getWidth() - window.getWidth()) * 0.78;
+    double y = bounds.getMinY() + (bounds.getHeight() - window.getHeight()) * 0.45;
+    window.setX(x);
+    window.setY(y);
+    window.show();
+  }
+  /** @author vihofman for statistics */
+  public void openStatistics() throws IOException{
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
+    Parent openStatistics = loader.load();
+    Scene openStatisticsScene = new Scene(openStatistics);
+    Stage window = new Stage();
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle(player);
+    window.setScene(openStatisticsScene);
+    window.setWidth(300);
+    window.setHeight(500);
+    window.show();
+    Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+    double x = bounds.getMinX() + (bounds.getWidth() - window.getWidth()) * 0.2;
+    double y = bounds.getMinY() + (bounds.getHeight() - window.getHeight()) * 0.45;
+    window.setX(x);
+    window.setY(y);
+    window.show();
+  }
+  /** @author vihofman for statistic functionality*/
+  public void playerOne() throws IOException{
+    player = "Player One"; //here we need names of players
+    openStatistics();
   }
 
+  public void playerTwo() throws IOException{
+    player = "Player Two";
+    openStatistics();
+  }
+
+  public void playerThree() throws IOException{
+    player = "Player Three";
+    openStatistics();
+  }
+
+  public void playerFour() throws IOException{
+    player = "PLayer Four";
+    openStatistics();
+  }
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
@@ -86,9 +148,18 @@ public class GameViewController {
     window.setScene(profileControllerScene);
     window.show();
   }
+  /** @author vihofman for opening settings */
+  public void openSettings(MouseEvent mouseEvent) throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/settings.fxml"));
+    Parent settings = loader.load();
+    SettingsController controller = loader.getController();
 
-  public void settings() throws IOException {
-    System.out.println("Settings");
+    Scene profileControllerScene = new Scene(settings);
+    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    window.setScene(profileControllerScene);
+    window.show();
+    //TODO go back to current game after opening settings
   }
 
   public void tiles() {
@@ -101,26 +172,6 @@ public class GameViewController {
 
   public void submit() {
     System.out.println("Submit");
-  }
-
-  public void chat() {
-    System.out.println("Chat");
-  }
-
-  public void playerOne() {
-    System.out.println("Player1");
-  }
-
-  public void playerTwo() {
-    System.out.println("Player2");
-  }
-
-  public void playerThree() {
-    System.out.println("Player3");
-  }
-
-  public void playerFour() {
-    System.out.println("Player4");
   }
 
   public AnchorPane createBottomTile(){

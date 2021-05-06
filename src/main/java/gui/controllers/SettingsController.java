@@ -21,7 +21,7 @@ public class SettingsController {
   private CheckBox animationsOn;
   @FXML
   private CheckBox animationsOff;
-  //settings logic
+  //settings logic with setter methods
   public void enableSound(){
     soundOff.setSelected(false);
   }
@@ -34,7 +34,13 @@ public class SettingsController {
   public void disableAnimations(){
     animationsOn.setSelected(false);
   }
-
+ //Getter methods for settings
+  public boolean sound(){
+    return soundOn.isSelected();
+  }
+  public boolean animations() {
+    return animationsOn.isSelected();
+  }
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
