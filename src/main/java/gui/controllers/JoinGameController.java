@@ -43,6 +43,7 @@ public class JoinGameController {
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
+    controller.initBoard();
 
     Scene welcomeScene = new Scene(gameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

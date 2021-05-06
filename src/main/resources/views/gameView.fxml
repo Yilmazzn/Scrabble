@@ -9,11 +9,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GameViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GameViewController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="SCRABBLE" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -47,12 +50,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 1">
+                                        <Label fx:id="player1" text="Player 1">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="0">
+                                        <Label fx:id="pointsPlayer1" text="0">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -79,12 +82,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 2">
+                                        <Label fx:id="player2" text="Player 2">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="0">
+                                        <Label fx:id="pointsPlayer2" text="0">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -111,12 +114,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 3">
+                                        <Label fx:id="player3" text="Player 3">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="0">
+                                        <Label fx:id="pointsPlayer3" text="0">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -143,12 +146,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 4">
+                                        <Label fx:id="player4" text="Player 4">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="0">
+                                        <Label fx:id="pointsPlayer4" text="0">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -169,7 +172,7 @@
             <right>
                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#openChat" prefHeight="15.0" prefWidth="120.0" style="-fx-background-color: #edece1;" text="Chat">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#chat" prefHeight="15.0" prefWidth="120.0" style="-fx-background-color: #edece1;" text="Chat">
                             <VBox.margin>
                                 <Insets bottom="40.0" right="30.0" />
                             </VBox.margin>
@@ -186,17 +189,47 @@
                     </children>
                 </VBox>
             </right>
-            <center>
-                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-                    <children>
-                        <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../pictures/ScrabbleBoard.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                </VBox>
-            </center>
+         <center>
+            <GridPane fx:id="board" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" style="-fx-background-color: #c4c4c4; -fx-background-radius: 10; -fx-border-color: #c4c4c4; -fx-border-width: 5; -fx-border-radius: 10;" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <BorderPane.margin>
+                  <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+               </BorderPane.margin>
+            </GridPane>
+         </center>
         </BorderPane>
         <BorderPane prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <left>
@@ -232,6 +265,25 @@
                     </children>
                 </HBox>
             </right>
+         <center>
+            <GridPane fx:id="tiles" alignment="CENTER" hgap="10.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <BorderPane.margin>
+                  <Insets bottom="25.0" left="35.0" right="35.0" top="25.0" />
+               </BorderPane.margin>
+            </GridPane>
+         </center>
         </BorderPane>
     </children>
 </AnchorPane>

@@ -1,6 +1,5 @@
 package gui.openView;
 
-import gui.controllers.GameViewController;
 import gui.controllers.PlayScrabbleController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
