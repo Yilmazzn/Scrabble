@@ -1,18 +1,87 @@
 package gui.controllers;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/** @author mnetzer Controller for the createGame */
 public class CreateGameController {
+  /** @author vihofman for gameSettings and functionality */
+  //setup for joined players
+  @FXML
+  private TextArea PlayerTwo;
+  @FXML
+  private TextArea PlayerThree;
+  @FXML
+  private TextArea PlayerFour;
+  // booleans for joined Players
+  boolean joined2 = false;
+  boolean joined3 = false;
+  boolean joined4 = false;
+  // fill the names of joined players once they have connected to the creating game
+  public void setPlayerTwo(){
+    PlayerTwo.setText("playerTwo.getName()");
+    joined2 = true;
+  }
+  public void setPlayerThree(){
+    PlayerThree.setText("playerThree.getName()");
+    joined3 = true;
+  }
+  public void setPlayerFour(){
+    PlayerFour.setText("playerFour.getName()");
+    joined4 = true;
+  }
+  //delete the players from game creation if they leave
+  public void deletePlayerTwo(){
+    PlayerTwo.setText("");
+    joined2 = false;
+  }
+  public void deletePlayerThree(){
+    PlayerThree.setText("");
+    joined2 = false;
+  }
+  public void deletePlayerFour(){
+    PlayerFour.setText("");
+    joined2 = false;
+  }
+  //getter methods for joined players
+  public String getPlayerTwo(){
+    if(joined2){
+      return "playerTwo.getName()";
+    }
+    else return null;
+  }
+  public String getPlayerThree(){
+    if(joined3){
+      return "playerThree.getName()";
+    }
+    else return null;
+  }
+  public String getPlayerFour(){
+    if(joined4){
+      return "playerFour.getName()";
+    }
+    else return null;
+  }
+  public void gameSettings(MouseEvent mouseEvent) throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/gameSettings.fxml"));
+    Parent gameSettings = loader.load();
+    gameSettingsController controller = loader.getController();
 
+    Scene gameSettingsScene = new Scene(gameSettings);
+    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    window.setScene(gameSettingsScene);
+    window.show();
+  }
+  /** @author mnetzer Controller for more createGame methods*/
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
@@ -47,6 +116,7 @@ public class CreateGameController {
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
+    controller.initBoard();
 
     Scene welcomeScene = new Scene(gameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

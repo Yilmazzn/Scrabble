@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="402.0" prefWidth="288.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.StatisticsController">
+   <children>
+      <VBox layoutX="100.0" layoutY="-1.0" prefHeight="403.0" prefWidth="288.0" style="-fx-background-color: #fbf8da #fbf8da;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
+         <children>
+            <HBox prefHeight="24.0" prefWidth="288.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#setText" prefHeight="35.0" prefWidth="80.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Evaluate">
+                     <font>
+                        <Font name="Chalkboard" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onMouseClicked="#closeStatistics" prefHeight="35.0" prefWidth="35.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="X">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="150.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="288.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NAME: " wrappingWidth="154.1856346130371">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextArea fx:id="name">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="10.0" />
+                     </HBox.margin>
+                  </TextArea>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="288.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL POINTS:" wrappingWidth="154.61436462402344">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextArea fx:id="totalPoints" prefHeight="200.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="10.0" />
+                     </HBox.margin>
+                  </TextArea>
+               </children>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="288.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CURRENT POINTS:" wrappingWidth="155.89059448242188">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextArea fx:id="currentPoints" prefHeight="200.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="10.0" />
+                     </HBox.margin>
+                  </TextArea>
+               </children>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="288.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PLAYTIME:" wrappingWidth="155.0198974609375">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextArea fx:id="playtime" prefHeight="200.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="10.0" />
+                     </HBox.margin>
+                  </TextArea>
+               </children>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="288.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PLAYED GAMES:" wrappingWidth="155.1348114013672">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextArea fx:id="playedGames" prefHeight="200.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="10.0" />
+                     </HBox.margin>
+                  </TextArea>
+               </children>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="288.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WINS: " wrappingWidth="155.16574478149414">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextArea fx:id="wins" prefHeight="200.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="10.0" />
+                     </HBox.margin>
+                  </TextArea>
+               </children>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="288.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LOSSES:" wrappingWidth="155.11602020263672">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextArea fx:id="losses" prefHeight="200.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="10.0" />
+                     </HBox.margin>
+                  </TextArea>
+               </children>
+            </HBox>
+            <HBox prefHeight="42.0" prefWidth="288.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SCRABBLER SINCE:" wrappingWidth="155.72377014160156">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextArea fx:id="scrabblerSince" prefHeight="200.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="10.0" />
+                     </HBox.margin>
+                  </TextArea>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

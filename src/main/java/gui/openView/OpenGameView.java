@@ -1,7 +1,6 @@
 package gui.openView;
 
 import gui.controllers.GameViewController;
-import gui.controllers.WelcomeViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,6 +23,7 @@ public class OpenGameView extends Application {
     Parent root = loader.load();
     // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
     GameViewController controller = loader.getController();
+    controller.initBoard();
 
     primaryStage.setScene(new Scene(root));
     primaryStage.setMinHeight(700);
