@@ -5,7 +5,6 @@ import game.components.Tile;
 import org.junit.jupiter.api.*;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -13,13 +12,13 @@ import java.util.LinkedList;
 public class BoardTest {
 
     private final static int BOARD_SIZE = 15;
-    public Dictionary dictionary;
-    private LinkedList<BoardField> placements;
+    public static Dictionary dictionary;
+    private LinkedList<BoardField> placements;      // Simulates in-game list of placements in the last turn
     public Board board;
 
     @BeforeAll
     public static void setUp() {
-        // dictionary = new Dictionary(path);
+        dictionary = new Dictionary();
     }
 
     @BeforeEach
@@ -33,41 +32,102 @@ public class BoardTest {
     public void checkTestSuccess() throws IOException {
         configureBoard("boardStateCorrect1.txt");
 
-        board.placeTile(new Tile('T', 0), 6, 5);
-        placements.add(board.getField(6, 5));
+        // RAIN -> TRAIN
+        board.placeTile(new Tile('T', 0), 6, 4);
+        placements.add(board.getField(6, 4));
 
-        Assertions.assertTrue(board.check(placements, dictionary));       // TODO --> Dictionary
+        Assertions.assertTrue(board.check(placements, dictionary));
     }
-
-    /* TODO UNCOMMENT
 
     @Test
     @DisplayName("Start field not covered")
-    public void checkTestFail1() throws IOException {
-        configureBoard("boardStateFail1.txt");
-        Assertions.assertFalse(board.check());
-        Assertions.assertFalse(board.getField(5, 9).isValid());
+    public void checkTestFail1() {
+        board.placeTile(new Tile('X', 42), 5, 9);
+        placements.add(board.getField(5, 9));
+        Assertions.assertFalse(board.check(placements, dictionary));
     }
 
     @Test
-    @DisplayName("Start field covered, but non-adjacent tiles exist")
+    @DisplayName("Placement not adjacent to any")
     public void checkTestFail2() throws IOException {
-        configureBoard("boardStateFail2.txt");
-        Assertions.assertFalse(board.check());
+        configureBoard("boardStateCorrect1.txt");
 
+        // Build word IT in the upper left corner
+        board.placeTile(new Tile('I', 0), 0, 0);
+        placements.add(board.getField(0, 0));
+
+        Assertions.assertFalse(board.check(placements, dictionary));
     }
+
+    @Test
+    @DisplayName("Placements are a word but not adjacent to already placed")
+    public void checkTestFail3() throws IOException {
+        configureBoard("boardStateCorrect1.txt");
+
+        // Build word IT in the upper left corner
+        board.placeTile(new Tile('I', 0), 0, 0);
+        board.placeTile(new Tile('T', 0), 0, 1);
+        placements.add(board.getField(0, 0));
+        placements.add(board.getField(0, 1));
+
+        Assertions.assertFalse(board.check(placements, dictionary));
+    }
+
+    @Test
+    @DisplayName("2 Tiles form 'IT' not-adjacent to others + 1 is adjacent")
+    public void checkTestFail4() throws IOException {
+        configureBoard("boardStateCorrect1.txt");
+
+        // RAIN -> TRAIN
+        board.placeTile(new Tile('T', 0), 6, 4);
+        placements.add(board.getField(6, 4));
+
+        // IT
+        board.placeTile(new Tile('I', 0), 0, 4);
+        board.placeTile(new Tile('T', 0), 1, 4);
+        placements.add(board.getField(0, 4));
+        placements.add(board.getField(1, 4));
+
+        Assertions.assertFalse(board.check(placements, dictionary));
+    }
+
+    @Test
+    @DisplayName("Placements not in a single row/column")
+    public void checkTestFail5() throws IOException {
+        configureBoard("boardStateCorrect1.txt");
+
+        // RAIN -> TRAIN
+        board.placeTile(new Tile('T', 0), 6, 4);
+        placements.add(board.getField(6, 4));
+        // CRUISE -> CRUISER
+        board.placeTile(new Tile('R', 0), 9, 12);
+        placements.add(board.getField(9, 12));
+
+        Assertions.assertFalse(board.check(placements, dictionary));
+    }
+
 
     @Test
     @DisplayName("Placements correct, but formed words does not exist")
-    @Disabled
-    public void checkTestFail3() throws IOException {
-        configureBoard("boardStateFail3.txt");
-        Assertions.assertFalse(board.check());
+    public void checkTestFail6() throws IOException {
+        configureBoard("boardStateCorrect1.txt");
+
+        // RAIN -> QRAIN
+        board.placeTile(new Tile('Q', 0), 6, 4);
+        placements.add(board.getField(6, 4));
+
+        Assertions.assertFalse(board.check(placements, dictionary));
     }
 
-*/
+
+    /**
+     * Builds board corresponding to the .txt files
+     *
+     * @param filename path to file
+     * @throws IOException if file at given path does not exist
+     */
     private void configureBoard(String filename) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File(System.getProperty("user.dir") + "/src/test/resources/BoardTest/" + filename)));
+        BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/test/resources/BoardTest/" + filename));
 
         for (int i = 0; i < BOARD_SIZE; i++) {
             String line = reader.readLine();
