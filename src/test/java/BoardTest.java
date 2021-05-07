@@ -1,3 +1,4 @@
+import game.Dictionary;
 import game.components.Board;
 import game.components.BoardField;
 import game.components.Tile;
@@ -12,7 +13,7 @@ import java.util.LinkedList;
 public class BoardTest {
 
     private final static int BOARD_SIZE = 15;
-    // public Dictionary dictionaryS
+    public Dictionary dictionary;
     private LinkedList<BoardField> placements;
     public Board board;
 
@@ -35,7 +36,7 @@ public class BoardTest {
         board.placeTile(new Tile('T', 0), 6, 5);
         placements.add(board.getField(6, 5));
 
-        Assertions.assertTrue(board.check(placements, new Object()));       // TODO --> Dictionary
+        Assertions.assertTrue(board.check(placements, dictionary));       // TODO --> Dictionary
     }
 
     /* TODO UNCOMMENT
