@@ -1,3 +1,5 @@
+package game.components;
+
 import game.components.Board;
 import game.components.BoardField;
 import game.components.Tile;
@@ -66,7 +68,7 @@ public class BoardTest {
 
 */
     private void configureBoard(String filename) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File(System.getProperty("user.dir") + "/src/test/resources/BoardTest/" + filename)));
+        BufferedReader reader = new BufferedReader(new FileReader(new File(System.getProperty("user.dir") + "/src/test/resources/game.components.BoardTest/" + filename)));
 
         for (int i = 0; i < BOARD_SIZE; i++) {
             String line = reader.readLine();
