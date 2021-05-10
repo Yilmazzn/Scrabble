@@ -134,10 +134,9 @@ public class Game {
     nextRound();
   }
 
-
   /**
-   * Places give tile on field at given row and column if field is empty. Adds placement to the
-   * list of placements this turn. Checks new board state.
+   * Places give tile on field at given row and column if field is empty. Adds placement to the list
+   * of placements this turn. Checks new board state.
    */
   public void placeTile(Tile tile, int row, int col) {
     if (board.isEmpty(row, col)) {
@@ -148,8 +147,8 @@ public class Game {
   }
 
   /**
-   * Removes tile at given row and column. Removes placmeent from the list of placements in this turn.
-   * Checks new board state. If field was empty, then nothing happens.
+   * Removes tile at given row and column. Removes placmeent from the list of placements in this
+   * turn. Checks new board state. If field was empty, then nothing happens.
    */
   public void removeTile(int row, int col) {
     if (!board.isEmpty(row, col)) {
@@ -180,9 +179,7 @@ public class Game {
     // TODO Update Scoreboard and .....
   }
 
-  /**
-   * TODO change some things maybe...
-   */
+  /** TODO change some things maybe... */
   public void submit() {
     if (board.check(placementsInTurn, dictionary)) {
       nextRound();
@@ -190,10 +187,141 @@ public class Game {
   }
 
   /***
-   * TODO
+   * Evaluates the score of the play in the last turn. Iterates over placements in last turn and only ever starts evaluating if placement is to the most top/left placement of all placements in last turn of the specific word it is forming
+   * @author yuzun
+   * @return score of play in last turn
    */
   public int evaluateScore() {
-    return 0;
+
+    int totalScore = 0;
+
+    // Iterate over placements of last turn
+    for (BoardField bf : placementsInTurn) {
+
+      // check to the left if other placement exists there (would be evaluated in that spec.
+      // iteration)
+      BoardField helper = board.getField(bf.getRow(), bf.getColumn() - 1); // left of placement
+      boolean leftmostPlacement = true; // is true if only placement to the left
+
+      // traverse to left till empty or out of bounds
+      while (helper.getColumn() >= 0 && !helper.isEmpty()) {
+        if (placementsInTurn.contains(helper)) {
+          leftmostPlacement = false;
+          break;
+        }
+        helper = board.getField(helper.getRow(), helper.getColumn() - 1);
+      }
+
+      // check to the top if other placement this turn exists there (would be evaluated in that
+      // spec. iteration)
+      helper = board.getField(bf.getRow() - 1, bf.getColumn()); // above placement
+      boolean topmostPlacement = true; // is true if top of placement in formed word
+
+      // traverse up till empty or out of bounds
+      while (helper.getRow() >= 0 && !helper.isEmpty()) {
+        if (placementsInTurn.contains(helper)) {
+          topmostPlacement = false;
+          break;
+        }
+        helper = board.getField(helper.getRow() - 1, helper.getColumn());
+      }
+
+      // if leftmost placement --> evaluate horizontal
+      if (leftmostPlacement) {
+        int wordScore = 0;
+        int wordMult = 1;
+
+        // traverse to the left
+        helper = bf;
+        while (helper.getColumn() >= 0 && !helper.isEmpty()) {
+          helper = board.getField(helper.getRow(), helper.getColumn() - 1);
+        }
+
+        // traverse to the right
+        while (helper.getColumn() < Board.BOARD_SIZE && !helper.isEmpty()) {
+
+          int letterScore = helper.getTile().getScore();
+          int letterMult = 1;
+
+          // check if tile was placed last turn
+          if (!placementsInTurn.contains(helper)) { // tile was not placed last turn
+            wordScore += letterScore;
+          } else { // tile was placed last turn
+
+            // check field type and evaluate multipliers
+            switch (helper.getType()) {
+              case STAR:
+              case DWS:
+                wordMult *= 2;
+                break;
+              case TWS:
+                wordMult *= 3;
+                break;
+              case DLS:
+                letterMult *= 2;
+                break;
+              case TLS:
+                letterMult *= 3;
+                break;
+            }
+            wordScore += letterScore * letterMult;
+          }
+
+          helper = board.getField(helper.getRow(), helper.getColumn() + 1);
+        }
+
+        totalScore += wordScore * wordMult;
+      }
+
+      // if topmost placement --> evaluate vertical
+      if (topmostPlacement) {
+        int wordScore = 0;
+        int wordMult = 1;
+
+        // traverse up
+        helper = bf;
+        while (helper.getRow() >= 0 && !helper.isEmpty()) {
+          helper = board.getField(helper.getRow() - 1, helper.getColumn());
+        }
+
+        // traverse down
+        while (helper.getRow() < Board.BOARD_SIZE && !helper.isEmpty()) {
+
+          int letterScore = helper.getTile().getScore();
+          int letterMult = 1;
+
+          // check if tile was placed last turn
+          if (!placementsInTurn.contains(helper)) { // tile was not placed last turn
+            wordScore += letterScore;
+          } else { // tile was placed last turn
+
+            // check field type and evaluate multipliers
+            switch (helper.getType()) {
+              case STAR:
+              case DWS:
+                wordMult *= 2;
+                break;
+              case TWS:
+                wordMult *= 3;
+                break;
+              case DLS:
+                letterMult *= 2;
+                break;
+              case TLS:
+                letterMult *= 3;
+                break;
+            }
+            wordScore += letterScore * letterMult;
+          }
+
+          helper = board.getField(helper.getRow() + 1, helper.getColumn());
+        }
+
+        totalScore += wordScore * wordMult;
+      }
+    }
+
+    return totalScore;
   }
 
   public int getBagSize() {
