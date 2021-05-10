@@ -39,6 +39,7 @@ public class GameViewController {
 
   public static String player = "";
 
+
   public void initBoard() {
 
     player1.setText("Spieler 1");
