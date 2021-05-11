@@ -203,8 +203,15 @@ public class Game {
       BoardField helper = board.getField(bf.getRow(), bf.getColumn() - 1); // left of placement
       boolean leftmostPlacement = true; // is true if only placement to the left
 
-      // traverse to left till empty or out of bounds
-      while (helper.getColumn() >= 0 && !helper.isEmpty()) {
+      boolean formsWordHorizontal =
+              (bf.getColumn() - 1 >= 0 && !board.isEmpty(bf.getRow(), bf.getColumn() - 1))
+                      || (bf.getColumn() + 1 < Board.BOARD_SIZE
+                      && !board.isEmpty(
+                      bf.getRow(),
+                      bf.getColumn() + 1)); // true if left or right of placement exists tile
+
+      // traverse to left till empty or out of bounds (if forms word horitonal)
+      while (helper.getColumn() >= 0 && !helper.isEmpty() && formsWordHorizontal) {
         if (placementsInTurn.contains(helper)) {
           leftmostPlacement = false;
           break;
@@ -217,8 +224,15 @@ public class Game {
       helper = board.getField(bf.getRow() - 1, bf.getColumn()); // above placement
       boolean topmostPlacement = true; // is true if top of placement in formed word
 
-      // traverse up till empty or out of bounds
-      while (helper.getRow() >= 0 && !helper.isEmpty()) {
+      boolean formsWordVertical =
+              (bf.getRow() - 1 >= 0 && !board.isEmpty(bf.getRow() - 1, bf.getColumn()))
+                      || (bf.getRow() + 1 < Board.BOARD_SIZE
+                      && !board.isEmpty(
+                      bf.getRow() + 1,
+                      bf.getColumn())); // true if above or below of placement exists tile
+
+      // traverse up till empty or out of bounds (if forms word veritcal)
+      while (helper.getRow() >= 0 && !helper.isEmpty() && formsWordVertical) {
         if (placementsInTurn.contains(helper)) {
           topmostPlacement = false;
           break;
@@ -226,8 +240,8 @@ public class Game {
         helper = board.getField(helper.getRow() - 1, helper.getColumn());
       }
 
-      // if leftmost placement --> evaluate horizontal
-      if (leftmostPlacement) {
+      // if leftmost placement & to the left/right tiles exist--> evaluate horizontal
+      if (leftmostPlacement && formsWordHorizontal) {
         int wordScore = 0;
         int wordMult = 1;
 
@@ -273,8 +287,8 @@ public class Game {
         totalScore += wordScore * wordMult;
       }
 
-      // if topmost placement --> evaluate vertical
-      if (topmostPlacement) {
+      // if topmost placement & tiles exist above or below --> evaluate vertical
+      if (topmostPlacement && formsWordVertical) {
         int wordScore = 0;
         int wordMult = 1;
 
