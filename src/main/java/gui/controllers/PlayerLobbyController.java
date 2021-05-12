@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -18,8 +19,13 @@ public class PlayerLobbyController {
 
   @FXML private Label username;
 
-  public void InitData() {
-    username.setText("Enton123");
+  private Client client;
+
+  public void setModel(Client client){
+    this.client = client;
+    if(client.getSelectedProfile() != null){
+      username.setText(client.getSelectedProfile().getName());
+    }
   }
 
   public void playScrabble(MouseEvent mouseEvent) throws IOException {
@@ -27,6 +33,7 @@ public class PlayerLobbyController {
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
     Parent playScrabbleView = loader.load();
     PlayScrabbleController controller = loader.getController();
+    controller.setModel(client);
 
     Scene playScrabbleScene = new Scene(playScrabbleView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -39,6 +46,7 @@ public class PlayerLobbyController {
     loader.setLocation(this.getClass().getResource("/views/settings.fxml"));
     Parent settings = loader.load();
     SettingsController controller = loader.getController();
+    //controller.setModel(client);
 
     Scene settingsScene = new Scene(settings);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -52,6 +60,7 @@ public class PlayerLobbyController {
     loader.setLocation(this.getClass().getResource("/views/welcomeView.fxml"));
     Parent welcomeView = loader.load();
     WelcomeViewController controller = loader.getController();
+    controller.setModel(client);
 
     Scene welcomeScene = new Scene(welcomeView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -98,7 +107,7 @@ public class PlayerLobbyController {
     loader.setLocation(this.getClass().getResource("/views/playerProfileView.fxml"));
     Parent profileControllerView = loader.load();
     PlayerProfileController controller = loader.getController();
-    controller.InitData();
+    controller.setModel(client);
 
     // Parent profileControllerView =
     // FXMLLoader.load(getClass().getResource("/views/playerProfileView.fxml"));

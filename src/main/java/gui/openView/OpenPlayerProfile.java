@@ -23,7 +23,7 @@ public class OpenPlayerProfile extends Application {
     Parent root = loader.load();
     // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
     PlayerProfileController controller = loader.getController();
-    controller.InitData();
+    //controller.InitData();
 
     primaryStage.setScene(new Scene(root));
     primaryStage.setMinHeight(600);

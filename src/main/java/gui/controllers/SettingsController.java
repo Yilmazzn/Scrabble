@@ -60,7 +60,7 @@ public class SettingsController {
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
-    controller.InitData();
+    //controller.InitData();
 
     Scene playerLobbyScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

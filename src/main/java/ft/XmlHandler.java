@@ -182,7 +182,7 @@ public class XmlHandler {
     List<PlayerProfile> players = new ArrayList<PlayerProfile>();
 
     if (xmlDoc == null) {
-      return null;
+      initDocument();
     }
     Element root = xmlDoc.getRootElement();
 
