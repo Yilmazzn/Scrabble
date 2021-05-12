@@ -1,3 +1,5 @@
+package game.components;
+
 import game.Dictionary;
 import game.components.Board;
 import game.components.BoardField;
