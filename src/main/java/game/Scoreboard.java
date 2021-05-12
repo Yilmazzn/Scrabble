@@ -1,5 +1,7 @@
 package game;
 
-public class Scoreboard {
+import java.io.Serializable;
+
+public class Scoreboard implements Serializable {
 
 }
