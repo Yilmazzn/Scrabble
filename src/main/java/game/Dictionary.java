@@ -5,7 +5,6 @@ import ft.NodeWordlist;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 
 /**
  * @author vkaczmar Class that is able to load, read and manage all words from the wordlist in a BST
