@@ -146,7 +146,6 @@ public class Board implements Serializable {
     //  --> mark every tile on board as invalid
     if (fields[7][7].isEmpty()) {
       placements.forEach(bf -> bf.setValid(false));
-      System.out.println("STAR NOT COVERED");
       return false;
     }
 
@@ -160,7 +159,6 @@ public class Board implements Serializable {
     }
 
     if (uniqueRows.size() > 1 && uniqueColumns.size() > 1) {
-      System.out.println("MULTIPLE ROWS/COLUMNS");
       return false;
     }
 
@@ -185,7 +183,6 @@ public class Board implements Serializable {
       }
     }
     if (!placementAdjCheck) {
-      System.out.println("NOT ADJACENT TO ANY");
       return false;
     }
 
@@ -251,7 +248,6 @@ public class Board implements Serializable {
     }
 
     if (!placementCheckOther) {
-      System.out.println("NOT ADJACENT TO OTHER");
       return false;
     }
 
@@ -272,9 +268,7 @@ public class Board implements Serializable {
         while (k < BOARD_SIZE && !isEmpty(i, k)) {
           word += getTile(i, k++).getLetter(); // Append tile letter to found word
         }
-        System.out.println("WORD: " + word);
         if (!dictionary.wordExists(word)) {
-          System.out.println("WORD DOESNT EXIST");
           return false;
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
@@ -296,9 +290,7 @@ public class Board implements Serializable {
         while (k < BOARD_SIZE && !isEmpty(k, i)) {
           word += getTile(k++, i).getLetter(); // Append tile letter to found word
         }
-        System.out.println("Word: " + word);
         if (!dictionary.wordExists(word)) {
-          System.out.println("WORD DOESNT EXIST");
           return false;
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
