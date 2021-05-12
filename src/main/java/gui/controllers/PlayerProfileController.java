@@ -99,7 +99,7 @@ public class PlayerProfileController {
     showPlayer();
   }
 
-  public void createNewProfile(MouseEvent mouseEvent) {
+  public void createNewProfile() {
     System.out.println("CreateNewProfile");
 
     TextInputDialog td = new TextInputDialog();
@@ -117,7 +117,13 @@ public class PlayerProfileController {
 
   public void deleteProfile(MouseEvent mouseEvent){
     profiles.remove(profiles.get(selectedIdx));
-    selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
+    if (profiles.size() == 0) {
+      createNewProfile();
+      selectedIdx = 0;
+    } else {
+      selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
+    }
+    showPlayer();
     client.savePlayerProfiles();
   }
 }
