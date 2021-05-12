@@ -296,7 +296,7 @@ public class Game {
 
         // traverse up
         helper = bf;
-        while (helper.getRow() >= 0 && !helper.isEmpty()) {
+        while (helper.getRow() - 1 >= 0 && !board.isEmpty(helper.getRow() - 1, helper.getColumn())) {
           helper = board.getField(helper.getRow() - 1, helper.getColumn());
         }
 
