@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -24,12 +25,18 @@ public class gameSettingsController {
     private TextField distribution;
     @FXML
     private TextField dictionary;
+
+    private Client client;
     char letterID; // represents the current letter chosen
     int valueID; // represents the current value of chosen letter
     int distributionID; // represents the current distribution of chosen letter
     String dictionaryID; // current dictionary
     String [] values = {"1","3","3","2","1","4","2","4","1","8","5","1","3","1","1","3","10","1","1","1","1","4","4","8","4","10"}; //array storing values of letters
     String [] distributions = {"9","2","2","4","12","2","3","2","9","1","1","4","2","6","8","2","1","6","4","6","4","2","2","1","2","1"}; //array storing distribution of letters
+
+    public void setModel(Client client){
+        this.client = client;
+    }
 
   public void initData() { // initializes fields in gui
     for (int i = 65; i <= 90; i++) {
@@ -91,7 +98,7 @@ public class gameSettingsController {
       initData();
   }
   public void setDictionary() {
-    if(dictionary.getText() != null){
+    if(dictionary.getText() != "/.*.txt"){
         dictionaryID = dictionary.getText();
         System.out.println("Dictionary has been uploaded successfully!");
 

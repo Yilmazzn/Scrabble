@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -14,6 +15,11 @@ import java.io.IOException;
 /** @author vihofman Controller for the Game Results */
 public class gameResultsController {
   public static String player = "";
+  private Client client;
+
+  public void setModel(Client client){
+    this.client = client;
+  }
 
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();

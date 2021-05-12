@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -20,7 +21,11 @@ public class gameChatController {
     private TextArea messageDisplay;
     @FXML
     private Button sendButton;
+    private Client client;
 
+    public void setModel(Client client){
+        this.client = client;
+    }
     public void closeChat(MouseEvent mouseEvent) { // close the chat
         Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         window.close();
