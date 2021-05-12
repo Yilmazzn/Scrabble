@@ -1,16 +1,22 @@
 package gui.controllers;
 
+import client.Client;
+import client.PlayerProfile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 /** @author mnetzer Controller for the playerProfileView */
 public class PlayerProfileController {
@@ -25,16 +31,28 @@ public class PlayerProfileController {
   @FXML private Label playerLosses;
   @FXML private Label playerScrabblerSince;
 
-  public void InitData() {
-    playerNo.setText("1");
-    playerName.setText("Enton123");
-    playerTotalPoints.setText("350 Points");
-    playerCurrentHighscore.setText("350 Points");
-    playerPlaytime.setText("0h 20min 10sec");
-    playerPlayedGames.setText("1 Game");
-    playerWins.setText("1 Win");
-    playerLosses.setText("0 Losses");
-    playerScrabblerSince.setText("01.04.2021");
+  private Client client;
+  private List<PlayerProfile> profiles;
+  private int selectedIdx = 0;
+
+  public void setModel(Client client){
+    this.client = client;
+    this.profiles = client.getPlayerProfiles();
+    if(profiles.size() > 0 && client.getSelectedProfile() != null){
+      selectedIdx = profiles.indexOf(client.getSelectedProfile());
+      showPlayer();
+    }
+  }
+
+  public void showPlayer(){
+    playerNo.setText(String.valueOf(selectedIdx + 1));
+    playerName.setText(profiles.get(selectedIdx).getName());
+    playerTotalPoints.setText(String.valueOf(profiles.get(selectedIdx).getTotalScore()));
+    playerCurrentHighscore.setText(String.valueOf(profiles.get(selectedIdx).getHighscore()));
+    playerPlayedGames.setText(profiles.get(selectedIdx).getPlayedGames() + " Game(s)");
+    playerWins.setText(String.valueOf(profiles.get(selectedIdx).getWins()));
+    playerLosses.setText(String.valueOf(profiles.get(selectedIdx).getLosses()));
+    playerScrabblerSince.setText(profiles.get(selectedIdx).getCreation());
   }
 
   public void backToLogin(MouseEvent mouseEvent) throws IOException {
@@ -42,7 +60,7 @@ public class PlayerProfileController {
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
-    controller.InitData();
+    controller.setModel(client);
 
     // Parent profileControllerView =
     // FXMLLoader.load(getClass().getResource("/views/playerProfileView.fxml"));
@@ -69,18 +87,43 @@ public class PlayerProfileController {
     window.showAndWait();
   }
 
-  // Placeholder
   public void previousPlayer(MouseEvent mouseEvent) {
-    System.out.println("PreviousPlayer");
+    selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
+    client.setSelectedProfile(profiles.get(selectedIdx));
+    showPlayer();
   }
 
-  // Placeholder
   public void nextPlayer(MouseEvent mouseEvent) {
-    System.out.println("NextPlayer");
+    selectedIdx = (selectedIdx + 1) % profiles.size();
+    client.setSelectedProfile(profiles.get(selectedIdx));
+    showPlayer();
   }
 
-  // Placeholder
-  public void createNewProfile(MouseEvent mouseEvent) {
+  public void createNewProfile() {
     System.out.println("CreateNewProfile");
+
+    TextInputDialog td = new TextInputDialog();
+    td.setTitle("Create New Profile");
+    td.setHeaderText("Enter name of new profile");
+    td.setContentText("Name: ");
+    Optional<String> result = td.showAndWait();
+    result.ifPresent(name -> {
+      profiles.add(new PlayerProfile(name, 0, 0, 0, 0, LocalDate.now(), LocalDate.now()));
+      selectedIdx = profiles.size() - 1;
+      showPlayer();
+      client.savePlayerProfiles();
+    });
+  }
+
+  public void deleteProfile(MouseEvent mouseEvent){
+    profiles.remove(profiles.get(selectedIdx));
+    if (profiles.size() == 0) {
+      createNewProfile();
+      selectedIdx = 0;
+    } else {
+      selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
+    }
+    showPlayer();
+    client.savePlayerProfiles();
   }
 }

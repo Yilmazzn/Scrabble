@@ -54,7 +54,7 @@ public class ServerProtocol extends Thread {
   /**
    * a method to send a Message to the client
    *
-   * @param m the Message of a MessageType which should be send to the Client
+   * @param m the Message of a MessageType which should be send to the client.Client
    * @throws IOException exception by sending the message to the client
    */
   public void sendToClient(Message m) throws IOException {
@@ -150,7 +150,7 @@ public class ServerProtocol extends Thread {
     } catch (IOException e) {
       running = false;
       if (socket.isClosed()) {
-        System.out.println("Socket was closed. Client:" + clientName);
+        System.out.println("Socket was closed. client.Client:" + clientName);
       } else {
         try {
           socket.close();

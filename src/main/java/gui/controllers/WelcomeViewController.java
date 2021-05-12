@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -12,6 +13,12 @@ import java.io.IOException;
 
 /** @author mnetzer Controller for the WelcomeView */
 public class WelcomeViewController {
+
+  private Client client;
+
+  public void setModel(Client client){
+    this.client = client;
+  }
 
   public void help(MouseEvent mouseEvent) throws IOException {
     System.out.println("Help");
@@ -38,7 +45,7 @@ public class WelcomeViewController {
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent lobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
-    controller.InitData();
+    controller.setModel(client);
 
     // Parent profileControllerView =
     // FXMLLoader.load(getClass().getResource("/views/playerProfileView.fxml"));

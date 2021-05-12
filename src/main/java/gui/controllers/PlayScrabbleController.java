@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -13,12 +14,19 @@ import java.io.IOException;
 /** @author mnetzer Controller for the playerScrabbleView */
 public class PlayScrabbleController {
 
+  private Client client;
+
+  public void setModel(Client client){
+    this.client = client;
+  }
+
+
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
-    controller.InitData();
+    controller.setModel(client);
 
     Scene profileControllerScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
