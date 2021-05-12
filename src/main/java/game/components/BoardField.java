@@ -61,7 +61,6 @@ public class BoardField implements Serializable {
     return col;
   }
 
-  // Types of fields
   public enum FieldType {
     NORMAL,
     STAR,

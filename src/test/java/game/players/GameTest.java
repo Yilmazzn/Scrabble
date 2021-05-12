@@ -53,7 +53,6 @@ class GameTest {
     // Initialize the players
     players.add(new TestPlayer("TestPlayer-1"));
 
-
     // Initialize the Hash Maps
     letterDistribution = new HashMap<>();
     letterDistribution.put('X', 100);
@@ -72,10 +71,6 @@ class GameTest {
    */
   @DisplayName("Placing 'HELLO' (H on DWS, O on DLS)")
   void evaluateScoreTest1() {
-    /**
-     * TODO current issue because placed tiles of a players turn arent saved in the placementsInTurn
-     * List from TODO the class Game
-     */
     // First word
     g.placeTile(h, 7, 7);
     g.placeTile(e, 7, 8);
@@ -86,17 +81,20 @@ class GameTest {
     Assertions.assertEquals(30, g.evaluateScore());
     g.nextRound();
   }
-/*
+  @Test
+  void evaluateScoreTest2() {
     // second word
     g.placeTile(w, 6, 11);
     g.placeTile(o, 7, 11);
     g.placeTile(r, 8, 11);
     g.placeTile(l, 9, 11);
     g.placeTile(d, 10, 11);
+
     Assertions.assertEquals(12, g.evaluateScore());
     g.nextRound();
-
-    /*
+  }
+  @Test
+  void evaluateScoreTest3() {
     // third word
     g.placeTile(m, 10, 9);
     g.placeTile(i, 10, 10);
@@ -107,7 +105,9 @@ class GameTest {
 
     Assertions.assertEquals(26, g.evaluateScore());
     g.nextRound();
-
+  }
+  @Test
+  void evaluateScoreTest4() {
     // 4th words
     g.placeTile(o, 6, 12);
     g.placeTile(w, 6, 13);
@@ -115,7 +115,8 @@ class GameTest {
     g.placeTile(p, 7, 14);
     g.placeTile(e, 8, 14);
     g.placeTile(n, 9, 14);
+
     Assertions.assertEquals(30, g.evaluateScore());
     g.nextRound();
-    */
+  }
 }
