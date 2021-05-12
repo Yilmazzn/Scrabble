@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PlayerProfiles>
+  <profile>
+    <name>Profile 1</name>
+    <highscore>871</highscore>
+    <wins>95</wins>
+    <losses>84</losses>
+    <totalScore>408326</totalScore>
+    <creationDate>19.04.2021</creationDate>
+    <lastLogged>19.04.2021</lastLogged>
+  </profile>
+</PlayerProfiles>

@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import game.components.Board;
 import game.components.BoardField;
 import javafx.event.EventHandler;
@@ -37,8 +38,16 @@ public class GameViewController {
   @FXML private Label pointsPlayer3;
   @FXML private Label pointsPlayer4;
 
-  public static String player = "";
+  private Client client;
 
+
+  public static String player = "";
+  public static Board playBoard = new Board();
+
+
+  public void setModel(Client client){
+    this.client = client;
+  }
 
   public void initBoard() {
 
@@ -76,6 +85,7 @@ public class GameViewController {
       tiles.add(bottomPane, i, 0);
     }
   }
+
   /** @author vihofman for chat */
   public void openChat() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -142,7 +152,7 @@ public class GameViewController {
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
-    controller.InitData();
+    controller.setModel(client);
 
     Scene profileControllerScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -178,6 +188,7 @@ public class GameViewController {
   public AnchorPane createBottomTile() {
     AnchorPane pane = new AnchorPane();
     Label label = new Label();
+    Label points = new Label();
 
     int randomInt = (int) ((Math.random() * (90 - 65)) + 65);
     char randomChar = (char) randomInt;
@@ -190,6 +201,16 @@ public class GameViewController {
     label.setAlignment(Pos.CENTER);
     label.getStylesheets().add("/stylesheets/labelstyle.css");
     label.getStyleClass().add("tileBottom");
+
+    points.setText("1");
+    pane.setTopAnchor(points, 1.0);
+    pane.setLeftAnchor(points, 5.0);
+    pane.setRightAnchor(points, 1.0);
+    pane.setBottomAnchor(points, 1.0);
+    points.setAlignment(Pos.BOTTOM_LEFT);
+    points.getStylesheets().add("/stylesheets/labelstyle.css");
+    points.getStyleClass().add("digit");
+
 
     label.setOnDragDetected(
         new EventHandler<MouseEvent>() {
@@ -213,6 +234,8 @@ public class GameViewController {
           }
         });
 
+
+    pane.getChildren().add(points);
     pane.getChildren().add(label);
 
     return pane;
@@ -221,6 +244,8 @@ public class GameViewController {
   public AnchorPane createTile(BoardField.FieldType type) {
     AnchorPane pane = new AnchorPane();
     Label label = new Label();
+    Label points = new Label();
+
     label.setText("");
     pane.setTopAnchor(label, 1.0);
     pane.setLeftAnchor(label, 1.0);
@@ -228,8 +253,16 @@ public class GameViewController {
     pane.setBottomAnchor(label, 1.0);
     label.setAlignment(Pos.CENTER);
     label.getStylesheets().add("/stylesheets/labelstyle.css");
-
     label.getStyleClass().add("tile");
+
+    points.setText("");
+    pane.setTopAnchor(points, 1.0);
+    pane.setLeftAnchor(points, 5.0);
+    pane.setRightAnchor(points, 1.0);
+    pane.setBottomAnchor(points, 1.0);
+    points.setAlignment(Pos.BOTTOM_LEFT);
+    points.getStylesheets().add("/stylesheets/labelstyle.css");
+    points.getStyleClass().add("digit");
 
     /** @author mnetzer verschiedene Felder erzeugen */
     if (type == BoardField.FieldType.DWS) {
@@ -286,10 +319,30 @@ public class GameViewController {
           }
         });
 
+    pane.getChildren().add(points);
     pane.getChildren().add(label);
+
 
     return pane;
   }
 
+  public void updateTile(){}
+
+  public void updateRack(){}
+
+  public void updateBoard(char letter, int value, int row, int col){
+
+  }
+
   public void clickOnField(int row, int col) {}
+
+  private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+    for (Node node : gridPane.getChildren()) {
+      if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+        return node;
+      }
+    }
+    return null;
+  }
+
 }
