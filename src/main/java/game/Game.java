@@ -92,7 +92,9 @@ public class Game {
    */
   public void nextRound() {
     // Stop overtime of last round's player (interrupt thread)
-    overtime.stopCountdown();
+    if (roundNum > 0) {
+      overtime.stopCountdown();
+    }
 
     // increment round number
     roundNum++;
@@ -198,6 +200,7 @@ public class Game {
     // Iterate over placements of last turn
     for (BoardField bf : placementsInTurn) {
 
+
       // check to the left if other placement exists there (would be evaluated in that spec.
       // iteration)
       BoardField helper = board.getField(bf.getRow(), bf.getColumn() - 1); // left of placement
@@ -247,7 +250,7 @@ public class Game {
 
         // traverse to the left
         helper = bf;
-        while (helper.getColumn() >= 0 && !helper.isEmpty()) {
+        while (helper.getColumn() - 1 >= 0 && !board.isEmpty(helper.getRow(), helper.getColumn() - 1)) {
           helper = board.getField(helper.getRow(), helper.getColumn() - 1);
         }
 
@@ -283,7 +286,6 @@ public class Game {
 
           helper = board.getField(helper.getRow(), helper.getColumn() + 1);
         }
-
         totalScore += wordScore * wordMult;
       }
 
