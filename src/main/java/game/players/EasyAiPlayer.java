@@ -2,12 +2,15 @@ package game.players;
 
 /**
  * @author yuzun
- * <p>Hard AI Player Only implements think method
+ * <p>
+ * Simple Ai Player
+ * Only implements think method
  */
-public class HardAiPlayer extends AiPlayer {
 
-    public HardAiPlayer() {
-        super(DIFFICULTY.HARD);
+public class EasyAiPlayer extends AiPlayer {
+
+    public EasyAiPlayer() {
+        super(DIFFICULTY.EASY);
     }
 
     /**

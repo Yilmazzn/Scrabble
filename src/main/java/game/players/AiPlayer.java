@@ -1,44 +1,77 @@
 package game.players;
 
-import game.components.Board;
+import client.PlayerProfile;
 import game.components.Tile;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.List;
 
-/** @author yuzun */
+/**
+ * @author yuzun
+ * <p>AI player/actor in game. Provides method 'think' which is the main feature
+ */
 public abstract class AiPlayer extends Player {
 
-  private static final int RACK_SIZE = 7;
-  private final LinkedList<Tile> rack = new LinkedList<>(); // rack of the player
+  private static final List<String> botNames =
+          Arrays.asList(
+                  "Yilmaz",
+                  "Valentin",
+                  "Vincent",
+                  "Yasin",
+                  "Max",
+                  "Nicolas"); // bots get random names which is removed from collection then (no duplicates)
+  private final ArrayList<Tile> rack = new ArrayList<>();
+  private final DIFFICULTY difficulty;
 
-  public AiPlayer() {
-    super(false);
+  /**
+   * Initializes Bot with random name of collection and removes it from list of available names
+   */
+  public AiPlayer(DIFFICULTY difficulty) {
+    super(new PlayerProfile("", 0, 0, 0, 0, LocalDate.now(), LocalDate.now()), false);
+
+    this.difficulty = difficulty;
+
+    // Get random name
+    int randomIdx = (int) (Math.random() * 6); // random number 0-5
+    String botName = botNames.get(randomIdx);
+
+    // Set name of profile to 'Bot <name>'
+    super.getProfile().setName("Bot " + botName);
   }
 
   /**
-   * This method makes the ai evaluate the board and think of its next play Depending on the
-   * subclass, this method is overwritten in a way, that represents the intelligence of the bot
+   * Main method which is triggered by the game instance All computations from start of round till
+   * end need to be done in here!
    */
   public abstract void think();
 
-  /** Adds tiles to the rack of the ai player */
+  /**
+   * Adds given tiles to rack
+   */
   @Override
   public void addTilesToRack(Collection<Tile> tiles) {
     rack.addAll(tiles);
   }
 
-  /** Removes given tiles form the rack of the ai player */
-  @Override
-  public void removeTilesFromRack(Collection<Tile> tiles) {
-    rack.removeAll(tiles);
+  /**
+   * Return Difficulty of Ai (Used to be able to differentiate, e.g. by colors blue/red)
+   */
+  public DIFFICULTY getDifficulty() {
+    return difficulty;
   }
 
-  @Override
-  public void updateBoard(Board board) {}
+  /**
+   * Quit from game. Set username back to list of available bot names
+   */
+  public void quit() {
+    botNames.add(super.getProfile().getName());
+  }
 
-  @Override
-  public int getRackSize() {
-    return rack.size();
+  public enum DIFFICULTY {
+    EASY,
+    HARD
   }
 }
