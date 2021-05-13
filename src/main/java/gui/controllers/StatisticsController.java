@@ -1,12 +1,13 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-/** @author vihofman Controller for the statistics Controller */
+/** @author vihofman Controller for the statistics  */
 public class StatisticsController {
     // setup for all the statistics
     @FXML
@@ -26,10 +27,14 @@ public class StatisticsController {
     @FXML
     private TextArea scrabblerSince;
 
-    //fill al the TextFields with Data from Player by clicking EVALUATE in gui
+    private Client client;
+    public void setModel(Client client){
+        this.client = client;
+    }
+
     String currentPlayer = gameResultsController.player;
 
-  public void setText() {
+  public void initData() {
     name.setText("currentPlayer.getName()");
     totalPoints.setText("currentPlayer.getTotalPoints()");
     currentPoints.setText("currentPlayer.getCurrentPoints()");

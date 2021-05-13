@@ -37,6 +37,28 @@ public class gameSettingsController {
     public void setModel(Client client){
         this.client = client;
     }
+    public String getValue(char a){ // getter method for value of letter
+        int valueLetter = Character.getNumericValue(a);
+        if((valueLetter >= 97) && (valueLetter <= 122)){ // no caps
+            return values[valueLetter - 97];
+        }
+        if((valueLetter >= 65) && (valueLetter <= 90)){ // caps
+            return values[valueLetter - 65];
+        }
+        else
+            return null;
+    }
+    public String getDistribution(char a){ // getter method for distribution of letter
+        int distributionLetter = Character.getNumericValue(a);
+        if((distributionLetter >= 97) && (distributionLetter <= 122)){ // no caps
+            return values[distributionLetter - 97];
+        }
+        if((distributionLetter >= 65) && (distributionLetter <= 90)){ // caps
+            return values[distributionLetter - 65];
+        }
+        else
+            return null;
+    }
 
   public void initData() { // initializes fields in gui
     for (int i = 65; i <= 90; i++) {
@@ -48,7 +70,7 @@ public class gameSettingsController {
       }
     }
   }
-  public void increaseLetter(){
+  public void increaseLetter(){ // to swap to next letter
         letterID = letter.getText().charAt(0);
         if (letterID <= 89) {
             letterID++;
@@ -56,7 +78,7 @@ public class gameSettingsController {
             initData();
         }
   }
-  public void decreaseLetter(){
+  public void decreaseLetter(){ //to swap to letter before
         letterID = letter.getText().charAt(0);
         if (letterID >= 66) {
             letterID--;
@@ -64,7 +86,7 @@ public class gameSettingsController {
         }
         initData();
   }
-  public void increaseValue(){
+  public void increaseValue(){ //to increase selected letter above
         valueID = Integer.parseInt(value.getText());
         if(valueID >=0){
             valueID++;
@@ -73,7 +95,7 @@ public class gameSettingsController {
         }
 
   }
-  public void decreaseValue(){
+  public void decreaseValue(){ // to decrease selected letter above
           valueID = Integer.parseInt(value.getText());
           if (valueID > 0) {
             valueID--;
@@ -81,7 +103,7 @@ public class gameSettingsController {
           }
           initData();
   }
-  public void increaseDistribution(){
+  public void increaseDistribution(){ // to increase distribution of selected letter above
         distributionID = Integer.parseInt(distribution.getText());
         if(distributionID >= 0) {
             distributionID++;
@@ -89,7 +111,7 @@ public class gameSettingsController {
         }
         initData();
   }
-  public void decreaseDistribution(){
+  public void decreaseDistribution(){ // to decrease distribution of selected letter above
       distributionID = Integer.parseInt(distribution.getText());
       if(distributionID > 0) {
           distributionID--;
@@ -97,14 +119,29 @@ public class gameSettingsController {
       }
       initData();
   }
-  public void setDictionary() {
-    if(dictionary.getText() != "/.*.txt"){
+  public void setDictionary() throws IOException { // set the dictionary
+    if(dictionary.getText().contains("/.*.txt")){
         dictionaryID = dictionary.getText();
         System.out.println("Dictionary has been uploaded successfully!");
-
+        }
+    else {
+        openDictionaryError();
     }
   }
+    public void openDictionaryError() throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(this.getClass().getResource("/views/dictionaryError.fxml"));
+        Parent errorMessage = loader.load();
 
+        Scene exitGameScene = new Scene(errorMessage);
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Exit Game");
+        window.setScene(exitGameScene);
+        window.setWidth(200);
+        window.setHeight(200);
+        window.showAndWait();
+    }
     public void exitGame() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));

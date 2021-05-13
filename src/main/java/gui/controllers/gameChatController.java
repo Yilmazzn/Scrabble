@@ -42,6 +42,6 @@ public class gameChatController {
     }
     public void sendMessage(MouseEvent mouseEvent) throws IOException { //send a message by clicking the enter button
         String output = inputMessage.getText();
-        messageDisplay.setText(messageDisplay.getText() + "\n" + output);
+        messageDisplay.setText(messageDisplay.getText() + "\n" + "player.getName()" + output);
     }
 }

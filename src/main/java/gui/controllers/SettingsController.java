@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,6 +22,10 @@ public class SettingsController {
   private CheckBox animationsOn;
   @FXML
   private CheckBox animationsOff;
+  private Client client;
+  public void setModel(Client client){
+    this.client = client;
+  }
   //settings logic with setter methods
   public void enableSound(){
     soundOff.setSelected(false);
@@ -34,13 +39,15 @@ public class SettingsController {
   public void disableAnimations(){
     animationsOn.setSelected(false);
   }
+
  //Getter methods for settings
-  public boolean sound(){
+  public boolean getSound(){
     return soundOn.isSelected();
   }
-  public boolean animations() {
+  public boolean getAnimations() {
     return animationsOn.isSelected();
   }
+
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));

@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,12 +22,16 @@ public class CreateGameController {
   private TextArea PlayerThree;
   @FXML
   private TextArea PlayerFour;
-  // booleans for joined Players
-  boolean joined2 = false;
+  private Client client;
+
+  boolean joined2 = false;// booleans for joined Players
   boolean joined3 = false;
   boolean joined4 = false;
-  // fill the names of joined players once they have connected to the creating game
-  public void setPlayerTwo(){
+
+  public void setModel(Client client){
+    this.client = client;
+  }
+  public void setPlayerTwo(){// fill the names of joined players once they have connected to the creating game
     PlayerTwo.setText("playerTwo.getName()");
     joined2 = true;
   }

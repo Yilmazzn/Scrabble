@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,15 +17,25 @@ public class JoinGameController {
   /** @author vihofman for functionality*/
   @FXML
   private TextField ipField;
-  //checking if entered IP is correct
-  public void checkEnterIP() throws IOException{
-    if(!ipField.getText().equals(null)){
+  private Client client;
+  public void setModel(Client client){
+    this.client = client;
+  }
+  public void checkEnterIP() throws IOException{ //checking if entered IP is correct
+    if(ipField.getText().equals("")){
       showErrorMessage();
     }
   }
+  public String getIP(){ // get the IP
+    if(!ipField.getText().equals("")){
+      return ipField.getText();
+    }
+    else
+      return null;
+  }
   public void showErrorMessage() throws IOException{
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/errorMessage.fxml"));
+    loader.setLocation(this.getClass().getResource("/views/IPError.fxml"));
     Parent errorMessage = loader.load();
 
     Scene exitGameScene = new Scene(errorMessage);
