@@ -146,6 +146,7 @@ public class Board implements Serializable {
     //  --> mark every tile on board as invalid
     if (fields[7][7].isEmpty()) {
       placements.forEach(bf -> bf.setValid(false));
+      System.out.println("STAR NOT COVERED");
       return false;
     }
 
@@ -159,39 +160,101 @@ public class Board implements Serializable {
     }
 
     if (uniqueRows.size() > 1 && uniqueColumns.size() > 1) {
+      System.out.println("MULTIPLE ROWS/COLUMNS");
       return false;
     }
 
-    // Check adjacency
-    boolean placementCheck = true;
+    // Check adjacency to ANY tile
+    boolean placementAdjCheck = true;
     for (BoardField bf : placements) {
 
       int i = bf.getRow(); // row
       int j = bf.getColumn(); // column
 
-      if (!fields[i][j].isEmpty()) {
-        boolean isAdjacent = false;
-        if (i > 0 && !fields[i - 1][j].isEmpty()) { // up
-          isAdjacent = true;
-        }
-        if (i < BOARD_SIZE - 1 && !fields[i + 1][j].isEmpty()) { // down
-          isAdjacent = true;
-        }
-        if (j > 0 && !fields[i][j - 1].isEmpty()) { // left
-          isAdjacent = true;
-        }
-        if (j < BOARD_SIZE - 1 && !fields[i][j + 1].isEmpty()) { // right
-          isAdjacent = true;
-        }
-        fields[i][j].setValid(isAdjacent);
-        if (!isAdjacent) {
-          placementCheck = false;
-        }
+      // Check if adjacent to other tiles
+      if (i > 0 && !fields[i - 1][j].isEmpty()                   //up
+              || i < BOARD_SIZE - 1 && !fields[i + 1][j].isEmpty()    //down
+              || j > 0 && !fields[i][j - 1].isEmpty()                 //left
+              || j < BOARD_SIZE - 1 && !fields[i][j + 1].isEmpty()) {  //right
+
+        // placement is adjacent to other placements
+        bf.setValid(true);
+      } else {
+        placementAdjCheck = false;
+        bf.setValid(false);
       }
     }
-    if (!placementCheck) {
+    if (!placementAdjCheck) {
+      System.out.println("NOT ADJACENT TO ANY");
       return false;
     }
+
+
+    // Check placements forming word with at least one tile NOT placed this turn
+    boolean placementCheckOther = true;
+    for (BoardField bf : placements) {
+
+      int i = bf.getRow();
+      int j = bf.getColumn();
+
+      boolean formsWordOther = false;   // forms word with at least one tile NOT placed this turn
+
+      // UP
+      int k = 1;
+      while (i - k >= 0) {
+        if (fields[i - k][j].isEmpty()) {
+          break;
+        }
+        if (!placements.contains(fields[i - k][j])) { //non-empty field was not placed this turn
+          formsWordOther = true;
+        }
+        k++;
+      }
+
+      // DOWN
+      k = 1;
+      while (i + k < BOARD_SIZE && !formsWordOther) {   // skip if already forms word with tile NOT placed this turn
+        if (fields[i + k][j].isEmpty()) {
+          break;
+        }
+        if (!placements.contains(fields[i + k][j])) { //non-empty field was not placed this turn
+          formsWordOther = true;
+        }
+        k++;
+      }
+
+      // RIGHT
+      k = 1;
+      while (j + k < BOARD_SIZE && !formsWordOther) {   // skip if already forms word with tile NOT placed this turn
+        if (fields[i][j + k].isEmpty()) {
+          break;
+        }
+        if (!placements.contains(fields[i][j + k])) { //non-empty field was not placed this turn
+          formsWordOther = true;
+        }
+        k++;
+      }
+
+      // LEFT
+      k = 1;
+      while (j - k >= 0 && !formsWordOther) {   // skip if already forms word with tile NOT placed this turn
+        if (fields[i][j - k].isEmpty()) {
+          break;
+        }
+        if (!placements.contains(fields[i][j - k])) { //non-empty field was not placed this turn
+          formsWordOther = true;
+        }
+        k++;
+      }
+      bf.setValid(formsWordOther);
+      placementCheckOther = placementCheckOther && formsWordOther;
+    }
+
+    if (!placementCheckOther) {
+      System.out.println("NOT ADJACENT TO OTHER");
+      return false;
+    }
+
 
     // Check: Valid words are formed (Dictionary
     // Check horizontal
@@ -207,10 +270,11 @@ public class Board implements Serializable {
         String word = ""; // horizontal word
         int k = j; // column of first tile of the word
         while (k < BOARD_SIZE && !isEmpty(i, k)) {
-          word += getTile(i, k++); // Append tile letter to found word
+          word += getTile(i, k++).getLetter(); // Append tile letter to found word
         }
-
+        System.out.println("WORD: " + word);
         if (!dictionary.wordExists(word)) {
+          System.out.println("WORD DOESNT EXIST");
           return false;
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
@@ -230,10 +294,11 @@ public class Board implements Serializable {
         String word = ""; // horizontal word
         int k = j; // row of first tile of the word
         while (k < BOARD_SIZE && !isEmpty(k, i)) {
-          word += getTile(k++, i); // Append tile letter to found word
+          word += getTile(k++, i).getLetter(); // Append tile letter to found word
         }
-
+        System.out.println("Word: " + word);
         if (!dictionary.wordExists(word)) {
+          System.out.println("WORD DOESNT EXIST");
           return false;
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
