@@ -15,9 +15,7 @@ public enum MessageType {
   SUBMITMOVE, // DONE
   UPDATEPOINTS, // DONE
   SENDPLAYERDATA, // DONE
-  REMOVEPLAYER, // in playerlobby
-  KICKPLAYER, // ingame kick players
-  GOTOMENU, // TODO go to menu and get back into the game?
   GETTILE, // DONE
-  EXCHANGETILES // DONE
+  EXCHANGETILES, // DONE
+  AGREEDICTIONARY // DONE
 }

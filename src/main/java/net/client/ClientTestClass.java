@@ -19,7 +19,7 @@ public class ClientTestClass {
 
   /** a constructor to create the client and server instances for testing */
   public ClientTestClass() {
-    Client.createGame(this);
+    NetClient.createGame(this);
     try {
       joinClients();
     } catch (IOException e) {
@@ -29,7 +29,7 @@ public class ClientTestClass {
     }
   }
 
-  /** Method to start the server from somewhere else e.g. from client.Client.createGame(this) */
+  /** Method to start the server from somewhere else e.g. from Client.createGame(this) */
   public void startServer() {
     server = new Server();
     new ServerListenThread().start();
@@ -50,43 +50,43 @@ public class ClientTestClass {
     PlayerProfile profile3 =
         new PlayerProfile("profilname3", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
     PlayerProfile profile4 =
-        new PlayerProfile("profilname4", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
+        new PlayerProfile("AI4", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
     PlayerProfile profile5 =
         new PlayerProfile("profilname5", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
-    Client client1 = new Client("binsderclient", profile1);
-    client1.connect();
+    NetClient netClient1 = new NetClient("binsderclient", profile1);
+    netClient1.connect();
     Thread.sleep(100);
-    Client client2 = new Client("Yaso", profile2);
-    client2.connect();
+    NetClient netClient2 = new NetClient("Yaso", profile2);
+    netClient2.connect();
     Thread.sleep(100);
-    Client client3 = new Client("Nico", profile3);
-    client3.connect();
+    NetClient netClient3 = new NetClient("Nico", profile3);
+    netClient3.connect();
     Thread.sleep(100);
-    client1.startGame(
+    netClient1.startGame(
         new File(
             "C:\\Users\\Valentin\\Downloads\\Collins Scrabble Words (2019) with definitions.txt"));
     Thread.sleep(2000);
-    client2.sendChatMessage("Hello World", client2.getUsername());
+    netClient2.sendChatMessage("Hello World", netClient2.getUsername());
     Thread.sleep(100);
     System.out.println("client1 ready");
-    client1.setReadyState(true, client1.getUsername());
+    netClient1.setReadyState(true, netClient1.getUsername());
     Thread.sleep(100);
     System.out.println("client2 ready");
-    client2.setReadyState(true, client2.getUsername());
+    netClient2.setReadyState(true, netClient2.getUsername());
     Thread.sleep(100);
     System.out.println("client3 ready");
-    client3.setReadyState(true, client3.getUsername());
+    netClient3.setReadyState(true, netClient3.getUsername());
     Thread.sleep(100);
-    System.out.println(client1.wordExists("AARRGHH"));
-    System.out.println(client2.wordExists("SPATES"));
-    System.out.println(client3.wordExists("SPATES"));
-    client1.sendPlayerData(2);
+    System.out.println(netClient1.wordExists("AARRGHH"));
+    System.out.println(netClient2.wordExists("SPATES"));
+    System.out.println(netClient3.wordExists("SPATES"));
+    netClient1.sendPlayerData(2);
     Thread.sleep(100);
-    client2.sendPlayerData(0);
+    netClient2.sendPlayerData(0);
     Thread.sleep(100);
-    client3.sendPlayerData(1);
+    netClient3.sendPlayerData(1);
     Thread.sleep(100);
-    client1.getTile();
+    netClient1.getTile();
     Tile[] oldTiles =
         new Tile[] {
           new Tile('A', 2),
@@ -98,12 +98,20 @@ public class ClientTestClass {
           new Tile('C', 4),
           new Tile('D', 5)
         };
-    client2.exchangeTiles(oldTiles);
-    Client client4 = new Client("yilmaz", profile4);
-    client4.connect();
+    netClient2.exchangeTiles(oldTiles);
+    NetClient netClient4 = new NetClient("ai", profile4, true);
+    netClient4.connect();
     Thread.sleep(100);
-    Client client5 = new Client("tooMuch", profile5);
-    client5.connect();
+    NetClient netClient5 = new NetClient("tooMuch", profile5);
+    netClient5.connect();
+    Thread.sleep(100);
+    netClient1.agreeOnDictionary(true, netClient1.getUsername());
+    Thread.sleep(100);
+    netClient2.agreeOnDictionary(true, netClient2.getUsername());
+    Thread.sleep(100);
+    netClient3.agreeOnDictionary(true, netClient3.getUsername());
+    Thread.sleep(100);
+    netClient4.agreeOnDictionary(true, netClient4.getUsername());
   }
 
   /** a inner thread class to start the server */
