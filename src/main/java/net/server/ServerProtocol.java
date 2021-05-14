@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.HashMap;
 
 /**
  * A ServerProtocol class to handle serverside messages
@@ -54,7 +53,7 @@ public class ServerProtocol extends Thread {
   /**
    * a method to send a Message to the client
    *
-   * @param m the Message of a MessageType which should be send to the client.Client
+   * @param m the Message of a MessageType which should be send to the Client
    * @throws IOException exception by sending the message to the client
    */
   public void sendToClient(Message m) throws IOException {
@@ -74,11 +73,18 @@ public class ServerProtocol extends Thread {
             username = ((ConnectMessage) m).getUsername();
             PlayerProfile profile = ((ConnectMessage) m).getProfile();
             server.setReady(username);
+            server.setAgree(username);
             this.clientName = username;
             server.addClientName(username);
             ConnectMessage cm = server.setID(username, profile);
             server.setPlayerProfiles(cm.getID(), profile);
             System.out.println("Server added: " + username);
+            int index = Math.min(4, server.getNumberOfClients());
+            PlayerProfile[] temp = new PlayerProfile[index];
+            for (int i = 0; i < index; i++) {
+              temp[i] = server.getProfile(i);
+            }
+            cm.setProfiles(temp);
             server.sendToAll(cm);
             break;
           case DISCONNECT:
@@ -97,27 +103,22 @@ public class ServerProtocol extends Thread {
             break;
           case PLAYERREADY:
             // Checks, if all player are ready, then sends message to all clients
-            HashMap<String, Boolean> playersReady = server.getPlayersReady();
-            boolean ready = true;
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
             server.setPlayersReady(prm.getUsername(), prm.getReady());
-            for (String s : playersReady.keySet()) {
-              ready = ready && playersReady.get(s);
-            }
-            if (ready) {
-              server.sendToAll(m);
-            }
+            server.isReady(m);
             break;
           case UPDATEGAMEBOARD:
             server.sendToAll(m);
             break;
           case SUBMITMOVE:
             // TODO add checkValid method
+            // Board.check()
             // Message m contains username and valid and board attributes
             sendToClient(m);
             break;
           case UPDATEPOINTS:
             // TODO add pointUpdating method
+            // Game.evaluateScore()
             server.sendToAll(m);
             break;
           case SENDPLAYERDATA:
@@ -143,6 +144,11 @@ public class ServerProtocol extends Thread {
             }
             sendToClient(etm);
             break;
+          case AGREEDICTIONARY:
+            AgreeDictionaryMessage adm = (AgreeDictionaryMessage) m;
+            server.setPlayersAgree(adm.getUsername(), adm.getAgreement());
+            server.isAgree(m);
+            break;
           default:
             break;
         }
@@ -150,7 +156,7 @@ public class ServerProtocol extends Thread {
     } catch (IOException e) {
       running = false;
       if (socket.isClosed()) {
-        System.out.println("Socket was closed. client.Client:" + clientName);
+        System.out.println("Socket was closed. Client:" + clientName);
       } else {
         try {
           socket.close();
@@ -164,3 +170,36 @@ public class ServerProtocol extends Thread {
     }
   }
 }
+
+// TODO Requirements
+/*
+We have:
+- Player Profiles [1 - 4]
+- Client id
+- All Players agreed to dictionary
+- Chat message
+- Disconnected
+- Exchange Tiles, send old Tiles, get same amount of new tiles
+- Get Tile from bag to personal rack
+- All players ready
+- Dictionary
+- Move submitted
+- Updated Board
+- Updated Points
+- Server (?)
+- is AI active?
+
+We need:
+- Access to CreateGameController, to set Players
+- Dictionary agreement boolean value
+- add message to chat
+- toggle readiness of player
+- update board view
+- color words red, if submit is wrong
+- update points
+- access to game, to trigger nextRound()
+- access to player to read and write to and from personal rack
+- change fxml after dictionary agreement
+- game checkValid from server
+- game evaluateScore from server
+ */
