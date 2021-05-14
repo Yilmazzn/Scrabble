@@ -25,7 +25,6 @@ public class PlayerProfileController {
   @FXML private Label playerName;
   @FXML private Label playerTotalPoints;
   @FXML private Label playerCurrentHighscore;
-  @FXML private Label playerPlaytime;
   @FXML private Label playerPlayedGames;
   @FXML private Label playerWins;
   @FXML private Label playerLosses;
@@ -111,6 +110,7 @@ public class PlayerProfileController {
       profiles.add(new PlayerProfile(name, 0, 0, 0, 0, LocalDate.now(), LocalDate.now()));
       selectedIdx = profiles.size() - 1;
       showPlayer();
+      client.setSelectedProfile(profiles.get(selectedIdx));
       client.savePlayerProfiles();
     });
   }
@@ -124,6 +124,7 @@ public class PlayerProfileController {
       selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
     }
     showPlayer();
+    client.setSelectedProfile(profiles.get(selectedIdx));
     client.savePlayerProfiles();
   }
 }

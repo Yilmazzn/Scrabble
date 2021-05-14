@@ -20,7 +20,7 @@ public class Server {
   private ServerSocket serverSocket;
   private boolean running;
   private static final int port = 12975;
-  private String serverIp;
+  private static String serverIp;
   private ArrayList<ServerProtocol> clients = new ArrayList<>();
   private ArrayList<String> clientNames = new ArrayList<>();
   private HashMap<String, Boolean> playersReady = new HashMap<>();
@@ -63,8 +63,8 @@ public class Server {
    *
    * @return Returns serverIp
    */
-  public String getIpAddress() {
-    return this.serverIp;
+  public static String getIpAddress() {
+    return serverIp;
   }
 
   /** a method for stopping the server immediately */
@@ -181,7 +181,7 @@ public class Server {
    * @param id requires the id of the clientplayer
    * @return returns the PlayerProfile
    */
-  public synchronized PlayerProfile getProfile(int id) {
+  public static synchronized PlayerProfile getProfile(int id) {
     return profiles[id];
   }
 

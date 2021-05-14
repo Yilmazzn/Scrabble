@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.PlayerProfileController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.PlayerProfileController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Player Profile" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -64,7 +64,6 @@
                             </columnConstraints>
                             <rowConstraints>
                                 <RowConstraints maxHeight="114.5830078125" minHeight="10.0" prefHeight="102.37724304199219" vgrow="SOMETIMES" />
-                                <RowConstraints vgrow="ALWAYS" />
                                 <RowConstraints vgrow="ALWAYS" />
                                 <RowConstraints vgrow="ALWAYS" />
                                 <RowConstraints vgrow="ALWAYS" />
@@ -138,7 +137,7 @@
                                         <Insets left="15.0" />
                                     </GridPane.margin>
                                 </Label>
-                                <Label text="Playtime:" GridPane.rowIndex="4">
+                                <Label text="Played Games:" GridPane.rowIndex="4">
                                     <font>
                                         <Font name="Chalkboard" size="24.0" />
                                     </font>
@@ -146,15 +145,7 @@
                                         <Insets left="20.0" />
                                     </GridPane.margin>
                                 </Label>
-                                <Label fx:id="playerPlaytime" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                    <font>
-                                        <Font name="Chalkboard" size="24.0" />
-                                    </font>
-                                    <GridPane.margin>
-                                        <Insets left="15.0" />
-                                    </GridPane.margin>
-                                </Label>
-                                <Label text="Played Games:" GridPane.rowIndex="5">
+                                <Label text="Wins:" GridPane.rowIndex="5">
                                     <font>
                                         <Font name="Chalkboard" size="24.0" />
                                     </font>
@@ -162,7 +153,7 @@
                                         <Insets left="20.0" />
                                     </GridPane.margin>
                                 </Label>
-                                <Label text="Wins:" GridPane.rowIndex="6">
+                                <Label text="Losses:" GridPane.rowIndex="6">
                                     <font>
                                         <Font name="Chalkboard" size="24.0" />
                                     </font>
@@ -170,15 +161,7 @@
                                         <Insets left="20.0" />
                                     </GridPane.margin>
                                 </Label>
-                                <Label text="Losses:" GridPane.rowIndex="7">
-                                    <font>
-                                        <Font name="Chalkboard" size="24.0" />
-                                    </font>
-                                    <GridPane.margin>
-                                        <Insets left="20.0" />
-                                    </GridPane.margin>
-                                </Label>
-                                <Label text="Scrabbler Since:" GridPane.rowIndex="8">
+                                <Label text="Scrabbler Since:" GridPane.rowIndex="7">
                                     <font>
                                         <Font name="Chalkboard" size="24.0" />
                                     </font>
@@ -186,7 +169,7 @@
                                         <Insets bottom="20.0" left="20.0" />
                                     </GridPane.margin>
                                 </Label>
-                                <Label fx:id="playerPlayedGames" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                <Label fx:id="playerPlayedGames" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                     <font>
                                         <Font name="Chalkboard" size="24.0" />
                                     </font>
@@ -194,7 +177,7 @@
                                         <Insets left="15.0" />
                                     </GridPane.margin>
                                 </Label>
-                                <Label fx:id="playerWins" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                <Label fx:id="playerWins" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                     <font>
                                         <Font name="Chalkboard" size="24.0" />
                                     </font>
@@ -202,7 +185,7 @@
                                         <Insets left="15.0" />
                                     </GridPane.margin>
                                 </Label>
-                                <Label fx:id="playerLosses" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                <Label fx:id="playerLosses" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                     <font>
                                         <Font name="Chalkboard" size="24.0" />
                                     </font>
@@ -210,7 +193,7 @@
                                         <Insets left="15.0" />
                                     </GridPane.margin>
                                 </Label>
-                                <Label fx:id="playerScrabblerSince" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                <Label fx:id="playerScrabblerSince" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
                                     <font>
                                         <Font name="Chalkboard" size="24.0" />
                                     </font>
