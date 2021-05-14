@@ -13,24 +13,40 @@ import java.io.IOException;
  *
  * @author vkaczmar
  */
-public class Client {
+public class NetClient {
   private ClientProtocol connection;
   private final String ipAdr = "25.93.29.50";
   private String username; // username from playersprofile
   private int points;
   private Dictionary dictionary;
   private PlayerProfile profile;
+  private boolean isAIActive;
 
   /**
    * a constructor to create a client
    *
    * @param user a String representation of the username
+   * @param profile profile object for representation of profile related statistics
    * @author ygarip
    */
-  // TODO Probably remove later
-  public Client(String user, PlayerProfile profile) {
+  public NetClient(String user, PlayerProfile profile) {
     this.username = user;
     this.profile = profile;
+    this.isAIActive = false;
+  }
+
+  /**
+   * Constructor to create an AI-Client
+   *
+   * @param user requires the username of the AI
+   * @param profile requires the profile of the AI
+   * @param isAIActive requires the boolean value of isAIActive
+   * @author vkaczmar
+   */
+  public NetClient(String user, PlayerProfile profile, boolean isAIActive) {
+    this.username = user;
+    this.profile = profile;
+    this.isAIActive = isAIActive;
   }
 
   /**
@@ -167,5 +183,24 @@ public class Client {
    */
   public void exchangeTiles(Tile[] oldTiles) {
     connection.exchangeTiles(oldTiles);
+  }
+
+  /**
+   * a method to agree on the dictionary
+   *
+   * @author ygarip
+   * @param agree requires the boolean value of agree
+   * @param username requires the username
+   */
+  public void agreeOnDictionary(boolean agree, String username) {
+    connection.agreeOnDictionary(agree, username);
+  }
+
+  /**
+   * @author vkaczmar
+   * @return returns the boolean value of isAIActive
+   */
+  public boolean getAIActive() {
+    return isAIActive;
   }
 }

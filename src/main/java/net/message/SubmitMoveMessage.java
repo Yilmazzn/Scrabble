@@ -8,6 +8,7 @@ public class SubmitMoveMessage extends Message {
   private boolean valid;
   private Board board;
 
+  // TODO Remove
   /**
    * constructor for creating the SumbitMoveMessage Class
    *
