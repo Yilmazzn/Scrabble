@@ -3,6 +3,8 @@ package gui.controllers;
 import client.Client;
 import game.components.Board;
 import game.components.BoardField;
+import game.components.Tile;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,12 +62,11 @@ public class GameViewController {
     pointsPlayer3.setText("3");
     pointsPlayer4.setText("4");
 
-    Board initBoard = new Board();
-
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
-        AnchorPane anchorPane = createTile(initBoard.getField(j, i).getType());
+        AnchorPane anchorPane = createTile(playBoard.getField(j, i));
         board.add(anchorPane, i, j);
+
 
         if (i == 7 && j == 7) {
           StackPane stackPane = new StackPane();
@@ -234,19 +235,22 @@ public class GameViewController {
           }
         });
 
-
     pane.getChildren().add(points);
     pane.getChildren().add(label);
 
     return pane;
   }
 
-  public AnchorPane createTile(BoardField.FieldType type) {
+  public AnchorPane createTile(BoardField boardField) {
     AnchorPane pane = new AnchorPane();
     Label label = new Label();
     Label points = new Label();
 
-    label.setText("");
+    if (!boardField.isEmpty()){
+      label.setText(String.valueOf(boardField.getTile().getLetter()));
+    } else {
+      label.setText("");
+    }
     pane.setTopAnchor(label, 1.0);
     pane.setLeftAnchor(label, 1.0);
     pane.setRightAnchor(label, 1.0);
@@ -255,7 +259,11 @@ public class GameViewController {
     label.getStylesheets().add("/stylesheets/labelstyle.css");
     label.getStyleClass().add("tile");
 
-    points.setText("");
+    if (!boardField.isEmpty()){
+      points.setText(Character.toString(boardField.getTile().getScore()));
+    } else {
+      points.setText("");
+    }
     pane.setTopAnchor(points, 1.0);
     pane.setLeftAnchor(points, 5.0);
     pane.setRightAnchor(points, 1.0);
@@ -265,20 +273,23 @@ public class GameViewController {
     points.getStyleClass().add("digit");
 
     /** @author mnetzer verschiedene Felder erzeugen */
-    if (type == BoardField.FieldType.DWS) {
+    if (boardField.getType() == BoardField.FieldType.DWS) {
       label.getStyleClass().add("tileDWS");
     }
-    if (type == BoardField.FieldType.TWS) {
+    if (boardField.getType() == BoardField.FieldType.TWS) {
       label.getStyleClass().add("tileTWS");
     }
-    if (type == BoardField.FieldType.DLS) {
+    if (boardField.getType() == BoardField.FieldType.DLS) {
       label.getStyleClass().add("tileDLS");
     }
-    if (type == BoardField.FieldType.TLS) {
+    if (boardField.getType() == BoardField.FieldType.TLS) {
       label.getStyleClass().add("tileTLS");
     }
-    if (type == BoardField.FieldType.STAR) {
+    if (boardField.getType() == BoardField.FieldType.STAR) {
       label.getStyleClass().add("tileStar");
+    }
+    if (!boardField.isEmpty()){
+      label.getStyleClass().add("tileWithLetter");
     }
 
     label.setOnDragOver(
@@ -307,8 +318,9 @@ public class GameViewController {
             Dragboard db = event.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-              label.setText(db.getString());
-              label.getStyleClass().add("tileWithLetter");
+              updateTile(db.getString().charAt(0), boardField.getRow(), boardField.getColumn());
+              //label.setText(db.getString());
+              //label.getStyleClass().add("tileWithLetter");
               success = true;
             }
             /* let the source know whether the string was successfully
@@ -326,7 +338,15 @@ public class GameViewController {
     return pane;
   }
 
-  public void updateTile(){}
+  public void updateTile(char letter, int row, int col){
+    if(!playBoard.getField(row, col).isEmpty()){
+      playBoard.getTile(row, col).setLetter(letter);
+    } else {
+      playBoard.getField(row, col).setTile(new Tile(letter, 1));
+    }
+    AnchorPane pane = createTile(playBoard.getField(row, col));
+    board.add(pane, col, row);
+  }
 
   public void updateRack(){}
 
@@ -344,5 +364,17 @@ public class GameViewController {
     }
     return null;
   }
+
+ /* public Node removeNodeByRowColumnIndex(final int row,final int column,GridPane gridPane) {
+
+    ObservableList<Node> childrens = gridPane.getChildren();
+    for(Node node : childrens) {
+      if(node instanceof AnchorPane && gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+        AnchorPane pane = (AnchorPane) node; // use what you want to remove
+        gridPane.getChildren().remove(pane);
+        break;
+      }
+    }
+  }*/
 
 }
