@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /** @author vihofman Class for opening certain views separately */
-public class OpenErrorMessage extends Application {
+public class OpenIPErrorMessage extends Application {
     public static void main (String [] args){
 
         launch(args);
@@ -20,7 +20,7 @@ public class OpenErrorMessage extends Application {
 
         primaryStage.setTitle("Scrabble 13");
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(this.getClass().getResource("/views/errorMessage.fxml"));
+        loader.setLocation(this.getClass().getResource("/views/IPError.fxml"));
         Parent root = loader.load();
 
         primaryStage.setScene(new Scene(root));

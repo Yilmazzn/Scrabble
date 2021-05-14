@@ -1,74 +1,60 @@
 package gui.controllers;
 
+import client.Client;
+import client.PlayerProfile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateGameController {
   /** @author vihofman for gameSettings and functionality */
-  //setup for joined players
-  @FXML
-  private TextArea PlayerTwo;
-  @FXML
-  private TextArea PlayerThree;
-  @FXML
-  private TextArea PlayerFour;
-  // booleans for joined Players
-  boolean joined2 = false;
-  boolean joined3 = false;
-  boolean joined4 = false;
-  // fill the names of joined players once they have connected to the creating game
-  public void setPlayerTwo(){
-    PlayerTwo.setText("playerTwo.getName()");
-    joined2 = true;
+  // setup for joined players
+  @FXML private TextArea PlayerTwo;
+  @FXML private TextArea PlayerThree;
+  @FXML private TextArea PlayerFour;
+
+  private Label connectionDetails;
+
+  private Client client;
+  List<PlayerProfile> profiles = new ArrayList<>(); // manage profiles with arrayList
+
+
+  public void setModel(Client client) {
+    this.client = client;
+
+    // TODO client.getNetClient().setGameLobbyController(this);
+    // TODO this.connectionDetails.setText(client.getNetClient().getServer().getConnectionDetails());
   }
-  public void setPlayerThree(){
-    PlayerThree.setText("playerThree.getName()");
-    joined3 = true;
+
+  public void addPlayer(PlayerProfile profile) {
+    profiles.add(profile);
   }
-  public void setPlayerFour(){
-    PlayerFour.setText("playerFour.getName()");
-    joined4 = true;
+
+  public void removePlayer(PlayerProfile profile) {
+    profiles.remove(profile);
   }
-  //delete the players from game creation if they leave
-  public void deletePlayerTwo(){
-    PlayerTwo.setText("");
-    joined2 = false;
-  }
-  public void deletePlayerThree(){
-    PlayerThree.setText("");
-    joined2 = false;
-  }
-  public void deletePlayerFour(){
-    PlayerFour.setText("");
-    joined2 = false;
-  }
-  //getter methods for joined players
-  public String getPlayerTwo(){
-    if(joined2){
-      return "playerTwo.getName()";
+
+  public void updatePlayerList() {
+
+    TextArea[] areas = {PlayerTwo, PlayerThree, PlayerFour};
+
+    for (int i = 1; i < profiles.size(); i++) {
+      areas[i].setText(profiles.get(i).getName());
     }
-    else return null;
-  }
-  public String getPlayerThree(){
-    if(joined3){
-      return "playerThree.getName()";
+    for (int i = profiles.size(); i < 4; i++) {
+      areas[i].setText("");
     }
-    else return null;
-  }
-  public String getPlayerFour(){
-    if(joined4){
-      return "playerFour.getName()";
-    }
-    else return null;
   }
   public void gameSettings(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();

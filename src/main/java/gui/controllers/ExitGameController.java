@@ -1,14 +1,18 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /** @author mnetzer Controller for the exitGameView */
 public class ExitGameController {
+  private Client client;
+
+  public void setModel(Client client) {
+    this.client = client;
+  }
 
   public void exitGame(MouseEvent mouseEvent) {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
