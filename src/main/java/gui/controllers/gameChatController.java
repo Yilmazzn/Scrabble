@@ -15,33 +15,34 @@ import java.io.IOException;
 
 /** @author vihofman Controller for the Game Chat */
 public class gameChatController {
-    @FXML
-    private TextField inputMessage;
-    @FXML
-    private TextArea messageDisplay;
-    @FXML
-    private Button sendButton;
-    private Client client;
+  @FXML private TextField inputMessage;
+  @FXML private TextArea messageDisplay;
+  @FXML private Button sendButton;
+  private Client client;
 
-    public void setModel(Client client){
-        this.client = client;
+  public void setModel(Client client) {
+    this.client = client;
+  }
+
+  public void closeChat(MouseEvent mouseEvent) { // close the chat
+    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    window.close();
+  }
+
+  class background extends Rectangle { // idea for giving sent messages a background
+    background() {
+      setWidth(50);
+      setHeight(20);
+      setArcWidth(10);
+      setArcHeight(10);
+      setFill(Color.GREY);
+      setStroke(Color.GREY);
     }
-    public void closeChat(MouseEvent mouseEvent) { // close the chat
-        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        window.close();
-    }
-    class background extends Rectangle{ //idea for giving sent messages a background
-        background(){
-            setWidth(50);
-            setHeight(20);
-            setArcWidth(10);
-            setArcHeight(10);
-            setFill(Color.GREY);
-            setStroke(Color.GREY);
-        }
-    }
-    public void sendMessage(MouseEvent mouseEvent) throws IOException { //send a message by clicking the enter button
-        String output = inputMessage.getText();
-        messageDisplay.setText(messageDisplay.getText() + "\n" + "player.getName()" + output);
-    }
+  }
+
+  public void sendMessage(MouseEvent mouseEvent)
+      throws IOException { // send a message by clicking the enter button
+    String output = inputMessage.getText();
+    messageDisplay.setText(messageDisplay.getText() + "\n" + "player.getName()" + output);
+  }
 }

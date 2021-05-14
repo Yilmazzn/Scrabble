@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import client.PlayerProfile;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -10,13 +11,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import net.server.Server;
 
 import java.io.IOException;
 /** @author vihofman Controller for the Game Results */
 public class gameResultsController {
-  public static String player = "";
   private Client client;
-
+  public PlayerProfile player;
   public void setModel(Client client){
     this.client = client;
   }
@@ -53,7 +54,7 @@ public class gameResultsController {
     Scene gameChatScene = new Scene(gameChat);
     Stage window = new Stage();
     window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("gameChat");
+    window.setTitle("");
     window.setScene(gameChatScene);
     window.setWidth(300);
     window.setHeight(500);
@@ -72,7 +73,7 @@ public class gameResultsController {
     Scene openStatisticsScene = new Scene(openStatistics);
     Stage window = new Stage();
     window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle(player);
+    window.setTitle("");
     window.setScene(openStatisticsScene);
     window.setWidth(300);
     window.setHeight(500);
@@ -86,22 +87,25 @@ public class gameResultsController {
   }
 
   public void playerOne() throws IOException{
-   player = "Player One";
-   openStatistics();
-  }
-
-  public void playerTwo() throws IOException{
-    player = "Player Two";
+    player = Server.getProfile(1); // TODO is this ID correct? because does not work at all
+    StatisticsController.initData(player);
     openStatistics();
+  }
+  public void playerTwo() throws IOException{
+     player = Server.getProfile(2);
+     StatisticsController.initData(player);
+     openStatistics();
   }
 
   public void playerThree() throws IOException{
-    player = "Player Three";
+    player = Server.getProfile(3);
+    StatisticsController.initData(player);
     openStatistics();
   }
 
   public void playerFour() throws IOException{
-    player = "PLayer Four";
+    player = Server.getProfile(3);
+    StatisticsController.initData(player);
     openStatistics();
   }
 }

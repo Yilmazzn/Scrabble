@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.server.Server;
 
 import java.io.IOException;
 
@@ -22,17 +23,14 @@ public class JoinGameController {
     this.client = client;
   }
   public void checkEnterIP() throws IOException{ //checking if entered IP is correct
-    if(ipField.getText().equals("")){
+    if(!ipField.getText().equals(Server.getIpAddress())){
       showErrorMessage();
     }
-  }
-  public String getIP(){ // get the IP
-    if(!ipField.getText().equals("")){
-      return ipField.getText();
+    else{
+
     }
-    else
-      return null;
   }
+
   public void showErrorMessage() throws IOException{
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/IPError.fxml"));
