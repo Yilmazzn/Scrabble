@@ -1,8 +1,9 @@
-package net.client;
+package net.server;
 
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
+import net.client.NetClient;
 import net.message.*;
 
 import java.io.File;

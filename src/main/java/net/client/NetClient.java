@@ -1,9 +1,12 @@
 package net.client;
 
+import client.Client;
 import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
+import net.server.ClientProtocol;
+import net.server.Server;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +18,14 @@ import java.io.IOException;
  */
 public class NetClient {
   private ClientProtocol connection;
-  private final String ipAdr = "25.93.29.50";
+  private String ipAdr = "192.168.178.30";
   private String username; // username from playersprofile
   private int points;
   private Dictionary dictionary;
   private PlayerProfile profile;
   private boolean isAIActive;
+  private Client client;
+  private Server server;
 
   /**
    * a constructor to create a client
@@ -49,6 +54,10 @@ public class NetClient {
     this.isAIActive = isAIActive;
   }
 
+  public NetClient(Client client) {
+    this.client = client;
+  }
+
   /**
    * @author vkaczmar method call, when "Create Game" is clicked. Happens only once, only the host
    *     calls this method
@@ -56,6 +65,11 @@ public class NetClient {
   // TODO change ClientTestClass to the class, that starts everything
   public static void createGame(ClientTestClass ctc) {
     ctc.startServer();
+  }
+
+  public void createServer() {
+    server = new Server();
+    new ServerListenThread().start();
   }
 
   /**
@@ -66,6 +80,10 @@ public class NetClient {
   public void connect() {
     this.connection = new ClientProtocol(this.ipAdr, this);
     this.connection.start();
+  }
+
+  public void setIp(String ip) {
+    this.ipAdr = ip;
   }
 
   /**
@@ -131,7 +149,7 @@ public class NetClient {
    * @return returns the username of the client
    */
   public String getUsername() {
-    return this.username;
+    return client.getSelectedProfile().getName();
   }
 
   /**
@@ -169,7 +187,7 @@ public class NetClient {
    * @return returns the players profile
    */
   public PlayerProfile getPlayerProfile() {
-    return profile;
+    return client.getSelectedProfile();
   }
 
   /** @author ygarip a method to get the tile from server */
@@ -202,5 +220,11 @@ public class NetClient {
    */
   public boolean getAIActive() {
     return isAIActive;
+  }
+
+  class ServerListenThread extends Thread {
+    public void run() {
+      server.listen();
+    }
   }
 }

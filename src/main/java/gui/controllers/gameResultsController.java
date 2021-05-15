@@ -11,14 +11,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import net.server.Server;
 
 import java.io.IOException;
 /** @author vihofman Controller for the Game Results */
 public class gameResultsController {
   private Client client;
   public PlayerProfile player;
-  public void setModel(Client client){
+
+  public void setModel(Client client) {
     this.client = client;
   }
 
@@ -66,7 +66,8 @@ public class gameResultsController {
     window.setY(y);
     window.show();
   }
-  public void openStatistics() throws IOException{
+
+  public void openStatistics() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
     Parent openStatistics = loader.load();
@@ -86,26 +87,27 @@ public class gameResultsController {
     window.show();
   }
 
-  public void playerOne() throws IOException{
-    player = Server.getProfile(1); // TODO is this ID correct? because does not work at all
-    StatisticsController.initData(player);
-    openStatistics();
-  }
-  public void playerTwo() throws IOException{
-     player = Server.getProfile(2);
-     StatisticsController.initData(player);
-     openStatistics();
-  }
-
-  public void playerThree() throws IOException{
-    player = Server.getProfile(3);
-    StatisticsController.initData(player);
+  public void playerOne() throws IOException {
+    // player = Server.getProfile(1); // TODO is this ID correct? because does not work at all
+    // StatisticsController.initData(player);
     openStatistics();
   }
 
-  public void playerFour() throws IOException{
-    player = Server.getProfile(3);
-    StatisticsController.initData(player);
+  public void playerTwo() throws IOException {
+    // player = Server.getProfile(2);
+    // StatisticsController.initData(player);
+    openStatistics();
+  }
+
+  public void playerThree() throws IOException {
+    // player = Server.getProfile(3);
+    // StatisticsController.initData(player);
+    openStatistics();
+  }
+
+  public void playerFour() throws IOException {
+    // player = Server.getProfile(3);
+    // StatisticsController.initData(player);
     openStatistics();
   }
 }

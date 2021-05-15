@@ -16,10 +16,9 @@ public class PlayScrabbleController {
 
   private Client client;
 
-  public void setModel(Client client){
+  public void setModel(Client client) {
     this.client = client;
   }
-
 
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -40,7 +39,7 @@ public class PlayScrabbleController {
     loader.setLocation(this.getClass().getResource("/views/createGame.fxml"));
     Parent createGameView = loader.load();
     CreateGameController controller = loader.getController();
-
+    controller.setModel(client);
     Scene createGameScene = new Scene(createGameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(createGameScene);
