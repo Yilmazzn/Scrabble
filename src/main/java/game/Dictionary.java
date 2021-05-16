@@ -4,6 +4,7 @@ import ft.NodeWordlist;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -142,5 +143,17 @@ public class Dictionary {
     } else {
       return false;
     }
+  }
+
+  /**
+   * @author vkaczmar
+   * @return returns a String array of all the words
+   */
+  public String[] getWordsAsArray() {
+    String[] s = new String[words.size()];
+    for (int i = 0; i < words.size(); i++) {
+      s[i] = words.get(i);
+    }
+    return s;
   }
 }
