@@ -1,6 +1,5 @@
 package client;
 
-import client.PlayerProfile;
 import ft.XmlHandler;
 import gui.controllers.WelcomeViewController;
 import javafx.application.Application;
@@ -10,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import net.client.NetClient;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
