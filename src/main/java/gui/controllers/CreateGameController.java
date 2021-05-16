@@ -4,15 +4,15 @@ import client.Client;
 import client.PlayerProfile;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-import net.server.Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,10 +21,12 @@ import java.util.List;
 public class CreateGameController {
   /** @author vihofman for gameSettings and functionality */
   // setup for joined players
-  @FXML private TextArea PlayerTwo;
-
-  @FXML private TextArea PlayerThree;
-  @FXML private TextArea PlayerFour;
+  @FXML private Label PlayerTwo;
+  @FXML private Label PlayerThree;
+  @FXML private Label PlayerFour;
+  @FXML private Label ReadyTwo;
+  @FXML private Label ReadyThree;
+  @FXML private Label ReadyFour;
 
   private Label connectionDetails;
 
@@ -62,7 +64,7 @@ public class CreateGameController {
 
   public void updatePlayerList() {
 
-    TextArea[] areas = {PlayerTwo, PlayerThree, PlayerFour};
+    Label[] areas = {PlayerTwo, PlayerThree, PlayerFour};
 
     for (int i = 1; i < profiles.size(); i++) {
       areas[i].setText(profiles.get(i).getName());
@@ -92,7 +94,7 @@ public class CreateGameController {
     return distributions;
   }
 
-  public void gameSettings(MouseEvent mouseEvent) throws IOException {
+  public void openGameSettings(MouseEvent mouseEvent) throws IOException {
 
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameSettings.fxml"));
@@ -105,6 +107,37 @@ public class CreateGameController {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(gameSettingsScene);
     window.show();
+  }
+  public void openChat() throws IOException{
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
+    Parent gameChat = loader.load();
+    Scene gameChatScene = new Scene(gameChat);
+    Stage window = new Stage();
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Chat");
+    window.setScene(gameChatScene);
+    window.setWidth(300);
+    window.setHeight(500);
+    window.show();
+    Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+    double x = bounds.getMinX() + (bounds.getWidth() - window.getWidth()) * 0.78;
+    double y = bounds.getMinY() + (bounds.getHeight() - window.getHeight()) * 0.45;
+    window.setX(x);
+    window.setY(y);
+    window.show();
+  }
+  public void checkReadiness() throws IOException{
+    //isReady();
+      //isAgree();
+      }
+  public void addAiPlayer() throws IOException{ // add AI player to the GUI
+    Label[] joinedPlayers = {PlayerTwo, PlayerThree, PlayerFour};
+    for(int i = 0; i<joinedPlayers.length; i++){
+      if (joinedPlayers[i].getText().equals("")) {
+        joinedPlayers[i].setText("AI Player");
+      }
+    }
   }
   /** @author mnetzer Controller for more createGame methods */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {

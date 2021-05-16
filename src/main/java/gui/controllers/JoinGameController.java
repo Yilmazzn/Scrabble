@@ -10,27 +10,29 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.server.Server;
 
 import java.io.IOException;
 
 public class JoinGameController {
-  /** @author vihofman for functionality*/
-  @FXML
-  private TextField ipField;
+  /** @author vihofman for functionality */
+  @FXML private TextField ipField;
+
   private Client client;
-  public void setModel(Client client){
+
+  public void setModel(Client client) {
     this.client = client;
   }
-  public void checkEnterIP() throws IOException{ //checking if entered IP is correct
-    if(!ipField.getText().equals(Server.getIpAddress())){
+
+  public void checkEnterIP() throws IOException { // checking if entered IP is correct
+    if (!ipField.getText().equals(Server.getIpAddress())) {
       showErrorMessage();
-    }
-    else{
+    } else {
 
     }
   }
 
-  public void showErrorMessage() throws IOException{
+  public void showErrorMessage() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/IPError.fxml"));
     Parent errorMessage = loader.load();
@@ -46,12 +48,20 @@ public class JoinGameController {
   }
   /** @author mnetzer Controller for the joinGameView */
   public void gameView(MouseEvent mouseEvent) throws IOException {
+    if (ipField.getText().matches("[0-9.]+")) {
+      client.getNetClient().setIp(ipField.getText().trim());
+      client.getNetClient().connect();
+    } else {
+      ipField.setText("ERROR, no valid format");
+      return;
+      // TODO set Color of textField red frame
+    }
     System.out.println("createGame");
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
-    controller.initBoard();
+    controller.setModel(client);
 
     Scene welcomeScene = new Scene(gameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -86,5 +96,4 @@ public class JoinGameController {
     window.setScene(playScrabbleScene);
     window.show();
   }
-
 }

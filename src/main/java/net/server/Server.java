@@ -6,9 +6,9 @@ import net.message.ConnectMessage;
 import net.message.Message;
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 /**
@@ -27,12 +27,78 @@ public class Server {
   private int clientID = 0;
   private int[] points = new int[5];
   private int clientCounter = 0;
-  private PlayerProfile[] profiles = new PlayerProfile[5];
-  private HashMap<String, Boolean> agreements = new HashMap<>();
+  private static PlayerProfile[] profiles = new PlayerProfile[5];
 
   /** Constructor to create server, sets serverIP */
   public Server() {
-    this.serverIp = "25.93.29.50";
+    try {
+      this.serverIp = getLocalHostIp4Address();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
+  }
+
+  // https://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
+  // TODO but method name differs
+  /**
+   * @author from stackoverflow
+   * @return IP
+   * @throws UnknownHostException
+   */
+  public String getLocalHostIp4Address() throws UnknownHostException {
+
+    try {
+
+      InetAddress candidateAddress = null;
+
+      for (Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();
+          ifaces.hasMoreElements(); ) {
+
+        NetworkInterface iface = ifaces.nextElement();
+
+        for (Enumeration<InetAddress> inetAddrs = iface.getInetAddresses();
+            inetAddrs.hasMoreElements(); ) {
+
+          InetAddress inetAddr = inetAddrs.nextElement();
+
+          if (!inetAddr.isLoopbackAddress() && inetAddr instanceof Inet4Address) {
+
+            if (inetAddr.isSiteLocalAddress()) {
+
+              return inetAddr.getHostAddress();
+
+            } else if (candidateAddress == null) {
+
+              candidateAddress = inetAddr;
+            }
+          }
+        }
+      }
+
+      if (candidateAddress != null) {
+
+        return candidateAddress.getHostAddress();
+      }
+
+      InetAddress jdkSuppliedAddress = InetAddress.getLocalHost();
+
+      if (jdkSuppliedAddress == null) {
+
+        throw new UnknownHostException(
+            "The JDK InetAddress.getLocalHost() method unexpectedly returned null.");
+      }
+
+      return jdkSuppliedAddress.getHostAddress();
+
+    } catch (Exception e) {
+
+      UnknownHostException unknownHostException =
+          new UnknownHostException("Failed to determine LAN address: " + e);
+
+      unknownHostException.initCause(e);
+
+      throw unknownHostException;
+    }
   }
 
   /**
@@ -75,7 +141,6 @@ public class Server {
         serverSocket.close();
       } catch (IOException e) {
         e.printStackTrace();
-        System.exit(0);
       }
     }
   }
@@ -83,7 +148,7 @@ public class Server {
   /**
    * a method for sending a message to all clients
    *
-   * @param m requires the message
+   * @param m message
    */
   public synchronized void sendToAll(Message m) {
     int index = 0;
@@ -113,8 +178,6 @@ public class Server {
    */
   public synchronized void removeClientName(String name) {
     this.clientNames.remove(name);
-    this.playersReady.remove(name);
-    this.agreements.remove(name);
   }
 
   /**
@@ -129,6 +192,17 @@ public class Server {
   /** @return returns the number of clients in the list */
   public synchronized int getNumberOfClients() {
     return this.clients.size();
+  }
+
+  /** @return returns the serverSocket */
+  // TODO maybe delete later if not needed
+  public synchronized ServerSocket getServerSocket() {
+    return this.serverSocket;
+  }
+
+  /** @return returns a hashmap containing pairs of String and Booleans */
+  public synchronized HashMap<String, Boolean> getPlayersReady() {
+    return this.playersReady;
   }
 
   /**
@@ -181,7 +255,7 @@ public class Server {
    * @param id requires the id of the clientplayer
    * @return returns the PlayerProfile
    */
-  public static synchronized PlayerProfile getProfile(int id) {
+  public synchronized PlayerProfile getProfile(int id) {
     return profiles[id];
   }
 
@@ -211,57 +285,5 @@ public class Server {
    */
   public synchronized void addTiles(Tile[] oldTiles) {
     // TODO add the old tiles to the bag
-  }
-
-  /**
-   * Sets Agreement to false, on specified user
-   *
-   * @param user Requires user, which wants to change HashMap
-   */
-  public synchronized void setAgree(String user) {
-    agreements.put(user, false);
-  }
-
-  /**
-   * Sets Agreement status, based on String value for key and boolean for true/false
-   *
-   * @param user Requires user as key
-   * @param agree Requires Boolean as value
-   */
-  public synchronized void setPlayersAgree(String user, Boolean agree) {
-    if (agreements.get(user)) {
-      agreements.remove(user);
-    }
-    this.agreements.put(user, agree);
-  }
-
-  /**
-   * Checks, if all players are ready and if so, sends message back to all
-   *
-   * @param m Requires message received in ServerProtocol
-   */
-  public synchronized void isReady(Message m) {
-    boolean ready = true;
-    for (String s : playersReady.keySet()) {
-      ready = ready && playersReady.get(s);
-    }
-    if (ready) {
-      sendToAll(m);
-    }
-  }
-
-  /**
-   * Checks, if all players agree with the dictionary and sends the message back to all players
-   *
-   * @param m requires the AgreeDictionary Message
-   */
-  public synchronized void isAgree(Message m) {
-    boolean ready = true;
-    for (String s : agreements.keySet()) {
-      ready = ready && agreements.get(s);
-    }
-    if (ready) {
-      sendToAll(m);
-    }
   }
 }

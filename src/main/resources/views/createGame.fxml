@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -48,15 +47,7 @@
                   <RowConstraints maxHeight="194.41506958007812" minHeight="10.0" prefHeight="85.23809814453125" vgrow="SOMETIMES" />
                     </rowConstraints>
                <children>
-                            <Button mnemonicParsing="false" onMouseClicked="#gameView" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="START" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                <font>
-                                    <Font size="24.0" />
-                                </font>
-                     <GridPane.margin>
-                        <Insets left="100.0" />
-                     </GridPane.margin>
-                            </Button>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scrabble Players:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scrabble Players:" GridPane.columnIndex="1">
                                 <font>
                                     <Font name="Chalkboard" size="24.0" />
                                 </font>
@@ -64,37 +55,87 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                             </Text>
-                            <Button mnemonicParsing="false" onMouseClicked="#gameSettings" prefHeight="53.0" prefWidth="203.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Game Settings" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+                     <children>
+                        <Button mnemonicParsing="false" onMouseClicked="#addAiPlayer" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Add AI-Player">
+                           <font>
+                              <Font name="Chalkboard" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="55.0" top="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children></HBox>
+                  <Label fx:id="PlayerThree" prefHeight="45.0" prefWidth="206.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
-                        <Insets left="50.0" />
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="PlayerFour" prefHeight="46.0" prefWidth="204.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="PlayerTwo" prefHeight="46.0" prefWidth="209.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button mnemonicParsing="false" onMouseClicked="#openChat" prefHeight="41.0" prefWidth="123.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Chat" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="100.0" />
                      </GridPane.margin>
                      <font>
                         <Font name="Chalkboard" size="24.0" />
-                     </font></Button>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2" />
-                      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" styleClass="bigButton" stylesheets="@../stylesheets/buttonstyle.css" text="Creating Game..." textAlignment="CENTER" GridPane.columnIndex="1">
-                          <font>
-                              <Font name="Chalkboard" size="24.0" />
-                          </font>
+                     </font>
+                  </Button>
+                  <Label fx:id="ReadyTwo" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" />
+                        <Insets left="250.0" />
                      </GridPane.margin>
-                      </Button>
-                  <TextArea fx:id="PlayerThree" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  </Label>
+                  <Label fx:id="ReadyThree" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets left="250.0" />
                      </GridPane.margin>
-                  </TextArea>
-                  <TextArea fx:id="PlayerTwo" layoutX="338.0" layoutY="176.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  </Label>
+                  <Label fx:id="ReadyFour" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets left="250.0" />
                      </GridPane.margin>
-                  </TextArea>
-                  <TextArea fx:id="PlayerFour" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  </Label>
+                            <Button mnemonicParsing="false" onMouseClicked="#gameView" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="START" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                <font>
+                                    <Font name="Chalkboard" size="24.0" />
+                                </font>
                      <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets left="100.0" />
                      </GridPane.margin>
-                  </TextArea>
+                            </Button>
+                  <Button mnemonicParsing="false" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Dictionary" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Chalkboard" size="24.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="80.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="235.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Connection Details" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Chalkboard" size="24.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="30.0" />
+                     </GridPane.margin>
+                  </Button>
+                            <Button mnemonicParsing="false" onMouseClicked="#openGameSettings" prefHeight="53.0" prefWidth="203.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Game Settings" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Chalkboard" size="24.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="50.0" />
+                     </GridPane.margin>
+                  </Button>
                </children>
                <VBox.margin>
                   <Insets left="100.0" right="100.0" top="100.0" />

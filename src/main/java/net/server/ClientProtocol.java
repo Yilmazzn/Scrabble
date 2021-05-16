@@ -14,7 +14,7 @@ import java.net.Socket;
 
 /** @author vkaczmar Handles all interactions from the server to the client */
 public class ClientProtocol extends Thread {
-  private NetClient netClient;
+  private NetClient client;
   private Socket clientSocket;
   private ObjectOutputStream out;
   private ObjectInputStream in;
@@ -25,16 +25,15 @@ public class ClientProtocol extends Thread {
    * Constructor for creating streams and connecting a client
    *
    * @param ip Requires the ip, the server runs on
-   * @param netClient Requires username for current profile
+   * @param client Requires username for current profile
    */
-  public ClientProtocol(String ip, NetClient netClient) {
-    this.netClient = netClient;
+  public ClientProtocol(String ip, NetClient client) {
+    this.client = client;
     try {
       this.clientSocket = new Socket(ip, 12975);
       this.out = new ObjectOutputStream(clientSocket.getOutputStream());
       this.in = new ObjectInputStream(clientSocket.getInputStream());
-      this.out.writeObject(
-          new ConnectMessage(netClient.getUsername(), netClient.getPlayerProfile()));
+      this.out.writeObject(new ConnectMessage(client.getUsername(), client.getPlayerProfile()));
       out.flush();
     } catch (IOException e) {
       e.printStackTrace();
@@ -46,7 +45,7 @@ public class ClientProtocol extends Thread {
     running = false;
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new DisconnectMessage(netClient.getUsername()));
+        this.out.writeObject(new DisconnectMessage(client.getUsername()));
         clientSocket.close();
       }
     } catch (IOException e) {
@@ -132,8 +131,8 @@ public class ClientProtocol extends Thread {
   /**
    * Method for writing a UpdatePointsMessage Object to the server
    *
-   * @param currentState requires the currentState before the update
-   * @param previousState requires the state of Board after the update
+   * @param currentState
+   * @param previousState
    */
   public void updatePoints(Board currentState, Board previousState) {
     try {
@@ -185,22 +184,6 @@ public class ClientProtocol extends Thread {
   }
 
   /**
-   * Creates and sends AgreeOnDictionaryMessage instance to server
-   *
-   * @param agree Requires agreement value
-   * @param username Requires client username
-   */
-  public void agreeOnDictionary(boolean agree, String username) {
-    try {
-      if (!clientSocket.isClosed()) {
-        this.out.writeObject(new AgreeDictionaryMessage(agree, username));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
    * Overwritten run method from Thread. Accepts and works through incoming messages from the server
    */
   public void run() {
@@ -217,28 +200,29 @@ public class ClientProtocol extends Thread {
               }
             }
             // TODO update Lobby View
-            if (this.id == 0) {
-              // SET PLAYER ONE
-            } else if (this.id == 1) {
-              // Client.CreateGameController.setPlayerTwo(String name)
-            }
+            // System.out.println("New player joined the lobby");
             break;
           case STARTGAME:
-            netClient.setDictionary(
+            // TODO add method
+            System.out.println("Rufe FXML Wechsel auf");
+            client.setDictionary(
                 new Dictionary(((StartGameMessage) m).getFile().getAbsolutePath()));
-            // TODO Popup to agree on Dictionary
             break;
           case CHATMESSAGE:
-            // TODO add method to show new message
-            // ADD addMessage() to GameViewController
+            // TODO add method
             System.out.println(((ChatMessage) m).getUsername() + ": " + ((ChatMessage) m).getMsg());
             break;
           case PLAYERREADY:
-            // TODO add method to show that player is ready
+            // TODO add method
             System.out.println("Host should now be able to start the game");
+            /*
+            if (host) {
+              do something, like enable the startgame button
+            }
+             */
             break;
           case UPDATEGAMEBOARD:
-            // TODO add method to updateBoard
+            // TODO add method
             System.out.println("Update Board");
             break;
           case SUBMITMOVE:
@@ -246,18 +230,12 @@ public class ClientProtocol extends Thread {
             // TODO Button appears, which enables deletion of current layed tiled User can delete
             // all or just remove single tiles
             System.out.println("Submit Move");
-            if (((SubmitMoveMessage) m).getValid()) {
-              // Client.GameViewController.submit(Board)
-            } else {
-              // other todos
-            }
             break;
           case UPDATEPOINTS:
             // TODO updateView()
             // The message knows, which points have been changed
             System.out.println("Update Points View");
             // TODO nextPlayer()
-            // Game.nextRound();
             break;
           case SENDPLAYERDATA:
             // TODO show Profile
@@ -265,7 +243,6 @@ public class ClientProtocol extends Thread {
             break;
           case GETTILE:
             // TODO add tile to personal rack and display it
-            // Player.addTilesToRack(Tile)
             System.out.println(((GetTileMessage) m).getTile().getLetter());
             break;
           case EXCHANGETILES:
@@ -279,11 +256,6 @@ public class ClientProtocol extends Thread {
             } else {
               System.out.println(etm.getError());
             }
-            break;
-          case AGREEDICTIONARY:
-            System.out.println("Call fxml change");
-            // TODO if true call fxml change, to game view,
-            // Otherwise inform clients, that no agreement has been made
             break;
           default:
             break;
