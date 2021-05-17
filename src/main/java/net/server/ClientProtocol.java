@@ -1,8 +1,11 @@
 package net.server;
 
+import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
+import game.players.Player;
+import game.players.RemotePlayer;
 import net.client.NetClient;
 import net.message.*;
 
@@ -33,7 +36,8 @@ public class ClientProtocol extends Thread {
       this.clientSocket = new Socket(ip, 12975);
       this.out = new ObjectOutputStream(clientSocket.getOutputStream());
       this.in = new ObjectInputStream(clientSocket.getInputStream());
-      this.out.writeObject(new ConnectMessage(client.getUsername(), client.getPlayerProfile()));
+      // TODO this.out.writeObject(new ConnectMessage(client.getPlayerProfile()));
+      this.out.writeObject(new ConnectMessage(client.testGetPlayerProfile()));
       out.flush();
     } catch (IOException e) {
       e.printStackTrace();
@@ -45,7 +49,8 @@ public class ClientProtocol extends Thread {
     running = false;
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new DisconnectMessage(client.getUsername()));
+        // TODO this.out.writeObject(new DisconnectMessage(client.getPlayerProfile()));
+        this.out.writeObject(new DisconnectMessage(client.testGetPlayerProfile()));
         clientSocket.close();
       }
     } catch (IOException e) {
@@ -73,7 +78,8 @@ public class ClientProtocol extends Thread {
   public void sendChatMessage(String chatMessage, String username) {
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new ChatMessage(chatMessage, username));
+        // todo this.out.writeObject(new ChatMessage(chatMessage, client.getPlayerProfile()));
+        this.out.writeObject(new ChatMessage(chatMessage, client.testGetPlayerProfile()));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -84,12 +90,12 @@ public class ClientProtocol extends Thread {
    * Method for writing a PlayReadyMessage Object to the server
    *
    * @param ready true, if player is ready
-   * @param username user, which wants to set his ready state
+   * @param player Requires player to be included in message
    */
-  public void setReadyState(boolean ready, String username) {
+  public void setReadyState(boolean ready, PlayerProfile player) {
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new PlayerReadyMessage(ready, username));
+        this.out.writeObject(new PlayerReadyMessage(ready, player));
         this.out.flush();
       }
     } catch (IOException e) {
@@ -184,12 +190,30 @@ public class ClientProtocol extends Thread {
   }
 
   /**
+   * Creates and sends UpdateGameSettingsMessage instance to server
+   * @param tileScores Requires tileScores
+   * @param tileDistributions Requires tileDistribution
+   * @param dictionary Requires dictionary file
+   */
+  public void updateGameSettings(int[] tileScores, int[] tileDistributions, File dictionary) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(
+            new UpdateGameSettingsMessage(tileScores, tileDistributions, dictionary));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
    * Overwritten run method from Thread. Accepts and works through incoming messages from the server
    */
   public void run() {
     while (running) {
       try {
         Message m = (Message) in.readObject();
+        System.out.println(m.getMessageType());
         switch (m.getMessageType()) {
           case CONNECT:
             if (this.id == -1) {
@@ -210,7 +234,8 @@ public class ClientProtocol extends Thread {
             break;
           case CHATMESSAGE:
             // TODO add method
-            System.out.println(((ChatMessage) m).getUsername() + ": " + ((ChatMessage) m).getMsg());
+            System.out.println(
+                ((ChatMessage) m).getProfile().getName() + ": " + ((ChatMessage) m).getMsg());
             break;
           case PLAYERREADY:
             // TODO add method

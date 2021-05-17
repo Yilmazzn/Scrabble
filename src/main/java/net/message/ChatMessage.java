@@ -1,5 +1,7 @@
 package net.message;
 
+import client.PlayerProfile;
+
 /**
  * a message class to send chat messages
  *
@@ -7,7 +9,7 @@ package net.message;
  */
 public class ChatMessage extends Message {
   String msg;
-  String username;
+  PlayerProfile profile;
 
   /**
    * a constructor for creating a new ChatMessage
@@ -26,7 +28,7 @@ public class ChatMessage extends Message {
   }
 
   /** @return returns the user */
-  public String getUsername() {
-    return this.username;
+  public PlayerProfile getProfile() {
+    return this.profile;
   }
 }

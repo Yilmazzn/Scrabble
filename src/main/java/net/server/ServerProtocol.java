@@ -4,6 +4,7 @@ import client.PlayerProfile;
 import game.components.Tile;
 import net.message.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -21,6 +22,7 @@ public class ServerProtocol extends Thread {
   private Server server;
   private String clientName;
   private boolean running = true;
+  private RemotePlayer rp;
 
   /**
    * constructor for creating a new Serverprotocol and connecting the server to the clients and the
@@ -61,7 +63,7 @@ public class ServerProtocol extends Thread {
     out.flush();
   }
 
-  /** the run method of serverprotocol to handle the incoming messages of the server */
+  /** the run method of ServerProtocol to handle the incoming messages of the server */
   public void run() {
     try {
 
@@ -70,15 +72,16 @@ public class ServerProtocol extends Thread {
         String username;
         switch (m.getMessageType()) {
           case CONNECT:
-            username = ((ConnectMessage) m).getUsername();
-            PlayerProfile profile = ((ConnectMessage) m).getProfile();
-            server.setReady(username);
+            /* server.setReady(username);
             server.setAgree(username);
-            this.clientName = username;
-            server.addClientName(username);
-            ConnectMessage cm = server.setID(username, profile);
+            */
+            // Todo
+            PlayerProfile profile = ((ConnectMessage) m).getProfile();
+            ConnectMessage cm = server.setID(profile);
+            rp = (RemotePlayer) server.getPlayerOfID(cm.getID());
+            rp.setPlayerProfile(profile);
             server.setPlayerProfiles(cm.getID(), profile);
-            System.out.println("Server added: " + username);
+            System.out.println("Server added: " + profile.getName());
             int index = Math.min(4, server.getNumberOfClients());
             PlayerProfile[] temp = new PlayerProfile[index];
             for (int i = 0; i < index; i++) {
@@ -88,10 +91,9 @@ public class ServerProtocol extends Thread {
             server.sendToAll(cm);
             break;
           case DISCONNECT:
-            username = ((DisconnectMessage) m).getUsername();
-            server.removeClientName(username);
-            server.removeClient(this);
-            System.out.println("Server removed: " + username);
+            profile = ((DisconnectMessage) m).getProfile();
+            server.removePlayer(rp);
+            System.out.println("Server removed: " + profile.getName());
             running = false;
             disconnect();
             break;
@@ -103,9 +105,9 @@ public class ServerProtocol extends Thread {
             break;
           case PLAYERREADY:
             // Checks, if all player are ready, then sends message to all clients
-            PlayerReadyMessage prm = (PlayerReadyMessage) m;
-            server.setPlayersReady(prm.getUsername(), prm.getReady());
-            server.isReady(m);
+          //  prm = (PlayerReadyMessage) m;
+            // TODO   server.setPlayersReady(prm.getUsername(), prm.getReady());
+
             break;
           case UPDATEGAMEBOARD:
             server.sendToAll(m);
@@ -143,11 +145,6 @@ public class ServerProtocol extends Thread {
               etm.setError("Requested tile amount exceeds the amount of tiles in bag!");
             }
             sendToClient(etm);
-            break;
-          case AGREEDICTIONARY:
-            AgreeDictionaryMessage adm = (AgreeDictionaryMessage) m;
-            server.setPlayersAgree(adm.getUsername(), adm.getAgreement());
-            server.isAgree(m);
             break;
           default:
             break;

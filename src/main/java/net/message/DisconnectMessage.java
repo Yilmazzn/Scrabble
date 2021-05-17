@@ -13,7 +13,7 @@ public class DisconnectMessage extends Message {
    *
    * @param username a username
    */
-  public DisconnectMessage(String username) {
+  public DisconnectMessage(PlayerProfile profile) {
     super(MessageType.DISCONNECT);
     this.username = username;
   }
