@@ -15,11 +15,12 @@ public class ChatMessage extends Message {
    * a constructor for creating a new ChatMessage
    *
    * @param message the chatmessage that should be send
+   * @param profile Requires PlayerProfile as sender of msg
    */
-  public ChatMessage(String message, String user) {
+  public ChatMessage(String message, PlayerProfile profile) {
     super(MessageType.CHATMESSAGE);
     this.msg = message;
-    this.username = user;
+    this.profile = profile;
   }
 
   /** @return returns the msg */

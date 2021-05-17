@@ -23,6 +23,11 @@ public class RemotePlayer extends Player {
     this.connection = connection;
   }
 
+  /**
+   *
+   * @param connection requires the serverprotocol
+   */
+  //todo maybe delete later if not used in controllers, actually used for test cases in clientTestClass
   public RemotePlayer(ServerProtocol connection) {
     super(true);
     this.connection = connection;
@@ -53,10 +58,18 @@ public class RemotePlayer extends Player {
     return this.isReady;
   }
 
+  /**
+   *
+   * @return returns the serverprotocol connection
+   */
   public ServerProtocol getConnection() {
     return connection;
   }
 
+  /**
+   *
+   * @param profile Requires PlayerProfile
+   */
   public void setPlayerProfile(PlayerProfile profile) {
     super.setPlayerProfile(profile);
   }

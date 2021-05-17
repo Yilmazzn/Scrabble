@@ -1,7 +1,11 @@
 package net.server;
 
 import client.PlayerProfile;
+import game.Game;
+import game.Dictionary;
 import game.components.Tile;
+import game.players.Player;
+import game.players.RemotePlayer;
 import net.message.ConnectMessage;
 import net.message.Message;
 import java.io.File;
@@ -9,40 +13,83 @@ import java.io.IOException;
 import java.net.*;
 import java.util.*;
 
-
 /**
  * a server class to setup the server
  *
  * @author:ygarip
  */
-public class Server {
+public class Server extends Thread {
   private ServerSocket serverSocket;
   private boolean running;
   private static final int port = 12975;
   private static String serverIp;
   private ArrayList<ServerProtocol> clients = new ArrayList<>();
   private ArrayList<String> clientNames = new ArrayList<>();
-  private HashMap<String, Boolean> playersReady = new HashMap<>();
   private int clientID = 0;
   private int[] points = new int[5];
   private int clientCounter = 0;
-  private static PlayerProfile[] profiles = new PlayerProfile[5];
+  private PlayerProfile[] profiles = new PlayerProfile[5];
+  private List<Player> players = new LinkedList<>();
+  private Game game;
+  int[] tileScores;
+  int[] tileDistributions;
+  Dictionary dictionary;
 
   /** Constructor to create server, sets serverIP */
   public Server() {
     try {
       this.serverIp = getLocalHostIp4Address();
+      System.out.println(serverIp);
     } catch (UnknownHostException e) {
       e.printStackTrace();
     }
   }
 
-  // https://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
-  // TODO but method name differs
+  /** a method to run the server */
+  public void run() {
+    this.listen();
+  }
+
   /**
-   * @author from stackoverflow
+   * a method to return the player at index i
+   *
+   * @param i Requires an integer
+   * @return returns the player at index i
+   */
+  public synchronized Player getPlayerOfID(int i) {
+    return this.players.get(i);
+  }
+
+  /** @return returns the playerList in an array */
+  public synchronized Player[] getPlayers() { // TODO vorher returns PlayerList
+    Player[] players = new Player[this.players.size()];
+    int index = 0;
+    for (Player p : players) {
+
+      players[index] = p;
+      index++;
+    }
+    return players;
+  }
+
+  /** TODO WICHTIG */
+  public void startGame() {
+    // TODO int[] -> HashMap oder so
+    /**
+     * HashMap<Character, Integer> mapScores; for (int i = 0; i < tileScores.length; i++){
+     *
+     * <p>}
+     */
+    // game = new Game(players, tileDistributions, tileScores, dictionary);
+  }
+
+  /**
+   * method name differs from link
+   *
    * @return IP
    * @throws UnknownHostException
+   * @author from stackoverflow
+   *     https://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
    */
   public String getLocalHostIp4Address() throws UnknownHostException {
 
@@ -123,10 +170,20 @@ public class Server {
     }
   }
 
+  /**
+   * method to add a player to the server's playerList
+   *
+   * @param player Requires the player
+   */
   public void addPlayer(Player player) {
     players.add(player);
   }
 
+  /**
+   * method to remove a player from the server's playerList
+   *
+   * @param player Requires the player
+   */
   public void removePlayer(Player player) {
     players.remove(player);
   }
@@ -315,8 +372,15 @@ public class Server {
 
   }
 
-
-  public synchronized void updateGameSettings(int[] tileScores, int[] tileDistributions, File dictionary) {
+  /**
+   * a method to update the GameSettings of the server
+   *
+   * @param tileScores Requires the tileScores array
+   * @param tileDistributions Requires the tileDistribution array
+   * @param dictionary Requires the dictionary's txt file
+   */
+  public synchronized void updateGameSettings(
+      int[] tileScores, int[] tileDistributions, File dictionary) {
     this.tileScores = tileScores;
     this.tileDistributions = tileDistributions;
     this.dictionary = new Dictionary(dictionary.getAbsolutePath());

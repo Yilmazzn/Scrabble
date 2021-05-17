@@ -44,7 +44,7 @@ public class ClientTestClass {
   public void joinClients() throws IOException, InterruptedException {
     Thread.sleep(100);
     PlayerProfile profile1 =
-        new PlayerProfile("profilname1", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
+        new PlayerProfile("binsderclient", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
     PlayerProfile profile2 =
         new PlayerProfile("Yaso", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
     PlayerProfile profile3 =
@@ -82,7 +82,10 @@ public class ClientTestClass {
       intDistributions[i] = Integer.parseInt(distributions[i]);
     }
 
-    File f = new File(System.getProperty("user.dir") + "/src/main/resources/scrabbleWords/Collins Scrabble Words (2019) with definitions.txt");
+    File f =
+        new File(
+            System.getProperty("user.dir")
+                + "/src/main/resources/scrabbleWords/Collins Scrabble Words (2019) with definitions.txt");
     netClient1.updateGameSettings(intValues, intDistributions, f);
 
     Thread.sleep(100);

@@ -5,11 +5,13 @@ import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
+import game.players.Player;
 import net.server.ClientProtocol;
 import net.server.Server;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 
 /**
  * a client class to create a client and connect with the server
@@ -18,7 +20,7 @@ import java.io.IOException;
  */
 public class NetClient {
   private ClientProtocol connection;
-  private String ipAdr = "192.168.178.30";
+  private String ipAdr = "192.168.0.94";
   private String username; // username from playersprofile
   private int points;
   private Dictionary dictionary;
@@ -84,6 +86,7 @@ public class NetClient {
 
   /**
    * method to set the ip
+   *
    * @param ip requires the ip
    */
   public void setIp(String ip) {
@@ -101,6 +104,21 @@ public class NetClient {
   }
 
   /**
+   * Calls method, whenever the host changed anything in the gamesettings
+   *
+   * @param tileScores Requires tileScores
+   * @param tileDistributions requires tileDistribution
+   * @param dictionary requires dictionary File
+   */
+  public void updateGameSettings(int[] tileScores, int[] tileDistributions, File dictionary) {
+    connection.updateGameSettings(tileScores, tileDistributions, dictionary);
+  }
+
+  public void setPlayerReady(boolean ready) {
+    connection.setPlayerReady(ready);
+  }
+
+  /**
    * a method to start the game
    *
    * @author ygarip
@@ -109,73 +127,76 @@ public class NetClient {
     this.connection.startGame(file);
   }
 
-  /** @author vkaczmar sends text message to all other clients */
-  public void sendChatMessage(String chatMessage, String username) {
-    this.connection.sendChatMessage(chatMessage, username);
-  }
-
   /**
-   * @author ygarip a method to set the readiness of the player
-   * @param ready requires boolean if player is ready
-   * @param username requires the players username
+   * @author vkaczmar sends text message to all other clients
+   * @param chatMessage Requires chatMessage to be sent to other players
    */
-  public void setReadyState(boolean ready, String username) {
-    this.connection.setReadyState(ready, username);
+  public void sendChatMessage(String chatMessage) {
+    this.connection.sendChatMessage(chatMessage);
   }
 
   /**
-   * @author vkaczmar call method, when a new tile is placed
+   * @param ready Requires boolean if player is ready
+   * @param player Requires PlayerProfile to be set
+   * @author ygarip a method to set the readiness of the player
+   */
+  public void setReadyState(boolean ready, PlayerProfile player) {
+    this.connection.setReadyState(ready, player);
+  }
+
+  /**
    * @param board represents the game board
+   * @author vkaczmar call method, when a new tile is placed
    */
   public void updateGameBoard(Board board) {
     this.connection.updateGameBoard(board);
   }
 
   /**
-   * @author ygarip checks if move is valid
    * @param username username who wants to check
+   * @author ygarip checks if move is valid
    */
   public void submitMove(String username, Board board) {
     this.connection.submitMove(username, board);
   }
 
   /**
-   * @author vkaczmar a method to update the points of the players
    * @param currentState requires the current state of the board
    * @param previousState requires the state from teh beginning of the turn
+   * @author vkaczmar a method to update the points of the players
    */
   public void updatePoints(Board currentState, Board previousState) {
     this.connection.updatePoints(currentState, previousState);
   }
 
   /**
-   * @author vkaczmar a method to get the username of client
    * @return returns the username of the client
+   * @author vkaczmar a method to get the username of client
    */
   public String getUsername() {
     return client.getSelectedProfile().getName();
   }
 
   /**
-   * @author vkaczmar
    * @return returns points
+   * @author vkaczmar
    */
   public int getPoints() {
     return points;
   }
 
   /**
-   * @author ygarip a method to set the wished dictionary
    * @param dictionary requires the dictionary to be set
+   * @author ygarip a method to set the wished dictionary
    */
   public void setDictionary(Dictionary dictionary) {
     this.dictionary = dictionary;
   }
 
   /**
-   * @author vkaczmar a method to look up a word in dictionary and send back if it exists or not
    * @param word requires the word to be tested
    * @return returns true if word exists otherwise false
+   * @author vkaczmar a method to look up a word in dictionary and send back if it exists or not
    */
   public boolean wordExists(String word) {
     return dictionary.wordExists(word);
@@ -187,11 +208,16 @@ public class NetClient {
   }
 
   /**
-   * @author vkaczmar a method to return the player profile
    * @return returns the players profile
+   * @author vkaczmar a method to return the player profile
    */
   public PlayerProfile getPlayerProfile() {
-    return client.getSelectedProfile();
+    profile = client.getSelectedProfile();
+    return profile;
+  }
+
+  public PlayerProfile testGetPlayerProfile() {
+    return profile;
   }
 
   /** @author ygarip a method to get the tile from server */
@@ -200,27 +226,16 @@ public class NetClient {
   }
 
   /**
-   * @author vkaczmar a method to request the bag amount
    * @param oldTiles requires the tiles to exchange the tiles with the bag
+   * @author vkaczmar a method to request the bag amount
    */
   public void exchangeTiles(Tile[] oldTiles) {
     connection.exchangeTiles(oldTiles);
   }
 
   /**
-   * a method to agree on the dictionary
-   *
-   * @author ygarip
-   * @param agree requires the boolean value of agree
-   * @param username requires the username
-   */
-  public void agreeOnDictionary(boolean agree, String username) {
-    connection.agreeOnDictionary(agree, username);
-  }
-
-  /**
-   * @author vkaczmar
    * @return returns the boolean value of isAIActive
+   * @author vkaczmar
    */
   public boolean getAIActive() {
     return isAIActive;
