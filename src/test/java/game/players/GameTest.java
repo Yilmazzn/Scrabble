@@ -81,7 +81,9 @@ class GameTest {
     Assertions.assertEquals(30, g.evaluateScore());
     g.nextRound();
   }
+
   @Test
+  @DisplayName("Placing 'WORLD' (Placements: WRLD)")
   void evaluateScoreTest2() {
     // second word
     g.placeTile(w, 6, 11);
@@ -93,6 +95,7 @@ class GameTest {
     Assertions.assertEquals(12, g.evaluateScore());
     g.nextRound();
   }
+
   @Test
   void evaluateScoreTest3() {
     // third word
@@ -106,6 +109,7 @@ class GameTest {
     Assertions.assertEquals(26, g.evaluateScore());
     g.nextRound();
   }
+
   @Test
   void evaluateScoreTest4() {
     // 4th words

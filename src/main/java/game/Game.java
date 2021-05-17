@@ -15,24 +15,24 @@ import java.util.*;
 public class Game {
 
   private final ArrayList<Player>
-          players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
+      players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
   // second last player, ...]
   private final boolean running; // true if game is running
   private final HashMap<Character, Integer> letterScores; // Map representing letter's score
   private final LinkedList<Tile> bag = new LinkedList<>(); // bag of tiles in the game
   private final ArrayList<String> wordsFound =
-          new ArrayList<>(); // a list of words found up to this point
+      new ArrayList<>(); // a list of words found up to this point
   private final Board board = new Board(); // Game Board
   private final Board lastValidBoard =
-          new Board(); // Game Board which was last accepted as valid to reset after invalid player
+      new Board(); // Game Board which was last accepted as valid to reset after invalid player
   // turns
   private int roundNum = 0; // amount of total rounds since start
   private final int roundsSinceLastScore = 0; // last n amount of rounds without points
   private final Dictionary
-          dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
+      dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
   private Player playerInTurn; // Player whose turn it is
   private List<BoardField> placementsInTurn =
-          new LinkedList<>(); // Placements on the board in the last turn
+      new LinkedList<>(); // Placements on the board in the last turn
   private OvertimeWatch overtime; // Thread which counts down from 10mins, is reset each turn
   private Scoreboard scoreboard; // Scoreboard containing game statistics
 
@@ -46,10 +46,10 @@ public class Game {
    * the players
    */
   public Game(
-          ArrayList<Player> players,
-          HashMap<Character, Integer> letterDistribution,
-          HashMap<Character, Integer> letterScores,
-          Dictionary dictionary) {
+      ArrayList<Player> players,
+      HashMap<Character, Integer> letterDistribution,
+      HashMap<Character, Integer> letterScores,
+      Dictionary dictionary) {
 
     this.letterScores = letterScores;
     this.dictionary = dictionary;
@@ -200,16 +200,15 @@ public class Game {
     // Iterate over placements of last turn
     for (BoardField bf : placementsInTurn) {
 
-
       // check to the left if other placement exists there (would be evaluated in that spec.
       // iteration)
       BoardField helper = board.getField(bf.getRow(), bf.getColumn() - 1); // left of placement
       boolean leftmostPlacement = true; // is true if only placement to the left
 
       boolean formsWordHorizontal =
-              (bf.getColumn() - 1 >= 0 && !board.isEmpty(bf.getRow(), bf.getColumn() - 1))
-                      || (bf.getColumn() + 1 < Board.BOARD_SIZE
-                      && !board.isEmpty(
+          (bf.getColumn() - 1 >= 0 && !board.isEmpty(bf.getRow(), bf.getColumn() - 1))
+              || (bf.getColumn() + 1 < Board.BOARD_SIZE
+                  && !board.isEmpty(
                       bf.getRow(),
                       bf.getColumn() + 1)); // true if left or right of placement exists tile
 
@@ -228,9 +227,9 @@ public class Game {
       boolean topmostPlacement = true; // is true if top of placement in formed word
 
       boolean formsWordVertical =
-              (bf.getRow() - 1 >= 0 && !board.isEmpty(bf.getRow() - 1, bf.getColumn()))
-                      || (bf.getRow() + 1 < Board.BOARD_SIZE
-                      && !board.isEmpty(
+          (bf.getRow() - 1 >= 0 && !board.isEmpty(bf.getRow() - 1, bf.getColumn()))
+              || (bf.getRow() + 1 < Board.BOARD_SIZE
+                  && !board.isEmpty(
                       bf.getRow() + 1,
                       bf.getColumn())); // true if above or below of placement exists tile
 
@@ -250,7 +249,8 @@ public class Game {
 
         // traverse to the left
         helper = bf;
-        while (helper.getColumn() - 1 >= 0 && !board.isEmpty(helper.getRow(), helper.getColumn() - 1)) {
+        while (helper.getColumn() - 1 >= 0
+            && !board.isEmpty(helper.getRow(), helper.getColumn() - 1)) {
           helper = board.getField(helper.getRow(), helper.getColumn() - 1);
         }
 
@@ -283,7 +283,9 @@ public class Game {
             }
             wordScore += letterScore * letterMult;
           }
-
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last column
+            break;
+          }
           helper = board.getField(helper.getRow(), helper.getColumn() + 1);
         }
         totalScore += wordScore * wordMult;
@@ -296,7 +298,8 @@ public class Game {
 
         // traverse up
         helper = bf;
-        while (helper.getRow() - 1 >= 0 && !board.isEmpty(helper.getRow() - 1, helper.getColumn())) {
+        while (helper.getRow() - 1 >= 0
+            && !board.isEmpty(helper.getRow() - 1, helper.getColumn())) {
           helper = board.getField(helper.getRow() - 1, helper.getColumn());
         }
 
@@ -329,14 +332,15 @@ public class Game {
             }
             wordScore += letterScore * letterMult;
           }
-
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last row
+            break;
+          }
           helper = board.getField(helper.getRow() + 1, helper.getColumn());
         }
 
         totalScore += wordScore * wordMult;
       }
     }
-
     return totalScore;
   }
 
