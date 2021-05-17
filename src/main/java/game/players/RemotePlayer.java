@@ -6,58 +6,79 @@ import game.components.Board;
 import game.components.Tile;
 import net.server.ServerProtocol;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * @author yuzun
- * <p>
- * Remote player instance, which is controlled by ServerProtocol and sends messages back
+ *     <p>Remote player instance, which is controlled by ServerProtocol and sends messages back
  */
-
 public class RemotePlayer extends Player {
 
-    private final ServerProtocol connection;
+  private final ServerProtocol connection;
+  private boolean isReady;
 
-    public RemotePlayer(PlayerProfile profile, ServerProtocol connection) {
-        super(profile, true);
-        this.connection = connection;
-    }
+  public RemotePlayer(PlayerProfile profile, ServerProtocol connection) {
+    super(profile, true);
+    this.connection = connection;
+  }
 
-    /**
-     * Sends board to set remote player's to the lastest game board state
-     */
-    public void updateBoard(Board board) {
-        // TODO SEND BOARD MESSAGE
-    }
+  public RemotePlayer(ServerProtocol connection) {
+    super(true);
+    this.connection = connection;
+  }
 
-    /**
-     * Sends scoreboard instance after every turn
-     */
-    public void sendScoreboard(Scoreboard scoreboard) {
-        // TODO SEND SCOREBOARD
-    }
+  /** Sends board to set remote player's to the lastest game board state */
+  public void updateBoard(Board board) {
+    // TODO SEND BOARD MESSAGE
+  }
 
-    @Override
-    public void setTurn(boolean turn) {
-        super.setTurn(turn);
-        // TODO SEND MESSAGES
-    }
+  /** Sends scoreboard instance after every turn */
+  public void sendScoreboard(Scoreboard scoreboard) {
+    // TODO SEND SCOREBOARD
+  }
 
-    /**
-     * Quit from game. Player is sent all relevant information
-     */
-    @Override
-    public void quit() {
-        // TODO SEND QUIT MESSAGE
-    }
+  /**
+   * Sets ready value for each player
+   *
+   * @param value Requires value to be set
+   */
+  public void setIsReady(boolean value) {
+    System.out.println("remoteplayer class :"+this.getProfile().getName()+" value:"+value);
+    isReady = value;
+  }
 
-    /**
-     * Add tile to player's rack
-     */
-    @Override
-    public void addTilesToRack(Collection<Tile> tiles) {
-        tiles.forEach(tile -> {
-            // TODO SEND MESSAGE
+  /** @return returns the player's readiness */
+  public boolean getReady() {
+    return this.isReady;
+  }
+
+  public ServerProtocol getConnection() {
+    return connection;
+  }
+
+  public void setPlayerProfile(PlayerProfile profile) {
+    super.setPlayerProfile(profile);
+  }
+
+  @Override
+  public void setTurn(boolean turn) {
+    super.setTurn(turn);
+    // TODO SEND MESSAGES
+  }
+
+  /** Quit from game. Player is sent all relevant information */
+  @Override
+  public void quit() {
+    // TODO SEND QUIT MESSAGE
+  }
+
+  /** Add tile to player's rack */
+  @Override
+  public void addTilesToRack(Collection<Tile> tiles) {
+    tiles.forEach(
+        tile -> {
+          // TODO SEND MESSAGE
         });
-    }
+  }
 }

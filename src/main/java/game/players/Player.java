@@ -4,6 +4,7 @@ import client.PlayerProfile;
 import game.Game;
 import game.components.Tile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,7 +14,7 @@ import java.util.Collection;
  * <p>Actor interacting with game (exists only on the server). Subclasses are AiPlayer,
  * RemotePlayer!
  */
-public abstract class Player {
+public abstract class Player implements Serializable {
 
   private final boolean human;
   private final PlayerProfile profile;

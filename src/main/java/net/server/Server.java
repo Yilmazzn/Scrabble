@@ -4,12 +4,11 @@ import client.PlayerProfile;
 import game.components.Tile;
 import net.message.ConnectMessage;
 import net.message.Message;
-
+import java.io.File;
 import java.io.IOException;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.*;
+
 
 /**
  * a server class to setup the server
@@ -112,8 +111,8 @@ public class Server {
       while (running) {
         Socket clientSocket = serverSocket.accept();
         ServerProtocol clientThread = new ServerProtocol(clientSocket, this);
-        clients.add(clientThread);
-        clientThread.start();
+        players.add(new RemotePlayer(clientThread));
+        clientThread.start(); // TODO maybe players.get().getConnection().start()
       }
     } catch (IOException e) {
       if (serverSocket != null && serverSocket.isClosed()) {
@@ -122,6 +121,14 @@ public class Server {
         e.printStackTrace();
       }
     }
+  }
+
+  public void addPlayer(Player player) {
+    players.add(player);
+  }
+
+  public void removePlayer(Player player) {
+    players.remove(player);
   }
 
   /**
@@ -148,16 +155,16 @@ public class Server {
   /**
    * a method for sending a message to all clients
    *
-   * @param m message
+   * @param m requires the message
    */
   public synchronized void sendToAll(Message m) {
     int index = 0;
-    for (ServerProtocol i : clients) {
+    for (Player player : players) {
       try {
-        i.sendToClient(m);
+        ((RemotePlayer) player).getConnection().sendToClient(m);
       } catch (IOException e) {
-        index = clients.indexOf(i);
-        clients.remove(index);
+        index = players.indexOf(player);
+        players.remove(index);
       }
     }
   }
@@ -176,8 +183,10 @@ public class Server {
    *
    * @param name requires name to be removed from the arraylist
    */
-  public synchronized void removeClientName(String name) {
+  public synchronized void removeClientName(Player name) {
     this.clientNames.remove(name);
+    // TODO this.playersReady.remove(name);
+    // TODO this.mapPlayersReady.remove(name);
   }
 
   /**
@@ -194,17 +203,6 @@ public class Server {
     return this.clients.size();
   }
 
-  /** @return returns the serverSocket */
-  // TODO maybe delete later if not needed
-  public synchronized ServerSocket getServerSocket() {
-    return this.serverSocket;
-  }
-
-  /** @return returns a hashmap containing pairs of String and Booleans */
-  public synchronized HashMap<String, Boolean> getPlayersReady() {
-    return this.playersReady;
-  }
-
   /**
    * set the players ready state
    *
@@ -212,10 +210,10 @@ public class Server {
    * @param b requires the boolean state of player's readiness
    */
   public synchronized void setPlayersReady(String s, Boolean b) {
-    if (playersReady.get(s)) {
-      playersReady.remove(s);
-    }
-    playersReady.put(s, b);
+    // TODO if (playersReady.get(s)) {
+    // TODO     playersReady.remove(s);
+    // TODO }
+    // TODO playersReady.put(s, b);
   }
 
   /**
@@ -224,17 +222,17 @@ public class Server {
    * @param username requires username of client
    */
   public synchronized void setReady(String username) {
-    playersReady.put(username, false);
+    // TODO playersReady.put(username, false);
   }
 
   /**
    * create a ConnectMessage to set the ID
    *
-   * @param username requires the username of the client
+   * @param profile requires the playerprofile
    * @return returns the ConnectMessage to connect
    */
-  public synchronized ConnectMessage setID(String username, PlayerProfile profile) {
-    ConnectMessage cm = new ConnectMessage(username, profile);
+  public synchronized ConnectMessage setID(PlayerProfile profile) {
+    ConnectMessage cm = new ConnectMessage(profile);
     cm.setID(clientID++);
     return cm;
   }
@@ -259,8 +257,15 @@ public class Server {
     return profiles[id];
   }
 
+  public synchronized HashMap<String, Boolean> getPlayersReady() {
+    // TODO playersReady.put("Test", true);
+    // TODO return playersReady;
+    return null;
+  }
+
   // TODO remove one tile from bag,increment bag
   // send this one back to the server protocol
+
   /** @return returns a Tile from the bag */
   public synchronized Tile getTile() {
     return new Tile('A', 2);
@@ -285,5 +290,35 @@ public class Server {
    */
   public synchronized void addTiles(Tile[] oldTiles) {
     // TODO add the old tiles to the bag
+  }
+
+  /**
+   * Sets Agreement to false, on specified user
+   *
+   * @param user Requires user, which wants to change HashMap
+   */
+  public synchronized void setAgree(Player user) {
+    // TODO mapPlayersReady.put(user, false);
+  }
+
+  /**
+   * Sets Agreement status, based on String value for key and boolean for true/false
+   *
+   * @param user Requires user as key
+   * @param agree Requires Boolean as value
+   */
+  public synchronized void setPlayersAgree(Player user, Boolean agree) {
+    // TODO if (mapPlayersReady.get(user)) {
+    // TODO    mapPlayersReady.remove(user);
+    // TODO }
+    // TODO this.mapPlayersReady.put(user, agree);
+
+  }
+
+
+  public synchronized void updateGameSettings(int[] tileScores, int[] tileDistributions, File dictionary) {
+    this.tileScores = tileScores;
+    this.tileDistributions = tileDistributions;
+    this.dictionary = new Dictionary(dictionary.getAbsolutePath());
   }
 }

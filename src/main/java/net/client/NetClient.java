@@ -82,6 +82,10 @@ public class NetClient {
     this.connection.start();
   }
 
+  /**
+   * method to set the ip
+   * @param ip requires the ip
+   */
   public void setIp(String ip) {
     this.ipAdr = ip;
   }
