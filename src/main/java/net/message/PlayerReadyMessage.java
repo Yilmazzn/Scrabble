@@ -1,20 +1,26 @@
 package net.message;
 
+import client.PlayerProfile;
+import game.players.Player;
+
+import java.util.List;
+
 /** @author vkaczmar Message Class for signaling, that you are ready when you are in a lobby */
 public class PlayerReadyMessage extends Message {
   private boolean ready = false;
-  private String username;
+  private PlayerProfile player;
+  private Player[] players; // todo vorher List<Player> ebenso set/get Methode
 
   /**
    * Constructor for creation
    *
    * @param ready true, if player is ready
-   * @param username username, from client, who sets ready flag
+   * @param player Requires PlayerProfile to include in message
    */
   public PlayerReadyMessage(boolean ready, PlayerProfile player) {
     super(MessageType.PLAYERREADY);
     this.ready = ready;
-    this.username = username;
+    this.player = player;
   }
 
   /** @return returns readyState */
@@ -40,7 +46,12 @@ public class PlayerReadyMessage extends Message {
   public Player[] getPlayers() {
     return this.players;
   }
-  public Player getPlayer(int i){
+
+  /**
+   * @param i Requires an integer i
+   * @return returns the player at index i
+   */
+  public Player getPlayer(int i) {
     return this.players[i];
   }
 }

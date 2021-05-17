@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 
 /** @author vkaczmar Handles all interactions from the server to the client */
 public class ClientProtocol extends Thread {
@@ -58,6 +59,17 @@ public class ClientProtocol extends Thread {
     }
   }
 
+  public void setPlayerReady(boolean ready) {
+    try {
+      if (!clientSocket.isClosed()) {
+        // TODO this.out.writeObject(new PlayerReadyMessage(ready, client.getPlayerProfile()));
+        this.out.writeObject(new PlayerReadyMessage(ready, client.testGetPlayerProfile()));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /** Method for writing a StartGameMessage Object to the server */
   public void startGame(File file) {
     try {
@@ -73,9 +85,8 @@ public class ClientProtocol extends Thread {
    * Method for writing a ChatMessage Object to the server
    *
    * @param chatMessage message to be sent
-   * @param username user, which sends the message
    */
-  public void sendChatMessage(String chatMessage, String username) {
+  public void sendChatMessage(String chatMessage) {
     try {
       if (!clientSocket.isClosed()) {
         // todo this.out.writeObject(new ChatMessage(chatMessage, client.getPlayerProfile()));
@@ -191,6 +202,7 @@ public class ClientProtocol extends Thread {
 
   /**
    * Creates and sends UpdateGameSettingsMessage instance to server
+   *
    * @param tileScores Requires tileScores
    * @param tileDistributions Requires tileDistribution
    * @param dictionary Requires dictionary file
@@ -226,6 +238,15 @@ public class ClientProtocol extends Thread {
             // TODO update Lobby View
             // System.out.println("New player joined the lobby");
             break;
+          case UPDATEGAMESETTINGS:
+            UpdateGameSettingsMessage ugsm = (UpdateGameSettingsMessage) m;
+            // TODO netClient.getClient().updateGameSettings(Alle aus Message, dictionary = new
+            // Dictionary(File.getAbsolutePath()));
+            System.out.println(
+                Arrays.toString(ugsm.getTileScores())
+                    + "\n"
+                    + Arrays.toString(ugsm.getTileDistributions()));
+            break;
           case STARTGAME:
             // TODO add method
             System.out.println("Rufe FXML Wechsel auf");
@@ -238,13 +259,24 @@ public class ClientProtocol extends Thread {
                 ((ChatMessage) m).getProfile().getName() + ": " + ((ChatMessage) m).getMsg());
             break;
           case PLAYERREADY:
-            // TODO add method
-            System.out.println("Host should now be able to start the game");
-            /*
-            if (host) {
-              do something, like enable the startgame button
+            System.out.println("here in clientprotocol");
+            PlayerReadyMessage prm = (PlayerReadyMessage) m;
+            boolean ready = true;
+            System.out.println(
+                "Player " + prm.getProfile().getName() + " set agreement to: " + prm.getReady());
+            for (int i = 0; i < prm.getPlayers().length; i++) {
+              ready = ready && ((RemotePlayer) prm.getPlayer(i)).getReady();
             }
-             */
+            // Todo
+            /* for (Player player : prm.getPlayers()) {
+              ready = ready && ((RemotePlayer) player).getReady();
+            }*/
+            if (ready) {
+              System.out.println("All Players are ready, host should be able to start the game");
+              // TODO enable start game button
+            } else {
+              System.out.println("Not all Players are ready yet.");
+            }
             break;
           case UPDATEGAMEBOARD:
             // TODO add method

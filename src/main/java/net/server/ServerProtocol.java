@@ -2,6 +2,7 @@ package net.server;
 
 import client.PlayerProfile;
 import game.components.Tile;
+import game.players.RemotePlayer;
 import net.message.*;
 
 import java.io.File;
@@ -100,12 +101,25 @@ public class ServerProtocol extends Thread {
           case CHATMESSAGE:
             server.sendToAll(m);
             break;
-          case STARTGAME:
+          case UPDATEGAMESETTINGS:
+            UpdateGameSettingsMessage ugsm = (UpdateGameSettingsMessage) m;
+            int[] tileScores = ugsm.getTileScores();
+            int[] tileDistributions = ugsm.getTileDistributions();
+            File dictionary = ugsm.getDictionary();
+            server.updateGameSettings(tileScores, tileDistributions, dictionary);
             server.sendToAll(m);
             break;
           case PLAYERREADY:
+            PlayerReadyMessage prm = (PlayerReadyMessage) m;
+            rp.setIsReady(prm.getReady());
+            prm.setPlayers(server.getPlayers());
+            System.out.println(server.getPlayers().length);
+            server.sendToAll(prm);
+            break;
+          case STARTGAME:
+            server.sendToAll(m);
             // Checks, if all player are ready, then sends message to all clients
-          //  prm = (PlayerReadyMessage) m;
+            //  prm = (PlayerReadyMessage) m;
             // TODO   server.setPlayersReady(prm.getUsername(), prm.getReady());
 
             break;

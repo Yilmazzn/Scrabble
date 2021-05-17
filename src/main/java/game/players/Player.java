@@ -14,10 +14,10 @@ import java.util.Collection;
  * <p>Actor interacting with game (exists only on the server). Subclasses are AiPlayer,
  * RemotePlayer!
  */
-public abstract class Player implements Serializable {
+public abstract class Player implements Serializable { //todo maybe delete serializable later
 
   private final boolean human;
-  private final PlayerProfile profile;
+  private PlayerProfile profile;
   private final ArrayList<String> foundWords = new ArrayList<>();
   private Game game;
   private boolean turn;
@@ -25,6 +25,11 @@ public abstract class Player implements Serializable {
 
   public Player(PlayerProfile profile, boolean human) {
     this.profile = profile;
+    this.human = human;
+  }
+
+  public Player(boolean human) {
+    this.profile = null; // TODO REMOVE
     this.human = human;
   }
 
@@ -136,5 +141,13 @@ public abstract class Player implements Serializable {
    */
   public PlayerProfile getProfile() {
     return profile;
+  }
+
+  /**
+   *
+   * @param profile Requires PlayerProfile
+   */
+  public void setPlayerProfile(PlayerProfile profile) {
+    this.profile = profile;
   }
 }

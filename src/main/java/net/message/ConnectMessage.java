@@ -21,9 +21,20 @@ public class ConnectMessage extends Message {
    * @param username requires the username of the player who wants to connect
    * @param profile requires PlayerProfile
    */
+  // todo probably delete later if not used
   public ConnectMessage(String username, PlayerProfile profile) {
     super(MessageType.CONNECT);
     this.username = username;
+    this.profile = profile;
+  }
+
+  /**
+   * a constructor to create a ConnectMessage with a playerprofile
+   *
+   * @param profile Requires a PlayerProfile
+   */
+  public ConnectMessage(PlayerProfile profile) {
+    super(MessageType.CONNECT);
     this.profile = profile;
   }
 
