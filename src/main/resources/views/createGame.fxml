@@ -33,21 +33,24 @@
         </Button>
         <VBox alignment="CENTER" layoutY="80.0" prefHeight="450.0" prefWidth="600.0" spacing="20.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
             <children>
-                <GridPane prefHeight="544.0" prefWidth="983.0">
+                <GridPane prefHeight="651.0" prefWidth="919.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                  <RowConstraints maxHeight="133.56509399414062" minHeight="10.0" prefHeight="85.73809814453125" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="133.56509399414062" minHeight="0.0" prefHeight="12.028656005859375" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="133.56509399414062" minHeight="10.0" prefHeight="52.471343994140625" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="133.56509399414062" minHeight="10.0" prefHeight="85.73809814453125" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="192.5880889892578" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="194.41506958007812" minHeight="0.0" prefHeight="79.5" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="192.5880889892578" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="194.41506958007812" minHeight="0.0" prefHeight="92.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="194.41506958007812" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="194.41506958007812" minHeight="10.0" prefHeight="85.23809814453125" vgrow="SOMETIMES" />
                     </rowConstraints>
                <children>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scrabble Players:" GridPane.columnIndex="1">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scrabble Players:" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                 <font>
                                     <Font name="Chalkboard" size="24.0" />
                                 </font>
@@ -55,33 +58,23 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                             </Text>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
-                     <children>
-                        <Button mnemonicParsing="false" onMouseClicked="#addAiPlayer" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Add AI-Player">
-                           <font>
-                              <Font name="Chalkboard" size="24.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="55.0" top="10.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children></HBox>
-                  <Label fx:id="PlayerThree" prefHeight="45.0" prefWidth="206.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3" />
+                  <Label fx:id="PlayerThree" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="PlayerFour" prefHeight="46.0" prefWidth="204.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Label fx:id="PlayerFour" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="PlayerTwo" prefHeight="46.0" prefWidth="209.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label fx:id="PlayerTwo" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button mnemonicParsing="false" onMouseClicked="#openChat" prefHeight="41.0" prefWidth="123.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Chat" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                  <Button mnemonicParsing="false" onMouseClicked="#openChat" prefHeight="41.0" prefWidth="123.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Chat" GridPane.columnIndex="2" GridPane.rowIndex="7">
                      <GridPane.margin>
                         <Insets left="100.0" />
                      </GridPane.margin>
@@ -89,53 +82,79 @@
                         <Font name="Chalkboard" size="24.0" />
                      </font>
                   </Button>
-                  <Label fx:id="ReadyTwo" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label fx:id="ReadyTwo" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets left="250.0" />
                      </GridPane.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </Label>
-                  <Label fx:id="ReadyThree" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label fx:id="ReadyThree" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets left="250.0" />
                      </GridPane.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </Label>
-                  <Label fx:id="ReadyFour" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <Label fx:id="ReadyFour" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="250.0" />
                      </GridPane.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </Label>
-                            <Button mnemonicParsing="false" onMouseClicked="#gameView" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="START" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                            <Button mnemonicParsing="false" onMouseClicked="#gameView" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="START" GridPane.columnIndex="1" GridPane.rowIndex="7">
                                 <font>
                                     <Font name="Chalkboard" size="24.0" />
                                 </font>
                      <GridPane.margin>
-                        <Insets left="100.0" />
+                        <Insets left="120.0" />
                      </GridPane.margin>
                             </Button>
-                  <Button mnemonicParsing="false" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Dictionary" GridPane.rowIndex="1">
+                  <Label fx:id="PlayerOne" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="Host" prefHeight="35.0" prefWidth="58.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Host" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="250.0" />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets bottom="5.0" left="10.0" top="5.0" />
+                     </padding>
+                  </Label>
+                            <Button mnemonicParsing="false" onMouseClicked="#openGameSettings" prefHeight="53.0" prefWidth="203.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Game Settings" GridPane.rowIndex="7">
                      <font>
                         <Font name="Chalkboard" size="24.0" />
                      </font>
                      <GridPane.margin>
-                        <Insets left="80.0" />
+                        <Insets />
                      </GridPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="235.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Connection Details" GridPane.rowIndex="4">
+                  <Button mnemonicParsing="false" onMouseClicked="#addAiPlayer" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Add AI-Player" GridPane.rowIndex="4">
                      <font>
                         <Font name="Chalkboard" size="24.0" />
                      </font>
-                     <GridPane.margin>
-                        <Insets left="30.0" />
-                     </GridPane.margin>
                   </Button>
-                            <Button mnemonicParsing="false" onMouseClicked="#openGameSettings" prefHeight="53.0" prefWidth="203.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Game Settings" GridPane.rowIndex="3">
+                  <Label prefHeight="40.0" prefWidth="175.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Connection Details:" GridPane.rowIndex="1">
                      <font>
                         <Font name="Chalkboard" size="24.0" />
                      </font>
-                     <GridPane.margin>
-                        <Insets left="50.0" />
-                     </GridPane.margin>
-                  </Button>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="connectionDetails" prefHeight="40.0" prefWidth="175.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.rowIndex="2">
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding></Label>
                </children>
                <VBox.margin>
                   <Insets left="100.0" right="100.0" top="100.0" />

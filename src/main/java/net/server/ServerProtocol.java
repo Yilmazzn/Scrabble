@@ -97,6 +97,9 @@ public class ServerProtocol extends Thread {
             System.out.println("Server removed: " + profile.getName());
             running = false;
             disconnect();
+            if(rp.isHost()){   //todo check if disconnecter is host then stop also server
+              server.stopServer();
+            }
             break;
           case CHATMESSAGE:
             server.sendToAll(m);

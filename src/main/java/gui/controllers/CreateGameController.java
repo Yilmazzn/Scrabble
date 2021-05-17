@@ -27,6 +27,7 @@ public class CreateGameController {
   @FXML private Label ReadyTwo;
   @FXML private Label ReadyThree;
   @FXML private Label ReadyFour;
+  @FXML private Label Host;
 
   private Label connectionDetails;
 
@@ -130,6 +131,9 @@ public class CreateGameController {
   public void checkReadiness() throws IOException{
     //isReady();
       //isAgree();
+      }
+      public void openDictionary(){
+      
       }
   public void addAiPlayer() throws IOException{ // add AI player to the GUI
     Label[] joinedPlayers = {PlayerTwo, PlayerThree, PlayerFour};

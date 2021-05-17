@@ -4,7 +4,6 @@ import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
-import game.players.Player;
 import game.players.RemotePlayer;
 import net.client.NetClient;
 import net.message.*;

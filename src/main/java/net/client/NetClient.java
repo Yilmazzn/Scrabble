@@ -5,13 +5,12 @@ import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
-import game.players.Player;
+import gui.controllers.CreateGameController;
 import net.server.ClientProtocol;
 import net.server.Server;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 
 /**
  * a client class to create a client and connect with the server
@@ -20,7 +19,7 @@ import java.time.LocalDate;
  */
 public class NetClient {
   private ClientProtocol connection;
-  private String ipAdr = "192.168.0.94";
+  private String ipAdr="192.168.0.9";
   private String username; // username from playersprofile
   private int points;
   private Dictionary dictionary;

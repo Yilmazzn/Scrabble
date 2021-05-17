@@ -3,10 +3,13 @@ package client;
 import ft.XmlHandler;
 import gui.controllers.WelcomeViewController;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import net.client.NetClient;
 
 import java.util.List;

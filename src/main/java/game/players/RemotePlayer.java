@@ -6,7 +6,6 @@ import game.components.Board;
 import game.components.Tile;
 import net.server.ServerProtocol;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 /**

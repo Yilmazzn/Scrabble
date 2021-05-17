@@ -69,6 +69,19 @@ public class PlayerProfileController {
     window.setScene(profileControllerScene);
     window.show();
   }
+  public void editProfile(){
+    TextInputDialog td = new TextInputDialog();
+    td.setTitle("Edit Profile");
+    td.setHeaderText("Enter new name of profile");
+    td.setContentText("Name: ");
+    Optional<String> result = td.showAndWait();
+    result.ifPresent(
+        name -> {
+          profiles.get(selectedIdx).setName(name);
+          showPlayer();
+          client.savePlayerProfiles();
+        });
+  }
 
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
