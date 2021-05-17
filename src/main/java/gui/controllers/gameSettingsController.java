@@ -20,12 +20,14 @@ public class gameSettingsController {
   @FXML private TextField value;
   @FXML private TextField distribution;
   @FXML private TextField dictionary;
+  @FXML private TextField joker;
 
   private Client client;
   private CreateGameController createController;
   char letterID; // represents the current letter chosen
   int valueID; // represents the current value of chosen letter
   int distributionID; // represents the current distribution of chosen letter
+  int jokerID; // represents the amount of jokers in the game
   String dictionaryID; // current dictionary
 
   String[] values; // array storing values of letters
@@ -56,6 +58,20 @@ public class gameSettingsController {
     if ((distributionLetter >= 65) && (distributionLetter <= 90)) { // caps
       return values[distributionLetter - 65];
     } else return null;
+  }
+
+  public void decreaseJoker() {
+    int jokers = Integer.parseInt(distributions[26]);
+    jokers--;
+    joker.setText(Integer.toString(jokers));
+    distributions[26] = Integer.toString(jokers);
+  }
+
+  public void increaseJoker() {
+    int jokers = Integer.parseInt(distributions[26]);
+    jokers++;
+    joker.setText(Integer.toString(jokers));
+    distributions[26] = Integer.toString(jokers);
   }
 
   public void initData() { // initializes fields in gui
