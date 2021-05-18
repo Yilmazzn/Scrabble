@@ -131,7 +131,7 @@ public class GameViewController {
     window.show();
   }
   /** @author vihofman for statistics */
-  public void openStatistics() throws IOException{
+  public void openStatistics(PlayerProfile profile) throws IOException{
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
     Parent openStatistics = loader.load();
@@ -157,18 +157,21 @@ public class GameViewController {
   }
 
   public void playerTwo() throws IOException{
-    playerName = "Player Two";
-    openStatistics();
+    if(player.getProfiles().length >= 2){
+      openStatistics(player.getProfiles()[1]);
+    }
   }
 
   public void playerThree() throws IOException{
-    playerName = "Player Three";
-    openStatistics();
+    if(player.getProfiles().length >= 4){
+      openStatistics(player.getProfiles()[2]);
+    }
   }
 
   public void playerFour() throws IOException{
-    playerName = "PLayer Four";
-    openStatistics();
+    if(player.getProfiles().length >= 4){
+      openStatistics(player.getProfiles()[3]);
+    }
   }
 
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
@@ -203,6 +206,8 @@ public class GameViewController {
 
   public void shuffle() {
     System.out.println("Shuffle");
+    player.getRack().shuffleRack();
+    updateRack();
   }
 
   public void submit() {
