@@ -28,16 +28,17 @@ public class ClientProtocol extends Thread {
    * Constructor for creating streams and connecting a client
    *
    * @param ip Requires the ip, the server runs on
-   * @param client Requires username for current profile
+   * @param netClient Requires username for current profile
    */
-  public ClientProtocol(String ip, NetClient client) {
-    this.client = client;
+  public ClientProtocol(String ip, NetClient netClient) {
+    this.client = netClient;
     try {
       this.clientSocket = new Socket(ip, 12975);
+      System.out.println("Client with IP:" + ip + " connected, " + client.getPlayerProfile().getName());
       this.out = new ObjectOutputStream(clientSocket.getOutputStream());
       this.in = new ObjectInputStream(clientSocket.getInputStream());
-      // TODO this.out.writeObject(new ConnectMessage(client.getPlayerProfile()));
-      this.out.writeObject(new ConnectMessage(client.testGetPlayerProfile()));
+      this.out.writeObject(new ConnectMessage(client.getPlayerProfile()));
+      // TODO this.out.writeObject(new ConnectMessage(client.testGetPlayerProfile()));
       out.flush();
     } catch (IOException e) {
       e.printStackTrace();
@@ -49,8 +50,8 @@ public class ClientProtocol extends Thread {
     running = false;
     try {
       if (!clientSocket.isClosed()) {
-        // TODO this.out.writeObject(new DisconnectMessage(client.getPlayerProfile()));
-        this.out.writeObject(new DisconnectMessage(client.testGetPlayerProfile()));
+         this.out.writeObject(new DisconnectMessage(client.getPlayerProfile()));
+        // TODO this.out.writeObject(new DisconnectMessage(client.testGetPlayerProfile()));
         clientSocket.close();
       }
     } catch (IOException e) {
@@ -227,15 +228,25 @@ public class ClientProtocol extends Thread {
         System.out.println(m.getMessageType());
         switch (m.getMessageType()) {
           case CONNECT:
-            if (this.id == -1) {
+            // TODO ID kein Sinn wenn bereits connected dann erneuter ConnectionAufbau fremd --> ID des Fremden wird angenommen
+            /*if (this.id == -1) {
               this.id = ((ConnectMessage) m).getID();
               if (this.id >= 4) {
                 System.out.println("Lobby is full");
                 disconnect();
               }
             }
+            */
+            PlayerProfile[] lobbyProfiles = ((ConnectMessage)m).getProfiles();
+            client.fillLobby(lobbyProfiles);
+
             // TODO update Lobby View
             // System.out.println("New player joined the lobby");
+            break;
+          case FILLLOBBYMESSAGE:
+            FillLobbyMessage fill=(FillLobbyMessage) m;
+            client.fillLobby(fill.getProfiles());
+
             break;
           case UPDATEGAMESETTINGS:
             UpdateGameSettingsMessage ugsm = (UpdateGameSettingsMessage) m;

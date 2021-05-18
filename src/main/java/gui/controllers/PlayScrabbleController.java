@@ -52,6 +52,7 @@ public class PlayScrabbleController {
     loader.setLocation(this.getClass().getResource("/views/joinGameView.fxml"));
     Parent joinGameView = loader.load();
     JoinGameController controller = loader.getController();
+    controller.setModel(client);
 
     Scene joinGameScene = new Scene(joinGameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

@@ -20,7 +20,8 @@ import java.util.List;
 
 public class CreateGameController {
   /** @author vihofman for gameSettings and functionality */
-  // setup for joined players
+  // setup for joined player
+  @FXML private Label PlayerOne;
   @FXML private Label PlayerTwo;
   @FXML private Label PlayerThree;
   @FXML private Label PlayerFour;
@@ -29,7 +30,7 @@ public class CreateGameController {
   @FXML private Label ReadyFour;
   @FXML private Label Host;
 
-  private Label connectionDetails;
+  @FXML private Label connectionDetails;
 
   private Client client;
   List<PlayerProfile> profiles = new ArrayList<>(); // manage profiles with arrayList
@@ -48,11 +49,16 @@ public class CreateGameController {
     this.client = client;
 
     client.getNetClient().createServer();
+    try{
+      Thread.sleep(10);
+    }catch(Exception e){}
+
+
+    client.getNetClient().createServer();
     client.getNetClient().connect();
 
-    // TODO client.getNetClient().setGameLobbyController(this);
-    // TODO
-    // this.connectionDetails.setText(client.getNetClient().getServer().getConnectionDetails());
+    client.getNetClient().setCreateGameController(this);
+    connectionDetails.setText(client.getNetClient().getIp());
   }
 
   public void addPlayer(PlayerProfile profile) {
@@ -65,7 +71,7 @@ public class CreateGameController {
 
   public void updatePlayerList() {
 
-    Label[] areas = {PlayerTwo, PlayerThree, PlayerFour};
+    Label[] areas = {PlayerOne, PlayerTwo, PlayerThree, PlayerFour};
 
     for (int i = 1; i < profiles.size(); i++) {
       areas[i].setText(profiles.get(i).getName());
@@ -93,6 +99,14 @@ public class CreateGameController {
 
   public String[] getDistributions() {
     return distributions;
+  }
+
+  public void fillLobby(PlayerProfile[] profiles){
+    Label[] areas = {PlayerOne, PlayerTwo, PlayerThree, PlayerFour};
+
+    for(int i = 0; i < 4; i++){
+      areas[i].setText((i < profiles.length) ? profiles[i].getName() : "");
+    }
   }
 
   public void openGameSettings(MouseEvent mouseEvent) throws IOException {
@@ -143,12 +157,18 @@ public class CreateGameController {
       }
     }
   }
+
+
   /** @author mnetzer Controller for more createGame methods */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
+    // disonnect player from server (server shuts down because client was host)
+    client.getNetClient().disconnect();
+
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
     Parent playScrabbleView = loader.load();
     PlayScrabbleController controller = loader.getController();
+    controller.setModel(client);
 
     Scene playScrabbleScene = new Scene(playScrabbleView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -184,5 +204,9 @@ public class CreateGameController {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(welcomeScene);
     window.show();
+  }
+
+  public void openConnectionDetails(){
+
   }
 }

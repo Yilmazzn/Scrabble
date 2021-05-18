@@ -82,14 +82,16 @@ public class ServerProtocol extends Thread {
             rp = (RemotePlayer) server.getPlayerOfID(cm.getID());
             rp.setPlayerProfile(profile);
             server.setPlayerProfiles(cm.getID(), profile);
-            System.out.println("Server added: " + profile.getName());
+            System.out.println("Server added: " + profile.getName());//
             int index = Math.min(4, server.getNumberOfClients());
-            PlayerProfile[] temp = new PlayerProfile[index];
+            PlayerProfile[] temp = new PlayerProfile[5];
             for (int i = 0; i < index; i++) {
               temp[i] = server.getProfile(i);
             }
-            cm.setProfiles(temp);
-            server.sendToAll(cm);
+            //cm.setProfiles(temp);
+
+            Message fillLobbyMessage = new FillLobbyMessage(temp);
+            server.sendToAll(fillLobbyMessage);
             break;
           case DISCONNECT:
             profile = ((DisconnectMessage) m).getProfile();

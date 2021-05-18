@@ -28,6 +28,8 @@ public class NetClient {
   private Client client;
   private Server server;
 
+  private CreateGameController createGameController; // controls GUI
+
   /**
    * a constructor to create a client
    *
@@ -57,6 +59,13 @@ public class NetClient {
 
   public NetClient(Client client) {
     this.client = client;
+    /*
+    try{
+      this.ipAdr = Server.getLocalHostIp4Address();
+    }catch(Exception e){
+      e.printStackTrace();
+    }
+    */
   }
 
   /**
@@ -70,7 +79,7 @@ public class NetClient {
 
   public void createServer() {
     server = new Server();
-    new ServerListenThread().start();
+    server.start();
   }
 
   /**
@@ -92,15 +101,27 @@ public class NetClient {
     this.ipAdr = ip;
   }
 
+  public String getIp(){
+    return ipAdr;
+  }
+
+  public Server getServer(){
+    return this.server;
+  }
+
   /**
    * a method to disconnect the client from the server
    *
    * @throws IOException exception occurs if disconnect didn't work
    * @author ygarip
    */
-  public void disconnect() throws IOException {
-    connection.disconnect();
-  }
+  public void disconnect() {
+    try {
+      connection.disconnect();
+  }catch(Exception e){
+    e.printStackTrace();
+      }
+    }
 
   /**
    * Calls method, whenever the host changed anything in the gamesettings
@@ -211,8 +232,7 @@ public class NetClient {
    * @author vkaczmar a method to return the player profile
    */
   public PlayerProfile getPlayerProfile() {
-    profile = client.getSelectedProfile();
-    return profile;
+    return client.getSelectedProfile();
   }
 
   public PlayerProfile testGetPlayerProfile() {
@@ -238,11 +258,13 @@ public class NetClient {
    */
   public boolean getAIActive() {
     return isAIActive;
+}
+
+  public void setCreateGameController(CreateGameController createGameController){
+    this.createGameController = createGameController;
   }
 
-  class ServerListenThread extends Thread {
-    public void run() {
-      server.listen();
-    }
+  public void fillLobby(PlayerProfile[] profiles){
+    createGameController.fillLobby(profiles);
   }
 }

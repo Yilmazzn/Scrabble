@@ -45,7 +45,7 @@ public class PlayerLobbyController {
     loader.setLocation(this.getClass().getResource("/views/settings.fxml"));
     Parent settings = loader.load();
     SettingsController controller = loader.getController();
-    //controller.setModel(client);
+    controller.setModel(client);
 
     Scene settingsScene = new Scene(settings);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

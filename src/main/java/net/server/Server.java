@@ -21,7 +21,7 @@ import java.util.*;
 public class Server extends Thread {
   private ServerSocket serverSocket;
   private boolean running;
-  private static final int port = 12975;
+  private static final int port = 12975;  // TODO PORT
   private static String serverIp;
   private ArrayList<ServerProtocol> clients = new ArrayList<>();// connection bei RemotePlayer
   private ArrayList<String> clientNames = new ArrayList<>(); //TODO  wird in players gespeichert
@@ -91,7 +91,7 @@ public class Server extends Thread {
    * @author from stackoverflow
    *     https://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
    */
-  public String getLocalHostIp4Address() throws UnknownHostException {
+  public static String getLocalHostIp4Address() throws UnknownHostException {
 
     try {
 
@@ -154,16 +154,16 @@ public class Server extends Thread {
     running = true;
     try {
       serverSocket = new ServerSocket(Server.port);
-      System.out.println("Server started");
+      System.out.println("Server started and running on ip " + serverIp);
       while (running) {
         Socket clientSocket = serverSocket.accept();
         ServerProtocol clientThread = new ServerProtocol(clientSocket, this);
-        players.add(new RemotePlayer(clientThread, players.size() == 0));
+        players.add(new RemotePlayer(clientThread,players.size() == 0));
         clientThread.start(); // TODO maybe players.get().getConnection().start()
       }
     } catch (IOException e) {
       if (serverSocket != null && serverSocket.isClosed()) {
-        System.out.println("Server stopped");
+        System.out.println("Server stopped| server.java class");
       } else {
         e.printStackTrace();
       }

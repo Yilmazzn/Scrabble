@@ -46,6 +46,9 @@ public class Client extends Application {
   }
 
   public NetClient getNetClient() {
+    if(netClient == null){
+      netClient = new NetClient(this);
+    }
     return netClient;
   }
 
@@ -58,8 +61,6 @@ public class Client extends Application {
       selectedProfile = playerProfiles.get(0);
     }
 
-    // Create Client
-    netClient = new NetClient(this);
 
     primaryStage.setTitle("Scrabble 13");
     FXMLLoader loader = new FXMLLoader();
@@ -68,6 +69,15 @@ public class Client extends Application {
     // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
     WelcomeViewController controller = loader.getController();
     controller.setModel(this);
+
+    primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+      public void handle(WindowEvent event){
+        Platform.exit();
+        if(netClient != null){
+          netClient.disconnect();
+        }
+      }
+    });
 
     primaryStage.setScene(new Scene(root));
     primaryStage.setMinHeight(700);

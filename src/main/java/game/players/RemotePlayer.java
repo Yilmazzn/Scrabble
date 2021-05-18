@@ -30,6 +30,7 @@ public class RemotePlayer extends Player {
   //todo maybe delete later if not used in controllers, actually used for test cases in clientTestClass
   public RemotePlayer(ServerProtocol connection, boolean host) {
     super(true);
+    this.host = host;
     this.connection = connection;
     this.host = host;
   }

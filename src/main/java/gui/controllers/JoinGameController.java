@@ -46,6 +46,7 @@ public class JoinGameController {
     window.setHeight(200);
     window.showAndWait();
   }
+
   /** @author mnetzer Controller for the joinGameView */
   public void gameView(MouseEvent mouseEvent) throws IOException {
     if (ipField.getText().matches("[0-9.]+")) {
@@ -90,6 +91,7 @@ public class JoinGameController {
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
     Parent playScrabbleView = loader.load();
     PlayScrabbleController controller = loader.getController();
+    controller.setModel(client);
 
     Scene playScrabbleScene = new Scene(playScrabbleView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
