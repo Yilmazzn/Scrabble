@@ -5,8 +5,6 @@ import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
-import gui.controllers.CreateGameController;
-import net.server.ClientProtocol;
 import net.server.Server;
 
 import java.io.File;

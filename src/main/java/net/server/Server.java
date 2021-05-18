@@ -154,7 +154,7 @@ public class Server extends Thread {
     running = true;
     try {
       serverSocket = new ServerSocket(Server.port);
-      System.out.println("Server started and running on ip " + serverIp);
+      System.out.println("Server running on " + serverIp + ":" + port);
       while (running) {
         Socket clientSocket = serverSocket.accept();
         ServerProtocol clientThread = new ServerProtocol(clientSocket, this);
