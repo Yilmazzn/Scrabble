@@ -1,7 +1,6 @@
 package net.message;
 
 import client.PlayerProfile;
-import game.players.Player;
 
 /**
  * An message that handles the player's connect Request to the server

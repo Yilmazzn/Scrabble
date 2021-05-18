@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class NetClient {
   private ClientProtocol connection;
-  private String ipAdr="192.168.0.9";
+  private String ipAdr;
   private String username; // username from playersprofile
   private int points;
   private Dictionary dictionary;
@@ -56,15 +56,19 @@ public class NetClient {
     this.isAIActive = isAIActive;
   }
 
+  /**
+   * Constructor to create a NetClient with client
+   *
+   * @param client Requires client to conenct from
+   */
   public NetClient(Client client) {
     this.client = client;
-    /*
-    try{
+    try {
       this.ipAdr = Server.getLocalHostIp4Address();
-    }catch(Exception e){
+    } catch (Exception e) {
+      System.out.println("Netclient create didnt worked");
       e.printStackTrace();
     }
-    */
   }
 
   /**
@@ -76,6 +80,7 @@ public class NetClient {
     ctc.startServer();
   }
 
+  /** Creates and starts server */
   public void createServer() {
     server = new Server();
     server.start();
@@ -89,6 +94,13 @@ public class NetClient {
   public void connect() {
     this.connection = new ClientProtocol(this.ipAdr, this);
     this.connection.start();
+    System.out.println(
+        "Netclient " + this.getPlayerProfile().getName() + " is connected |NetClient");
+  }
+
+  /** @return Returns ClientProtocol connected to NetClient */
+  public ClientProtocol getConnection() {
+    return connection;
   }
 
   /**
@@ -100,11 +112,13 @@ public class NetClient {
     this.ipAdr = ip;
   }
 
-  public String getIp(){
+  /** @return Returns up of NetClient */
+  public String getIp() {
     return ipAdr;
   }
 
-  public Server getServer(){
+  /** @return Returns server */
+  public Server getServer() {
     return this.server;
   }
 
@@ -117,10 +131,11 @@ public class NetClient {
   public void disconnect() {
     try {
       connection.disconnect();
-  }catch(Exception e){
-    e.printStackTrace();
-      }
+      connection = null;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
   /**
    * Calls method, whenever the host changed anything in the gamesettings
@@ -133,6 +148,11 @@ public class NetClient {
     connection.updateGameSettings(tileScores, tileDistributions, dictionary);
   }
 
+  /**
+   * Initiates sending of Players readiness to server
+   *
+   * @param ready Requires ready value to be sent
+   */
   public void setPlayerReady(boolean ready) {
     connection.setPlayerReady(ready);
   }
@@ -234,6 +254,7 @@ public class NetClient {
     return client.getSelectedProfile();
   }
 
+  /** @return Returns test profile */
   public PlayerProfile testGetPlayerProfile() {
     return profile;
   }
@@ -241,6 +262,11 @@ public class NetClient {
   /** @author ygarip a method to get the tile from server */
   public void getTile() {
     connection.getTile();
+  }
+
+  /** @return Returns client */
+  public Client getClient() {
+    return client;
   }
 
   /**
@@ -257,13 +283,100 @@ public class NetClient {
    */
   public boolean getAIActive() {
     return isAIActive;
-}
+  }
 
-  public void setCreateGameController(CreateGameController createGameController){
+  /**
+   * Sets create game Controller
+   *
+   * @param createGameController Requires createGameController to be set
+   */
+  public void setCreateGameController(CreateGameController createGameController) {
     this.createGameController = createGameController;
   }
 
-  public void fillLobby(PlayerProfile[] profiles){
+  /**
+   * Set players to update view
+   *
+   * @param profiles Requires PlayerProfiles array
+   */
+  public void setCoPlayers(PlayerProfile[] profiles) {
+    this.coPlayers = profiles;
+
+    if (server != null) { // player is host
+      createGameController.fillLobby(profiles);
+    } else { // player is not host
+
+    }
+  }
+
+  /**
+   * Sets joinGameController
+   *
+   * @param joinController Requires join game Controller to be set
+   */
+  public void setJoinGameController(JoinGameController joinController) {
+    System.out.println("JoinGameController set");
+    this.joinGameController = joinController;
+  }
+
+  /**
+   * Sets gameViewController
+   *
+   * @param gameController Requires gameViewController to be set
+   */
+  public void setGameViewController(GameViewController gameController) {
+    this.gameViewController = gameController;
+  }
+
+  public void fillLobby(PlayerProfile[] profiles) {
+    System.out.print("FillLobbyInhalt: ");
+    for (PlayerProfile profile : profiles) {
+      System.out.print(profile.getName() + ", ");
+    }
+    System.out.println();
     createGameController.fillLobby(profiles);
+  }
+
+  /** Load game view */
+  public void loadGameView() {
+    try {
+      System.out.println("JoinGameController used");
+      joinGameController.loadGameView();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /** @return Returns if client is host or not */
+  public boolean isHost() {
+    return server != null && server.isRunning();
+  }
+
+  /** @return Returns playerProfiles as an Array */
+  public PlayerProfile[] getCoPlayers() {
+    return coPlayers;
+  }
+
+  /**
+   * Sets coPlayerScores
+   *
+   * @param scores Requires scores array to be set
+   */
+  public void setCoPlayerScores(int[] scores) {
+    this.coPlayerScores = scores;
+  }
+
+  /** @return Returns coPlayerScores as Array */
+  public int[] getCoPlayerScores() {
+    return coPlayerScores;
+  }
+
+  /**
+   * Initiates sending of difficulty for AI Creation
+   *
+   * @param difficult Requires difficulty, true = hard, false = easy
+   */
+  public void addAIPlayer(boolean difficult) {
+    connection.addAIPlayer(difficult);
   }
 }

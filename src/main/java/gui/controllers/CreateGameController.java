@@ -8,6 +8,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -45,30 +47,45 @@ public class CreateGameController {
   }; // array storing distribution of letters
   private String dictionaryPath;
 
+  /**
+   * Sets client instance in CreateGameController, creates Server and connect first client
+   *
+   * @param client Requires client to be set
+   */
   public void setModel(Client client) {
     this.client = client;
 
     client.getNetClient().createServer();
-    try{
+    try {
       Thread.sleep(10);
-    }catch(Exception e){}
+    } catch (Exception e) {
+    }
 
-
-    client.getNetClient().createServer();
     client.getNetClient().connect();
 
     client.getNetClient().setCreateGameController(this);
     connectionDetails.setText(client.getNetClient().getIp());
   }
 
+  /**
+   * Adds player to profiles list
+   *
+   * @param profile Requires PlayerProfile to be added
+   */
   public void addPlayer(PlayerProfile profile) {
     profiles.add(profile);
   }
 
+  /**
+   * Removes player from profiles list
+   *
+   * @param profile Requires PlayerProfile to be removed
+   */
   public void removePlayer(PlayerProfile profile) {
     profiles.remove(profile);
   }
 
+  /** Updates player list, if client connects or disconnects */
   public void updatePlayerList() {
 
     Label[] areas = {PlayerOne, PlayerTwo, PlayerThree, PlayerFour};
@@ -81,30 +98,52 @@ public class CreateGameController {
     }
   }
 
+  /**
+   * Sets absolute path to dictionary
+   *
+   * @param path Requires path for dictionary
+   */
   public void setDictionaryPath(String path) {
     dictionaryPath = path;
   }
 
+  /**
+   * Sets tile values
+   *
+   * @param values Requires values to be set
+   */
   public void setValues(String[] values) {
     this.values = values;
   }
 
+  /** @return Returns tile Values */
   public String[] getValues() {
     return values;
   }
 
+  /**
+   * Sets tile distributions
+   *
+   * @param distributions Requires tile distributions
+   */
   public void setDistributions(String[] distributions) {
     this.distributions = distributions;
   }
 
+  /** @return Returns tile distributions */
   public String[] getDistributions() {
     return distributions;
   }
 
-  public void fillLobby(PlayerProfile[] profiles){
+  /**
+   * Fills lobby with current client' profiles
+   *
+   * @param profiles Requires profiles to be set
+   */
+  public void fillLobby(PlayerProfile[] profiles) {
     Label[] areas = {PlayerOne, PlayerTwo, PlayerThree, PlayerFour};
 
-    for(int i = 0; i < 4; i++){
+    for (int i = 0; i < 4; i++) {
       areas[i].setText((i < profiles.length) ? profiles[i].getName() : "");
     }
   }
@@ -123,7 +162,8 @@ public class CreateGameController {
     window.setScene(gameSettingsScene);
     window.show();
   }
-  public void openChat() throws IOException{
+
+  public void openChat() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
     Parent gameChat = loader.load();
@@ -144,22 +184,35 @@ public class CreateGameController {
   }
 
   public void checkReadiness() throws IOException {
-      //if(profile.getName().isReady() && profile.getName().isAgree()){
-      ReadyTwo.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
-      //else
-      ReadyTwo.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-      //TODO get connection from players with isReady and isAgree
-      ReadyThree.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-      ReadyFour.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+    // if(profile.getName().isReady() && profile.getName().isAgree()){
+    ReadyTwo.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+    // else
+    ReadyTwo.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+    // TODO get connection from players with isReady and isAgree
+    ReadyThree.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+    ReadyFour.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
   }
 
-  public void addAiPlayer() throws IOException{ // add AI player to the GUI
-    Label[] joinedPlayers = {PlayerTwo, PlayerThree, PlayerFour};
-    for(int i = 0; i<joinedPlayers.length; i++){
-      if (joinedPlayers[i].getText().equals("")) {
-        joinedPlayers[i].setText("AI Player");
-        break;
-      }
+  /**
+   * Shows Popup, for AI difficulty, then adds AI Player
+   *
+   * @throws IOException
+   */
+  public void addAiPlayer() throws IOException { // add AI player to the GUI
+    Alert alert =
+        new Alert(
+            Alert.AlertType.CONFIRMATION,
+            "Add AI\n\nYes = Simple\tNo = Hard",
+            ButtonType.YES,
+            ButtonType.NO,
+            ButtonType.CANCEL);
+    alert.setTitle("Add AI");
+    alert.setHeaderText(null);
+
+    if (alert.getResult() == ButtonType.CANCEL) {
+      return;
+    } else {
+      client.getNetClient().addAIPlayer(alert.getResult() == ButtonType.NO);
     }
   }
   public void getConnectionDetails(){

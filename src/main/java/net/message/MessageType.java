@@ -7,7 +7,7 @@ package net.message;
  */
 public enum MessageType {
   DISCONNECT, // DONE
-  STARTGAME, // TODO Other GameSettings?
+  STARTGAME, // DONE
   PLAYERREADY, // DONE
   CONNECT, // DONE
   CHATMESSAGE, // DONE
@@ -17,6 +17,7 @@ public enum MessageType {
   SENDPLAYERDATA, // DONE
   GETTILE, // DONE
   EXCHANGETILES, // DONE
-  UPDATEGAMESETTINGS,
-  FILLLOBBY
+  UPDATEGAMESETTINGS, // DONE
+  REFUSECONNECTION, // DONE
+  ADDAI // DONE
 }

@@ -5,6 +5,7 @@ import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
 import game.players.RemotePlayer;
+import javafx.application.Platform;
 import net.client.NetClient;
 import net.message.*;
 
@@ -34,7 +35,8 @@ public class ClientProtocol extends Thread {
     this.client = netClient;
     try {
       this.clientSocket = new Socket(ip, 12975);
-      System.out.println("Client with IP:" + ip + " connected, " + client.getPlayerProfile().getName());
+      System.out.println(
+          "Client with IP:" + ip + " connected, " + client.getPlayerProfile().getName());
       this.out = new ObjectOutputStream(clientSocket.getOutputStream());
       this.in = new ObjectInputStream(clientSocket.getInputStream());
       this.out.writeObject(new ConnectMessage(client.getPlayerProfile()));
@@ -50,7 +52,7 @@ public class ClientProtocol extends Thread {
     running = false;
     try {
       if (!clientSocket.isClosed()) {
-         this.out.writeObject(new DisconnectMessage(client.getPlayerProfile()));
+        this.out.writeObject(new DisconnectMessage(client.getPlayerProfile()));
         // TODO this.out.writeObject(new DisconnectMessage(client.testGetPlayerProfile()));
         clientSocket.close();
       }
@@ -59,6 +61,11 @@ public class ClientProtocol extends Thread {
     }
   }
 
+  /**
+   * Sets players readiness
+   *
+   * @param ready Requires value ready should be set to
+   */
   public void setPlayerReady(boolean ready) {
     try {
       if (!clientSocket.isClosed()) {
@@ -70,7 +77,11 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /** Method for writing a StartGameMessage Object to the server */
+  /**
+   * Method for writing a StartGameMessage Object to the server
+   *
+   * @param file Requires File, that includes Dictionary
+   */
   public void startGame(File file) {
     try {
       if (!clientSocket.isClosed()) {
@@ -161,7 +172,11 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /** @param id Requires id to receive profile from */
+  /**
+   * A method for writing a SendPlayerMessage Object to server
+   *
+   * @param id Requires id to receive profile from
+   */
   public void sendPlayerData(int id) {
     try {
       if (!clientSocket.isClosed()) {
@@ -219,6 +234,20 @@ public class ClientProtocol extends Thread {
   }
 
   /**
+   * Creates and sends AddAIMessage instance to server
+   *
+   * @param difficult Requires difficulty, true = hard, false = easy
+   */
+  public void addAIPlayer(boolean difficult) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new AddAIMessage(difficult));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+  /**
    * Overwritten run method from Thread. Accepts and works through incoming messages from the server
    */
   public void run() {
@@ -228,25 +257,30 @@ public class ClientProtocol extends Thread {
         System.out.println(m.getMessageType());
         switch (m.getMessageType()) {
           case CONNECT:
-            // TODO ID kein Sinn wenn bereits connected dann erneuter ConnectionAufbau fremd --> ID des Fremden wird angenommen
-            /*if (this.id == -1) {
-              this.id = ((ConnectMessage) m).getID();
-              if (this.id >= 4) {
-                System.out.println("Lobby is full");
-                disconnect();
-              }
+            PlayerProfile[] lobbyProfiles = ((ConnectMessage) m).getProfiles();
+
+            // sets list of coplayers and updates respective views
+            Platform.runLater(
+                () -> {
+                  client.setCoPlayers(lobbyProfiles);
+                  client.setCoPlayerScores(new int[lobbyProfiles.length]); // init with 0 score
+                });
+
+            // load game view if got connection message and not host
+            if (!client.isHost()) {
+              Platform.runLater(
+                  () -> {
+                    client.loadGameView();
+                  });
             }
-            */
-            PlayerProfile[] lobbyProfiles = ((ConnectMessage)m).getProfiles();
-            client.fillLobby(lobbyProfiles);
 
-            // TODO update Lobby View
-            // System.out.println("New player joined the lobby");
             break;
-          case FILLLOBBY:
-            FillLobbyMessage fill=(FillLobbyMessage) m;
-            client.fillLobby(fill.getProfiles());
-
+          case REFUSECONNECTION:
+            Platform.runLater(
+                () -> {
+                  client.getClient().showPopUp(((RefuseConnectionMessage) m).getMessage());
+                });
+            running = false;
             break;
           case UPDATEGAMESETTINGS:
             UpdateGameSettingsMessage ugsm = (UpdateGameSettingsMessage) m;
@@ -323,6 +357,17 @@ public class ClientProtocol extends Thread {
             } else {
               System.out.println(etm.getError());
             }
+            break;
+          case DISCONNECT:
+            Platform.runLater(
+                () -> {
+                  try {
+                    client.getClient().showMainMenu();
+                    client.getClient().showPopUp("Disconnected. Host closed the server");
+                  } catch (Exception e) {
+                    e.printStackTrace();
+                  }
+                });
             break;
           default:
             break;

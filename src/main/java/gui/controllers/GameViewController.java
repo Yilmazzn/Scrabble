@@ -16,9 +16,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -58,7 +56,6 @@ public class GameViewController implements Initializable {
 
   private int draggedTileIndex = -1;
 
-
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     Tooltip tip = new Tooltip();
@@ -66,7 +63,7 @@ public class GameViewController implements Initializable {
     bag.setTooltip(tip);
   }
 
-  //TODO Get instance of Board/ PlayerProfiles/ Bag from NetClient
+  // TODO Get instance of Board/ PlayerProfiles/ Bag from NetClient
 
   /** Method to set the client and initialize the board */
   public void setModel(Client client) {
@@ -79,7 +76,7 @@ public class GameViewController implements Initializable {
 
   /** Method to initialize the board with instances of PlayerProfiles/ Board */
   public void updateBoard() {
-    /** AnchorPane as graphical container for the tiles are created*/
+    /** AnchorPane as graphical container for the tiles are created */
     board.getChildren().removeAll();
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
@@ -89,36 +86,43 @@ public class GameViewController implements Initializable {
     }
   }
 
-
-
-  public void updateScoreboard(){
+  /** Updates Scoreboard */
+  public void updateScoreboard() {
     Map<String, Integer> map = player.getScoreboard();
     Label[] playerLabels = {player1, player2, player3, player4};
     Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
     int idx = 0;
-    for(Map.Entry<String, Integer> entry : map.entrySet()){
+    for (Map.Entry<String, Integer> entry : map.entrySet()) {
       playerLabels[idx].setText(entry.getKey());
       pointsLabels[idx].setText(Integer.toString(entry.getValue()));
       idx++;
     }
-    for(int i = map.size(); i < 4; i++){
+    for (int i = map.size(); i < 4; i++) {
       playerLabels[i].setText("---");
       pointsLabels[i].setText("-");
     }
   }
 
+  /** Updates Rack */
   public void updateRack() {
     tiles.getChildren().clear();
     for (int i = 0; i < player.getRack().RACK_SIZE; i++) {
-      if(player.getRack().isEmpty(i)){
+      if (player.getRack().isEmpty(i)) {
         continue;
       }
-      AnchorPane anchorPane = createBottomTile(player.getRack().getTile(i).getLetter(), player.getRack().getTile(i).getScore(), i);
+      AnchorPane anchorPane =
+          createBottomTile(
+              player.getRack().getTile(i).getLetter(), player.getRack().getTile(i).getScore(), i);
       tiles.add(anchorPane, i, 0);
     }
   }
 
-  public void setBagSize(int bagSize){
+  /**
+   * Sets bag size
+   *
+   * @param bagSize Requires size bag should have
+   */
+  public void setBagSize(int bagSize) {
     Tooltip tip = bag.getTooltip();
     tip.setText("There are " + bagSize + " tiles in the game bag");
   }
@@ -143,8 +147,9 @@ public class GameViewController implements Initializable {
     window.setY(y);
     window.show();
   }
+
   /** @author vihofman for statistics */
-  public void openStatistics(PlayerProfile profile) throws IOException{
+  public void openStatistics(PlayerProfile profile) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
     Parent openStatistics = loader.load();
@@ -167,32 +172,52 @@ public class GameViewController implements Initializable {
     window.setY(y);
     window.show();
   }
-  /** @author vihofman for statistic functionality*/
-  public void playerOne() throws IOException{
-    if(player.getProfiles().length >= 0){
+
+  /** @author vihofman for statistic functionality */
+  public void playerOne() throws IOException {
+    if (player.getProfiles().length >= 0) {
       openStatistics(player.getProfiles()[0]);
     }
   }
 
-  public void playerTwo() throws IOException{
-    if(player.getProfiles().length >= 2){
+  public void playerTwo() throws IOException {
+    if (player.getProfiles().length >= 2) {
       openStatistics(player.getProfiles()[1]);
     }
   }
 
-  public void playerThree() throws IOException{
-    if(player.getProfiles().length >= 4){
+  public void playerThree() throws IOException {
+    if (player.getProfiles().length >= 3) {
       openStatistics(player.getProfiles()[2]);
     }
   }
 
-  public void playerFour() throws IOException{
-    if(player.getProfiles().length >= 4){
+  public void playerFour() throws IOException {
+    if (player.getProfiles().length >= 4) {
       openStatistics(player.getProfiles()[3]);
     }
   }
 
+  /**
+   * Returns to player Lobby and disconnects client
+   *
+   * @param mouseEvent Requires MouseEvent generated on Click
+   * @throws IOException
+   */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
+
+    Alert alert =
+        new Alert(
+            Alert.AlertType.CONFIRMATION,
+            "Are you sure you want to quit a running game?\n\nYour Co-Players would be very disappointed...",
+            ButtonType.YES,
+            ButtonType.CANCEL);
+    alert.showAndWait();
+
+    if (alert.getResult() == ButtonType.YES) {
+      client.getNetClient().disconnect();
+    }
+
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
@@ -215,7 +240,7 @@ public class GameViewController implements Initializable {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(profileControllerScene);
     window.show();
-    //TODO go back to current game after opening settings
+    // TODO go back to current game after opening settings
   }
 
   public void tiles() {
@@ -232,8 +257,10 @@ public class GameViewController implements Initializable {
     System.out.println("Submit");
   }
 
-  /** Method to create the Containers for the tiles on the Rack
-   * includes graphical components and adds the Drag and Drop feature*/
+  /**
+   * Method to create the Containers for the tiles on the Rack includes graphical components and
+   * adds the Drag and Drop feature
+   */
   public AnchorPane createBottomTile(char letter, int value, int position) {
     AnchorPane pane = new AnchorPane();
     Label label = new Label();
@@ -248,7 +275,7 @@ public class GameViewController implements Initializable {
     label.setAlignment(Pos.CENTER);
     label.getStylesheets().add("/stylesheets/labelstyle.css");
     String help = "rack" + Integer.toString(position + 1);
-    if (player.tileSelected(position)){
+    if (player.tileSelected(position)) {
       label.getStyleClass().add("tileBottomSelected");
     } else {
       label.getStyleClass().add("tileBottom");
@@ -284,7 +311,7 @@ public class GameViewController implements Initializable {
         new EventHandler<DragEvent>() {
           public void handle(DragEvent event) {
             /* the drag-and-drop gesture ended */
-            if(event.isDropCompleted()){
+            if (event.isDropCompleted()) {
               System.out.println("onDragDone");
               draggedTileIndex = -1;
             }
@@ -294,20 +321,22 @@ public class GameViewController implements Initializable {
         });
 
     pane.setOnMouseClicked(
-            new EventHandler<MouseEvent>() {
-              public void handle(MouseEvent event) {
-                System.out.println("ClickedOnTile");
-                player.selectTile(position);
-                updateBottomTile(letter, value, position);
-                event.consume();
-              }
-            });
+        new EventHandler<MouseEvent>() {
+          public void handle(MouseEvent event) {
+            System.out.println("ClickedOnTile");
+            player.selectTile(position);
+            updateBottomTile(letter, value, position);
+            event.consume();
+          }
+        });
 
     return pane;
   }
 
-  /** Method to create the Containers for the tiles on the Board
-   * includes graphical components and adds the Drag and Drop feature*/
+  /**
+   * Method to create the Containers for the tiles on the Board includes graphical components and
+   * adds the Drag and Drop feature
+   */
   public AnchorPane createTile(BoardField boardField) {
     AnchorPane pane = new AnchorPane();
     Label label = new Label();
@@ -360,8 +389,6 @@ public class GameViewController implements Initializable {
       }
     }
 
-
-
     pane.getChildren().add(label);
     pane.getChildren().add(points);
 
@@ -409,28 +436,25 @@ public class GameViewController implements Initializable {
         });
 
     pane.setOnMouseClicked(
-            new EventHandler<MouseEvent>() {
-              public void handle(MouseEvent event) {
-                System.out.println("Tile removed");
-                if(!boardField.isEmpty()){
-                  player.removePlacement(boardField.getRow(), boardField.getColumn());
-                  updateBoard();
-                  updateRack();
-                }
-              }
-    });
-
-
-
+        new EventHandler<MouseEvent>() {
+          public void handle(MouseEvent event) {
+            System.out.println("Tile removed");
+            if (!boardField.isEmpty()) {
+              player.removePlacement(boardField.getRow(), boardField.getColumn());
+              updateBoard();
+              updateRack();
+            }
+          }
+        });
 
     return pane;
   }
 
   /** Method to update the graphical container of a Tile on the board */
   public void updateTile(char letter, int points, int row, int col) {
-    if(!player.getBoard().isEmpty(row, col)){
+    if (!player.getBoard().isEmpty(row, col)) {
 
-    }else{
+    } else {
       player.placeTile(draggedTileIndex, row, col);
       AnchorPane pane = createTile(player.getBoard().getField(row, col));
       board.add(pane, col, row);
@@ -439,13 +463,10 @@ public class GameViewController implements Initializable {
     updateRack();
   }
 
-  public void updateBottomTile(char letter, int points, int col){
+  public void updateBottomTile(char letter, int points, int col) {
     AnchorPane pane = createBottomTile(letter, points, col);
     tiles.add(pane, col, 0);
-
   }
-
-
 
   public void updateBoard(char letter, int value, int row, int col) {}
 

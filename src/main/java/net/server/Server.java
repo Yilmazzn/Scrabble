@@ -8,6 +8,8 @@ import game.players.Player;
 import game.players.RemotePlayer;
 import net.message.ConnectMessage;
 import net.message.Message;
+import net.message.RefuseConnectionMessage;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
@@ -16,21 +18,23 @@ import java.util.*;
 /**
  * a server class to setup the server
  *
- * @author:ygarip
+ * @author ygarip
  */
 public class Server extends Thread {
   private ServerSocket serverSocket;
   private boolean running;
-  private static final int port = 12975;  // TODO PORT
+  private static final int port = 12975;
   private static String serverIp;
-  private ArrayList<ServerProtocol> clients = new ArrayList<>();// connection bei RemotePlayer
-  private ArrayList<String> clientNames = new ArrayList<>(); //TODO  wird in players gespeichert
-  private int clientID = 0;                                   // evtl auch bei RemotePlayer wenn ID Sinn macht
-  private int[] points = new int[5];                          // score bei RemotePlayer
-  private int clientCounter = 0;                              // = players.size()
-  private PlayerProfile[] profiles = new PlayerProfile[5];    // profile im RemotePlayer
+  // private ArrayList<ServerProtocol> clients = new ArrayList<>();// connection bei RemotePlayer
+  // private ArrayList<String> clientNames = new ArrayList<>(); //TODO  wird in players gespeichert
+  // private int clientID = 0;                                   // evtl auch bei RemotePlayer wenn
+  // ID Sinn macht
+  // private int[] points = new int[5];                          // score bei RemotePlayer
+  // private int clientCounter = 0;                              // = players.size()
+  // private PlayerProfile[] profiles = new PlayerProfile[5];    // profile im RemotePlayer
   private List<Player> players = new LinkedList<>();
   private Game game;
+
   int[] tileScores;
   int[] tileDistributions;
   Dictionary dictionary;
@@ -39,7 +43,6 @@ public class Server extends Thread {
   public Server() {
     try {
       this.serverIp = getLocalHostIp4Address();
-      System.out.println(serverIp);
     } catch (UnknownHostException e) {
       e.printStackTrace();
     }
@@ -66,13 +69,14 @@ public class Server extends Thread {
     int index = 0;
     for (Player p : players) {
 
-      players[index] = p;
-      index++;
+      players[index++] = p;
     }
     return players;
   }
 
-  /** TODO WICHTIG */
+  // TODO WICHTIG
+
+  /** Starts game from server */
   public void startGame() {
     // TODO int[] -> HashMap oder so
     /**
@@ -84,11 +88,9 @@ public class Server extends Thread {
   }
 
   /**
-   * method name differs from link
-   *
-   * @return IP
+   * @return Returns ip from localhost
    * @throws UnknownHostException
-   * @author from stackoverflow
+   * @author from
    *     https://stackoverflow.com/questions/9481865/getting-the-ip-address-of-the-current-machine-using-java
    */
   public static String getLocalHostIp4Address() throws UnknownHostException {
@@ -158,17 +160,30 @@ public class Server extends Thread {
       while (running) {
         Socket clientSocket = serverSocket.accept();
         ServerProtocol clientThread = new ServerProtocol(clientSocket, this);
-        players.add(new RemotePlayer(clientThread,players.size() == 0));
-        clientThread.start(); // TODO maybe players.get().getConnection().start()
+
+        // if full send ConnectionRefusedMessage back
+        if (players.size() >= 4) {
+          clientThread.sendToClient(new RefuseConnectionMessage("Lobby is full"));
+        } else if (game != null) {
+          clientThread.sendToClient(
+              new RefuseConnectionMessage(
+                  "Connection Refused. Game is already running.\n\nSorry, your friends started the game without you :("));
+        } else {
+          RemotePlayer newPlayer = new RemotePlayer(clientThread, players.size() == 0);
+          clientThread.setPlayer(newPlayer);
+          players.add(newPlayer);
+
+          clientThread.start();
+        }
       }
     } catch (IOException e) {
       if (serverSocket != null && serverSocket.isClosed()) {
-        System.out.println("Server stopped| server.java class");
+        System.out.println("Server stopped | " + e.getMessage());
       } else {
         e.printStackTrace();
       }
     }
-    System.out.println("Server stopped");
+    System.out.println("Server: Server stopped");
   }
 
   /**
@@ -176,7 +191,7 @@ public class Server extends Thread {
    *
    * @param player Requires the player
    */
-  public void addPlayer(Player player) {
+  public synchronized void addPlayer(Player player) {
     players.add(player);
   }
 
@@ -185,7 +200,7 @@ public class Server extends Thread {
    *
    * @param player Requires the player
    */
-  public void removePlayer(Player player) {
+  public synchronized void removePlayer(Player player) {
     players.remove(player);
   }
 
@@ -199,7 +214,7 @@ public class Server extends Thread {
   }
 
   /** a method for stopping the server immediately */
-  public void stopServer() {
+  public synchronized void stopServer() {
     running = false;
     if (!serverSocket.isClosed()) {
       try {
@@ -218,6 +233,9 @@ public class Server extends Thread {
   public synchronized void sendToAll(Message m) {
     int index = 0;
     for (Player player : players) {
+      if (!player.isHuman()) {
+        continue;
+      }
       try {
         ((RemotePlayer) player).getConnection().sendToClient(m);
       } catch (IOException e) {
@@ -225,40 +243,6 @@ public class Server extends Thread {
         players.remove(index);
       }
     }
-  }
-
-  /**
-   * adds a new clientname to the list of clientnames
-   *
-   * @param name the name of the client
-   */
-  public synchronized void addClientName(String name) {
-    this.clientNames.add(name);
-  }
-
-  /**
-   * removes a client name from the list of clientnames
-   *
-   * @param name requires name to be removed from the arraylist
-   */
-  public synchronized void removeClientName(Player name) {
-    this.clientNames.remove(name);
-    // TODO this.playersReady.remove(name);
-    // TODO this.mapPlayersReady.remove(name);
-  }
-
-  /**
-   * removes a client from the List of clients
-   *
-   * @param toRemove the protocol which should be removed
-   */
-  public synchronized void removeClient(ServerProtocol toRemove) {
-    this.clients.remove(toRemove);
-  }
-
-  /** @return returns the number of clients in the list */
-  public synchronized int getNumberOfClients() {
-    return this.clients.size();
   }
 
   /**
@@ -291,7 +275,7 @@ public class Server extends Thread {
    */
   public synchronized ConnectMessage setID(PlayerProfile profile) {
     ConnectMessage cm = new ConnectMessage(profile);
-    cm.setID(clientID++);
+    // cm.setID(clientID++);
     return cm;
   }
 
@@ -302,7 +286,7 @@ public class Server extends Thread {
    * @param profile requires the playerprofile of the clientplayer
    */
   public synchronized void setPlayerProfiles(int id, PlayerProfile profile) {
-    profiles[id] = profile;
+    // profiles[id] = profile;
   }
 
   /**
@@ -312,7 +296,7 @@ public class Server extends Thread {
    * @return returns the PlayerProfile
    */
   public synchronized PlayerProfile getProfile(int id) {
-    return profiles[id];
+    return players.get(id).getProfile(); // profiles[id];
   }
 
   public synchronized HashMap<String, Boolean> getPlayersReady() {
@@ -385,5 +369,20 @@ public class Server extends Thread {
     this.tileScores = tileScores;
     this.tileDistributions = tileDistributions;
     this.dictionary = new Dictionary(dictionary.getAbsolutePath());
+  }
+
+  /** @return Returns if server is still running */
+  public boolean isRunning() {
+    return running;
+  }
+
+  /** @return Returns array with all playerProfiles */
+  public PlayerProfile[] getPlayerProfilesArray() {
+    int index = Math.min(4, getPlayers().length);
+    PlayerProfile[] temp = new PlayerProfile[index];
+    for (int i = 0; i < index; i++) {
+      temp[i] = getProfile(i);
+    }
+    return temp;
   }
 }

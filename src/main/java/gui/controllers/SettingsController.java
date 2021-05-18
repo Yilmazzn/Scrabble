@@ -13,37 +13,43 @@ import javafx.stage.Stage;
 import java.io.IOException;
 /** @author vihofman Controller for the Settings */
 public class SettingsController {
-  //setup for settings
-  @FXML
-  private CheckBox soundOn;
-  @FXML
-  private CheckBox soundOff;
-  @FXML
-  private CheckBox animationsOn;
-  @FXML
-  private CheckBox animationsOff;
+  // setup for settings
+  @FXML private CheckBox soundOn;
+  @FXML private CheckBox soundOff;
+  @FXML private CheckBox animationsOn;
+  @FXML private CheckBox animationsOff;
   private Client client;
-  public void setModel(Client client){
+
+  /**
+   * Sets client in SettingsController
+   *
+   * @param client Requires client to be set
+   */
+  public void setModel(Client client) {
     this.client = client;
   }
-  //settings logic with setter methods
-  public void enableSound(){
+  // settings logic with setter methods
+  public void enableSound() {
     soundOff.setSelected(false);
   }
-  public void disableSound(){
+
+  public void disableSound() {
     soundOn.setSelected(false);
   }
-  public void enableAnimations(){
+
+  public void enableAnimations() {
     animationsOff.setSelected(false);
   }
-  public void disableAnimations(){
+
+  public void disableAnimations() {
     animationsOn.setSelected(false);
   }
 
- //Getter methods for settings
-  public boolean getSound(){
+  // Getter methods for settings
+  public boolean getSound() {
     return soundOn.isSelected();
   }
+
   public boolean getAnimations() {
     return animationsOn.isSelected();
   }
@@ -68,12 +74,11 @@ public class SettingsController {
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
     controller.setModel(client);
-    //controller.InitData();
+    // controller.InitData();
 
     Scene playerLobbyScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(playerLobbyScene);
     window.show();
   }
-
 }

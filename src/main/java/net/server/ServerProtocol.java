@@ -2,7 +2,7 @@ package net.server;
 
 import client.PlayerProfile;
 import game.components.Tile;
-import game.players.RemotePlayer;
+import game.players.*;
 import net.message.*;
 
 import java.io.File;
@@ -23,7 +23,8 @@ public class ServerProtocol extends Thread {
   private Server server;
   private String clientName;
   private boolean running = true;
-  private RemotePlayer rp;
+
+  private RemotePlayer player; // Controlled player
 
   /**
    * constructor for creating a new Serverprotocol and connecting the server to the clients and the
@@ -71,37 +72,33 @@ public class ServerProtocol extends Thread {
       while (running) {
         Message m = (Message) in.readObject();
         String username;
+        System.out.println("Message received: " + m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
-            /* server.setReady(username);
-            server.setAgree(username);
-            */
-            // Todo
             PlayerProfile profile = ((ConnectMessage) m).getProfile();
-            ConnectMessage cm = server.setID(profile);
-            rp = (RemotePlayer) server.getPlayerOfID(cm.getID());
-            rp.setPlayerProfile(profile);
-            server.setPlayerProfiles(cm.getID(), profile);
-            System.out.println("Server added: " + profile.getName());//
-            int index = Math.min(4, server.getNumberOfClients());
-            PlayerProfile[] temp = new PlayerProfile[5];
-            for (int i = 0; i < index; i++) {
-              temp[i] = server.getProfile(i);
-            }
-            //cm.setProfiles(temp);
-
-            Message fillLobbyMessage = new FillLobbyMessage(temp);
-            server.sendToAll(fillLobbyMessage);
+            ConnectMessage cm = (ConnectMessage) m;
+            // player = (RemotePlayer) server.getPlayerOfID(player.getID());
+            player.setPlayerProfile(profile);
+            // server.setPlayerProfiles(cm.getID(), profile);
+            System.out.println("Server added: " + profile.getName()); //
+            cm.setProfiles(server.getPlayerProfilesArray());
+            // Message fillLobbyMessage = new FillLobbyMessage(temp);
+            server.sendToAll(cm);
             break;
           case DISCONNECT:
             profile = ((DisconnectMessage) m).getProfile();
-            server.removePlayer(rp);
+            server.removePlayer(player); // Remove Player from server
             System.out.println("Server removed: " + profile.getName());
-            running = false;
-            disconnect();
-            if(rp.isHost()){   //todo check if disconnecter is host then stop also server
+            if (player.isHost()) {
+              server.sendToAll(new DisconnectMessage(null));
               server.stopServer();
+            } else { // take player out of player list and send new ConnectMessage with all player
+                     // profiles connected
+              cm = new ConnectMessage(null);
+              cm.setProfiles(server.getPlayerProfilesArray());
+              server.sendToAll(cm);
             }
+            disconnect();
             break;
           case CHATMESSAGE:
             server.sendToAll(m);
@@ -116,7 +113,7 @@ public class ServerProtocol extends Thread {
             break;
           case PLAYERREADY:
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
-            rp.setIsReady(prm.getReady());
+            player.setIsReady(prm.getReady());
             prm.setPlayers(server.getPlayers());
             System.out.println(server.getPlayers().length);
             server.sendToAll(prm);
@@ -165,6 +162,19 @@ public class ServerProtocol extends Thread {
             }
             sendToClient(etm);
             break;
+          case ADDAI:
+            AddAIMessage ai = (AddAIMessage) m;
+            AiPlayer aiPlayer;
+            if (ai.getDifficulty()) {
+              aiPlayer = new HardAiPlayer();
+            } else {
+              aiPlayer = new EasyAiPlayer();
+            }
+            server.addPlayer(aiPlayer);
+            ConnectMessage cm1 = new ConnectMessage(null);
+            cm1.setProfiles(server.getPlayerProfilesArray());
+            server.sendToAll(cm1);
+            break;
           default:
             break;
         }
@@ -184,6 +194,15 @@ public class ServerProtocol extends Thread {
       System.out.println(e2.getMessage());
       e2.printStackTrace();
     }
+  }
+
+  /**
+   * Sets remote player in ServerProtocol
+   *
+   * @param player Requires player to be set
+   */
+  public void setPlayer(RemotePlayer player) {
+    this.player = player;
   }
 }
 

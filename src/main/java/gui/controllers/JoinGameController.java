@@ -21,6 +21,11 @@ public class JoinGameController {
 
   private Client client;
 
+  /**
+   * Sets client in JoinGameController
+   *
+   * @param client Requires client to be set
+   */
   public void setModel(Client client) {
     this.client = client;
   }
@@ -44,17 +49,25 @@ public class JoinGameController {
     window.setY(y);
     window.show();
   }
-  public void gameView(MouseEvent mouseEvent) throws IOException {
+
+  public void gameView(MouseEvent mouseEvent) {
     if (ipField.getText().matches("[0-9.]+")) {
       client.getNetClient().setIp(ipField.getText().trim());
+      client.getNetClient().setJoinGameController(this);
       client.getNetClient().connect();
+
     } else {
       ipField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-      showErrorMessage();
+      try {
+        showErrorMessage();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
       return;
-      // TODO set Color of textField red frame
     }
-    System.out.println("createGame");
+  }
+
+  public void loadGameView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
