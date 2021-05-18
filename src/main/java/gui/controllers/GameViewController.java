@@ -57,7 +57,10 @@ public class GameViewController {
   /** Method to set the client and initialize the board */
   public void setModel(Client client) {
     this.client = client;
-    initBoard();
+    this.player = client.initLocalPlayer(this);
+    updateBoard();
+    updateScoreboard();
+    updateRack();
   }
 
   /** Method to initialize the board with instances of PlayerProfiles/ Board */
@@ -66,10 +69,10 @@ public class GameViewController {
     board.getChildren().removeAll();
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
-        AnchorPane anchorPane = createTile(playBoard.getField(j, i));
+        AnchorPane anchorPane = createTile(player.getBoard().getField(j, i));
         board.add(anchorPane, i, j);
 
-        if (i == 7 && j == 7) {
+        if (i == 7 && j == 7 && player.getBoard().isEmpty(7, 7)) {
           StackPane stackPane = new StackPane();
           Image image = new Image(getClass().getResource("/pictures/Star.png").toExternalForm());
           ImageView view = new ImageView(image);
@@ -80,6 +83,34 @@ public class GameViewController {
           board.add(stackPane, 7, 7);
         }
       }
+    }
+  }
+
+
+  public void updateScoreboard(){
+    Map<String, Integer> map = player.getScoreboard();
+    Label[] playerLabels = {player1, player2, player3, player4};
+    Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
+    int idx = 0;
+    for(Map.Entry<String, Integer> entry : map.entrySet()){
+      playerLabels[idx].setText(entry.getKey());
+      pointsLabels[idx].setText(Integer.toString(entry.getValue()));
+      idx++;
+    }
+    for(int i = map.size(); i < 4; i++){
+      playerLabels[i].setText("---");
+      pointsLabels[i].setText("-");
+    }
+  }
+
+  public void updateRack() {
+    tiles.getChildren().clear();
+    for (int i = 0; i < player.getRack().RACK_SIZE; i++) {
+      if(player.getRack().isEmpty(i)){
+        continue;
+      }
+      AnchorPane anchorPane = createBottomTile(player.getRack().getTile(i).getLetter(), player.getRack().getTile(i).getScore(), i);
+      tiles.add(anchorPane, i, 0);
     }
   }
 
@@ -111,7 +142,7 @@ public class GameViewController {
     Scene openStatisticsScene = new Scene(openStatistics);
     Stage window = new Stage();
     window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle(player);
+    window.setTitle(playerName);
     window.setScene(openStatisticsScene);
     window.setWidth(300);
     window.setHeight(500);
@@ -244,57 +275,7 @@ public class GameViewController {
             new EventHandler<MouseEvent>() {
               public void handle(MouseEvent event) {
                 System.out.println("ClickedOnTile");
-                switch (position){
-                  case 0:
-                    if (rack1){
-                    rack1 = false;
-                    } else {
-                      rack1 = true;
-                    }
-                    break;
-                  case 1:
-                    if (rack2){
-                      rack2 = false;
-                    } else {
-                      rack2 = true;
-                    }
-                  break;
-                  case 2:
-                    if (rack3){
-                      rack3 = false;
-                    } else {
-                      rack3 = true;
-                    }
-                    break;
-                  case 3:
-                    if (rack4){
-                      rack4 = false;
-                    } else {
-                      rack4 = true;
-                    }
-                    break;
-                  case 4:
-                    if (rack5){
-                      rack5 = false;
-                    } else {
-                      rack5 = true;
-                    }
-                    break;
-                  case 5:
-                    if (rack6){
-                      rack6 = false;
-                    } else {
-                      rack6 = true;
-                    }
-                    break;
-                  case 6:
-                    if (rack7){
-                      rack7 = false;
-                    } else {
-                      rack7 = true;
-                    }
-                    break;
-                }
+                player.selectTile(position);
                 updateBottomTile(letter, value, position);
                 event.consume();
               }
@@ -387,7 +368,7 @@ public class GameViewController {
             if (db.hasString()) {
               updateTile(
                   db.getString().charAt(0),
-                  (Integer.valueOf(db.getString().charAt(1)) - 48),
+                  Integer.valueOf(db.getString().substring(1)),
                   boardField.getRow(),
                   boardField.getColumn());
               // label.setText(db.getString());
@@ -397,6 +378,7 @@ public class GameViewController {
             /* let the source know whether the string was successfully
              * transferred and used */
             event.setDropCompleted(success);
+
 
             event.consume();
           }
@@ -426,7 +408,7 @@ public class GameViewController {
 
   }
 
-  public void updateRack() {}
+
 
   public void updateBoard(char letter, int value, int row, int col) {}
 

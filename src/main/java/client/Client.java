@@ -26,6 +26,7 @@ public class Client extends Application {
   private List<PlayerProfile> playerProfiles; // List of player profiles
   private PlayerProfile selectedProfile;
   private NetClient netClient;
+  private LocalPlayer localPlayer;    // Player instance interacting with GUI and ClientProtocol
 
   public static void main(String[] args) {
     launch(args);
@@ -53,6 +54,15 @@ public class Client extends Application {
     }
     return netClient;
   }
+
+  public LocalPlayer initLocalPlayer(GameViewController controller){
+    if(localPlayer == null){
+      localPlayer = new LocalPlayer(this, controller);
+    }
+    return localPlayer;
+  }
+
+
 
   /** @author mnetzer open window with first fxml: start game */
   @Override

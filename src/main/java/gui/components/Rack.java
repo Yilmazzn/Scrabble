@@ -14,6 +14,7 @@ public class Rack implements Serializable {
   public static final int RACK_SIZE = 7; // width of the rack
   private final RackField[] fields; // array to represent the rack fields
 
+
   /**
    * Initializes an empty board
    */
@@ -79,6 +80,19 @@ public class Rack implements Serializable {
       tmp = fields[i];
       fields[i] = fields[rand];
       fields[rand] = tmp;
+    }
+  }
+
+  public boolean isSelected(int col){
+    return fields[col].isSelected();
+  }
+
+  public void add(Tile tile){
+    for(int i = 0; i < RACK_SIZE; i++){
+      if(fields[i].isEmpty()){
+        fields[i].setTile(tile);
+        break;
+      }
     }
   }
 
