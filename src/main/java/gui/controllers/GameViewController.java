@@ -15,7 +15,9 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -27,8 +29,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /** @author mnetzer Controller for the GameView */
 public class GameViewController {
@@ -43,6 +48,7 @@ public class GameViewController {
   @FXML private Label pointsPlayer2;
   @FXML private Label pointsPlayer3;
   @FXML private Label pointsPlayer4;
+  @FXML private Label bag;
 
   private Client client;
 
@@ -71,20 +77,10 @@ public class GameViewController {
       for (int j = 0; j < 15; j++) {
         AnchorPane anchorPane = createTile(player.getBoard().getField(j, i));
         board.add(anchorPane, i, j);
-
-        if (i == 7 && j == 7 && player.getBoard().isEmpty(7, 7)) {
-          StackPane stackPane = new StackPane();
-          Image image = new Image(getClass().getResource("/pictures/Star.png").toExternalForm());
-          ImageView view = new ImageView(image);
-          view.setFitHeight(25.0);
-          view.setFitWidth(25.0);
-
-          stackPane.getChildren().add(view);
-          board.add(stackPane, 7, 7);
-        }
       }
     }
   }
+
 
 
   public void updateScoreboard(){
@@ -253,6 +249,7 @@ public class GameViewController {
           public void handle(MouseEvent mouseEvent) {
             String exchange = label.getText() + points.getText();
             Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
+            draggedTileIndex = position;
             ClipboardContent content = new ClipboardContent();
             content.putString(exchange);
             db.setContent(content);
@@ -264,9 +261,11 @@ public class GameViewController {
         new EventHandler<DragEvent>() {
           public void handle(DragEvent event) {
             /* the drag-and-drop gesture ended */
-            System.out.println("onDragDone");
-            label.setText("");
-            points.setText("");
+            if(event.isDropCompleted()){
+              System.out.println("onDragDone");
+              draggedTileIndex = -1;
+            }
+
             event.consume();
           }
         });
@@ -318,24 +317,27 @@ public class GameViewController {
     points.getStyleClass().add("digit");
 
     /** @author mnetzer verschiedene Felder erzeugen */
-    if (boardField.getType() == BoardField.FieldType.DWS) {
-      label.getStyleClass().add("tileDWS");
-    }
-    if (boardField.getType() == BoardField.FieldType.TWS) {
-      label.getStyleClass().add("tileTWS");
-    }
-    if (boardField.getType() == BoardField.FieldType.DLS) {
-      label.getStyleClass().add("tileDLS");
-    }
-    if (boardField.getType() == BoardField.FieldType.TLS) {
-      label.getStyleClass().add("tileTLS");
-    }
-    if (boardField.getType() == BoardField.FieldType.STAR) {
-      label.getStyleClass().add("tileStar");
-    }
     if (!boardField.isEmpty()) {
       label.getStyleClass().add("tileWithLetter");
+    } else {
+      if (boardField.getType() == BoardField.FieldType.DWS) {
+        label.getStyleClass().add("tileDWS");
+      }
+      if (boardField.getType() == BoardField.FieldType.TWS) {
+        label.getStyleClass().add("tileTWS");
+      }
+      if (boardField.getType() == BoardField.FieldType.DLS) {
+        label.getStyleClass().add("tileDLS");
+      }
+      if (boardField.getType() == BoardField.FieldType.TLS) {
+        label.getStyleClass().add("tileTLS");
+      }
+      if (boardField.getType() == BoardField.FieldType.STAR) {
+        label.getStyleClass().add("tileStar");
+      }
     }
+
+
 
     pane.getChildren().add(label);
     pane.getChildren().add(points);
@@ -379,7 +381,6 @@ public class GameViewController {
              * transferred and used */
             event.setDropCompleted(success);
 
-
             event.consume();
           }
         });
@@ -391,15 +392,14 @@ public class GameViewController {
   /** Method to update the graphical container of a Tile on the board */
   public void updateTile(char letter, int points, int row, int col) {
     if(!player.getBoard().isEmpty(row, col)){
-      updateBoard();
-      updateRack();
 
     }else{
-      player.getBoard().placeTile(new Tile(letter, points), row, col);
+      player.placeTile(draggedTileIndex, row, col);
       AnchorPane pane = createTile(player.getBoard().getField(row, col));
       board.add(pane, col, row);
     }
-
+    updateBoard();
+    updateRack();
   }
 
   public void updateBottomTile(char letter, int points, int col){

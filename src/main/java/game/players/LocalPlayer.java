@@ -3,8 +3,10 @@ package game.players;
 import client.Client;
 import client.PlayerProfile;
 import game.components.Board;
+import game.components.BoardField;
 import game.components.Tile;
 import gui.components.Rack;
+import gui.components.RackField;
 import gui.controllers.GameViewController;
 
 import java.time.LocalDate;
@@ -95,4 +97,38 @@ public class LocalPlayer extends Player{
 
         return map;
     }
+
+  public PlayerProfile[] getProfiles() {
+    return profiles;
+    }
+
+  public void placeTile(int position, int row, int col){
+        if(!turn){
+            return;
+        }
+        if(board.isEmpty(row, col)){
+            placements.add(board.getField(row, col));
+            board.placeTile(rack.getField(position).getTile(), row, col);
+            rack.remove(position);
+        }
+    }
+
+    public void removePlacement(int row, int col){
+        if(placements.contains(board.getField(row, col))){
+            addTilesToRack(Arrays.asList(board.getTile(row, col)));
+            board.getField(row, col).setTile(null);
+            placements.remove(board.getField(row, col));
+        }
+    }
+
+    public void setTurn(boolean turn){
+        placements.clear();
+        this.turn = turn;
+    }
+
+    public boolean isTurn(){
+        return turn;
+    }
+
+
 }

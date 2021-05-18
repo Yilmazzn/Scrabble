@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,21 +19,22 @@ public class StatisticsController {
     @FXML
     private static TextArea totalPoints;
     @FXML
-    private static TextArea currentPoints;
-    @FXML
-    private static TextArea playtime;
+    private Text currentPoints;
     @FXML
     private static TextArea playedGames;
     @FXML
     private static TextArea wins;
     @FXML
-    private static TextArea losses;
+    private Text losses;
     @FXML
-    private static TextArea scrabblerSince;
+    private Text scrabblerSince;
+    //TODO Label in FXML
 
-    private Client client;
-    public void setModel(Client client){
-        this.client = client;
+    private PlayerProfile profile;
+
+    public void setModel(PlayerProfile profile){
+        this.profile = profile;
+        initData(profile);
     }
 
 

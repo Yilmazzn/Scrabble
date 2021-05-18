@@ -44,6 +44,10 @@
 
 .tileStar {
     -fx-background-color: #FF6AEA;
+    -fx-background-image: url("../pictures/Star.png");
+    -fx-background-size: 25 25;
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
     -fx-background-radius: 2;
     -fx-font-family: "Chalkboard";
     -fx-font-size: 18px;
