@@ -142,20 +142,28 @@ public class CreateGameController {
     window.setY(y);
     window.show();
   }
-  public void checkReadiness() throws IOException{
-    //isReady();
-      //isAgree();
-      }
-      public void openDictionary(){
-      
-      }
+
+  public void checkReadiness() throws IOException {
+      //if(profile.getName().isReady() && profile.getName().isAgree()){
+      ReadyTwo.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+      //else
+      ReadyTwo.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+      //TODO get connection from players with isReady and isAgree
+      ReadyThree.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+      ReadyFour.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+  }
+
   public void addAiPlayer() throws IOException{ // add AI player to the GUI
     Label[] joinedPlayers = {PlayerTwo, PlayerThree, PlayerFour};
     for(int i = 0; i<joinedPlayers.length; i++){
       if (joinedPlayers[i].getText().equals("")) {
         joinedPlayers[i].setText("AI Player");
+        break;
       }
     }
+  }
+  public void getConnectionDetails(){
+    connectionDetails.setText(""); //TODO get IP adress
   }
 
 
@@ -204,9 +212,5 @@ public class CreateGameController {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(welcomeScene);
     window.show();
-  }
-
-  public void openConnectionDetails(){
-
   }
 }

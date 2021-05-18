@@ -11,7 +11,7 @@ public class IPErrorMessageController {
     public void setModel(Client client){
         this.client = client;
     }
-    public void closeError(MouseEvent mouseEvent) { // close the error message
+    public void closeErrorMessage(MouseEvent mouseEvent) { // close the error message
         Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         window.close();
     }

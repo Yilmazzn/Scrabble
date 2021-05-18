@@ -243,7 +243,7 @@ public class ClientProtocol extends Thread {
             // TODO update Lobby View
             // System.out.println("New player joined the lobby");
             break;
-          case FILLLOBBYMESSAGE:
+          case FILLLOBBY:
             FillLobbyMessage fill=(FillLobbyMessage) m;
             client.fillLobby(fill.getProfiles());
 

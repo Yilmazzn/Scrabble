@@ -3,14 +3,15 @@ package gui.controllers;
 import client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-import net.server.Server;
 
 import java.io.IOException;
 
@@ -24,36 +25,32 @@ public class JoinGameController {
     this.client = client;
   }
 
-  public void checkEnterIP() throws IOException { // checking if entered IP is correct
-    if (!ipField.getText().equals(Server.getIpAddress())) {
-      showErrorMessage();
-    } else {
-
-    }
-  }
-
   public void showErrorMessage() throws IOException {
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/IPError.fxml"));
-    Parent errorMessage = loader.load();
-
-    Scene exitGameScene = new Scene(errorMessage);
+    loader.setLocation(this.getClass().getResource("/views/ipError.fxml"));
+    Parent ipError = loader.load();
+    Scene ipErrorScene = new Scene(ipError);
     Stage window = new Stage();
     window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Exit Game");
-    window.setScene(exitGameScene);
-    window.setWidth(200);
-    window.setHeight(200);
-    window.showAndWait();
+    window.setTitle("ipError");
+    window.setScene(ipErrorScene);
+    window.setWidth(210);
+    window.setHeight(180);
+    window.show();
+    Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+    double x = bounds.getMinX() + (bounds.getWidth() - window.getWidth()) * 0.5;
+    double y = bounds.getMinY() + (bounds.getHeight() - window.getHeight()) * 0.7;
+    window.setX(x);
+    window.setY(y);
+    window.show();
   }
-
-  /** @author mnetzer Controller for the joinGameView */
   public void gameView(MouseEvent mouseEvent) throws IOException {
     if (ipField.getText().matches("[0-9.]+")) {
       client.getNetClient().setIp(ipField.getText().trim());
       client.getNetClient().connect();
     } else {
-      ipField.setText("ERROR, no valid format");
+      ipField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+      showErrorMessage();
       return;
       // TODO set Color of textField red frame
     }
@@ -69,7 +66,7 @@ public class JoinGameController {
     window.setScene(welcomeScene);
     window.show();
   }
-
+  /** @author mnetzer Controller for the joinGameView */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
