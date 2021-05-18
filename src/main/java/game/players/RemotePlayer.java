@@ -16,6 +16,7 @@ public class RemotePlayer extends Player {
 
   private final ServerProtocol connection;
   private boolean isReady;
+  private boolean host;
 
   public RemotePlayer(PlayerProfile profile, ServerProtocol connection) {
     super(profile, true);
@@ -27,9 +28,10 @@ public class RemotePlayer extends Player {
    * @param connection requires the serverprotocol
    */
   //todo maybe delete later if not used in controllers, actually used for test cases in clientTestClass
-  public RemotePlayer(ServerProtocol connection) {
+  public RemotePlayer(ServerProtocol connection, boolean host) {
     super(true);
     this.connection = connection;
+    this.host = host;
   }
 
   /** Sends board to set remote player's to the lastest game board state */
@@ -92,5 +94,9 @@ public class RemotePlayer extends Player {
         tile -> {
           // TODO SEND MESSAGE
         });
+  }
+
+  public boolean isHost(){
+    return host;
   }
 }

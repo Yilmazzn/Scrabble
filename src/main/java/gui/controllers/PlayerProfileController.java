@@ -142,9 +142,9 @@ public class PlayerProfileController {
     } else {
       profiles.remove(profiles.get(selectedIdx));
       selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
+      showPlayer();
+      client.setSelectedProfile(profiles.get(selectedIdx));
+      client.savePlayerProfiles();
     }
-    showPlayer();
-    client.setSelectedProfile(profiles.get(selectedIdx));
-    client.savePlayerProfiles();
   }
 }

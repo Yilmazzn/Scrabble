@@ -7,7 +7,7 @@ public class FillLobbyMessage extends Message{
     private PlayerProfile[] profiles;
 
     public FillLobbyMessage(PlayerProfile[] profile){
-        super(MessageType.FILLLOBBYMESSAGE);
+        super(MessageType.FILLLOBBY);
         this.profiles = profiles;
     }
 
