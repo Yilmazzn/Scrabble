@@ -1,7 +1,10 @@
 package gui.controllers;
 
 import client.Client;
+import client.PlayerProfile;
+import game.Scoreboard;
 import game.components.*;
+import game.players.LocalPlayer;
 import gui.components.Bag;
 import gui.components.Rack;
 import javafx.event.EventHandler;
@@ -24,6 +27,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /** @author mnetzer Controller for the GameView */
 public class GameViewController {
@@ -40,18 +45,13 @@ public class GameViewController {
   @FXML private Label pointsPlayer4;
 
   private Client client;
-  private boolean rack1 = false;
-  private boolean rack2 = false;
-  private boolean rack3 = false;
-  private boolean rack4 = false;
-  private boolean rack5 = false;
-  private boolean rack6 = false;
-  private boolean rack7 = false;
 
-  public static String player = "";
-  public static Board playBoard = new Board();
-  public static Bag bag = new Bag(150);
-  public static Rack rack = new Rack();
+  private LocalPlayer player;
+  private Scoreboard scoreboard;
+
+  private String playerName = "";
+
+
   //TODO Get instance of Board/ PlayerProfiles/ Bag from NetClient
 
   /** Method to set the client and initialize the board */
@@ -61,29 +61,9 @@ public class GameViewController {
   }
 
   /** Method to initialize the board with instances of PlayerProfiles/ Board */
-  public void initBoard() {
-    /*for(int i=0; i<bag.getSize(); i++){
-      int randomInt1 = (int) ((Math.random() * (90 - 65)) + 65);
-      char randomChar2 = (char) randomInt1;
-      int randomInt2 = (int) (Math.random() * 9 + 1);
-      Tile tile = new Tile(randomChar2, randomInt2);
-      bag.placeTile(tile, i);
-    }*/
-
-    for (int i=0; i<Rack.RACK_SIZE; i++){
-      rack.placeTile(new Tile('T', 1), i);
-    }
-
-    player1.setText("Spieler 1");
-    player2.setText("Spieler 2");
-    player3.setText("Spieler 3");
-    player4.setText("Spieler 4");
-    pointsPlayer1.setText("1");
-    pointsPlayer2.setText("2");
-    pointsPlayer3.setText("3");
-    pointsPlayer4.setText("4");
-
+  public void updateBoard() {
     /** AnchorPane as graphical container for the tiles are created*/
+    board.getChildren().removeAll();
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
         AnchorPane anchorPane = createTile(playBoard.getField(j, i));
@@ -101,21 +81,6 @@ public class GameViewController {
         }
       }
     }
-
-    /** Rack is created */
-   /* for (int i = 0; i < 7; i++) {
-      int randomInt = (int) ((Math.random() * (90 - 65)) + 65);
-      char randomChar = (char) randomInt;
-      AnchorPane bottomPane = createBottomTile(randomChar, 1, i);
-      tiles.add(bottomPane, i, 0);
-    }*/
-
-    for (int i = 0; i < Rack.RACK_SIZE; i++) {
-      AnchorPane bottomPane = createBottomTile(rack.getTile(i).getLetter(), rack.getTile(i).getScore(), i);
-      tiles.add(bottomPane, i, 0);
-    }
-
-    //TODO Get Bag from NetClient
   }
 
   /** @author vihofman for chat */
@@ -160,22 +125,22 @@ public class GameViewController {
   }
   /** @author vihofman for statistic functionality*/
   public void playerOne() throws IOException{
-    player = "Player One"; //here we need names of players
+    playerName = "Player One";
     openStatistics();
   }
 
   public void playerTwo() throws IOException{
-    player = "Player Two";
+    playerName = "Player Two";
     openStatistics();
   }
 
   public void playerThree() throws IOException{
-    player = "Player Three";
+    playerName = "Player Three";
     openStatistics();
   }
 
   public void playerFour() throws IOException{
-    player = "PLayer Four";
+    playerName = "PLayer Four";
     openStatistics();
   }
 
@@ -233,9 +198,7 @@ public class GameViewController {
     label.setAlignment(Pos.CENTER);
     label.getStylesheets().add("/stylesheets/labelstyle.css");
     String help = "rack" + Integer.toString(position + 1);
-    if ((help.equals("rack1") && rack1) || (help.equals("rack2") && rack2) ||
-            (help.equals("rack3") && rack3) || (help.equals("rack4") && rack4) ||
-            (help.equals("rack5") && rack5) || (help.equals("rack6") && rack6) || (help.equals("rack7") && rack7)){
+    if (player.tileSelected(position)){
       label.getStyleClass().add("tileBottomSelected");
     } else {
       label.getStyleClass().add("tileBottom");
@@ -445,12 +408,13 @@ public class GameViewController {
 
   /** Method to update the graphical container of a Tile on the board */
   public void updateTile(char letter, int points, int row, int col) {
-    if(!playBoard.isEmpty(row, col)){
-      // TODO Abbrechen NIX oder so
+    if(!player.getBoard().isEmpty(row, col)){
+      updateBoard();
+      updateRack();
 
     }else{
-      playBoard.placeTile(new Tile(letter, points), row, col);
-      AnchorPane pane = createTile(playBoard.getField(row, col));
+      player.getBoard().placeTile(new Tile(letter, points), row, col);
+      AnchorPane pane = createTile(player.getBoard().getField(row, col));
       board.add(pane, col, row);
     }
 

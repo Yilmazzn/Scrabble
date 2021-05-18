@@ -21,7 +21,16 @@ public class WelcomeViewController {
   }
 
   public void help(MouseEvent mouseEvent) throws IOException {
-    System.out.println("Help");
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
+    Parent root = loader.load();
+    // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
+    GameViewController controller = loader.getController();
+    controller.setModel(client);
+    Scene gameView = new Scene(root);
+    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    window.setScene(gameView);
+    window.show();
   }
 
   public void exitGame() throws IOException {

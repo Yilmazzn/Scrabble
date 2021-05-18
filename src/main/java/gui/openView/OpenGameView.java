@@ -23,7 +23,7 @@ public class OpenGameView extends Application {
     Parent root = loader.load();
     // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
     GameViewController controller = loader.getController();
-    controller.initBoard();
+    //controller.initBoard();
 
     primaryStage.setScene(new Scene(root));
     primaryStage.setMinHeight(700);

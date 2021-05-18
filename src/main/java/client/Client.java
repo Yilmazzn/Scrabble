@@ -1,6 +1,8 @@
 package client;
 
 import ft.XmlHandler;
+import game.players.LocalPlayer;
+import gui.controllers.GameViewController;
 import gui.controllers.WelcomeViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
