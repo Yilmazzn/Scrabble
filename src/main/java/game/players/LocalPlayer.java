@@ -12,7 +12,7 @@ import gui.controllers.GameViewController;
 import java.time.LocalDate;
 import java.util.*;
 
-public class LocalPlayer extends Player{
+public class LocalPlayer {
 
     private Client client;
     private GameViewController controller;
@@ -25,8 +25,11 @@ public class LocalPlayer extends Player{
     private PlayerProfile[] profiles;
     private int[] scores;
 
+    private List<BoardField> placements = new LinkedList<>();
+
+    private boolean turn = true;
+
     public LocalPlayer(Client client, GameViewController controller){
-        super(true);
         this.client = client;
         this.controller = controller;
         this.profile = client.getSelectedProfile();
@@ -48,12 +51,6 @@ public class LocalPlayer extends Player{
     }
 
 
-    @Override
-    public void quit() {
-
-    }
-
-    @Override
     public void addTilesToRack(Collection<Tile> tiles) {
         tiles.forEach(tile -> {
             rack.add(tile);

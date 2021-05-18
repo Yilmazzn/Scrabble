@@ -99,4 +99,10 @@ public class Rack implements Serializable {
     }
   }
 
+  public void remove(int position){
+    System.out.println("Position: " + position);
+    fields[position].setTile(null);
+    fields[position].setSelected(false);
+  }
+
 }

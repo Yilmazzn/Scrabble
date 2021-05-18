@@ -16,15 +16,15 @@ import java.io.IOException;
 public class StatisticsController {
     // setup for all the statistics
     @FXML
-    private static TextArea name;
+    private Text name;
     @FXML
-    private static TextArea totalPoints;
+    private Text totalPoints;
     @FXML
     private Text currentPoints;
     @FXML
-    private static TextArea playedGames;
+    private Text playedGames;
     @FXML
-    private static TextArea wins;
+    private Text wins;
     @FXML
     private Text losses;
     @FXML
@@ -39,11 +39,10 @@ public class StatisticsController {
     }
 
 
-  public static void initData(PlayerProfile player) throws IOException { //TODO does not work
+  public void initData(PlayerProfile player) { //TODO does not work
     name.setText(player.getName());
     totalPoints.setText(Integer.toString(player.getTotalScore()));
     currentPoints.setText(Integer.toString(player.getTotalScore()));
-    playtime.setText("currentPlayer.getPlaytime()"); // TODO
     playedGames.setText(Integer.toString(player.getPlayedGames()));
     wins.setText(Integer.toString(player.getLosses()));
     losses.setText(Integer.toString(player.getLosses()));

@@ -10,6 +10,7 @@ import gui.components.Rack;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -36,7 +37,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 /** @author mnetzer Controller for the GameView */
-public class GameViewController {
+public class GameViewController implements Initializable {
 
   @FXML private GridPane board;
   @FXML private GridPane tiles;
@@ -55,8 +56,15 @@ public class GameViewController {
   private LocalPlayer player;
   private Scoreboard scoreboard;
 
-  private String playerName = "";
+  private int draggedTileIndex = -1;
 
+
+  @Override
+  public void initialize(URL url, ResourceBundle resourceBundle) {
+    Tooltip tip = new Tooltip();
+    tip.setText("There are 0 tiles in the bag");
+    bag.setTooltip(tip);
+  }
 
   //TODO Get instance of Board/ PlayerProfiles/ Bag from NetClient
 
@@ -110,6 +118,11 @@ public class GameViewController {
     }
   }
 
+  public void setBagSize(int bagSize){
+    Tooltip tip = bag.getTooltip();
+    tip.setText("There are " + bagSize + " tiles in the game bag");
+  }
+
   /** @author vihofman for chat */
   public void openChat() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -135,10 +148,14 @@ public class GameViewController {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
     Parent openStatistics = loader.load();
+    StatisticsController controller = (StatisticsController) loader.getController();
+    controller.setModel(profile);
+
     Scene openStatisticsScene = new Scene(openStatistics);
     Stage window = new Stage();
     window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle(playerName);
+
+    window.setTitle(profile.getName());
     window.setScene(openStatisticsScene);
     window.setWidth(300);
     window.setHeight(500);
@@ -152,8 +169,9 @@ public class GameViewController {
   }
   /** @author vihofman for statistic functionality*/
   public void playerOne() throws IOException{
-    playerName = "Player One";
-    openStatistics();
+    if(player.getProfiles().length >= 0){
+      openStatistics(player.getProfiles()[0]);
+    }
   }
 
   public void playerTwo() throws IOException{
@@ -389,6 +407,20 @@ public class GameViewController {
             event.consume();
           }
         });
+
+    pane.setOnMouseClicked(
+            new EventHandler<MouseEvent>() {
+              public void handle(MouseEvent event) {
+                System.out.println("Tile removed");
+                if(!boardField.isEmpty()){
+                  player.removePlacement(boardField.getRow(), boardField.getColumn());
+                  updateBoard();
+                  updateRack();
+                }
+              }
+    });
+
+
 
 
     return pane;
