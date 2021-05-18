@@ -168,6 +168,7 @@ public class Server extends Thread {
         e.printStackTrace();
       }
     }
+    System.out.println("Server stopped");
   }
 
   /**
