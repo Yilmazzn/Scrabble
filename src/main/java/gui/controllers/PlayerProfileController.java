@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
@@ -34,16 +35,16 @@ public class PlayerProfileController {
   private List<PlayerProfile> profiles;
   private int selectedIdx = 0;
 
-  public void setModel(Client client){
+  public void setModel(Client client) {
     this.client = client;
     this.profiles = client.getPlayerProfiles();
-    if(profiles.size() > 0 && client.getSelectedProfile() != null){
+    if (profiles.size() > 0 && client.getSelectedProfile() != null) {
       selectedIdx = profiles.indexOf(client.getSelectedProfile());
       showPlayer();
     }
   }
 
-  public void showPlayer(){
+  public void showPlayer() {
     playerNo.setText(String.valueOf(selectedIdx + 1));
     playerName.setText(profiles.get(selectedIdx).getName());
     playerTotalPoints.setText(String.valueOf(profiles.get(selectedIdx).getTotalScore()));
@@ -69,7 +70,8 @@ public class PlayerProfileController {
     window.setScene(profileControllerScene);
     window.show();
   }
-  public void editProfile(){
+
+  public void editProfile() {
     TextInputDialog td = new TextInputDialog();
     td.setTitle("Edit Profile");
     td.setHeaderText("Enter new name of profile");
@@ -119,21 +121,26 @@ public class PlayerProfileController {
     td.setHeaderText("Enter name of new profile");
     td.setContentText("Name: ");
     Optional<String> result = td.showAndWait();
-    result.ifPresent(name -> {
-      profiles.add(new PlayerProfile(name, 0, 0, 0, 0, LocalDate.now(), LocalDate.now()));
-      selectedIdx = profiles.size() - 1;
-      showPlayer();
-      client.setSelectedProfile(profiles.get(selectedIdx));
-      client.savePlayerProfiles();
-    });
+    result.ifPresent(
+        name -> {
+          profiles.add(new PlayerProfile(name, 0, 0, 0, 0, LocalDate.now(), LocalDate.now()));
+          selectedIdx = profiles.size() - 1;
+          showPlayer();
+          client.setSelectedProfile(profiles.get(selectedIdx));
+          client.savePlayerProfiles();
+        });
   }
 
-  public void deleteProfile(MouseEvent mouseEvent){
-    profiles.remove(profiles.get(selectedIdx));
-    if (profiles.size() == 0) {
-      createNewProfile();
-      selectedIdx = 0;
+  public void deleteProfile(MouseEvent mouseEvent) {
+    if (profiles.size() <= 1) {
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Minimum Profile");
+      alert.setHeaderText(null);
+      alert.setContentText("You cannot delete your last profile!");
+      alert.showAndWait();
+
     } else {
+      profiles.remove(profiles.get(selectedIdx));
       selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
     }
     showPlayer();

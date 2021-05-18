@@ -158,7 +158,7 @@ public class Server extends Thread {
       while (running) {
         Socket clientSocket = serverSocket.accept();
         ServerProtocol clientThread = new ServerProtocol(clientSocket, this);
-        players.add(new RemotePlayer(clientThread));
+        players.add(new RemotePlayer(clientThread, players.size() == 0));
         clientThread.start(); // TODO maybe players.get().getConnection().start()
       }
     } catch (IOException e) {
