@@ -1,10 +1,9 @@
 package gui.controllers;
 
 import client.Client;
-import game.components.Board;
-import game.components.BoardField;
-import game.components.Tile;
-import javafx.collections.ObservableList;
+import game.components.*;
+import gui.components.Bag;
+import gui.components.Rack;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,17 +40,39 @@ public class GameViewController {
   @FXML private Label pointsPlayer4;
 
   private Client client;
-
+  private boolean rack1 = false;
+  private boolean rack2 = false;
+  private boolean rack3 = false;
+  private boolean rack4 = false;
+  private boolean rack5 = false;
+  private boolean rack6 = false;
+  private boolean rack7 = false;
 
   public static String player = "";
   public static Board playBoard = new Board();
+  public static Bag bag = new Bag(150);
+  public static Rack rack = new Rack();
+  //TODO Get instance of Board/ PlayerProfiles/ Bag from NetClient
 
-
-  public void setModel(Client client){
+  /** Method to set the client and initialize the board */
+  public void setModel(Client client) {
     this.client = client;
+    initBoard();
   }
 
+  /** Method to initialize the board with instances of PlayerProfiles/ Board */
   public void initBoard() {
+    /*for(int i=0; i<bag.getSize(); i++){
+      int randomInt1 = (int) ((Math.random() * (90 - 65)) + 65);
+      char randomChar2 = (char) randomInt1;
+      int randomInt2 = (int) (Math.random() * 9 + 1);
+      Tile tile = new Tile(randomChar2, randomInt2);
+      bag.placeTile(tile, i);
+    }*/
+
+    for (int i=0; i<Rack.RACK_SIZE; i++){
+      rack.placeTile(new Tile('T', 1), i);
+    }
 
     player1.setText("Spieler 1");
     player2.setText("Spieler 2");
@@ -62,11 +83,11 @@ public class GameViewController {
     pointsPlayer3.setText("3");
     pointsPlayer4.setText("4");
 
+    /** AnchorPane as graphical container for the tiles are created*/
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
         AnchorPane anchorPane = createTile(playBoard.getField(j, i));
         board.add(anchorPane, i, j);
-
 
         if (i == 7 && j == 7) {
           StackPane stackPane = new StackPane();
@@ -81,10 +102,20 @@ public class GameViewController {
       }
     }
 
-    for (int i = 0; i < 7; i++) {
-      AnchorPane bottomPane = createBottomTile();
+    /** Rack is created */
+   /* for (int i = 0; i < 7; i++) {
+      int randomInt = (int) ((Math.random() * (90 - 65)) + 65);
+      char randomChar = (char) randomInt;
+      AnchorPane bottomPane = createBottomTile(randomChar, 1, i);
+      tiles.add(bottomPane, i, 0);
+    }*/
+
+    for (int i = 0; i < Rack.RACK_SIZE; i++) {
+      AnchorPane bottomPane = createBottomTile(rack.getTile(i).getLetter(), rack.getTile(i).getScore(), i);
       tiles.add(bottomPane, i, 0);
     }
+
+    //TODO Get Bag from NetClient
   }
 
   /** @author vihofman for chat */
@@ -186,14 +217,14 @@ public class GameViewController {
     System.out.println("Submit");
   }
 
-  public AnchorPane createBottomTile() {
+  /** Method to create the Containers for the tiles on the Rack
+   * includes graphical components and adds the Drag and Drop feature*/
+  public AnchorPane createBottomTile(char letter, int value, int position) {
     AnchorPane pane = new AnchorPane();
     Label label = new Label();
     Label points = new Label();
 
-    int randomInt = (int) ((Math.random() * (90 - 65)) + 65);
-    char randomChar = (char) randomInt;
-    label.setText("" + randomChar);
+    label.setText("" + letter);
 
     pane.setTopAnchor(label, 1.0);
     pane.setLeftAnchor(label, 1.0);
@@ -201,9 +232,16 @@ public class GameViewController {
     pane.setBottomAnchor(label, 1.0);
     label.setAlignment(Pos.CENTER);
     label.getStylesheets().add("/stylesheets/labelstyle.css");
-    label.getStyleClass().add("tileBottom");
+    String help = "rack" + Integer.toString(position + 1);
+    if ((help.equals("rack1") && rack1) || (help.equals("rack2") && rack2) ||
+            (help.equals("rack3") && rack3) || (help.equals("rack4") && rack4) ||
+            (help.equals("rack5") && rack5) || (help.equals("rack6") && rack6) || (help.equals("rack7") && rack7)){
+      label.getStyleClass().add("tileBottomSelected");
+    } else {
+      label.getStyleClass().add("tileBottom");
+    }
 
-    points.setText("1");
+    points.setText(Integer.toString(value));
     pane.setTopAnchor(points, 1.0);
     pane.setLeftAnchor(points, 5.0);
     pane.setRightAnchor(points, 1.0);
@@ -212,41 +250,104 @@ public class GameViewController {
     points.getStylesheets().add("/stylesheets/labelstyle.css");
     points.getStyleClass().add("digit");
 
+    pane.getChildren().add(label);
+    pane.getChildren().add(points);
 
-    label.setOnDragDetected(
+    pane.setOnDragDetected(
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent mouseEvent) {
-            Dragboard db = label.startDragAndDrop(TransferMode.ANY);
+            String exchange = label.getText() + points.getText();
+            Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
             ClipboardContent content = new ClipboardContent();
-            content.putString(label.getText());
+            content.putString(exchange);
             db.setContent(content);
             mouseEvent.consume();
           }
         });
 
-    label.setOnDragDone(
+    pane.setOnDragDone(
         new EventHandler<DragEvent>() {
           public void handle(DragEvent event) {
             /* the drag-and-drop gesture ended */
             System.out.println("onDragDone");
             label.setText("");
+            points.setText("");
             event.consume();
           }
         });
 
-    pane.getChildren().add(points);
-    pane.getChildren().add(label);
+    pane.setOnMouseClicked(
+            new EventHandler<MouseEvent>() {
+              public void handle(MouseEvent event) {
+                System.out.println("ClickedOnTile");
+                switch (position){
+                  case 0:
+                    if (rack1){
+                    rack1 = false;
+                    } else {
+                      rack1 = true;
+                    }
+                    break;
+                  case 1:
+                    if (rack2){
+                      rack2 = false;
+                    } else {
+                      rack2 = true;
+                    }
+                  break;
+                  case 2:
+                    if (rack3){
+                      rack3 = false;
+                    } else {
+                      rack3 = true;
+                    }
+                    break;
+                  case 3:
+                    if (rack4){
+                      rack4 = false;
+                    } else {
+                      rack4 = true;
+                    }
+                    break;
+                  case 4:
+                    if (rack5){
+                      rack5 = false;
+                    } else {
+                      rack5 = true;
+                    }
+                    break;
+                  case 5:
+                    if (rack6){
+                      rack6 = false;
+                    } else {
+                      rack6 = true;
+                    }
+                    break;
+                  case 6:
+                    if (rack7){
+                      rack7 = false;
+                    } else {
+                      rack7 = true;
+                    }
+                    break;
+                }
+                updateBottomTile(letter, value, position);
+                event.consume();
+              }
+            });
 
     return pane;
   }
 
+  /** Method to create the Containers for the tiles on the Board
+   * includes graphical components and adds the Drag and Drop feature*/
   public AnchorPane createTile(BoardField boardField) {
     AnchorPane pane = new AnchorPane();
     Label label = new Label();
     Label points = new Label();
 
-    if (!boardField.isEmpty()){
+    if (!boardField.isEmpty()) {
       label.setText(String.valueOf(boardField.getTile().getLetter()));
     } else {
       label.setText("");
@@ -259,8 +360,8 @@ public class GameViewController {
     label.getStylesheets().add("/stylesheets/labelstyle.css");
     label.getStyleClass().add("tile");
 
-    if (!boardField.isEmpty()){
-      points.setText(Character.toString(boardField.getTile().getScore()));
+    if (!boardField.isEmpty()) {
+      points.setText(Integer.toString(boardField.getTile().getScore()));
     } else {
       points.setText("");
     }
@@ -288,11 +389,14 @@ public class GameViewController {
     if (boardField.getType() == BoardField.FieldType.STAR) {
       label.getStyleClass().add("tileStar");
     }
-    if (!boardField.isEmpty()){
+    if (!boardField.isEmpty()) {
       label.getStyleClass().add("tileWithLetter");
     }
 
-    label.setOnDragOver(
+    pane.getChildren().add(label);
+    pane.getChildren().add(points);
+
+    pane.setOnDragOver(
         new EventHandler<DragEvent>() {
           public void handle(DragEvent event) {
             /* data is dragged over the target */
@@ -300,7 +404,7 @@ public class GameViewController {
 
             /* accept it only if it is  not dragged from the same node
              * and if it has a string data */
-            if (event.getGestureSource() != label && event.getDragboard().hasString()) {
+            if (event.getGestureSource() != pane && event.getDragboard().hasString()) {
               /* allow for both copying and moving, whatever user chooses */
               event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
             }
@@ -309,7 +413,7 @@ public class GameViewController {
           }
         });
 
-    label.setOnDragDropped(
+    pane.setOnDragDropped(
         new EventHandler<DragEvent>() {
           public void handle(DragEvent event) {
             /* data dropped */
@@ -318,9 +422,13 @@ public class GameViewController {
             Dragboard db = event.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-              updateTile(db.getString().charAt(0), boardField.getRow(), boardField.getColumn());
-              //label.setText(db.getString());
-              //label.getStyleClass().add("tileWithLetter");
+              updateTile(
+                  db.getString().charAt(0),
+                  (Integer.valueOf(db.getString().charAt(1)) - 48),
+                  boardField.getRow(),
+                  boardField.getColumn());
+              // label.setText(db.getString());
+              // label.getStyleClass().add("tileWithLetter");
               success = true;
             }
             /* let the source know whether the string was successfully
@@ -331,50 +439,32 @@ public class GameViewController {
           }
         });
 
-    pane.getChildren().add(points);
-    pane.getChildren().add(label);
-
 
     return pane;
   }
 
-  public void updateTile(char letter, int row, int col){
-    if(!playBoard.getField(row, col).isEmpty()){
-      playBoard.getTile(row, col).setLetter(letter);
-    } else {
-      playBoard.getField(row, col).setTile(new Tile(letter, 1));
+  /** Method to update the graphical container of a Tile on the board */
+  public void updateTile(char letter, int points, int row, int col) {
+    if(!playBoard.isEmpty(row, col)){
+      // TODO Abbrechen NIX oder so
+
+    }else{
+      playBoard.placeTile(new Tile(letter, points), row, col);
+      AnchorPane pane = createTile(playBoard.getField(row, col));
+      board.add(pane, col, row);
     }
-    AnchorPane pane = createTile(playBoard.getField(row, col));
-    board.add(pane, col, row);
-  }
-
-  public void updateRack(){}
-
-  public void updateBoard(char letter, int value, int row, int col){
 
   }
+
+  public void updateBottomTile(char letter, int points, int col){
+    AnchorPane pane = createBottomTile(letter, points, col);
+    tiles.add(pane, col, 0);
+
+  }
+
+  public void updateRack() {}
+
+  public void updateBoard(char letter, int value, int row, int col) {}
 
   public void clickOnField(int row, int col) {}
-
-  private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-    for (Node node : gridPane.getChildren()) {
-      if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-        return node;
-      }
-    }
-    return null;
-  }
-
- /* public Node removeNodeByRowColumnIndex(final int row,final int column,GridPane gridPane) {
-
-    ObservableList<Node> childrens = gridPane.getChildren();
-    for(Node node : childrens) {
-      if(node instanceof AnchorPane && gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-        AnchorPane pane = (AnchorPane) node; // use what you want to remove
-        gridPane.getChildren().remove(pane);
-        break;
-      }
-    }
-  }*/
-
 }

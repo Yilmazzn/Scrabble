@@ -1,4 +1,4 @@
-package net.server;
+package net.client;
 
 import client.PlayerProfile;
 import game.Dictionary;
