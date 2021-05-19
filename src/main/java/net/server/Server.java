@@ -6,7 +6,6 @@ import game.Game;
 import game.components.Tile;
 import game.players.Player;
 import game.players.RemotePlayer;
-import net.message.ConnectMessage;
 import net.message.Message;
 import net.message.RefuseConnectionMessage;
 
@@ -300,10 +299,10 @@ public class Server extends Thread {
    * @param dictionary Requires the dictionaryString's txt file
    */
   public synchronized void updateGameSettings(
-      int[] tileScores, int[] tileDistributions, File dictionary) {
+      int[] tileScores, int[] tileDistributions, String dictionary) {
     this.tileScores = tileScores;
     this.tileDistributions = tileDistributions;
-    this.dictionary = new Dictionary(dictionary.getAbsolutePath());
+    this.dictionaryString = dictionary;
   }
 
   /** @return Returns if server is still running */

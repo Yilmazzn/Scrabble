@@ -104,7 +104,7 @@ public class ServerProtocol extends Thread {
             UpdateGameSettingsMessage ugsm = (UpdateGameSettingsMessage) m;
             int[] tileScores = ugsm.getTileScores();
             int[] tileDistributions = ugsm.getTileDistributions();
-            File dictionary = ugsm.getDictionary();
+            String dictionary = ugsm.getDictionary();
             server.updateGameSettings(tileScores, tileDistributions, dictionary);
             server.sendToAll(m);
             break;
@@ -120,7 +120,6 @@ public class ServerProtocol extends Thread {
             }
             prm.setValues(playerReady);
             prm.setReady(ready);
-
             server.sendToAll(prm);
             break;
           case STARTGAME:

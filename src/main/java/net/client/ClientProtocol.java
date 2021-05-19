@@ -6,7 +6,6 @@ import game.components.Board;
 import game.components.Tile;
 import javafx.application.Platform;
 import net.message.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -199,7 +198,7 @@ public class ClientProtocol extends Thread {
    * @param tileDistributions Requires tileDistribution
    * @param dictionary Requires dictionary file
    */
-  public void updateGameSettings(int[] tileScores, int[] tileDistributions, File dictionary) {
+  public void updateGameSettings(int[] tileScores, int[] tileDistributions, String dictionary) {
     try {
       if (!clientSocket.isClosed()) {
         this.out.writeObject(
@@ -268,6 +267,7 @@ public class ClientProtocol extends Thread {
             break;
           case STARTGAME:
             // TODO add method
+
             System.out.println("Rufe FXML Wechsel auf");
             client.setDictionary(
                 new Dictionary(((StartGameMessage) m).getFile().getAbsolutePath()));

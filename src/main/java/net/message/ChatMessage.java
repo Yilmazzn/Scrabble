@@ -1,5 +1,7 @@
 package net.message;
 
+import client.PlayerProfile;
+
 /**
  * a message class to send chat messages
  *
@@ -13,7 +15,6 @@ public class ChatMessage extends Message {
    * a constructor for creating a new ChatMessage
    *
    * @param message the chatmessage that should be send
-   * @param profile Requires PlayerProfile as sender of msg
    */
   public ChatMessage(String message, PlayerProfile profile) {
     super(MessageType.CHATMESSAGE);

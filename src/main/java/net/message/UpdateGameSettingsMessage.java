@@ -8,7 +8,7 @@ package net.message;
 public class UpdateGameSettingsMessage extends Message {
   private int[] tileScores;
   private int[] tileDistributions;
-  private File dictionary;
+  private String dictionary;
 
   /**
    * Constructor for Creating an UpdateGameSettingsMessage instance
@@ -30,7 +30,7 @@ public class UpdateGameSettingsMessage extends Message {
   }
 
   /** @return returns dictionary */
-  public File getDictionary() {
+  public String getDictionary() {
     return this.dictionary;
   }
 
