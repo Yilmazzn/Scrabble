@@ -72,7 +72,6 @@ public class Server extends Thread {
   }
 
   // TODO WICHTIG
-
   /** Starts game from server */
   public void startGame() {
     // TODO int[] -> HashMap oder so

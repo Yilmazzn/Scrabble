@@ -14,8 +14,7 @@ public class PlayerReadyMessage extends Message {
   /**
    * Constructor for creation
    *
-   * @param ready true, if player is ready
-   * @param player Requires PlayerProfile to include in message
+   * @param ready true, if player is read
    */
   public PlayerReadyMessage(boolean ready) {
     super(MessageType.PLAYERREADY);
@@ -27,9 +26,13 @@ public class PlayerReadyMessage extends Message {
     return this.ready;
   }
 
-  /** @return returns PlayerProfile */
-  public PlayerProfile getProfile() {
-    return this.player;
+  /**
+   * a method to set the ready state of the player
+   *
+   * @param ready Requires the boolean value of ready
+   */
+  public void setReady(boolean ready) {
+    this.ready = ready;
   }
 
   /**

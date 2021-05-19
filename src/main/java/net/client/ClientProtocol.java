@@ -67,8 +67,8 @@ public class ClientProtocol extends Thread {
   public void setPlayerReady(boolean ready) {
     try {
       if (!clientSocket.isClosed()) {
-        // TODO this.out.writeObject(new PlayerReadyMessage(ready, client.getPlayerProfile()));
-        this.out.writeObject(new PlayerReadyMessage(ready, client.testGetPlayerProfile()));
+        this.out.writeObject(new PlayerReadyMessage(ready));
+        this.out.flush();
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -99,23 +99,6 @@ public class ClientProtocol extends Thread {
     try {
       if (!clientSocket.isClosed()) {
         this.out.writeObject(new ChatMessage(chatMessage, client.getPlayerProfile()));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Method for writing a PlayReadyMessage Object to the server
-   *
-   * @param ready true, if player is ready
-   * @param player Requires player to be included in message
-   */
-  public void setReadyState(boolean ready, PlayerProfile player) {
-    try {
-      if (!clientSocket.isClosed()) {
-        this.out.writeObject(new PlayerReadyMessage(ready, player));
-        this.out.flush();
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -308,11 +291,7 @@ public class ClientProtocol extends Thread {
               System.out.println(
                   "Status " + (i + 1) + ": " + ((RemotePlayer) prm.getPlayers()[i]).getReady());
             }
-            // Todo
-            /* for (Player player : prm.getPlayers()) {
-              ready = ready && ((RemotePlayer) player).getReady();
-            }*/
-            if (ready) {
+            if (prm.getReady()) {
               System.out.println("All Players are ready, host should be able to start the game");
               // TODO enable start game button
             } else {

@@ -4,6 +4,7 @@ import client.PlayerProfile;
 import game.components.Tile;
 import game.players.*;
 import net.message.*;
+import org.jdom2.output.support.SAXOutputProcessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,7 +72,6 @@ public class ServerProtocol extends Thread {
 
       while (running) {
         Message m = (Message) in.readObject();
-        String username;
         System.out.println("Message received: " + m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:

@@ -13,7 +13,7 @@ import java.util.Collection;
  * @author yuzun
  *     <p>Remote player instance, which is controlled by ServerProtocol and sends messages back
  */
-public class RemotePlayer extends Player {
+public class RemotePlayer extends Player implements Serializable {
 
   private final ServerProtocol connection;
   private boolean isReady;
