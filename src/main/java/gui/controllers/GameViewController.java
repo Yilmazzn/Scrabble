@@ -3,9 +3,8 @@ package gui.controllers;
 import client.Client;
 import client.PlayerProfile;
 import game.Scoreboard;
-import game.components.*;
+import game.components.BoardField;
 import game.players.LocalPlayer;
-import gui.components.Bag;
 import gui.components.Rack;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,21 +15,20 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -60,6 +58,7 @@ public class GameViewController implements Initializable {
   public void initialize(URL url, ResourceBundle resourceBundle) {
     Tooltip tip = new Tooltip();
     tip.setText("There are 0 tiles in the bag");
+    tip.setShowDelay(Duration.seconds(0.1));
     bag.setTooltip(tip);
   }
 
@@ -106,7 +105,7 @@ public class GameViewController implements Initializable {
   /** Updates Rack */
   public void updateRack() {
     tiles.getChildren().clear();
-    for (int i = 0; i < player.getRack().RACK_SIZE; i++) {
+    for (int i = 0; i < Rack.RACK_SIZE; i++) {
       if (player.getRack().isEmpty(i)) {
         continue;
       }
@@ -153,7 +152,7 @@ public class GameViewController implements Initializable {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
     Parent openStatistics = loader.load();
-    StatisticsController controller = (StatisticsController) loader.getController();
+    StatisticsController controller = loader.getController();
     controller.setModel(profile);
 
     Scene openStatisticsScene = new Scene(openStatistics);
@@ -175,9 +174,7 @@ public class GameViewController implements Initializable {
 
   /** @author vihofman for statistic functionality */
   public void playerOne() throws IOException {
-    if (player.getProfiles().length >= 0) {
-      openStatistics(player.getProfiles()[0]);
-    }
+    openStatistics(player.getProfiles()[0]);
   }
 
   public void playerTwo() throws IOException {
@@ -212,6 +209,7 @@ public class GameViewController implements Initializable {
             "Are you sure you want to quit a running game?\n\nYour Co-Players would be very disappointed...",
             ButtonType.YES,
             ButtonType.CANCEL);
+    alert.setHeaderText(null);
     alert.showAndWait();
 
     if (alert.getResult() == ButtonType.YES) {
@@ -268,13 +266,13 @@ public class GameViewController implements Initializable {
 
     label.setText("" + letter);
 
-    pane.setTopAnchor(label, 1.0);
-    pane.setLeftAnchor(label, 1.0);
-    pane.setRightAnchor(label, 1.0);
-    pane.setBottomAnchor(label, 1.0);
+    AnchorPane.setTopAnchor(label, 1.0);
+    AnchorPane.setLeftAnchor(label, 1.0);
+    AnchorPane.setRightAnchor(label, 1.0);
+    AnchorPane.setBottomAnchor(label, 1.0);
     label.setAlignment(Pos.CENTER);
     label.getStylesheets().add("/stylesheets/labelstyle.css");
-    String help = "rack" + Integer.toString(position + 1);
+    String help = "rack" + (position + 1);
     if (player.tileSelected(position)) {
       label.getStyleClass().add("tileBottomSelected");
     } else {
@@ -282,10 +280,10 @@ public class GameViewController implements Initializable {
     }
 
     points.setText(Integer.toString(value));
-    pane.setTopAnchor(points, 1.0);
-    pane.setLeftAnchor(points, 5.0);
-    pane.setRightAnchor(points, 1.0);
-    pane.setBottomAnchor(points, 1.0);
+    AnchorPane.setTopAnchor(points, 1.0);
+    AnchorPane.setLeftAnchor(points, 5.0);
+    AnchorPane.setRightAnchor(points, 1.0);
+    AnchorPane.setBottomAnchor(points, 1.0);
     points.setAlignment(Pos.BOTTOM_LEFT);
     points.getStylesheets().add("/stylesheets/labelstyle.css");
     points.getStyleClass().add("digit");
@@ -330,6 +328,8 @@ public class GameViewController implements Initializable {
           }
         });
 
+    pane.setStyle("-fx-cursor: hand");
+
     return pane;
   }
 
@@ -347,10 +347,10 @@ public class GameViewController implements Initializable {
     } else {
       label.setText("");
     }
-    pane.setTopAnchor(label, 1.0);
-    pane.setLeftAnchor(label, 1.0);
-    pane.setRightAnchor(label, 1.0);
-    pane.setBottomAnchor(label, 1.0);
+    AnchorPane.setTopAnchor(label, 1.0);
+    AnchorPane.setLeftAnchor(label, 1.0);
+    AnchorPane.setRightAnchor(label, 1.0);
+    AnchorPane.setBottomAnchor(label, 1.0);
     label.setAlignment(Pos.CENTER);
     label.getStylesheets().add("/stylesheets/labelstyle.css");
     label.getStyleClass().add("tile");
@@ -360,10 +360,10 @@ public class GameViewController implements Initializable {
     } else {
       points.setText("");
     }
-    pane.setTopAnchor(points, 1.0);
-    pane.setLeftAnchor(points, 5.0);
-    pane.setRightAnchor(points, 1.0);
-    pane.setBottomAnchor(points, 1.0);
+    AnchorPane.setTopAnchor(points, 1.0);
+    AnchorPane.setLeftAnchor(points, 5.0);
+    AnchorPane.setRightAnchor(points, 1.0);
+    AnchorPane.setBottomAnchor(points, 1.0);
     points.setAlignment(Pos.BOTTOM_LEFT);
     points.getStylesheets().add("/stylesheets/labelstyle.css");
     points.getStyleClass().add("digit");
