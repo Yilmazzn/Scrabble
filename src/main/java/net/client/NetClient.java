@@ -126,7 +126,7 @@ public class NetClient {
    * @param tileDistributions requires tileDistribution
    * @param dictionary requires dictionary File
    */
-  public void updateGameSettings(int[] tileScores, int[] tileDistributions, File dictionary) {
+  public void updateGameSettings(int[] tileScores, int[] tileDistributions, String dictionary) {
     connection.updateGameSettings(tileScores, tileDistributions, dictionary);
   }
 
@@ -346,5 +346,14 @@ public class NetClient {
    */
   public void addAIPlayer(boolean difficult) {
     connection.addAIPlayer(difficult);
+  }
+
+  /**
+   * changes button in CreateGameController
+   *
+   * @param enabled Requires enabled value for start game button
+   */
+  public void changeStartGameButton(boolean enabled) {
+    createGameController.changeStartGameButton(enabled);
   }
 }

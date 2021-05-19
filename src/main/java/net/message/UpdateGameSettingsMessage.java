@@ -1,7 +1,5 @@
 package net.message;
 
-import java.io.File;
-
 /**
  * Message Class for sending and receiving the current game Settings
  *
@@ -17,9 +15,9 @@ public class UpdateGameSettingsMessage extends Message {
    *
    * @param tileScores requires the tileScores settings
    * @param tileDistributions requires tileDistributions settings
-   * @param dictionary requires dictionary txt File
+   * @param dictionary requires dictionary as string
    */
-  public UpdateGameSettingsMessage(int[] tileScores, int[] tileDistributions, File dictionary) {
+  public UpdateGameSettingsMessage(int[] tileScores, int[] tileDistributions, String dictionary) {
     super(MessageType.UPDATEGAMESETTINGS);
     this.tileScores = tileScores;
     this.tileDistributions = tileDistributions;

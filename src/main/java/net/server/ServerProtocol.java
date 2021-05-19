@@ -4,9 +4,6 @@ import client.PlayerProfile;
 import game.components.Tile;
 import game.players.*;
 import net.message.*;
-import org.jdom2.output.support.SAXOutputProcessor;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -114,26 +111,21 @@ public class ServerProtocol extends Thread {
           case PLAYERREADY:
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
             player.setIsReady(prm.getReady());
-            RemotePlayer[] remotePlayers = new RemotePlayer[server.getPlayers().length];
-            for (int i = 0; i < remotePlayers.length; i++) {
-              remotePlayers[i] = (RemotePlayer) server.getPlayers()[i];
-            }
-            prm.setPlayers(remotePlayers);
-
+            Player[] player = server.getPlayers();
+            boolean[] playerReady = new boolean[player.length];
             boolean ready = true;
-            for (int i = 0; i < remotePlayers.length; i++) {
-              ready = ready && remotePlayers[i].getReady();
+            for (int i = 0; i < playerReady.length; i++) {
+              playerReady[i] = ((RemotePlayer) player[i]).getReady();
+              ready = ready && playerReady[i];
             }
+            prm.setValues(playerReady);
             prm.setReady(ready);
 
             server.sendToAll(prm);
             break;
           case STARTGAME:
-            server.sendToAll(m);
-            // Checks, if all player are ready, then sends message to all clients
-            //  prm = (PlayerReadyMessage) m;
-            // TODO   server.setPlayersReady(prm.getUsername(), prm.getReady());
-
+            server.createDictionary(((StartGameMessage) m).getFile());
+            server.startGame();
             break;
           case UPDATEGAMEBOARD:
             server.sendToAll(m);
@@ -219,36 +211,3 @@ public class ServerProtocol extends Thread {
     this.player = player;
   }
 }
-
-// TODO Requirements
-/*
-We have:
-- Player Profiles [1 - 4]
-- Client id
-- All Players agreed to dictionary
-- Chat message
-- Disconnected
-- Exchange Tiles, send old Tiles, get same amount of new tiles
-- Get Tile from bag to personal rack
-- All players ready
-- Dictionary
-- Move submitted
-- Updated Board
-- Updated Points
-- Server (?)
-- is AI active?
-
-We need:
-- Access to CreateGameController, to set Players
-- Dictionary agreement boolean value
-- add message to chat
-- toggle readiness of player
-- update board view
-- color words red, if submit is wrong
-- update points
-- access to game, to trigger nextRound()
-- access to player to read and write to and from personal rack
-- change fxml after dictionary agreement
-- game checkValid from server
-- game evaluateScore from server
- */

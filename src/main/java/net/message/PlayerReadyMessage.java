@@ -1,15 +1,9 @@
 package net.message;
 
-import game.players.Player;
-import game.players.RemotePlayer;
-
-import java.io.Serializable;
-import java.util.List;
-
 /** @author vkaczmar Message Class for signaling, that you are ready when you are in a lobby */
 public class PlayerReadyMessage extends Message {
   private boolean ready = false;
-  private RemotePlayer[] players;
+  private boolean[] values;
 
   /**
    * Constructor for creation
@@ -36,16 +30,16 @@ public class PlayerReadyMessage extends Message {
   }
 
   /**
-   * Sets players list to paramter
+   * method to set the values that should be sent with the PlayerReadyMessage
    *
-   * @param players Requires the connected players
+   * @param values Requires the boolean values
    */
-  public void setPlayers(RemotePlayer[] players) {
-    this.players = players;
+  public void setValues(boolean[] values) {
+    this.values = values;
   }
 
-  /** @return returns the player List */
-  public RemotePlayer[] getPlayers() {
-    return this.players;
+  /** @return Returns boolean[] with all ready values for all players */
+  public boolean[] getValues() {
+    return this.values;
   }
 }

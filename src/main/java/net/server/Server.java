@@ -1,8 +1,8 @@
 package net.server;
 
 import client.PlayerProfile;
-import game.Game;
 import game.Dictionary;
+import game.Game;
 import game.components.Tile;
 import game.players.Player;
 import game.players.RemotePlayer;
@@ -13,7 +13,6 @@ import net.message.RefuseConnectionMessage;
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
-import java.rmi.Remote;
 import java.util.*;
 
 /**
@@ -38,6 +37,7 @@ public class Server extends Thread {
 
   int[] tileScores;
   int[] tileDistributions;
+  String dictionaryString;
   Dictionary dictionary;
 
   /** Constructor to create server, sets serverIP */
@@ -71,18 +71,30 @@ public class Server extends Thread {
     return players.toArray(new Player[0]);
   }
 
-  // TODO WICHTIG
   /** Starts game from server */
   public void startGame() {
-    // TODO int[] -> HashMap oder so
-    /**
-     * HashMap<Character, Integer> mapScores; for (int i = 0; i < tileScores.length; i++){
-     *
-     * <p>}
-     */
-    // game = new Game(players, tileDistributions, tileScores, dictionary);
+    // Convert TileScores and TileDistributions to HashMap
+    HashMap<Character, Integer> mapTileDistribution = new HashMap<>();
+    HashMap<Character, Integer> mapScores = new HashMap<>();
+    for (int i = 0; i < tileDistributions.length; i++) {
+      mapTileDistribution.put(((char) ('A' + i)), tileDistributions[i]);
+      mapScores.put(((char) ('A' + i)), tileScores[i]);
+    }
+    // TODO Might change type of players in game or in server , but it could work like this
+    game = new Game((ArrayList<Player>) players, mapTileDistribution, mapScores, dictionary);
   }
 
+  /**
+   * Creates new dictionary from absolute path
+   *
+   * @param file Requires File that includes Path to dictionary.txt
+   */
+  public void createDictionary(File file) {
+    dictionary = new Dictionary(file.getAbsolutePath());
+  }
+
+  // TODO test if method from StackOverflow works as well, should use it then, so we could cite the
+  // right code
   /**
    * @return Returns ip from localhost
    * @throws UnknownHostException
@@ -242,50 +254,6 @@ public class Server extends Thread {
   }
 
   /**
-   * set the players ready state
-   *
-   * @param s requires the players username
-   * @param b requires the boolean state of player's readiness
-   */
-  public synchronized void setPlayersReady(String s, Boolean b) {
-    // TODO if (playersReady.get(s)) {
-    // TODO     playersReady.remove(s);
-    // TODO }
-    // TODO playersReady.put(s, b);
-  }
-
-  /**
-   * sets ReadyState of client
-   *
-   * @param username requires username of client
-   */
-  public synchronized void setReady(String username) {
-    // TODO playersReady.put(username, false);
-  }
-
-  /**
-   * create a ConnectMessage to set the ID
-   *
-   * @param profile requires the playerprofile
-   * @return returns the ConnectMessage to connect
-   */
-  public synchronized ConnectMessage setID(PlayerProfile profile) {
-    ConnectMessage cm = new ConnectMessage(profile);
-    // cm.setID(clientID++);
-    return cm;
-  }
-
-  /**
-   * a method to set the playerprofile
-   *
-   * @param id requires the id of the clientplayer
-   * @param profile requires the playerprofile of the clientplayer
-   */
-  public synchronized void setPlayerProfiles(int id, PlayerProfile profile) {
-    // profiles[id] = profile;
-  }
-
-  /**
    * a method go get the playerProfile
    *
    * @param id requires the id of the clientplayer
@@ -293,12 +261,6 @@ public class Server extends Thread {
    */
   public synchronized PlayerProfile getProfile(int id) {
     return players.get(id).getProfile(); // profiles[id];
-  }
-
-  public synchronized HashMap<String, Boolean> getPlayersReady() {
-    // TODO playersReady.put("Test", true);
-    // TODO return playersReady;
-    return null;
   }
 
   // TODO remove one tile from bag,increment bag
@@ -331,34 +293,11 @@ public class Server extends Thread {
   }
 
   /**
-   * Sets Agreement to false, on specified user
-   *
-   * @param user Requires user, which wants to change HashMap
-   */
-  public synchronized void setAgree(Player user) {
-    // TODO mapPlayersReady.put(user, false);
-  }
-
-  /**
-   * Sets Agreement status, based on String value for key and boolean for true/false
-   *
-   * @param user Requires user as key
-   * @param agree Requires Boolean as value
-   */
-  public synchronized void setPlayersAgree(Player user, Boolean agree) {
-    // TODO if (mapPlayersReady.get(user)) {
-    // TODO    mapPlayersReady.remove(user);
-    // TODO }
-    // TODO this.mapPlayersReady.put(user, agree);
-
-  }
-
-  /**
    * a method to update the GameSettings of the server
    *
    * @param tileScores Requires the tileScores array
    * @param tileDistributions Requires the tileDistribution array
-   * @param dictionary Requires the dictionary's txt file
+   * @param dictionary Requires the dictionaryString's txt file
    */
   public synchronized void updateGameSettings(
       int[] tileScores, int[] tileDistributions, File dictionary) {

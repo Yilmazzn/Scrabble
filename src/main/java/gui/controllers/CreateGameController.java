@@ -263,4 +263,17 @@ public class CreateGameController {
     window.setScene(welcomeScene);
     window.show();
   }
+
+  /**
+   * Sets the state of the start game button to a specific value, if enabled, it can be pressed
+   *
+   * @param enabled Requires the boolean value for enabled state of start game button
+   */
+  public void changeStartGameButton(boolean enabled) {
+    if (enabled) {
+      // TODO enable start game Button
+    } else {
+      // TODO disable start game Button
+    }
+  }
 }

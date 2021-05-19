@@ -4,9 +4,7 @@ import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
-import game.players.RemotePlayer;
 import javafx.application.Platform;
-import net.client.NetClient;
 import net.message.*;
 
 import java.io.File;
@@ -14,7 +12,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Arrays;
 
 /** @author vkaczmar Handles all interactions from the server to the client */
 public class ClientProtocol extends Thread {
@@ -234,7 +231,6 @@ public class ClientProtocol extends Thread {
     while (running) {
       try {
         Message m = (Message) in.readObject();
-        System.out.println(m.getMessageType());
         switch (m.getMessageType()) {
           case CONNECT:
             PlayerProfile[] lobbyProfiles = ((ConnectMessage) m).getProfiles();
@@ -254,7 +250,8 @@ public class ClientProtocol extends Thread {
                   });
             }
 
-            // TODO if not commented out, nothing would work properly setPlayerReady(true);
+            // TODO call from NetClient later
+            setPlayerReady(true);
 
             break;
           case REFUSECONNECTION:
@@ -264,14 +261,10 @@ public class ClientProtocol extends Thread {
                 });
             running = false;
             break;
-          case UPDATEGAMESETTINGS:
-            UpdateGameSettingsMessage ugsm = (UpdateGameSettingsMessage) m;
-            // TODO netClient.getClient().updateGameSettings(Alle aus Message, dictionary = new
-            // Dictionary(File.getAbsolutePath()));
-            System.out.println(
-                Arrays.toString(ugsm.getTileScores())
-                    + "\n"
-                    + Arrays.toString(ugsm.getTileDistributions()));
+          case UPDATEGAMESETTINGS: // todo done eigentlich nur connection zu controllern herstellen
+            // TODO netClient.getClient().updateGameSettings
+            // TODO Dictionary erstmal als String, erst beim Spielstart wird auf dem Server das
+            // richtige Dictionary erzeugt
             break;
           case STARTGAME:
             // TODO add method
@@ -285,17 +278,14 @@ public class ClientProtocol extends Thread {
                 ((ChatMessage) m).getProfile().getName() + ": " + ((ChatMessage) m).getMsg());
             break;
           case PLAYERREADY:
-            // System.out.println("here in clientprotocol");
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
-            for (int i = 0; i < prm.getPlayers().length; i++) {
-              System.out.println(
-                  "Status " + (i + 1) + ": " + ((RemotePlayer) prm.getPlayers()[i]).getReady());
+            for (int i = 0; i < prm.getValues().length; i++) {
+              System.out.println("Status " + (i + 1) + ": " + (prm.getValues()[i]));
             }
             if (prm.getReady()) {
-              System.out.println("All Players are ready, host should be able to start the game");
-              // TODO enable start game button
+              client.changeStartGameButton(true);
             } else {
-              System.out.println("Not all Players are ready yet.");
+              client.changeStartGameButton(false);
             }
             break;
           case UPDATEGAMEBOARD:

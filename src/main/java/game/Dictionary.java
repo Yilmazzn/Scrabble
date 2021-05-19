@@ -4,35 +4,31 @@ import ft.NodeWordlist;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 /**
  * @author vkaczmar Class that is able to load, read and manage all words from the wordlist in a BST
- * Accessible via root Node
+ *     Accessible via root Node
  */
 public class Dictionary {
   private BufferedReader br;
   private ArrayList<String> uneditedLines, words;
   private NodeWordlist root;
 
-  /**
-   * Default Dictionary when called without specifying a path (dictionary is given in
-   * resources)
-   */
+  /** Default Dictionary when called without specifying a path (dictionary is given in resources) */
   public Dictionary() {
     String defaultDictionaryPath =
-            System.getProperty("user.dir")
-                    + System.getProperty("file.separator")
-                    + "src"
-                    + System.getProperty("file.separator")
-                    + "main"
-                    + System.getProperty("file.separator")
-                    + "resources"
-                    + System.getProperty("file.separator")
-                    + "data"
-                    + System.getProperty("file.separator")
-                    + "Collins Scrabble Words (2019) with definitions.txt";
+        System.getProperty("user.dir")
+            + System.getProperty("file.separator")
+            + "src"
+            + System.getProperty("file.separator")
+            + "main"
+            + System.getProperty("file.separator")
+            + "resources"
+            + System.getProperty("file.separator")
+            + "data"
+            + System.getProperty("file.separator")
+            + "Collins Scrabble Words (2019) with definitions.txt";
 
     File f = new File(defaultDictionaryPath);
 
@@ -52,7 +48,7 @@ public class Dictionary {
   /**
    * @param absolutePath Requires the absolute Path to the wordlist itself
    * @author vkaczmar Constructor with parameter to the wordlist.txt file. Does everything up to the
-   * creation of the binary search tree
+   *     creation of the binary search tree
    */
   public Dictionary(String absolutePath) {
     File f = new File(absolutePath);
@@ -155,5 +151,15 @@ public class Dictionary {
       s[i] = words.get(i);
     }
     return s;
+  }
+
+  // TODO Might need to change 's' to 's + "\n"'
+  /** @return returns the whole dictionary as one String */
+  public String getDictionary() {
+    StringBuffer sb = new StringBuffer();
+    for (String s : uneditedLines) {
+      sb.append(s);
+    }
+    return sb.toString();
   }
 }
