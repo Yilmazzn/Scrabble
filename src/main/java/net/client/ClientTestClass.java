@@ -46,12 +46,13 @@ public class ClientTestClass {
         new PlayerProfile("Yaso", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
     PlayerProfile profile3 =
         new PlayerProfile("Nico", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
-    PlayerProfile profile4 = new PlayerProfile("AI4", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
+    PlayerProfile profile4 =
+        new PlayerProfile("Valle", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
     PlayerProfile profile5 =
-        new PlayerProfile("profilname5", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
+        new PlayerProfile("Yilmaz", 0, 0, 0, 0, LocalDate.now(), LocalDate.now());
 
     /*
-    NetClient netClient1 = new NetClient("binsderclient", profile1);
+    NetClient netClient1 = new NetClient(profile1);
     netClient1.connect();
     Thread.sleep(100);
     NetClient netClient2 = new NetClient("Yaso", profile2);
@@ -63,6 +64,15 @@ public class ClientTestClass {
     netClient3.disconnect();
     Thread.sleep(100);
     netClient2.sendChatMessage("Hello World");
+    netClient1.setPlayerReady(true);
+    Thread.sleep(100);
+    netClient2.setPlayerReady(true);
+    Thread.sleep(100);
+    netClient4.setPlayerReady(true);
+    Thread.sleep(100);
+    netClient5.setPlayerReady(false);
+    Thread.sleep(100);
+    netClient5.setPlayerReady(true);
 
     String[] values = {
       "1", "3", "3", "2", "1", "4", "2", "4", "1", "8", "5", "1", "3", "1", "1", "3", "10", "1",

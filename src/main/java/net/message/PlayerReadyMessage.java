@@ -1,15 +1,15 @@
 package net.message;
 
-import client.PlayerProfile;
 import game.players.Player;
+import game.players.RemotePlayer;
 
+import java.io.Serializable;
 import java.util.List;
 
 /** @author vkaczmar Message Class for signaling, that you are ready when you are in a lobby */
 public class PlayerReadyMessage extends Message {
   private boolean ready = false;
-  private PlayerProfile player;
-  private Player[] players; // todo vorher List<Player> ebenso set/get Methode
+  private RemotePlayer[] players;
 
   /**
    * Constructor for creation
@@ -17,10 +17,9 @@ public class PlayerReadyMessage extends Message {
    * @param ready true, if player is ready
    * @param player Requires PlayerProfile to include in message
    */
-  public PlayerReadyMessage(boolean ready, PlayerProfile player) {
+  public PlayerReadyMessage(boolean ready) {
     super(MessageType.PLAYERREADY);
     this.ready = ready;
-    this.player = player;
   }
 
   /** @return returns readyState */
@@ -38,20 +37,12 @@ public class PlayerReadyMessage extends Message {
    *
    * @param players Requires the connected players
    */
-  public void setPlayers(Player[] players) {
+  public void setPlayers(RemotePlayer[] players) {
     this.players = players;
   }
 
   /** @return returns the player List */
-  public Player[] getPlayers() {
+  public RemotePlayer[] getPlayers() {
     return this.players;
-  }
-
-  /**
-   * @param i Requires an integer i
-   * @return returns the player at index i
-   */
-  public Player getPlayer(int i) {
-    return this.players[i];
   }
 }

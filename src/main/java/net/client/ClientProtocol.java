@@ -40,8 +40,7 @@ public class ClientProtocol extends Thread {
       this.out = new ObjectOutputStream(clientSocket.getOutputStream());
       this.in = new ObjectInputStream(clientSocket.getInputStream());
       this.out.writeObject(new ConnectMessage(client.getPlayerProfile()));
-      // TODO this.out.writeObject(new ConnectMessage(client.testGetPlayerProfile()));
-      out.flush();
+      this.out.flush();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -53,7 +52,6 @@ public class ClientProtocol extends Thread {
     try {
       if (!clientSocket.isClosed()) {
         this.out.writeObject(new DisconnectMessage(client.getPlayerProfile()));
-        // TODO this.out.writeObject(new DisconnectMessage(client.testGetPlayerProfile()));
         clientSocket.close();
       }
     } catch (IOException e) {
@@ -100,8 +98,7 @@ public class ClientProtocol extends Thread {
   public void sendChatMessage(String chatMessage) {
     try {
       if (!clientSocket.isClosed()) {
-        // todo this.out.writeObject(new ChatMessage(chatMessage, client.getPlayerProfile()));
-        this.out.writeObject(new ChatMessage(chatMessage, client.testGetPlayerProfile()));
+        this.out.writeObject(new ChatMessage(chatMessage, client.getPlayerProfile()));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -274,6 +271,8 @@ public class ClientProtocol extends Thread {
                   });
             }
 
+            // TODO if not commented out, nothing would work properly setPlayerReady(true);
+
             break;
           case REFUSECONNECTION:
             Platform.runLater(
@@ -303,13 +302,11 @@ public class ClientProtocol extends Thread {
                 ((ChatMessage) m).getProfile().getName() + ": " + ((ChatMessage) m).getMsg());
             break;
           case PLAYERREADY:
-            System.out.println("here in clientprotocol");
+            // System.out.println("here in clientprotocol");
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
-            boolean ready = true;
-            System.out.println(
-                "Player " + prm.getProfile().getName() + " set agreement to: " + prm.getReady());
             for (int i = 0; i < prm.getPlayers().length; i++) {
-              ready = ready && ((RemotePlayer) prm.getPlayer(i)).getReady();
+              System.out.println(
+                  "Status " + (i + 1) + ": " + ((RemotePlayer) prm.getPlayers()[i]).getReady());
             }
             // Todo
             /* for (Player player : prm.getPlayers()) {
