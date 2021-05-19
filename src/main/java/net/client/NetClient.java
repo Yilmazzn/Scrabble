@@ -5,7 +5,6 @@ import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
-import game.players.Player;
 import gui.controllers.CreateGameController;
 import gui.controllers.GameViewController;
 import gui.controllers.JoinGameController;
@@ -27,7 +26,7 @@ public class NetClient {
   private Dictionary dictionary;
   private PlayerProfile profile;
   private boolean isAIActive;
-  private Client client;
+  private final Client client;
   private Server server;
 
   private CreateGameController createGameController; // controls GUI
@@ -38,33 +37,6 @@ public class NetClient {
   private int[] coPlayerScores;
 
   /**
-   * a constructor to create a client
-   *
-   * @param user a String representation of the username
-   * @param profile profile object for representation of profile related statistics
-   * @author ygarip
-   */
-  public NetClient(String user, PlayerProfile profile) {
-    this.username = user;
-    this.profile = profile;
-    this.isAIActive = false;
-  }
-
-  /**
-   * Constructor to create an AI-Client
-   *
-   * @param user requires the username of the AI
-   * @param profile requires the profile of the AI
-   * @param isAIActive requires the boolean value of isAIActive
-   * @author vkaczmar
-   */
-  public NetClient(String user, PlayerProfile profile, boolean isAIActive) {
-    this.username = user;
-    this.profile = profile;
-    this.isAIActive = isAIActive;
-  }
-
-  /**
    * Constructor to create a NetClient with client
    *
    * @param client Requires client to conenct from
@@ -73,6 +45,8 @@ public class NetClient {
     this.client = client;
     try {
       this.ipAdr = Server.getLocalHostIp4Address();
+      coPlayers = new PlayerProfile[] {client.getSelectedProfile()};
+      coPlayerScores = new int[1];
     } catch (Exception e) {
       System.out.println("Netclient create didnt worked");
       e.printStackTrace();
