@@ -40,8 +40,7 @@ public class ClientProtocol extends Thread {
       this.out = new ObjectOutputStream(clientSocket.getOutputStream());
       this.in = new ObjectInputStream(clientSocket.getInputStream());
       this.out.writeObject(new ConnectMessage(client.getPlayerProfile()));
-      // TODO this.out.writeObject(new ConnectMessage(client.testGetPlayerProfile()));
-      out.flush();
+      this.out.flush();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -53,7 +52,6 @@ public class ClientProtocol extends Thread {
     try {
       if (!clientSocket.isClosed()) {
         this.out.writeObject(new DisconnectMessage(client.getPlayerProfile()));
-        // TODO this.out.writeObject(new DisconnectMessage(client.testGetPlayerProfile()));
         clientSocket.close();
       }
     } catch (IOException e) {
@@ -69,8 +67,8 @@ public class ClientProtocol extends Thread {
   public void setPlayerReady(boolean ready) {
     try {
       if (!clientSocket.isClosed()) {
-        // TODO this.out.writeObject(new PlayerReadyMessage(ready, client.getPlayerProfile()));
-        this.out.writeObject(new PlayerReadyMessage(ready, client.testGetPlayerProfile()));
+        this.out.writeObject(new PlayerReadyMessage(ready));
+        this.out.flush();
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -100,25 +98,7 @@ public class ClientProtocol extends Thread {
   public void sendChatMessage(String chatMessage) {
     try {
       if (!clientSocket.isClosed()) {
-        // todo this.out.writeObject(new ChatMessage(chatMessage, client.getPlayerProfile()));
-        this.out.writeObject(new ChatMessage(chatMessage, client.testGetPlayerProfile()));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Method for writing a PlayReadyMessage Object to the server
-   *
-   * @param ready true, if player is ready
-   * @param player Requires player to be included in message
-   */
-  public void setReadyState(boolean ready, PlayerProfile player) {
-    try {
-      if (!clientSocket.isClosed()) {
-        this.out.writeObject(new PlayerReadyMessage(ready, player));
-        this.out.flush();
+        this.out.writeObject(new ChatMessage(chatMessage, client.getPlayerProfile()));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -274,6 +254,8 @@ public class ClientProtocol extends Thread {
                   });
             }
 
+            // TODO if not commented out, nothing would work properly setPlayerReady(true);
+
             break;
           case REFUSECONNECTION:
             Platform.runLater(
@@ -303,19 +285,13 @@ public class ClientProtocol extends Thread {
                 ((ChatMessage) m).getProfile().getName() + ": " + ((ChatMessage) m).getMsg());
             break;
           case PLAYERREADY:
-            System.out.println("here in clientprotocol");
+            // System.out.println("here in clientprotocol");
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
-            boolean ready = true;
-            System.out.println(
-                "Player " + prm.getProfile().getName() + " set agreement to: " + prm.getReady());
             for (int i = 0; i < prm.getPlayers().length; i++) {
-              ready = ready && ((RemotePlayer) prm.getPlayer(i)).getReady();
+              System.out.println(
+                  "Status " + (i + 1) + ": " + ((RemotePlayer) prm.getPlayers()[i]).getReady());
             }
-            // Todo
-            /* for (Player player : prm.getPlayers()) {
-              ready = ready && ((RemotePlayer) player).getReady();
-            }*/
-            if (ready) {
+            if (prm.getReady()) {
               System.out.println("All Players are ready, host should be able to start the game");
               // TODO enable start game button
             } else {

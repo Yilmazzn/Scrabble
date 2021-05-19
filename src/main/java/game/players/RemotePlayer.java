@@ -6,13 +6,14 @@ import game.components.Board;
 import game.components.Tile;
 import net.server.ServerProtocol;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * @author yuzun
  *     <p>Remote player instance, which is controlled by ServerProtocol and sends messages back
  */
-public class RemotePlayer extends Player {
+public class RemotePlayer extends Player implements Serializable {
 
   private final ServerProtocol connection;
   private boolean isReady;
@@ -56,13 +57,12 @@ public class RemotePlayer extends Player {
    * @param value Requires value to be set
    */
   public void setIsReady(boolean value) {
-    System.out.println("remoteplayer class :" + this.getProfile().getName() + " value:" + value);
     isReady = value;
   }
 
   /** @return returns the player's readiness */
   public boolean getReady() {
-    return this.isReady;
+    return isReady;
   }
 
   /** @return returns the serverprotocol connection */

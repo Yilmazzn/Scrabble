@@ -39,7 +39,7 @@ public class NetClient {
   /**
    * Constructor to create a NetClient with client
    *
-   * @param client Requires client to conenct from
+   * @param client Requires client to connect from
    */
   public NetClient(Client client) {
     this.client = client;
@@ -157,15 +157,6 @@ public class NetClient {
   }
 
   /**
-   * @param ready Requires boolean if player is ready
-   * @param player Requires PlayerProfile to be set
-   * @author ygarip a method to set the readiness of the player
-   */
-  public void setReadyState(boolean ready, PlayerProfile player) {
-    this.connection.setReadyState(ready, player);
-  }
-
-  /**
    * @param board represents the game board
    * @author vkaczmar call method, when a new tile is placed
    */
@@ -234,11 +225,6 @@ public class NetClient {
    */
   public PlayerProfile getPlayerProfile() {
     return client.getSelectedProfile();
-  }
-
-  /** @return Returns test profile */
-  public PlayerProfile testGetPlayerProfile() {
-    return profile;
   }
 
   /** @author ygarip a method to get the tile from server */

@@ -2,11 +2,9 @@ package net.server;
 
 import client.PlayerProfile;
 import game.components.Tile;
-import game.players.AiPlayer;
-import game.players.EasyAiPlayer;
-import game.players.HardAiPlayer;
-import game.players.RemotePlayer;
+import game.players.*;
 import net.message.*;
+import org.jdom2.output.support.SAXOutputProcessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +72,6 @@ public class ServerProtocol extends Thread {
 
       while (running) {
         Message m = (Message) in.readObject();
-        String username;
         System.out.println("Message received: " + m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
@@ -117,8 +114,18 @@ public class ServerProtocol extends Thread {
           case PLAYERREADY:
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
             player.setIsReady(prm.getReady());
-            prm.setPlayers(server.getPlayers());
-            System.out.println(server.getPlayers().length);
+            RemotePlayer[] remotePlayers = new RemotePlayer[server.getPlayers().length];
+            for (int i = 0; i < remotePlayers.length; i++) {
+              remotePlayers[i] = (RemotePlayer) server.getPlayers()[i];
+            }
+            prm.setPlayers(remotePlayers);
+
+            boolean ready = true;
+            for (int i = 0; i < remotePlayers.length; i++) {
+              ready = ready && remotePlayers[i].getReady();
+            }
+            prm.setReady(ready);
+
             server.sendToAll(prm);
             break;
           case STARTGAME:

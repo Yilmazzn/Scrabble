@@ -13,6 +13,7 @@ import net.message.RefuseConnectionMessage;
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
+import java.rmi.Remote;
 import java.util.*;
 
 /**
@@ -64,18 +65,13 @@ public class Server extends Thread {
   }
 
   /** @return returns the playerList in an array */
-  public synchronized Player[] getPlayers() { // TODO vorher returns PlayerList
-    Player[] players = new Player[this.players.size()];
-    int index = 0;
-    for (Player p : players) {
-
-      players[index++] = p;
-    }
-    return players;
+  public synchronized Player[] getPlayers() {
+    // TODO Vorher in for each mit Doppelpunkt Elemente rausgezogen und in Array gepackt, immer
+    // null, mit player.get(i) funktioniert es irgendwie, weiß jemand warum?
+    return players.toArray(new Player[0]);
   }
 
   // TODO WICHTIG
-
   /** Starts game from server */
   public void startGame() {
     // TODO int[] -> HashMap oder so
