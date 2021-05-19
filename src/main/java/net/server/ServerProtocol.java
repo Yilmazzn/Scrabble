@@ -2,7 +2,10 @@ package net.server;
 
 import client.PlayerProfile;
 import game.components.Tile;
-import game.players.*;
+import game.players.AiPlayer;
+import game.players.EasyAiPlayer;
+import game.players.HardAiPlayer;
+import game.players.RemotePlayer;
 import net.message.*;
 
 import java.io.File;
@@ -17,10 +20,10 @@ import java.net.Socket;
  * @author ygarip
  */
 public class ServerProtocol extends Thread {
-  private Socket socket;
+  private final Socket socket;
   private ObjectInputStream in;
   private ObjectOutputStream out;
-  private Server server;
+  private final Server server;
   private String clientName;
   private boolean running = true;
 
@@ -93,7 +96,7 @@ public class ServerProtocol extends Thread {
               server.sendToAll(new DisconnectMessage(null));
               server.stopServer();
             } else { // take player out of player list and send new ConnectMessage with all player
-                     // profiles connected
+              // profiles connected
               cm = new ConnectMessage(null);
               cm.setProfiles(server.getPlayerProfilesArray());
               server.sendToAll(cm);
@@ -163,6 +166,10 @@ public class ServerProtocol extends Thread {
             sendToClient(etm);
             break;
           case ADDAI:
+            // Check if server has space for a player
+            if (server.getPlayers().length >= 4) {
+              break;
+            }
             AddAIMessage ai = (AddAIMessage) m;
             AiPlayer aiPlayer;
             if (ai.getDifficulty()) {
