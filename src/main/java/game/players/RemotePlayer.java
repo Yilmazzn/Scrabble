@@ -17,11 +17,7 @@ public class RemotePlayer extends Player {
   private final ServerProtocol connection;
   private boolean isReady;
   private boolean host;
-
-  public RemotePlayer(PlayerProfile profile, ServerProtocol connection) {
-    super(profile, true);
-    this.connection = connection;
-  }
+  private int id;
 
   /**
    * Creates new RemotePlayer instance

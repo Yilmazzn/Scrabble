@@ -10,10 +10,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.client.NetClient;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -140,23 +143,7 @@ public class Client extends Application {
     }
 
     primaryStage.setTitle("Scrabble 13");
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/welcomeView.fxml"));
-    Parent root = loader.load();
-    // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
-    WelcomeViewController controller = loader.getController();
-    controller.setModel(this);
-
-    primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-      public void handle(WindowEvent event){
-        Platform.exit();
-        if(netClient != null){
-          netClient.disconnect();
-        }
-      }
-    });
-
-    primaryStage.setScene(new Scene(root));
+    showMainMenu();
     primaryStage.setMinHeight(700);
     primaryStage.setMinWidth(1000);
     primaryStage.show();

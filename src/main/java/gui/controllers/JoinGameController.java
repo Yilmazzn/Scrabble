@@ -72,13 +72,15 @@ public class JoinGameController {
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
+    client.getNetClient().setGameViewController(controller);
     controller.setModel(client);
 
-    Scene welcomeScene = new Scene(gameView);
-    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-    window.setScene(welcomeScene);
+    Scene gameScene = new Scene(gameView);
+    Stage window = client.getStage();
+    window.setScene(gameScene);
     window.show();
   }
+
   /** @author mnetzer Controller for the joinGameView */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();

@@ -24,6 +24,7 @@ public class CreateGameController {
   /** @author vihofman for gameSettings and functionality */
   // setup for joined player
   @FXML private Label PlayerOne;
+
   @FXML private Label PlayerTwo;
   @FXML private Label PlayerThree;
   @FXML private Label PlayerFour;
@@ -215,10 +216,6 @@ public class CreateGameController {
       client.getNetClient().addAIPlayer(alert.getResult() == ButtonType.NO);
     }
   }
-  public void getConnectionDetails(){
-    connectionDetails.setText(""); //TODO get IP adress
-  }
-
 
   /** @author mnetzer Controller for more createGame methods */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {

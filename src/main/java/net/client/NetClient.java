@@ -5,7 +5,10 @@ import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
+import game.players.Player;
 import gui.controllers.CreateGameController;
+import gui.controllers.GameViewController;
+import gui.controllers.JoinGameController;
 import net.server.Server;
 
 import java.io.File;
@@ -28,6 +31,11 @@ public class NetClient {
   private Server server;
 
   private CreateGameController createGameController; // controls GUI
+  private GameViewController gameViewController; // controls GUI Game
+  private JoinGameController joinGameController;
+
+  private PlayerProfile[] coPlayers;
+  private int[] coPlayerScores;
 
   /**
    * a constructor to create a client
