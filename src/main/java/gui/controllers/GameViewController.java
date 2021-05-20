@@ -620,7 +620,11 @@ public class GameViewController implements Initializable {
     tiles.add(pane, col, 0);
   }
 
-  public void updateBoard(char letter, int value, int row, int col) {}
+  public void placeTile(Tile tile, int row, int col){
+    player.getBoard().placeTile(tile, row, col);
+    updateBoard();
+  }
+
 
   public void clickOnField(int row, int col) {}
 

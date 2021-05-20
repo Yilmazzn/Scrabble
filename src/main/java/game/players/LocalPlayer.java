@@ -117,6 +117,7 @@ public class LocalPlayer {
     if (board.isEmpty(row, col)) {
       placements.add(board.getField(row, col));
       board.placeTile(rack.getField(position).getTile(), row, col);
+      client.getNetClient().placeTile(rack.getField(position).getTile(), row, col);
       rack.remove(position);
     }
   }
@@ -128,8 +129,12 @@ public class LocalPlayer {
    * @param col Requires column, where to remove tile from board from
    */
   public void removePlacement(int row, int col) {
+    if(!turn){
+      return;
+    }
     if (placements.contains(board.getField(row, col))) {
       addTilesToRack(Arrays.asList(board.getTile(row, col)));
+      client.getNetClient().placeTile(null, row, col);
       board.getField(row, col).setTile(null);
       placements.remove(board.getField(row, col));
     }

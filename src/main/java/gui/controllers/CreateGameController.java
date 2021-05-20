@@ -175,7 +175,7 @@ public class CreateGameController {
     controller.setModel(client, this);
 
     Scene gameSettingsScene = new Scene(gameSettings);
-    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    Stage window = new Stage();
     window.setScene(gameSettingsScene);
     window.show();
   }

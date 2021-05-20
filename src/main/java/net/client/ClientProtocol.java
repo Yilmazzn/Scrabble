@@ -413,12 +413,15 @@ public class ClientProtocol extends Thread {
             break;
           case REQUESTDICTIONARY:
             String dictionary = ((RequestDictionaryMessage) m).getDictionary();
+            client.updateGameSettings(null, null, dictionary);
             break;
           case REQUESTVALUES:
             int[] values = ((RequestValuesMessage) m).getValues();
+            client.updateGameSettings(values, null, null);
             break;
           case REQUESTDISTRIBUTIONS:
             int[] distributions = ((RequestDistributionsMessage) m).getDistributions();
+            client.updateGameSettings(null, distributions, null);
             break;
           case PLACETILE:
             PlaceTileMessage ptm = (PlaceTileMessage) m;

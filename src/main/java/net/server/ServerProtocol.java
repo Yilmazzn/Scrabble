@@ -120,7 +120,7 @@ public class ServerProtocol extends Thread {
             Player[] player = server.getPlayers();
             boolean[] playerReady = new boolean[player.length];
             boolean ready = true;
-            for (int i = 0; i < playerReady.length; i++) {
+            for (int i = 1; i < playerReady.length; i++) {
               playerReady[i] = ((RemotePlayer) player[i]).getReady();
               ready = ready && playerReady[i];
             }

@@ -270,24 +270,22 @@ public class NetClient {
    */
   public void setLobbyState(PlayerProfile[] profiles, int[] scores, int turnIdx) {
     if (server != null && !server.gameIsRunning()) { // player is host and game is not running
+      createGameController.changeStartGameButton(profiles.length <= 1);
       createGameController.fillLobby(profiles);
-      // if alle ready --> true
-      createGameController.changeStartGameButton(false);
     } else { // player is not host
       gameViewController.updateScoreboard(profiles, scores, turnIdx);
     }
   }
 
   public void updateChat(PlayerProfile user, String message) {
-
     if(user != null){   // not received from system
-      // TODO SYSTEM MESSAGE
-    }else{
       if(isHost() && !server.gameIsRunning()){    // user is host --> sees CreateGameScene
         createGameController.getMessage(user.getName(), message);
       }else{                                      // user is not host --> sees GameView
         gameViewController.getMessage(user.getName(), message);
       }
+    }else{
+      // TODO SYSTEM MESSAGE
     }
   }
 
@@ -295,14 +293,14 @@ public class NetClient {
     if(scores != null){
       String content = "";
       for(int i = 0; i < scores.length; i++){
-        content += ((char) (i + 'A')) + "\t" + scores[i];
+        content += ((char) (i + 'A')) + "\t" + scores[i] + "\n";
       }
       client.showPopUp(content);
     }
     if(distributions != null){
       String content = "";
       for(int i = 0; i < distributions.length; i++){
-        content += ((char) (i + 'A')) + "\t" + scores[i];
+        content += ((char) (i + 'A')) + "\t" + scores[i] + "\n";
       }
       client.showPopUp(content);
     }
