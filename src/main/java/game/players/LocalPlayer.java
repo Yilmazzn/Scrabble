@@ -33,6 +33,7 @@ public class LocalPlayer {
   private List<BoardField> placements = new LinkedList<>();
 
   private boolean turn = true;
+  private int overtime = 62000;//600000;
 
   /**
    * Sets basic attributes of class, for testing it creates 5 tiles in personal rack
@@ -43,7 +44,6 @@ public class LocalPlayer {
   public LocalPlayer(Client client, GameViewController controller) {
     this.client = client;
     this.controller = controller;
-    overtimeWatch = new OvertimeWatch(controller);
     this.profile = client.getSelectedProfile();
     rack.add(new Tile('H', 1));
     rack.add(new Tile('E', 2));
@@ -145,6 +145,7 @@ public class LocalPlayer {
     this.turn = turn;
 
     if(turn){   // if set to true --> start countdown
+      overtimeWatch = new OvertimeWatch(controller, overtime);
       overtimeWatch.start();
     }else{      // if set to false --> stop countdown
       overtime = overtimeWatch.stopCountdown();
@@ -154,10 +155,6 @@ public class LocalPlayer {
   /** @return Returns, if the LocalPlayer has its own turn */
   public boolean isTurn() {
     return turn;
-  }
-
-  public OvertimeWatch getOvertime(){
-    return this.overtimeWatch;
   }
 
   public void sendMessage(String message){

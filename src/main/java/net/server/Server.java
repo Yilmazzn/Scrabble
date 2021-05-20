@@ -31,10 +31,10 @@ public class Server extends Thread {
   private List<Player> players = new LinkedList<>();
   private Game game;
 
-  int[] tileScores;
-  int[] tileDistributions;
-  String dictionaryString;
-  Dictionary dictionary;
+  private int[] tileScores;
+  private int[] tileDistributions;
+  private String dictionaryString;    // String of file content
+  private Dictionary dictionary;
 
   /** Constructor to create server, sets serverIP */
   public Server() {

@@ -79,8 +79,13 @@
     -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 0, 0);
 }
 
-.digit {
+.digitTile {
     -fx-font-family: "Chalkboard";
-    -fx-font-size: 14px;
+    -fx-font-size: 8px;
+}
+
+.digitRack{
+    -fx-font-family: "Chalkboard";
+    -fx-font-size: 12px;
 }
 

@@ -65,7 +65,6 @@ public class GameViewController implements Initializable {
   private Client client;
 
   private LocalPlayer player;
-  private Scoreboard scoreboard;
 
   private int draggedTileIndex = -1;
 
@@ -88,6 +87,8 @@ public class GameViewController implements Initializable {
     updateChat();
     updateTime(600000L);
 
+    // TEST
+    player.setTurn(true);
   }
 
   /**
@@ -164,8 +165,13 @@ public class GameViewController implements Initializable {
    * Update Remaining Time for the current move
    */
   public void updateTime(long milliseconds){
-    //TODO get time from Server
-    time.setText(milliseconds + "millisec");
+    // TODO get time from Server
+    String minutes = String.format("%02d", milliseconds / 1000 / 60);
+    String seconds = String.format("%02d", (milliseconds / 1000) % 60);
+    time.setText(minutes + ":" + seconds);
+    if(milliseconds < 60000){   // less than one minute left
+      time.setStyle("-fx-font-family: Chalkboard; -fx-text-fill: red; -fx-font-weight: bold");
+    }
   }
 
   /**
@@ -305,6 +311,8 @@ public class GameViewController implements Initializable {
 
   public void submit() {
     System.out.println("Submit");
+    // TEST
+    player.setTurn(!player.isTurn());
   }
 
   /**
@@ -417,7 +425,7 @@ public class GameViewController implements Initializable {
     AnchorPane.setBottomAnchor(points, 1.0);
     points.setAlignment(Pos.BOTTOM_LEFT);
     points.getStylesheets().add("/stylesheets/labelstyle.css");
-    points.getStyleClass().add("digit");
+    points.getStyleClass().add("digitRack");
 
     pane.getChildren().add(label);
     pane.getChildren().add(points);
@@ -497,7 +505,7 @@ public class GameViewController implements Initializable {
     AnchorPane.setBottomAnchor(points, 1.0);
     points.setAlignment(Pos.BOTTOM_LEFT);
     points.getStylesheets().add("/stylesheets/labelstyle.css");
-    points.getStyleClass().add("digit");
+    points.getStyleClass().add("digitTile");
 
     /** @author mnetzer verschiedene Felder erzeugen */
     if (!boardField.isEmpty()) {
@@ -579,6 +587,17 @@ public class GameViewController implements Initializable {
           }
         });
 
+    // Color border yellow when entered
+    pane.setOnDragEntered(event -> {
+      pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
+              BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+    });
+
+    // Remove border
+    pane.setOnDragExited(event -> {
+      pane.setBorder(null);
+    });
+
     return pane;
   }
 
@@ -603,4 +622,26 @@ public class GameViewController implements Initializable {
   public void updateBoard(char letter, int value, int row, int col) {}
 
   public void clickOnField(int row, int col) {}
+
+  public void showPopup(String message){
+    client.showPopUp(message);
+  }
+
+  /** Requests tile distribution from server */
+  @FXML
+  public void showTileDistribution(){
+    client.getNetClient().requestDistributions();
+  }
+
+  /** Requests tile distribution from server */
+  @FXML
+  public void showTileValues(){
+    client.getNetClient().requestValues();
+  }
+
+  /** Requests tile distribution from server */
+  @FXML
+  public void showDictionary(){
+    client.getNetClient().requestDictionary();
+  }
 }

@@ -10,7 +10,7 @@ import javafx.application.Platform;
  */
 public class OvertimeWatch extends Thread {
 
-  private long overtime = 600000L; // 10 mins of overtime in ms
+  private int overtime; // 10 mins of overtime in ms
   private boolean running = false;
 
   private GameViewController
@@ -18,6 +18,7 @@ public class OvertimeWatch extends Thread {
 
   public OvertimeWatch(GameViewController gameViewController, int overtime) {
     this.gameViewController = gameViewController;
+    this.overtime = overtime;
   }
 
   /**
@@ -41,12 +42,15 @@ public class OvertimeWatch extends Thread {
         // TODO player.sendMesEXCEEDEDEDED
       }
     } catch (InterruptedException e) {
-    } // catch exception and do nothing with it since expected
+      gameViewController.showPopup(e.getMessage());
+    }
   }
 
   /** Stops countdown by interrupting and killing this thread */
-  public void stopCountdown() {
+  public int stopCountdown() {
     running = false;
+    System.out.println("COUNTDOWN STOPPED");
     gameViewController.updateTime(overtime);
+    return overtime;
   }
 }

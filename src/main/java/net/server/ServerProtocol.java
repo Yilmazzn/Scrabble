@@ -75,7 +75,11 @@ public class ServerProtocol extends Thread {
             PlayerProfile profile = ((ConnectMessage) m).getProfile();
             ConnectMessage cm = (ConnectMessage) m;
             player.setPlayerProfile(profile);
-            System.out.println("Server added: " + profile.getName()); //
+            System.out.println("Server added: " + profile.getName());
+
+            server.sendToAll(new ChatMessage(profile.getName() + " joined our round!" + (profile.getName().split(" ")[0].equals("Bot") ? "*Beep-Boop*" : ""), null)); // send system Message to all
+
+            // send new lobby list to all
             cm.setProfiles(server.getPlayerProfilesArray());
             server.sendToAll(cm);
             break;
@@ -87,9 +91,12 @@ public class ServerProtocol extends Thread {
               server.sendToAll(
                   new DisconnectMessage(
                       null,
-                      "The server is closed.\n\nThe Host sadly doesn't want to play anylonger"));
+                      "The server is closed.\n\nThe Host sadly doesn't want to play any longer"));
               server.stopServer();
             } else { // take player out of player list and send new ConnectMessage with all player
+
+              server.sendToAll(new ChatMessage(profile.getName() + " left", null)); // send system Message to all
+
               // profiles connected
               cm = new ConnectMessage(null);
               cm.setProfiles(server.getPlayerProfilesArray());
