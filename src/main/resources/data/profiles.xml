@@ -18,4 +18,13 @@
     <creationDate>17.05.2021</creationDate>
     <lastLogged>17.05.2021</lastLogged>
   </profile>
+  <profile>
+    <name>yilmaz</name>
+    <highscore>0</highscore>
+    <wins>0</wins>
+    <losses>0</losses>
+    <totalScore>0</totalScore>
+    <creationDate>20.05.2021</creationDate>
+    <lastLogged>20.05.2021</lastLogged>
+  </profile>
 </PlayerProfiles>

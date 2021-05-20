@@ -33,8 +33,9 @@ public class NetClient {
   private GameViewController gameViewController; // controls GUI Game
   private JoinGameController joinGameController;
 
-  private PlayerProfile[] coPlayers;
-  private int[] coPlayerScores;
+  private PlayerProfile[] coPlayers; // players in lobby (with local player himself)
+  private int[] coPlayerScores; // scores of players in lobby
+  private int turnIdx = 0; // player whose turn it is
 
   /**
    * Constructor to create a NetClient with client
@@ -267,13 +268,24 @@ public class NetClient {
    *
    * @param profiles Requires PlayerProfiles array
    */
-  public void setCoPlayers(PlayerProfile[] profiles) {
-    this.coPlayers = profiles;
-
-    if (server != null) { // player is host
+  public void setLobbyState(PlayerProfile[] profiles, int[] scores, int turnIdx) {
+    if (server != null && !server.gameIsRunning()) { // player is host and game is not running
       createGameController.fillLobby(profiles);
+      // if alle ready --> true
+      createGameController.changeStartGameButton(false);
     } else { // player is not host
+      gameViewController.updateScoreboard(profiles, scores, turnIdx);
+    }
+  }
 
+  public void updateChat(PlayerProfile user, String message) {
+
+    if (!client.getSelectedProfile().getName().equals(user.getName())) {
+      if (isHost() && !server.gameIsRunning()) {
+        // TODO createGameController.getMessage(user.getName(),message);
+      } else {
+        gameViewController.getMessage(user.getName(), message);
+      }
     }
   }
 
@@ -294,6 +306,7 @@ public class NetClient {
    */
   public void setGameViewController(GameViewController gameController) {
     this.gameViewController = gameController;
+    System.out.println("GameViewController used");
   }
 
   public void fillLobby(PlayerProfile[] profiles) {

@@ -155,15 +155,14 @@ public class GameViewController implements Initializable {
               }
             }
     );
-    getMessage("This is a test");
   }
 
   /**
    * Update Remaining Time for the current move
    */
-  public void updateTime(){
+  public void updateTime(long milliseconds){
     //TODO get time from Server
-    time.setText("30sec");
+    time.setText(milliseconds + "millisec");
   }
 
   /**
@@ -265,7 +264,7 @@ public class GameViewController implements Initializable {
     if (alert.getResult() == ButtonType.YES) {
       client.getNetClient().disconnect();
     }
-
+    client.getNetClient().disconnect();
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
@@ -345,7 +344,7 @@ public class GameViewController implements Initializable {
    * Creates a Box/Label when player gets a message
    * Necessary to fill the ChatField
    */
-  public void getMessage(String text){
+  public void getMessage(String username, String text){
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
     box.setPrefWidth(Region.USE_COMPUTED_SIZE);

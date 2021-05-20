@@ -1,11 +1,13 @@
 package net.server;
 
+import client.Client;
 import client.PlayerProfile;
 import game.Dictionary;
 import game.Game;
 import game.components.Tile;
 import game.players.Player;
 import game.players.RemotePlayer;
+import net.client.NetClient;
 import net.message.Message;
 import net.message.RefuseConnectionMessage;
 
