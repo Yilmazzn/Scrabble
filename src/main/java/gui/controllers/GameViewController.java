@@ -128,7 +128,7 @@ public class GameViewController implements Initializable {
    */
   public void updateRack() {
     tiles.getChildren().clear();
-    for (int i = 0; i < Rack.RACK_SIZE; i++) {
+    for (int i = 0; i < player.getRack().RACK_SIZE; i++) {
       if (player.getRack().isEmpty(i)) {
         continue;
       }
