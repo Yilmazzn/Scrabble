@@ -279,12 +279,17 @@ public class NetClient {
   }
 
   public void updateChat(PlayerProfile user, String message) {
-
-    if (!client.getSelectedProfile().getName().equals(user.getName())) {
-      if (isHost() && !server.gameIsRunning()) {
-        // TODO createGameController.getMessage(user.getName(),message);
-      } else {
+    if (isHost() && !server.gameIsRunning()) {
+      if(user != null){
+        createGameController.getMessage(user.getName(), message);
+      }else{
+        // TODO System MESSAGE
+      }
+    } else {
+      if(user != null){
         gameViewController.getMessage(user.getName(), message);
+      }else{
+          // TODO System MESSAGE
       }
     }
   }
@@ -359,5 +364,14 @@ public class NetClient {
    */
   public void changeStartGameButton(boolean enabled) {
     createGameController.changeStartGameButton(enabled);
+  }
+
+  /**
+   * Kicks player out of the game
+   *
+   * @param index Requires index, which player you want to kick
+   */
+  public void kickPlayer(int index) {
+    connection.kickPlayer(index);
   }
 }

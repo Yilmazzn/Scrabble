@@ -50,7 +50,7 @@ public class ClientProtocol extends Thread {
     running = false;
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new DisconnectMessage(client.getPlayerProfile()));
+        this.out.writeObject(new DisconnectMessage(client.getClient().getSelectedProfile(), ""));
         clientSocket.close();
       }
     } catch (IOException e) {
@@ -97,7 +97,7 @@ public class ClientProtocol extends Thread {
   public void sendChatMessage(String chatMessage) {
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new ChatMessage(chatMessage, client.getPlayerProfile()));
+        this.out.writeObject(new ChatMessage(chatMessage, client.getClient().getSelectedProfile()));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -233,7 +233,7 @@ public class ClientProtocol extends Thread {
     while (running) {
       try {
         Message m = (Message) in.readObject();
-        System.out.println(m.getMessageType().toString());
+        System.out.println("Message received(Client-Side): "+m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
             PlayerProfile[] lobbyProfiles = ((ConnectMessage) m).getProfiles();
@@ -271,14 +271,13 @@ public class ClientProtocol extends Thread {
                 new Dictionary(((StartGameMessage) m).getFile().getAbsolutePath()));
             break;
           case CHATMESSAGE:
-            // TODO add method
+            // TODO add methode
             PlayerProfile user = ((ChatMessage) m).getProfile();
             String message = ((ChatMessage) m).getMsg();
             Platform.runLater(
                     () -> {
                       client.updateChat(user, message);
                     });
-            System.out.println(((ChatMessage) m).getProfile().getName() + ": " + ((ChatMessage) m).getMsg());
             break;
           case PLAYERREADY:
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
@@ -327,7 +326,7 @@ public class ClientProtocol extends Thread {
             Platform.runLater(
                 () -> {
                   try {
-                    client.getClient().showPopUp("Disconnected. Host closed the server");
+                    client.getClient().showPopUp(((DisconnectMessage) m).getDisconnectMessage());   // show reason for forced disconnection
                     client.getClient().showMainMenu();
                   } catch (Exception e) {
                     e.printStackTrace();

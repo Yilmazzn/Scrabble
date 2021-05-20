@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.CreateGameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.CreateGameController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Create Game " textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -31,119 +32,11 @@
                 <Font name="Chalkboard" size="18.0" />
             </font>
         </Button>
-        <VBox alignment="CENTER" layoutY="80.0" prefHeight="450.0" prefWidth="600.0" spacing="20.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
-            <children>
-                <GridPane prefHeight="651.0" prefWidth="919.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                  <RowConstraints maxHeight="133.56509399414062" minHeight="0.0" prefHeight="12.028656005859375" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="133.56509399414062" minHeight="10.0" prefHeight="52.471343994140625" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="133.56509399414062" minHeight="10.0" prefHeight="85.73809814453125" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="192.5880889892578" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="192.5880889892578" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="194.41506958007812" minHeight="0.0" prefHeight="92.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="194.41506958007812" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="194.41506958007812" minHeight="10.0" prefHeight="85.23809814453125" vgrow="SOMETIMES" />
-                    </rowConstraints>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+         <left>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scrabble Players:" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                <font>
-                                    <Font name="Chalkboard" size="24.0" />
-                                </font>
-                     <GridPane.margin>
-                        <Insets left="20.0" />
-                     </GridPane.margin>
-                            </Text>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3" />
-                  <Label fx:id="PlayerThree" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                     <GridPane.margin>
-                        <Insets left="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label fx:id="PlayerFour" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                     <GridPane.margin>
-                        <Insets left="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label fx:id="PlayerTwo" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <GridPane.margin>
-                        <Insets left="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Button mnemonicParsing="false" onMouseClicked="#openChat" prefHeight="41.0" prefWidth="123.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Chat" GridPane.columnIndex="2" GridPane.rowIndex="7">
-                     <GridPane.margin>
-                        <Insets left="100.0" />
-                     </GridPane.margin>
-                     <font>
-                        <Font name="Chalkboard" size="24.0" />
-                     </font>
-                  </Button>
-                  <Label fx:id="ReadyTwo" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <GridPane.margin>
-                        <Insets left="250.0" />
-                     </GridPane.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <Label fx:id="ReadyThree" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                     <GridPane.margin>
-                        <Insets left="250.0" />
-                     </GridPane.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                  <Label fx:id="ReadyFour" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                     <GridPane.margin>
-                        <Insets left="250.0" />
-                     </GridPane.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-                            <Button mnemonicParsing="false" onMouseClicked="#gameView" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="START" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                                <font>
-                                    <Font name="Chalkboard" size="24.0" />
-                                </font>
-                     <GridPane.margin>
-                        <Insets left="120.0" />
-                     </GridPane.margin>
-                            </Button>
-                  <Label fx:id="PlayerOne" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets left="20.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label fx:id="Host" prefHeight="35.0" prefWidth="58.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Host" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Chalkboard" size="18.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="250.0" />
-                     </GridPane.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" top="5.0" />
-                     </padding>
-                  </Label>
-                            <Button mnemonicParsing="false" onMouseClicked="#openGameSettings" prefHeight="53.0" prefWidth="203.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Game Settings" GridPane.rowIndex="7">
-                     <font>
-                        <Font name="Chalkboard" size="24.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onMouseClicked="#addAiPlayer" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Add AI-Player" GridPane.rowIndex="4">
-                     <font>
-                        <Font name="Chalkboard" size="24.0" />
-                     </font>
-                  </Button>
-                  <Label prefHeight="40.0" prefWidth="175.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Connection Details:" GridPane.rowIndex="1">
+                  <Label prefHeight="40.0" prefWidth="175.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Connection Details:">
                      <font>
                         <Font name="Chalkboard" size="24.0" />
                      </font>
@@ -151,37 +44,149 @@
                         <Insets left="5.0" right="5.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="connectionDetails" prefHeight="40.0" prefWidth="175.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" GridPane.rowIndex="2">
+                  <Label fx:id="connectionDetails" prefHeight="40.0" prefWidth="175.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
                      <padding>
                         <Insets left="5.0" right="5.0" />
-                     </padding></Label>
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="75.0" />
+                     </VBox.margin></Label>
+                  <Button mnemonicParsing="false" onMouseClicked="#addAiPlayer" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Add AI-Player">
+                     <font>
+                        <Font name="Chalkboard" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="50.0" />
+                     </VBox.margin>
+                  </Button>
+                            <Button mnemonicParsing="false" onMouseClicked="#openGameSettings" prefHeight="53.0" prefWidth="203.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Game Settings">
+                     <font>
+                        <Font name="Chalkboard" size="24.0" />
+                     </font>
+                  </Button>
                </children>
-               <VBox.margin>
-                  <Insets left="100.0" right="100.0" top="100.0" />
-               </VBox.margin>
-                </GridPane>
-                <HBox prefHeight="191.0" prefWidth="559.0">
-                    <padding>
-                        <Insets right="100.0" />
-                    </padding>
-                    <VBox.margin>
-                        <Insets left="350.0" right="350.0" />
-                    </VBox.margin>
-                    <children>
-                        <BorderPane prefHeight="191.0" prefWidth="600.0">
-                            <left>
-                                <VBox prefHeight="188.0" prefWidth="179.0" BorderPane.alignment="CENTER" />
-                            </left>
-                            <center>
-                                <VBox prefHeight="191.0" prefWidth="169.0" BorderPane.alignment="CENTER" />
-                            </center>
-                            <right>
-                                <VBox prefHeight="191.0" prefWidth="114.0" BorderPane.alignment="CENTER" />
-                            </right>
-                        </BorderPane>
-                    </children>
-                </HBox>
-            </children>
-        </VBox>
+            </VBox>
+         </left>
+         <center>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scrabble Players:">
+                                <font>
+                                    <Font name="Chalkboard" size="24.0" />
+                                </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                            </Text>
+                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
+                     <children>
+                        <Label fx:id="PlayerOne" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="Host" prefHeight="35.0" prefWidth="58.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Host">
+                           <font>
+                              <Font name="Chalkboard" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" top="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
+                     <children>
+                        <Label fx:id="PlayerTwo" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="ReadyTwo" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
+                     <children>
+                        <Label fx:id="PlayerThree" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="ReadyThree" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
+                     <children>
+                        <Label fx:id="PlayerFour" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="ReadyFour" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
+                            <Button mnemonicParsing="false" onMouseClicked="#gameView" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="START">
+                                <font>
+                                    <Font name="Chalkboard" size="24.0" />
+                                </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                            </Button>
+               </children>
+            </VBox>
+         </center>
+         <right>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="350.0" minHeight="350.0" style="-fx-background-color: fbf8da; -fx-background: FBF8DA; -fx-background-radius: 15; -fx-border-radius: 15;" vbarPolicy="NEVER" vvalue="1.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <content>
+                        <VBox fx:id="chat" alignment="BOTTOM_RIGHT" maxWidth="250.0" prefWidth="250.0">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
+                     <children>
+                        <TextArea fx:id="textArea" minHeight="35.0" prefHeight="35.0" prefWidth="240.0" promptText="Text Message" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: transparent;" wrapText="true">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </TextArea>
+                        <Button alignment="CENTER" maxHeight="20.0" maxWidth="25.0" minHeight="20.0" minWidth="25.0" mnemonicParsing="false" onMouseClicked="#sendMessage" prefHeight="20.0" prefWidth="25.0" style="-fx-border-radius: 7; -fx-background-radius: 7; -fx-background-color: #9AB6FF;" styleClass="arrow">
+                           <stylesheets>
+                              <URL value="@../stylesheets/buttonstyle.css" />
+                              <URL value="@../stylesheets/chatstyle.css" />
+                           </stylesheets>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="30.0" right="30.0" />
+               </padding>
+            </VBox>
+         </right>
+      </BorderPane>
     </children>
 </AnchorPane>

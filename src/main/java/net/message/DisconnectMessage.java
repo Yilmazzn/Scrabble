@@ -14,10 +14,12 @@ public class DisconnectMessage extends Message {
    * a constructor to create a disconnect message for the client
    *
    * @param profile Requires PlayerProfile to be included in DisconnectMessage
+   * @param disconnectMessage Requires the 'reason' for disconnect
    */
-  public DisconnectMessage(PlayerProfile profile) {
+  public DisconnectMessage(PlayerProfile profile, String disconnectMessage) {
     super(MessageType.DISCONNECT);
     this.profile = profile;
+    this.disconnectMessage = disconnectMessage;
   }
 
   /**

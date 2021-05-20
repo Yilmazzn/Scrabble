@@ -8,12 +8,14 @@ import game.components.Tile;
 import game.players.Player;
 import game.players.RemotePlayer;
 import net.client.NetClient;
+import net.message.ConnectMessage;
 import net.message.Message;
 import net.message.RefuseConnectionMessage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
+import java.rmi.Remote;
 import java.util.*;
 
 /**
@@ -78,6 +80,10 @@ public class Server extends Thread {
     game = new Game((ArrayList<Player>) players, mapTileDistribution, mapScores, dictionary);
   }
 
+  /**
+   *
+   * @return returns if the game is running
+   */
   public boolean gameIsRunning(){
     return game != null;
   }
@@ -249,11 +255,35 @@ public class Server extends Thread {
       }
       try {
         ((RemotePlayer) player).getConnection().sendToClient(m);
-      } catch (IOException e) {
-        index = players.indexOf(player);
-        players.remove(index);
+      } catch (IOException e) {   // remove player and send new lobby list to all
+        players.remove(player);
+        ConnectMessage cm = new ConnectMessage(null);
+        cm.setProfiles(getPlayerProfilesArray());
+        sendToAll(cm);
       }
     }
+  }
+
+  /**
+   * a method for sending a message to all client but not the given Player (given)
+   *
+   * @param m requires the message
+   */
+  public synchronized void sendToOthers(ServerProtocol protocol, Message m){
+    players.forEach(
+        player -> {
+          if (player.isHuman() && ((RemotePlayer) player).getConnection() != protocol) { // if not protocol who initiated the call
+            try {
+              ((RemotePlayer) player).getConnection().sendToClient(m);
+              System.out.println("ChatMessage sent to " + player.getProfile().getName());
+            } catch (IOException e) { // remove player and send lobby list to all
+              players.remove(player);
+              ConnectMessage cm = new ConnectMessage(null);
+              cm.setProfiles(getPlayerProfilesArray());
+              sendToAll(cm);
+            }
+          }
+        });
   }
 
   /**

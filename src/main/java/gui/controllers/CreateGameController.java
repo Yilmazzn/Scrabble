@@ -2,16 +2,26 @@ package gui.controllers;
 
 import client.Client;
 import client.PlayerProfile;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -32,6 +42,9 @@ public class CreateGameController {
   @FXML private Label ReadyThree;
   @FXML private Label ReadyFour;
   @FXML private Label Host;
+  @FXML private TextArea textArea;
+  @FXML private ScrollPane scrollPane;
+  @FXML private VBox chat;
 
   @FXML private Label connectionDetails;
 
@@ -66,6 +79,7 @@ public class CreateGameController {
 
     client.getNetClient().setCreateGameController(this);
     connectionDetails.setText(client.getNetClient().getIp());
+    updateChat();
   }
 
   /**
@@ -215,6 +229,94 @@ public class CreateGameController {
     } else {
       client.getNetClient().addAIPlayer(alert.getResult() == ButtonType.NO);
     }
+  }
+
+
+  /**
+   * Update ChatField
+   */
+  public void updateChat(){
+    textArea.setOnKeyPressed(
+            new EventHandler<KeyEvent>() {
+              @Override
+              public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                  textArea.deletePreviousChar();
+                  sendMessage();
+                  keyEvent.consume();
+                }
+              }
+            }
+    );
+  }
+
+  /**
+   * Creates a Box/Label when player sends a message
+   * Necessary to fill the ChatField
+   */
+  public void sendMessage(){
+    HBox box = new HBox();
+    box.setPrefHeight(Region.USE_COMPUTED_SIZE);
+    box.setPrefWidth(Region.USE_COMPUTED_SIZE);
+    box.setAlignment(Pos.BOTTOM_RIGHT);
+
+    Text name = new Text(client.getSelectedProfile().getName());
+    name.setFont(Font.font("Chalkboard", 14));
+    name.setFill(Color.web("#170871"));
+
+    Text message = new Text(textArea.getText());
+    message.setFont(Font.font("Chalkboard", 14));
+    message.setFill(Color.WHITE);
+
+    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()),  message);
+
+    //Label text = new Label("User \n" + textArea.getText());
+    Label text = new Label(null, flowTemp);
+    text.setWrapText(true);
+    text.setPadding(new Insets(2,10,2,2));
+    text.getStylesheets().add("stylesheets/chatstyle.css");
+    text.getStyleClass().add("textBubble");
+
+    box.getChildren().add(text);
+    chat.setAlignment(Pos.BOTTOM_RIGHT);
+    chat.setSpacing(20);
+    chat.getChildren().add(box);
+    chat.heightProperty().addListener(observer ->  scrollPane.setVvalue(1.0));
+    client.getNetClient().sendChatMessage(textArea.getText());
+
+    textArea.clear();
+  }
+
+  /**
+   * Creates a Box/Label when player gets a message
+   * Necessary to fill the ChatField
+   */
+  public void getMessage(String username, String text){
+    HBox box = new HBox();
+    box.setPrefHeight(Region.USE_COMPUTED_SIZE);
+    box.setPrefWidth(Region.USE_COMPUTED_SIZE);
+    box.setAlignment(Pos.BOTTOM_LEFT);
+
+    Text name = new Text(username);
+    name.setFont(Font.font("Chalkboard", 14));
+    name.setFill(Color.BLACK);
+
+    Text message = new Text(text);
+    message.setFont(Font.font("Chalkboard", 14));
+    message.setFill(Color.DARKGREY);
+
+    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()),  message);
+
+    Label label = new Label(null, flowTemp);
+    label.setWrapText(true);
+    label.setPadding(new Insets(2,10,2,2));
+    label.getStylesheets().add("stylesheets/chatstyle.css");
+    label.getStyleClass().add("textBubbleFlipped");
+
+    box.getChildren().add(label);
+    chat.setSpacing(20);
+    chat.getChildren().add(box);
+    chat.heightProperty().addListener(observer ->  scrollPane.setVvalue(1.0));
   }
 
   /** @author mnetzer Controller for more createGame methods */

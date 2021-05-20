@@ -5,6 +5,8 @@ import client.PlayerProfile;
 import game.Scoreboard;
 import game.components.BoardField;
 import game.players.LocalPlayer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -313,7 +315,7 @@ public class GameViewController implements Initializable {
     box.setPrefWidth(Region.USE_COMPUTED_SIZE);
     box.setAlignment(Pos.BOTTOM_RIGHT);
 
-    Text name = new Text(player.getProfile().getName());
+    Text name = new Text(client.getSelectedProfile().getName());
     name.setFont(Font.font("Chalkboard", 14));
     name.setFill(Color.web("#170871"));
 
@@ -334,8 +336,8 @@ public class GameViewController implements Initializable {
     chat.setAlignment(Pos.BOTTOM_RIGHT);
     chat.setSpacing(20);
     chat.getChildren().add(box);
-    scrollPane.setVvalue(1.0);
-    player.sendMessage(textArea.getText());
+    chat.heightProperty().addListener(observer ->  scrollPane.setVvalue(1.0));
+    client.getNetClient().sendChatMessage(textArea.getText());
 
     textArea.clear();
   }
@@ -369,7 +371,11 @@ public class GameViewController implements Initializable {
     box.getChildren().add(label);
     chat.setSpacing(20);
     chat.getChildren().add(box);
-    scrollPane.setVvalue(1.0);
+    chat.heightProperty().addListener(observer ->  scrollPane.setVvalue(1.0));
+  }
+
+  public void createSystemMessage(){
+
   }
 
 

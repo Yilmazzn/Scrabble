@@ -69,17 +69,14 @@ public class ServerProtocol extends Thread {
 
       while (running) {
         Message m = (Message) in.readObject();
-        System.out.println("Message received: " + m.getMessageType().toString());
+        System.out.println("Message received(Server-Side): " + m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
             PlayerProfile profile = ((ConnectMessage) m).getProfile();
             ConnectMessage cm = (ConnectMessage) m;
-            // player = (RemotePlayer) server.getPlayerOfID(player.getID());
             player.setPlayerProfile(profile);
-            // server.setPlayerProfiles(cm.getID(), profile);
             System.out.println("Server added: " + profile.getName()); //
             cm.setProfiles(server.getPlayerProfilesArray());
-            // Message fillLobbyMessage = new FillLobbyMessage(temp);
             server.sendToAll(cm);
             break;
           case DISCONNECT:
@@ -97,8 +94,8 @@ public class ServerProtocol extends Thread {
             }
             disconnect();
             break;
-          case CHATMESSAGE:
-            server.sendToAll(m);
+          case CHATMESSAGE: // Send chat message to all other connections
+            server.sendToOthers(this, m);
             break;
           case UPDATEGAMESETTINGS:
             UpdateGameSettingsMessage ugsm = (UpdateGameSettingsMessage) m;
@@ -175,10 +172,40 @@ public class ServerProtocol extends Thread {
             } else {
               aiPlayer = new EasyAiPlayer();
             }
+
             server.addPlayer(aiPlayer);
             ConnectMessage cm1 = new ConnectMessage(null);
             cm1.setProfiles(server.getPlayerProfilesArray());
             server.sendToAll(cm1);
+            break;
+          case KICKPLAYER:
+            System.out.println(
+                "Host kicked: "
+                    + server
+                        .getPlayers()[((KickPlayerMessage) m).getIndex()]
+                        .getProfile()
+                        .getName());
+
+            DisconnectMessage dm =
+                new DisconnectMessage(
+                    null,
+                    "You were kicked out of the lobby!\n\nThe host doesn't like you anymore!");
+            // Send message to kicked player
+            RemotePlayer rp1 =
+                (RemotePlayer) server.getPlayers()[((KickPlayerMessage) m).getIndex()];
+            rp1.getConnection().sendToClient(dm);
+
+            // Send system message
+            server.sendToAll(
+                new ChatMessage(rp1.getProfile().getName() + " was kicked by the host", null));
+            // remove from server
+            server.removePlayer(
+                server
+                    .getPlayers()[((KickPlayerMessage) m).getIndex()]); // Remove Player from server
+            // update lobby profiles
+            cm = new ConnectMessage(null);
+            cm.setProfiles(server.getPlayerProfilesArray());
+            server.sendToAll(cm);
             break;
           default:
             break;
