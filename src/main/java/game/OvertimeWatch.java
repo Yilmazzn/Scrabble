@@ -1,6 +1,7 @@
 package game;
 
 import gui.controllers.GameViewController;
+import javafx.application.Platform;
 
 /**
  * @author yuzun Thread which runs parallel to the game application Counts down from 10mins and ends
@@ -12,12 +13,12 @@ public class OvertimeWatch extends Thread {
   private long overtime = 600000L; // 10 mins of overtime in ms
   private boolean running = false;
 
-  private GameViewController gameViewController;    // Controller to interact with GUI and update time every second
+  private GameViewController
+      gameViewController; // Controller to interact with GUI and update time every second
 
-  public OvertimeWatch(GameViewController gameViewController){
+  public OvertimeWatch(GameViewController gameViewController, int overtime) {
     this.gameViewController = gameViewController;
   }
-
 
   /**
    * Waits for 10mins after calling and ends game if not stopped till then Thread is interrupted by
@@ -25,14 +26,20 @@ public class OvertimeWatch extends Thread {
    */
   @Override
   public void run() {
-    long startTime = System.currentTimeMillis();
-    running=true;
+    running = true;
     try {
-      while((System.currentTimeMillis() < startTime + overtime) && running){ //start after each nextRound()
-        gameViewController.updateTime(overtime);
-        Thread.sleep(100);   // wait for 1/10th sec
+      while (overtime > 0 && running) { // start after each nextRound()
+        Platform.runLater(
+            () -> {
+              gameViewController.updateTime(overtime);
+            });
+
+        Thread.sleep(500); // wait for 1/2th sec
+        overtime = overtime - 500;
       }
-      overtime = overtime - (System.currentTimeMillis() - startTime);   // calculate remaining overtime
+      if (running) { // overtime exceeded and turn still true
+        // TODO player.sendMesEXCEEDEDEDED
+      }
     } catch (InterruptedException e) {
     } // catch exception and do nothing with it since expected
   }

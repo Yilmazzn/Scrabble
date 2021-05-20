@@ -147,7 +147,7 @@ public class LocalPlayer {
     if(turn){   // if set to true --> start countdown
       overtimeWatch.start();
     }else{      // if set to false --> stop countdown
-      overtimeWatch.stopCountdown();
+      overtime = overtimeWatch.stopCountdown();
     }
   }
 

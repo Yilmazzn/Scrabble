@@ -353,4 +353,28 @@ public class Server extends Thread {
     }
     return temp;
   }
+
+  /**
+   *
+   * @return Returns TileValues
+   */
+  public int[] getTileScores() {
+    return tileScores;
+  }
+
+  /**
+   *
+   * @return Returns TileDistributions
+   */
+  public int[]getTileDistributions() {
+    return tileDistributions;
+  }
+
+  /**
+   *
+   * @return Returns dictionaryString
+   */
+  public String getDictionaryString() {
+    return dictionaryString;
+  }
 }

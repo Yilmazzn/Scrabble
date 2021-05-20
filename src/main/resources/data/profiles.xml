@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PlayerProfiles>
   <profile>
-    <name>namw</name>
+    <name>Test1</name>
     <highscore>871</highscore>
     <wins>95</wins>
     <losses>84</losses>
@@ -10,7 +10,7 @@
     <lastLogged>19.04.2021</lastLogged>
   </profile>
   <profile>
-    <name>hello</name>
+    <name>Test2</name>
     <highscore>0</highscore>
     <wins>0</wins>
     <losses>0</losses>
@@ -19,7 +19,7 @@
     <lastLogged>17.05.2021</lastLogged>
   </profile>
   <profile>
-    <name>yilmaz</name>
+    <name>Test3</name>
     <highscore>0</highscore>
     <wins>0</wins>
     <losses>0</losses>

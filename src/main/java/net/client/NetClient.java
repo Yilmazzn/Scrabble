@@ -127,8 +127,8 @@ public class NetClient {
    * @param tileDistributions requires tileDistribution
    * @param dictionary requires dictionary File
    */
-  public void updateGameSettings(int[] tileScores, int[] tileDistributions, String dictionary) {
-    connection.updateGameSettings(tileScores, tileDistributions, dictionary);
+  public void sendGameSettings(int[] tileScores, int[] tileDistributions, String dictionary) {
+    connection.sendGameSettings(tileScores, tileDistributions, dictionary);
   }
 
   /**
@@ -373,5 +373,17 @@ public class NetClient {
    */
   public void kickPlayer(int index) {
     connection.kickPlayer(index);
+  }
+
+  public void requestValues() {
+    connection.requestValues();
+  }
+
+  public void requestDistributions() {
+    connection.requestDistributions();
+  }
+
+  public void requestDictionary() {
+    connection.requestDictionary();
   }
 }

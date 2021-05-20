@@ -213,6 +213,21 @@ public class ServerProtocol extends Thread {
             cm.setProfiles(server.getPlayerProfilesArray());
             server.sendToAll(cm);
             break;
+          case REQUESTVALUES:
+            RequestValuesMessage rvm = (RequestValuesMessage) m;
+            rvm.setValues(server.getTileScores());
+            sendToClient(rvm);
+            break;
+          case REQUESTDISTRIBUTIONS:
+            RequestDistributionsMessage rdm = (RequestDistributionsMessage) m;
+            rdm.setDistributions(server.getTileDistributions());
+            sendToClient(rdm);
+            break;
+          case REQUESTDICTIONARY:
+            RequestDictionaryMessage rdm2 = (RequestDictionaryMessage) m;
+            rdm2.setDictionary(server.getDictionaryString());
+            sendToClient(rdm2);
+            break;
           default:
             break;
         }

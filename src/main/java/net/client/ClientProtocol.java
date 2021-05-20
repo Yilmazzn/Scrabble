@@ -200,7 +200,7 @@ public class ClientProtocol extends Thread {
    * @param tileDistributions Requires tileDistribution
    * @param dictionary Requires dictionary file
    */
-  public void updateGameSettings(int[] tileScores, int[] tileDistributions, String dictionary) {
+  public void sendGameSettings(int[] tileScores, int[] tileDistributions, String dictionary) {
     try {
       if (!clientSocket.isClosed()) {
         this.out.writeObject(
