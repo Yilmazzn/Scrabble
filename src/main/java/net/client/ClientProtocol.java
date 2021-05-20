@@ -6,11 +6,14 @@ import game.components.Board;
 import game.components.Tile;
 import javafx.application.Platform;
 import net.message.*;
+
+
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.SQLOutput;
 
 /** @author vkaczmar Handles all interactions from the server to the client */
 public class ClientProtocol extends Thread {
@@ -230,6 +233,7 @@ public class ClientProtocol extends Thread {
     while (running) {
       try {
         Message m = (Message) in.readObject();
+        System.out.println(m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
             PlayerProfile[] lobbyProfiles = ((ConnectMessage) m).getProfiles();
@@ -274,8 +278,13 @@ public class ClientProtocol extends Thread {
             break;
           case CHATMESSAGE:
             // TODO add method
-            System.out.println(
-                ((ChatMessage) m).getProfile().getName() + ": " + ((ChatMessage) m).getMsg());
+            PlayerProfile user = ((ChatMessage) m).getProfile();
+            String message = ((ChatMessage) m).getMsg();
+            Platform.runLater(
+                    () -> {
+                      client.updateChat(user, message);
+                    });
+            System.out.println(((ChatMessage) m).getProfile().getName() + ": " + ((ChatMessage) m).getMsg());
             break;
           case PLAYERREADY:
             PlayerReadyMessage prm = (PlayerReadyMessage) m;

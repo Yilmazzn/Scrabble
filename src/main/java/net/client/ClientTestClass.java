@@ -28,7 +28,7 @@ public class ClientTestClass {
 
   /** Method to start the server from somewhere else e.g. from Client.createGame(this) */
   public void startServer() {
-    server = new Server();
+    //server = new Server();
     new ServerListenThread().start();
   }
 

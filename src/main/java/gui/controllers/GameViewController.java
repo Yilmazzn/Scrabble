@@ -314,7 +314,7 @@ public class GameViewController implements Initializable {
     box.setPrefWidth(Region.USE_COMPUTED_SIZE);
     box.setAlignment(Pos.BOTTOM_RIGHT);
 
-    Text name = new Text("User");
+    Text name = new Text(player.getProfile().getName());
     name.setFont(Font.font("Chalkboard", 14));
     name.setFill(Color.web("#170871"));
 
@@ -336,6 +336,7 @@ public class GameViewController implements Initializable {
     chat.setSpacing(20);
     chat.getChildren().add(box);
     scrollPane.setVvalue(1.0);
+    player.sendMessage(textArea.getText());
 
     textArea.clear();
   }
@@ -350,7 +351,7 @@ public class GameViewController implements Initializable {
     box.setPrefWidth(Region.USE_COMPUTED_SIZE);
     box.setAlignment(Pos.BOTTOM_LEFT);
 
-    Text name = new Text("OtherUser");
+    Text name = new Text(username);
     name.setFont(Font.font("Chalkboard", 14));
     name.setFill(Color.BLACK);
 
@@ -550,6 +551,7 @@ public class GameViewController implements Initializable {
             event.setDropCompleted(success);
 
             event.consume();
+
           }
         });
 

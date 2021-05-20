@@ -44,7 +44,6 @@ public class LocalPlayer {
     this.client = client;
     this.controller = controller;
     this.profile = client.getSelectedProfile();
-
     rack.add(new Tile('H', 1));
     rack.add(new Tile('E', 2));
     rack.add(new Tile('L', 1));
@@ -71,10 +70,10 @@ public class LocalPlayer {
   }
 
   /** @return Returns personal score */
-  public int getScore() {
+ /* public int getScore() {
     return score;
   }
-
+*/
   /**
    * TODO Ehrlich gesagt keine Ahnung was diese Methode macht
    *
@@ -176,5 +175,16 @@ public class LocalPlayer {
   /** @return Returns, if the LocalPlayer has its own turn */
   public boolean isTurn() {
     return turn;
+  }
+
+  public OvertimeWatch getOvertime(){
+    return this.overtimeWatch;
+  }
+
+  public void sendMessage(String message){
+    client.getNetClient().sendChatMessage(message);
+  }
+  public PlayerProfile getProfile(){
+    return this.profile;
   }
 }
