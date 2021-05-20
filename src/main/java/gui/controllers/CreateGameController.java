@@ -45,6 +45,7 @@ public class CreateGameController {
   @FXML private TextArea textArea;
   @FXML private ScrollPane scrollPane;
   @FXML private VBox chat;
+  // TODO startGameButton
 
   @FXML private Label connectionDetails;
 

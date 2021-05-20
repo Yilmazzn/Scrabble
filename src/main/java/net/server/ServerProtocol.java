@@ -84,7 +84,10 @@ public class ServerProtocol extends Thread {
             server.removePlayer(player); // Remove Player from server
             System.out.println("Server removed: " + profile.getName());
             if (player.isHost()) {
-              server.sendToAll(new DisconnectMessage(null));
+              server.sendToAll(
+                  new DisconnectMessage(
+                      null,
+                      "The server is closed.\n\nThe Host sadly doesn't want to play anylonger"));
               server.stopServer();
             } else { // take player out of player list and send new ConnectMessage with all player
               // profiles connected
@@ -190,18 +193,21 @@ public class ServerProtocol extends Thread {
                 new DisconnectMessage(
                     null,
                     "You were kicked out of the lobby!\n\nThe host doesn't like you anymore!");
+
             // Send message to kicked player
             RemotePlayer rp1 =
                 (RemotePlayer) server.getPlayers()[((KickPlayerMessage) m).getIndex()];
             rp1.getConnection().sendToClient(dm);
 
+            // remove from server
+            server.removePlayer(
+                    server
+                            .getPlayers()[((KickPlayerMessage) m).getIndex()]); // Remove Player from server
+
             // Send system message
             server.sendToAll(
                 new ChatMessage(rp1.getProfile().getName() + " was kicked by the host", null));
-            // remove from server
-            server.removePlayer(
-                server
-                    .getPlayers()[((KickPlayerMessage) m).getIndex()]); // Remove Player from server
+
             // update lobby profiles
             cm = new ConnectMessage(null);
             cm.setProfiles(server.getPlayerProfilesArray());

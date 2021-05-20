@@ -7,7 +7,6 @@ import game.components.Tile;
 import javafx.application.Platform;
 import net.message.*;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -226,6 +225,17 @@ public class ClientProtocol extends Thread {
       e.printStackTrace();
     }
   }
+
+  public void kickPlayer(int index) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new KickPlayerMessage(index));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Overwritten run method from Thread. Accepts and works through incoming messages from the server
    */
@@ -233,7 +243,7 @@ public class ClientProtocol extends Thread {
     while (running) {
       try {
         Message m = (Message) in.readObject();
-        System.out.println("Message received(Client-Side): "+m.getMessageType().toString());
+        System.out.println("Message received(Client-Side): " + m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
             PlayerProfile[] lobbyProfiles = ((ConnectMessage) m).getProfiles();
@@ -275,9 +285,9 @@ public class ClientProtocol extends Thread {
             PlayerProfile user = ((ChatMessage) m).getProfile();
             String message = ((ChatMessage) m).getMsg();
             Platform.runLater(
-                    () -> {
-                      client.updateChat(user, message);
-                    });
+                () -> {
+                  client.updateChat(user, message);
+                });
             break;
           case PLAYERREADY:
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
@@ -326,7 +336,11 @@ public class ClientProtocol extends Thread {
             Platform.runLater(
                 () -> {
                   try {
-                    client.getClient().showPopUp(((DisconnectMessage) m).getDisconnectMessage());   // show reason for forced disconnection
+                    client
+                        .getClient()
+                        .showPopUp(
+                            ((DisconnectMessage) m)
+                                .getDisconnectMessage()); // show reason for forced disconnection
                     client.getClient().showMainMenu();
                   } catch (Exception e) {
                     e.printStackTrace();

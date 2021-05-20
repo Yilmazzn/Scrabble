@@ -310,6 +310,11 @@ public class GameViewController implements Initializable {
    * Necessary to fill the ChatField
    */
   public void sendMessage(){
+    // falls leer --> nix
+    if(textArea.getText().equals("")){
+      return;
+    }
+
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
     box.setPrefWidth(Region.USE_COMPUTED_SIZE);
