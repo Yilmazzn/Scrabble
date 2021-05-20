@@ -5,23 +5,23 @@ import client.PlayerProfile;
 import game.Scoreboard;
 import game.components.BoardField;
 import game.players.LocalPlayer;
-import gui.components.Rack;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -46,6 +46,17 @@ public class GameViewController implements Initializable {
   @FXML private Label pointsPlayer3;
   @FXML private Label pointsPlayer4;
   @FXML private Label bag;
+  @FXML private Label turn1;
+  @FXML private Label turn2;
+  @FXML private Label turn3;
+  @FXML private Label turn4;
+  @FXML private Label time;
+  @FXML private TextArea textArea;
+  @FXML private ScrollPane scrollPane;
+  @FXML private VBox chat;
+
+  private String text = "";
+
 
   private Client client;
 
@@ -62,18 +73,22 @@ public class GameViewController implements Initializable {
     bag.setTooltip(tip);
   }
 
-  // TODO Get instance of Board/ PlayerProfiles/ Bag from NetClient
-
-  /** Method to set the client and initialize the board */
+  /**
+   * Method to set the client and initialize the board
+   */
   public void setModel(Client client) {
     this.client = client;
     this.player = client.initLocalPlayer(this);
     updateBoard();
     updateScoreboard();
     updateRack();
+    updateChat();
+    updateTime();
   }
 
-  /** Method to initialize the board with instances of PlayerProfiles/ Board */
+  /**
+   * Method to initialize the board with instances of PlayerProfiles/Board
+   */
   public void updateBoard() {
     /** AnchorPane as graphical container for the tiles are created */
     board.getChildren().removeAll();
@@ -85,7 +100,9 @@ public class GameViewController implements Initializable {
     }
   }
 
-  /** Updates Scoreboard */
+  /**
+   * Updates Scoreboard
+   */
   public void updateScoreboard() {
     Map<String, Integer> map = player.getScoreboard();
     Label[] playerLabels = {player1, player2, player3, player4};
@@ -100,9 +117,15 @@ public class GameViewController implements Initializable {
       playerLabels[i].setText("---");
       pointsLabels[i].setText("-");
     }
+    turn1.setVisible(true);
+    turn2.setVisible(false);
+    turn3.setVisible(false);
+    turn4.setVisible(false);
   }
 
-  /** Updates Rack */
+  /**
+   * Updates Rack
+   */
   public void updateRack() {
     tiles.getChildren().clear();
     for (int i = 0; i < Rack.RACK_SIZE; i++) {
@@ -114,6 +137,33 @@ public class GameViewController implements Initializable {
               player.getRack().getTile(i).getLetter(), player.getRack().getTile(i).getScore(), i);
       tiles.add(anchorPane, i, 0);
     }
+  }
+
+  /**
+   * Update ChatField
+   */
+  public void updateChat(){
+    textArea.setOnKeyPressed(
+            new EventHandler<KeyEvent>() {
+              @Override
+              public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                  textArea.deletePreviousChar();
+                  sendMessage();
+                  keyEvent.consume();
+                }
+              }
+            }
+    );
+    getMessage("This is a test");
+  }
+
+  /**
+   * Update Remaining Time for the current move
+   */
+  public void updateTime(){
+    //TODO get time from Server
+    time.setText("30sec");
   }
 
   /**
@@ -254,6 +304,75 @@ public class GameViewController implements Initializable {
   public void submit() {
     System.out.println("Submit");
   }
+
+  /**
+   * Creates a Box/Label when player sends a message
+   * Necessary to fill the ChatField
+   */
+  public void sendMessage(){
+    HBox box = new HBox();
+    box.setPrefHeight(Region.USE_COMPUTED_SIZE);
+    box.setPrefWidth(Region.USE_COMPUTED_SIZE);
+    box.setAlignment(Pos.BOTTOM_RIGHT);
+
+    Text name = new Text("User");
+    name.setFont(Font.font("Chalkboard", 14));
+    name.setFill(Color.web("#170871"));
+
+    Text message = new Text(textArea.getText());
+    message.setFont(Font.font("Chalkboard", 14));
+    message.setFill(Color.WHITE);
+
+    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()),  message);
+
+    //Label text = new Label("User \n" + textArea.getText());
+    Label text = new Label(null, flowTemp);
+    text.setWrapText(true);
+    text.setPadding(new Insets(2,10,2,2));
+    text.getStylesheets().add("stylesheets/chatstyle.css");
+    text.getStyleClass().add("textBubble");
+
+    box.getChildren().add(text);
+    chat.setAlignment(Pos.BOTTOM_RIGHT);
+    chat.setSpacing(20);
+    chat.getChildren().add(box);
+    scrollPane.setVvalue(1.0);
+
+    textArea.clear();
+  }
+
+  /**
+   * Creates a Box/Label when player gets a message
+   * Necessary to fill the ChatField
+   */
+  public void getMessage(String text){
+    HBox box = new HBox();
+    box.setPrefHeight(Region.USE_COMPUTED_SIZE);
+    box.setPrefWidth(Region.USE_COMPUTED_SIZE);
+    box.setAlignment(Pos.BOTTOM_LEFT);
+
+    Text name = new Text("OtherUser");
+    name.setFont(Font.font("Chalkboard", 14));
+    name.setFill(Color.BLACK);
+
+    Text message = new Text(text);
+    message.setFont(Font.font("Chalkboard", 14));
+    message.setFill(Color.DARKGREY);
+
+    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()),  message);
+
+    Label label = new Label(null, flowTemp);
+    label.setWrapText(true);
+    label.setPadding(new Insets(2,10,2,2));
+    label.getStylesheets().add("stylesheets/chatstyle.css");
+    label.getStyleClass().add("textBubbleFlipped");
+
+    box.getChildren().add(label);
+    chat.setSpacing(20);
+    chat.getChildren().add(box);
+    scrollPane.setVvalue(1.0);
+  }
+
 
   /**
    * Method to create the Containers for the tiles on the Rack includes graphical components and

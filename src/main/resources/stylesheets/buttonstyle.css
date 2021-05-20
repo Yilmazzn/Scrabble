@@ -25,3 +25,21 @@
     -fx-border-radius: 15;
     -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 0, 0);
 }
+
+.turn {
+    -fx-background-color: #48DF2F;
+    -fx-background-radius: 20;
+    -fx-border-width: 0;
+    -fx-effect: none;
+
+}
+
+.time{
+    -fx-font-family: "Chalkboard";
+    -fx-font-size: 20px;
+    -fx-background-color: none;
+    -fx-background-radius: 20;
+    -fx-border-width: 0;
+    -fx-effect: none;
+
+}
