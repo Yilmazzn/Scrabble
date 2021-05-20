@@ -75,8 +75,12 @@ public class NetClient {
    * @author ygarip
    */
   public void connect() {
-    this.connection = new ClientProtocol(this.ipAdr, this);
-    this.connection.start();
+    try {
+      this.connection = new ClientProtocol(this.ipAdr, this);
+      this.connection.start();
+    } catch (IOException ioe) {
+      client.showPopUp("Could not establish connection!");
+    }
     System.out.println(
         "Netclient " + this.getPlayerProfile().getName() + " is connected |NetClient");
   }
@@ -278,33 +282,33 @@ public class NetClient {
   }
 
   public void updateChat(PlayerProfile user, String message) {
-    if(user != null){   // not received from system
-      if(isHost() && !server.gameIsRunning()){    // user is host --> sees CreateGameScene
+    if (user != null) { // not received from system
+      if (isHost() && !server.gameIsRunning()) { // user is host --> sees CreateGameScene
         createGameController.getMessage(user.getName(), message);
-      }else{                                      // user is not host --> sees GameView
+      } else { // user is not host --> sees GameView
         gameViewController.getMessage(user.getName(), message);
       }
-    }else{
+    } else {
       // TODO SYSTEM MESSAGE
     }
   }
 
-  public void updateGameSettings(int[] scores, int[] distributions, String dictionaryContent){
-    if(scores != null){
+  public void updateGameSettings(int[] scores, int[] distributions, String dictionaryContent) {
+    if (scores != null) {
       String content = "";
-      for(int i = 0; i < scores.length; i++){
+      for (int i = 0; i < scores.length; i++) {
         content += ((char) (i + 'A')) + "\t" + scores[i] + "\n";
       }
       client.showPopUp(content);
     }
-    if(distributions != null){
+    if (distributions != null) {
       String content = "";
-      for(int i = 0; i < distributions.length; i++){
+      for (int i = 0; i < distributions.length; i++) {
         content += ((char) (i + 'A')) + "\t" + scores[i] + "\n";
       }
       client.showPopUp(content);
     }
-    if(dictionaryContent != null){
+    if (dictionaryContent != null) {
       client.showPopUp(dictionaryContent);
     }
   }
@@ -390,16 +394,12 @@ public class NetClient {
     connection.kickPlayer(index);
   }
 
-  /**
-   * Initiates RequestValuesMessage
-   */
+  /** Initiates RequestValuesMessage */
   public void requestValues() {
     connection.requestValues();
   }
 
-  /**
-   *
-   */
+  /** */
   public void requestDistributions() {
     connection.requestDistributions();
   }
@@ -413,8 +413,8 @@ public class NetClient {
     connection.placeTile(tile, row, col);
   }
 
-  /** Place tile on GUI  */
-  public void placeIncomingTile(Tile tile, int row, int col){
+  /** Place tile on GUI */
+  public void placeIncomingTile(Tile tile, int row, int col) {
     gameViewController.placeTile(tile, row, col);
   }
 }

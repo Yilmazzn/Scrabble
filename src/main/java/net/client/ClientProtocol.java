@@ -29,19 +29,15 @@ public class ClientProtocol extends Thread {
    * @param ip Requires the ip, the server runs on
    * @param netClient Requires username for current profile
    */
-  public ClientProtocol(String ip, NetClient netClient) {
+  public ClientProtocol(String ip, NetClient netClient) throws IOException {
     this.client = netClient;
-    try {
-      this.clientSocket = new Socket(ip, 12975);
-      System.out.println(
-          "Client with IP:" + ip + " connected, " + client.getPlayerProfile().getName());
-      this.out = new ObjectOutputStream(clientSocket.getOutputStream());
-      this.in = new ObjectInputStream(clientSocket.getInputStream());
-      this.out.writeObject(new ConnectMessage(client.getPlayerProfile()));
-      this.out.flush();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    this.clientSocket = new Socket(ip, 12975);
+    System.out.println(
+        "Client with IP:" + ip + " connected, " + client.getPlayerProfile().getName());
+    this.out = new ObjectOutputStream(clientSocket.getOutputStream());
+    this.in = new ObjectInputStream(clientSocket.getInputStream());
+    this.out.writeObject(new ConnectMessage(client.getPlayerProfile()));
+    this.out.flush();
   }
 
   /** Method for writing a DisconnectMessage Object to the server */
