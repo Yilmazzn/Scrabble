@@ -5,8 +5,6 @@ import client.PlayerProfile;
 import game.Scoreboard;
 import game.components.BoardField;
 import game.players.LocalPlayer;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +29,6 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /** @author mnetzer Controller for the GameView */
@@ -56,6 +53,11 @@ public class GameViewController implements Initializable {
   @FXML private TextArea textArea;
   @FXML private ScrollPane scrollPane;
   @FXML private VBox chat;
+  @FXML private Button distribution;
+  @FXML private Button values;
+  @FXML private Button dictionary;
+  @FXML private CheckBox ready;
+  @FXML private AnchorPane agreements;
 
   private String text = "";
 
