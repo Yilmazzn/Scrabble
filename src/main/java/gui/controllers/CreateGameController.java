@@ -374,11 +374,6 @@ public class CreateGameController {
    * @param enabled Requires the boolean value for enabled state of start game button
    */
   public void changeStartGameButton(boolean enabled) {
-    System.out.println("Hier");
-    if (enabled) {
-      startButton.setDisable(false);
-    } else {
-      startButton.setDisable(true);
-    }
+    startButton.setDisable(!enabled);
   }
 }

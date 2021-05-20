@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="539.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.gameSettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="539.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.gameSettingsController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Game Settings" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -13,7 +18,7 @@
             </font>
         </Label>
         <Label layoutX="278.0" layoutY="331.0" prefHeight="100.0" prefWidth="1152.0" style="-fx-background-color: #fdf8da;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <VBox layoutX="335.0" layoutY="161.0" prefHeight="328.0" prefWidth="483.0" AnchorPane.bottomAnchor="211.0" AnchorPane.leftAnchor="335.0" AnchorPane.rightAnchor="334.0" AnchorPane.topAnchor="161.0">
+      <VBox layoutX="136.0" layoutY="107.0" prefHeight="278.0" prefWidth="498.0" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="136.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="107.0">
          <children>
             <HBox prefHeight="81.0" prefWidth="483.0">
                <children>
@@ -129,12 +134,12 @@
                         <Font name="Chalkboard" size="24.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="60.0" top="10.0" />
+                        <Insets left="80.0" top="10.0" />
                      </HBox.margin>
                   </Text>
                </children>
             </HBox>
-            <HBox maxWidth="-Infinity" prefHeight="51.0" prefWidth="357.0">
+            <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <TextField fx:id="dictionary" prefHeight="27.0" prefWidth="197.0">
                      <HBox.margin>
@@ -154,7 +159,7 @@
                         <Font name="Chalkboard" size="18.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="100.0" top="10.0" />
+                        <Insets left="50.0" top="10.0" />
                      </HBox.margin>
                   </Button>
                   <TextField fx:id="joker" prefHeight="27.0" prefWidth="27.0" text="2">
@@ -169,6 +174,26 @@
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="cancel" mnemonicParsing="false" prefHeight="49.0" prefWidth="107.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Cancel">
+                     <HBox.margin>
+                        <Insets top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Chalkboard" size="24.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="apply" mnemonicParsing="false" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Apply">
+                     <HBox.margin>
+                        <Insets left="295.0" top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Chalkboard" size="24.0" />
+                     </font>
                   </Button>
                </children>
             </HBox>
