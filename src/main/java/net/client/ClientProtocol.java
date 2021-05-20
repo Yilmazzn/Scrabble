@@ -228,6 +228,7 @@ public class ClientProtocol extends Thread {
 
   /**
    * creates and sends KickplayerMessage instance to server
+   *
    * @param index Requires the index of the player who should be kicked from server
    */
   public void kickPlayer(int index) {
@@ -240,9 +241,7 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /**
-   * Creates and sends RequestDictionaryMessage to server
-   */
+  /** Creates and sends RequestDictionaryMessage to server */
   public void requestDictionary() {
     try {
       if (!clientSocket.isClosed()) {
@@ -253,9 +252,17 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /**
-   * Creates and sends RequestDistributionsMessage to server
-   */
+  public void sendMessage(Message m) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(m);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /** Creates and sends RequestDistributionsMessage to server */
   public void requestDistributions() {
     try {
       if (!clientSocket.isClosed()) {
@@ -266,13 +273,28 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /**
-   * Creates and sends RequestValuesMessage to server
-   */
+  /** Creates and sends RequestValuesMessage to server */
   public void requestValues() {
     try {
       if (!clientSocket.isClosed()) {
         this.out.writeObject(new RequestValuesMessage());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Creates and sends PlaceTileMessage to server
+   *
+   * @param tile Requires Tile that is placed or removed on board
+   * @param row Requires row of board
+   * @param col Requires col of board
+   */
+  public void placeTile(Tile tile, int row, int col) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new PlaceTileMessage(tile, row, col));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -397,6 +419,10 @@ public class ClientProtocol extends Thread {
             break;
           case REQUESTDISTRIBUTIONS:
             int[] distributions = ((RequestDistributionsMessage) m).getDistributions();
+            break;
+          case PLACETILE:
+            PlaceTileMessage ptm = (PlaceTileMessage) m;
+            client.placeIncomingTile(ptm.getTile(), ptm.getRow(), ptm.getCol());
             break;
           default:
             break;

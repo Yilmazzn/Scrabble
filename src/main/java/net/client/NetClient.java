@@ -392,15 +392,31 @@ public class NetClient {
     connection.kickPlayer(index);
   }
 
+  /**
+   * Initiates RequestValuesMessage
+   */
   public void requestValues() {
     connection.requestValues();
   }
 
+  /**
+   *
+   */
   public void requestDistributions() {
     connection.requestDistributions();
   }
 
   public void requestDictionary() {
     connection.requestDictionary();
+  }
+
+  /** send Message to */
+  public void placeTile(Tile tile, int row, int col) {
+    connection.placeTile(tile, row, col);
+  }
+
+  /** Place tile on GUI  */
+  public void placeIncomingTile(Tile tile, int row, int col){
+    gameViewController.placeTile(tile, row, col);
   }
 }

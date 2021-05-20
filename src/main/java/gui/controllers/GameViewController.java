@@ -4,6 +4,7 @@ import client.Client;
 import client.PlayerProfile;
 import game.Scoreboard;
 import game.components.BoardField;
+import game.components.Tile;
 import game.players.LocalPlayer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

@@ -113,7 +113,6 @@ public class ServerProtocol extends Thread {
             int[] tileDistributions = ugsm.getTileDistributions();
             String dictionary = ugsm.getDictionary();
             server.updateGameSettings(tileScores, tileDistributions, dictionary);
-            server.sendToAll(m);
             break;
           case PLAYERREADY:
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
@@ -234,6 +233,10 @@ public class ServerProtocol extends Thread {
             RequestDictionaryMessage rdm2 = (RequestDictionaryMessage) m;
             rdm2.setDictionary(server.getDictionaryString());
             sendToClient(rdm2);
+            break;
+          case PLACETILE:
+            // TODO Game logic
+            server.sendToOthers(this, m);
             break;
           default:
             break;
