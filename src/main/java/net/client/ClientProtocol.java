@@ -226,6 +226,10 @@ public class ClientProtocol extends Thread {
     }
   }
 
+  /**
+   * creates and sends KickplayerMessage instance to server
+   * @param index Requires the index of the player who should be kicked from server
+   */
   public void kickPlayer(int index) {
     try {
       if (!clientSocket.isClosed()) {
@@ -236,6 +240,44 @@ public class ClientProtocol extends Thread {
     }
   }
 
+  /**
+   * Creates and sends RequestDictionaryMessage to server
+   */
+  public void requestDictionary() {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new RequestDictionaryMessage());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Creates and sends RequestDistributionsMessage to server
+   */
+  public void requestDistributions() {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new RequestDistributionsMessage());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Creates and sends RequestValuesMessage to server
+   */
+  public void requestValues() {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new RequestValuesMessage());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
   /**
    * Overwritten run method from Thread. Accepts and works through incoming messages from the server
    */
@@ -346,6 +388,15 @@ public class ClientProtocol extends Thread {
                     e.printStackTrace();
                   }
                 });
+            break;
+          case REQUESTDICTIONARY:
+            String dictionary = ((RequestDictionaryMessage) m).getDictionary();
+            break;
+          case REQUESTVALUES:
+            int[] values = ((RequestValuesMessage) m).getValues();
+            break;
+          case REQUESTDISTRIBUTIONS:
+            int[] distributions = ((RequestDistributionsMessage) m).getDistributions();
             break;
           default:
             break;
