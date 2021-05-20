@@ -45,6 +45,7 @@ public class CreateGameController {
   @FXML private TextArea textArea;
   @FXML private ScrollPane scrollPane;
   @FXML private VBox chat;
+  @FXML private Button startButton;
   // TODO startGameButton
 
   @FXML private Label connectionDetails;
@@ -373,10 +374,11 @@ public class CreateGameController {
    * @param enabled Requires the boolean value for enabled state of start game button
    */
   public void changeStartGameButton(boolean enabled) {
+    System.out.println("Hier");
     if (enabled) {
-      // TODO enable start game Button
+      startButton.setDisable(false);
     } else {
-      // TODO disable start game Button
+      startButton.setDisable(true);
     }
   }
 }
