@@ -26,13 +26,6 @@ public class Server extends Thread {
   private boolean running;
   private static final int port = 12975;
   private static String serverIp;
-  // private ArrayList<ServerProtocol> clients = new ArrayList<>();// connection bei RemotePlayer
-  // private ArrayList<String> clientNames = new ArrayList<>(); //TODO  wird in players gespeichert
-  // private int clientID = 0;                                   // evtl auch bei RemotePlayer wenn
-  // ID Sinn macht
-  // private int[] points = new int[5];                          // score bei RemotePlayer
-  // private int clientCounter = 0;                              // = players.size()
-  // private PlayerProfile[] profiles = new PlayerProfile[5];    // profile im RemotePlayer
   private List<Player> players = new LinkedList<>();
   private Game game;
 
@@ -83,6 +76,15 @@ public class Server extends Thread {
     }
     // TODO Might change type of players in game or in server , but it could work like this
     game = new Game((ArrayList<Player>) players, mapTileDistribution, mapScores, dictionary);
+  }
+
+  public boolean gameIsRunning(){
+    return game != null;
+  }
+
+  public void stopGame(){
+    // TODO send stats back
+    game = null;
   }
 
   /**

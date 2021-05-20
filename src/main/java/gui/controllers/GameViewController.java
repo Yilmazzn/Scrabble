@@ -80,10 +80,10 @@ public class GameViewController implements Initializable {
     this.client = client;
     this.player = client.initLocalPlayer(this);
     updateBoard();
-    updateScoreboard();
     updateRack();
     updateChat();
-    updateTime();
+    updateTime(600000L);
+
   }
 
   /**
@@ -101,26 +101,25 @@ public class GameViewController implements Initializable {
   }
 
   /**
-   * Updates Scoreboard
+   * Updates Scoreboard, called from NetClient if changes are made
    */
-  public void updateScoreboard() {
-    Map<String, Integer> map = player.getScoreboard();
+  public void updateScoreboard(PlayerProfile[] profiles, int[] scores, int turnIdx) {
     Label[] playerLabels = {player1, player2, player3, player4};
     Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
-    int idx = 0;
-    for (Map.Entry<String, Integer> entry : map.entrySet()) {
-      playerLabels[idx].setText(entry.getKey());
-      pointsLabels[idx].setText(Integer.toString(entry.getValue()));
-      idx++;
+    Label[] turnLabels = {turn1, turn2, turn3, turn4};
+
+    System.out.println("Profiles received: " + profiles.length);
+    System.out.println("Scores received: " + scores.length);
+    for(int i = 0; i < profiles.length; i++){
+      playerLabels[i].setText(profiles[i].getName());
+      pointsLabels[i].setText(Integer.toString(scores[i]));
+      turnLabels[i].setVisible(i == turnIdx);
     }
-    for (int i = map.size(); i < 4; i++) {
+    for (int i = profiles.length; i < 4; i++) {
       playerLabels[i].setText("---");
       pointsLabels[i].setText("-");
+      turnLabels[i].setVisible(false);
     }
-    turn1.setVisible(true);
-    turn2.setVisible(false);
-    turn3.setVisible(false);
-    turn4.setVisible(false);
   }
 
   /**
@@ -261,8 +260,8 @@ public class GameViewController implements Initializable {
     alert.setHeaderText(null);
     alert.showAndWait();
 
-    if (alert.getResult() == ButtonType.YES) {
-      client.getNetClient().disconnect();
+    if (alert.getResult() != ButtonType.YES) { //if not yes then leave method
+      return;
     }
     client.getNetClient().disconnect();
     FXMLLoader loader = new FXMLLoader();

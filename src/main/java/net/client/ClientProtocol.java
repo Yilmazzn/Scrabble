@@ -241,20 +241,14 @@ public class ClientProtocol extends Thread {
             // sets list of coplayers and updates respective views
             Platform.runLater(
                 () -> {
-                  client.setCoPlayers(lobbyProfiles);
-                  client.setCoPlayerScores(new int[lobbyProfiles.length]); // init with 0 score
+                  if (!client.isHost()) {
+                    client.loadGameView(); // Load Game view only if connected
+                  }
+
+                  // set Data
+                  client.setLobbyState(lobbyProfiles, new int[lobbyProfiles.length], 0);
+                  // TODO setReadies
                 });
-
-            // load game view if got connection message and not host
-            if (!client.isHost()) {
-              Platform.runLater(
-                  () -> {
-                    client.loadGameView();
-                  });
-            }
-
-            // TODO call from NetClient later
-            setPlayerReady(true);
 
             break;
           case REFUSECONNECTION:
@@ -291,11 +285,7 @@ public class ClientProtocol extends Thread {
             for (int i = 0; i < prm.getValues().length; i++) {
               System.out.println("Status " + (i + 1) + ": " + (prm.getValues()[i]));
             }
-            if (prm.getReady()) {
-              client.changeStartGameButton(true);
-            } else {
-              client.changeStartGameButton(false);
-            }
+            client.changeStartGameButton(prm.getReady()); // all players are ready
             break;
           case UPDATEGAMEBOARD:
             // TODO add method
@@ -337,8 +327,8 @@ public class ClientProtocol extends Thread {
             Platform.runLater(
                 () -> {
                   try {
-                    client.getClient().showMainMenu();
                     client.getClient().showPopUp("Disconnected. Host closed the server");
+                    client.getClient().showMainMenu();
                   } catch (Exception e) {
                     e.printStackTrace();
                   }

@@ -309,15 +309,6 @@ public class NetClient {
     System.out.println("GameViewController used");
   }
 
-  public void fillLobby(PlayerProfile[] profiles) {
-    System.out.print("FillLobbyInhalt: ");
-    for (PlayerProfile profile : profiles) {
-      System.out.print(profile.getName() + ", ");
-    }
-    System.out.println();
-    createGameController.fillLobby(profiles);
-  }
-
   /** Load game view */
   public void loadGameView() {
     try {

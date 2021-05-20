@@ -2,6 +2,7 @@ package game.players;
 
 import client.Client;
 import client.PlayerProfile;
+import game.OvertimeWatch;
 import game.components.Board;
 import game.components.BoardField;
 import game.components.Tile;
@@ -23,12 +24,11 @@ public class LocalPlayer {
   private GameViewController controller;
 
   private PlayerProfile profile;
-  private int score = 0;
   private Board board = new Board();
   private Rack rack = new Rack();
-  // todo get the playerprofile Array from server
   private PlayerProfile[] profiles;
-  private int[] scores;
+
+  private OvertimeWatch overtimeWatch;
 
   private List<BoardField> placements = new LinkedList<>();
 
@@ -43,6 +43,7 @@ public class LocalPlayer {
   public LocalPlayer(Client client, GameViewController controller) {
     this.client = client;
     this.controller = controller;
+    overtimeWatch = new OvertimeWatch(controller);
     this.profile = client.getSelectedProfile();
     rack.add(new Tile('H', 1));
     rack.add(new Tile('E', 2));
@@ -63,6 +64,7 @@ public class LocalPlayer {
         });
     controller.updateRack();
   }
+
 
   /** @return Returns personal rack */
   public Rack getRack() {
@@ -94,35 +96,6 @@ public class LocalPlayer {
   /** @return Returns Game Board */
   public Board getBoard() {
     return board;
-  }
-
-  /**
-   * Sets Scoreboard on the side to display profiles and scores of each player
-   *
-   * @return Returns map of profileName and the according score
-   */
-  public Map<String, Integer> getScoreboard() {
-    Map<String, Integer> map = new LinkedHashMap<>();
-
-    this.profiles = client.getNetClient().getCoPlayers();
-    this.scores = client.getNetClient().getCoPlayerScores();
-
-    PlayerProfile[] profiles = client.getNetClient().getCoPlayers();
-
-    // Add Player (iterate parentheses number while there are players with same name)
-    for (int i = 0; i < profiles.length; i++) {
-      String profileName = profile.getName();
-      int num = 1;
-      String postfix = "";
-
-      while (map.containsKey(profileName + postfix)) {
-        postfix = "(" + num++ + ")";
-      }
-
-      map.put(profileName + postfix, scores[i]);
-    }
-
-    return map;
   }
 
   /** @return Returns playerProfiles as an Array */
@@ -170,6 +143,12 @@ public class LocalPlayer {
   public void setTurn(boolean turn) {
     placements.clear();
     this.turn = turn;
+
+    if(turn){   // if set to true --> start countdown
+      overtimeWatch.start();
+    }else{      // if set to false --> stop countdown
+      overtimeWatch.stopCountdown();
+    }
   }
 
   /** @return Returns, if the LocalPlayer has its own turn */

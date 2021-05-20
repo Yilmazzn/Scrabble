@@ -1,5 +1,7 @@
 package game;
 
+import gui.controllers.GameViewController;
+
 /**
  * @author yuzun Thread which runs parallel to the game application Counts down from 10mins and ends
  *     the associated game object if player runs out of time If player made a move before then, then
@@ -7,12 +9,15 @@ package game;
  */
 public class OvertimeWatch extends Thread {
 
-  private static final long OVERTIME = 600000L; // 10 mins of overtime
-  private Game game; // Game which runs the thread
+  private long overtime = 600000L; // 10 mins of overtime in ms
+  private boolean running = false;
 
-  public OvertimeWatch(Game game) {
-    this.game = game;
+  private GameViewController gameViewController;    // Controller to interact with GUI and update time every second
+
+  public OvertimeWatch(GameViewController gameViewController){
+    this.gameViewController = gameViewController;
   }
+
 
   /**
    * Waits for 10mins after calling and ends game if not stopped till then Thread is interrupted by
@@ -20,18 +25,21 @@ public class OvertimeWatch extends Thread {
    */
   @Override
   public void run() {
+    long startTime = System.currentTimeMillis();
+    running=true;
     try {
-      Thread.sleep(OVERTIME);
-      // only reaches here if player did not make move for 10mins since beginning of their round
-      game.end();
+      while((System.currentTimeMillis() < startTime + overtime) && running){ //start after each nextRound()
+        gameViewController.updateTime(overtime);
+        Thread.sleep(100);   // wait for 1/10th sec
+      }
+      overtime = overtime - (System.currentTimeMillis() - startTime);   // calculate remaining overtime
     } catch (InterruptedException e) {
     } // catch exception and do nothing with it since expected
   }
 
   /** Stops countdown by interrupting and killing this thread */
   public void stopCountdown() {
-    if (!this.isInterrupted()) {
-      this.interrupt();
-    }
+    running = false;
+    gameViewController.updateTime(overtime);
   }
 }

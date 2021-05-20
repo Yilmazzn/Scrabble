@@ -33,7 +33,6 @@ public class Game {
   private Player playerInTurn; // Player whose turn it is
   private List<BoardField> placementsInTurn =
       new LinkedList<>(); // Placements on the board in the last turn
-  private OvertimeWatch overtime; // Thread which counts down from 10mins, is reset each turn
   private Scoreboard scoreboard; // Scoreboard containing game statistics
 
   /**
@@ -90,11 +89,7 @@ public class Game {
    * Called to start a new round increments round number assigns turn, if it is the turn of an AI
    * player, then trigger it to to think and make a move
    */
-  public void nextRound() {
-    // Stop overtime of last round's player (interrupt thread)
-    if (roundNum > 0) {
-      overtime.stopCountdown();
-    }
+  public void nextRound(){
 
     // increment round number
     roundNum++;
@@ -104,9 +99,6 @@ public class Game {
     playerInTurn = players.get(roundNum % players.size());
     playerInTurn.setTurn(true);
 
-    // reset countdown and tracked placements
-    overtime = new OvertimeWatch(this);
-    overtime.start();
     placementsInTurn = new LinkedList<>();
 
     // If player is Ai, then trigger it to think
@@ -170,7 +162,7 @@ public class Game {
   }
 
   /**
-   * Ends game (can also be called by running instance of OvertimeWatch if user runs out of time) If
+   * Ends game (can also be called by incomin EXCEEDED_TIME_MESSAGE or HOST_DISCONNECT_MESSAGE) If
    * ended abruptly, then because of a user running out of time --> removing pending placements from
    * the board Else just end normally and show every human player scoreboard
    */

@@ -63,7 +63,6 @@ public class JoinGameController {
       } catch (Exception e) {
         e.printStackTrace();
       }
-      return;
     }
   }
 
@@ -73,6 +72,7 @@ public class JoinGameController {
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
     client.getNetClient().setGameViewController(controller);
+    System.out.println("Game View Controller set");
     controller.setModel(client);
 
     Scene gameScene = new Scene(gameView);
