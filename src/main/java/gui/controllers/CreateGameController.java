@@ -46,7 +46,6 @@ public class CreateGameController {
   @FXML private ScrollPane scrollPane;
   @FXML private VBox chat;
   @FXML private Button startButton;
-  // TODO startGameButton
 
   @FXML private Label connectionDetails;
 
@@ -104,7 +103,6 @@ public class CreateGameController {
 
   /** Updates player list, if client connects or disconnects */
   public void updatePlayerList() {
-
     Label[] areas = {PlayerOne, PlayerTwo, PlayerThree, PlayerFour};
 
     for (int i = 1; i < profiles.size(); i++) {
@@ -165,8 +163,12 @@ public class CreateGameController {
     }
   }
 
+  /**
+   * Method to get to the Settings
+   *
+   * @param mouseEvent to detect the current Stage
+   */
   public void openGameSettings(MouseEvent mouseEvent) throws IOException {
-
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameSettings.fxml"));
     Parent gameSettings = loader.load();
@@ -180,6 +182,10 @@ public class CreateGameController {
     window.show();
   }
 
+
+  /**
+   * Method to open the Chat Screen
+   */
   public void openChat() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
@@ -235,7 +241,7 @@ public class CreateGameController {
 
 
   /**
-   * Update ChatField
+   * Creates a listener for the TextArea so Enter can be pressed
    */
   public void updateChat(){
     textArea.setOnKeyPressed(
@@ -292,6 +298,8 @@ public class CreateGameController {
   /**
    * Creates a Box/Label when player gets a message
    * Necessary to fill the ChatField
+   *
+   * @param username,text to fill the Label with relevant data
    */
   public void getMessage(String username, String text){
     HBox box = new HBox();
@@ -321,7 +329,12 @@ public class CreateGameController {
     chat.heightProperty().addListener(observer ->  scrollPane.setVvalue(1.0));
   }
 
-  /** @author mnetzer Controller for more createGame methods */
+  /**
+   * @author mnetzer
+   * Method to get back to the PlayScrabble Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
     // disonnect player from server (server shuts down because client was host)
     client.getNetClient().disconnect();
@@ -338,6 +351,9 @@ public class CreateGameController {
     window.show();
   }
 
+  /**
+   * Method to open the exit Screen in a new window
+   */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
@@ -354,6 +370,11 @@ public class CreateGameController {
     window.showAndWait();
   }
 
+  /**
+   * Method to get to the GameView Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   */
   public void gameView(MouseEvent mouseEvent) throws IOException {
     System.out.println("createGame");
     FXMLLoader loader = new FXMLLoader();
