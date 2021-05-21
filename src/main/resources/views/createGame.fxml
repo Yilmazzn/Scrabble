@@ -130,7 +130,7 @@
                         </Label>
                      </children>
                   </HBox>
-                            <Button fx:id="startButton" mnemonicParsing="false" onMouseClicked="#gameView" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="START">
+                            <Button fx:id="startButton" mnemonicParsing="false" onMouseClicked="#startGameView" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="START">
                                 <font>
                                     <Font name="Chalkboard" size="24.0" />
                                 </font>
