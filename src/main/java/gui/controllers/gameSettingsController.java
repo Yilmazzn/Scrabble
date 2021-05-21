@@ -39,6 +39,12 @@ public class gameSettingsController {
     this.values = createController.getValues();
     this.distributions = createController.getDistributions();
   }
+  public void apply(){
+
+  }
+  public void cancel(){
+
+  }
 
   public String getValue(char a) { // getter method for value of letter
     int valueLetter = Character.getNumericValue(a);
