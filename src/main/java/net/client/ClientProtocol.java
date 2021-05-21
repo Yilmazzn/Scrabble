@@ -1,7 +1,6 @@
 package net.client;
 
 import client.PlayerProfile;
-import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
 import javafx.application.Platform;
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.SQLOutput;
 
 /** @author vkaczmar Handles all interactions from the server to the client */
 public class ClientProtocol extends Thread {
@@ -114,16 +112,11 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /**
-   * a method to submit the move of the client
-   *
-   * @param username requires the players username
-   * @param board the state of the current board
-   */
-  public void submitMove(String username, Board board) {
+  /** a method to submit the move of the client */
+  public void submitMove() {
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new SubmitMoveMessage(username, board));
+        this.out.writeObject(new SubmitMoveMessage());
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -155,19 +148,6 @@ public class ClientProtocol extends Thread {
     try {
       if (!clientSocket.isClosed()) {
         this.out.writeObject(new SendPlayerDataMessage(id));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * A method for creation and sending of GetTileMessage instance Receives One Tile in run method
-   */
-  public void getTile() {
-    try {
-      if (!clientSocket.isClosed()) {
-        this.out.writeObject(new GetTileMessage());
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -296,6 +276,7 @@ public class ClientProtocol extends Thread {
       e.printStackTrace();
     }
   }
+
   /**
    * Overwritten run method from Thread. Accepts and works through incoming messages from the server
    */
@@ -316,10 +297,9 @@ public class ClientProtocol extends Thread {
                   }
 
                   // set Data
-                  client.setLobbyState(lobbyProfiles, new int[lobbyProfiles.length], 0);
-                  // TODO setReadies
+                  client.setLobbyState(lobbyProfiles, new int[lobbyProfiles.length]);
                 });
-
+            setPlayerReady(false);
             break;
           case REFUSECONNECTION:
             Platform.runLater(
@@ -334,7 +314,7 @@ public class ClientProtocol extends Thread {
             // richtige Dictionary erzeugt
             break;
           case STARTGAME:
-            client.initializeGame();
+            client.initializeGame(); // load Game view
             break;
           case CHATMESSAGE:
             // TODO add methode
@@ -350,19 +330,17 @@ public class ClientProtocol extends Thread {
             for (int i = 0; i < prm.getValues().length; i++) {
               System.out.println("Status " + (i + 1) + ": " + (prm.getValues()[i]));
             }
-            if(client.isHost()){    // if player is host
-              client.changeStartGameButton(prm.getReady()); // all players are ready
-            }
+            Platform.runLater(
+                () -> {
+                  client.setReadies(prm.getValues());
+                });
             break;
           case UPDATEGAMEBOARD:
             // TODO add method
             System.out.println("Update Board");
             break;
           case SUBMITMOVE:
-            // TODO if word valid, submit move, otherwise color wrong words red
-            // TODO Button appears, which enables deletion of current layed tiled User can delete
-            // all or just remove single tiles
-            System.out.println("Submit Move");
+            // TODO
             break;
           case UPDATEPOINTS:
             // TODO updateView()
@@ -374,9 +352,20 @@ public class ClientProtocol extends Thread {
             // TODO show Profile
             System.out.println(((SendPlayerDataMessage) m).getProfile().getName());
             break;
-          case GETTILE:
-            // TODO add tile to personal rack and display it
-            System.out.println(((GetTileMessage) m).getTile().getLetter());
+          case GIVETILE:
+            Platform.runLater(
+                () -> {
+                  client
+                      .getClient()
+                      .getLocalPlayer()
+                      .addTilesToRack(((GiveTileMessage) m).getTile());
+                });
+            break;
+          case TURN:
+            Platform.runLater(
+                () -> {
+                  client.setTurns(((TurnMessage) m).getTurn(), ((TurnMessage) m).getTurns());
+                });
             break;
           case EXCHANGETILES:
             ExchangeTileMessage etm = (ExchangeTileMessage) m;
@@ -419,9 +408,10 @@ public class ClientProtocol extends Thread {
             break;
           case PLACETILE:
             PlaceTileMessage ptm = (PlaceTileMessage) m;
-            Platform.runLater(() -> {
-              client.placeIncomingTile(ptm.getTile(), ptm.getRow(), ptm.getCol());
-            });
+            Platform.runLater(
+                () -> {
+                  client.placeIncomingTile(ptm.getTile(), ptm.getRow(), ptm.getCol());
+                });
             break;
           default:
             break;

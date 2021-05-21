@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * A ServerProtocol class to handle serverside messages
@@ -121,7 +122,7 @@ public class ServerProtocol extends Thread {
             boolean[] playerReady = new boolean[player.length];
             boolean ready = true;
             for (int i = 1; i < playerReady.length; i++) {
-              playerReady[i] = ((RemotePlayer) player[i]).getReady();
+              playerReady[i] = ((RemotePlayer) players.get(i)).getReady();
               ready = ready && playerReady[i];
             }
             prm.setValues(playerReady);
@@ -137,10 +138,8 @@ public class ServerProtocol extends Thread {
             server.sendToAll(m);
             break;
           case SUBMITMOVE:
-            // TODO add checkValid method
-            // Board.check()
-            // Message m contains username and valid and board attributes
-            sendToClient(m);
+            // TODO something is fishy
+            player.submit();
             break;
           case UPDATEPOINTS:
             // TODO add pointUpdating method
@@ -151,10 +150,6 @@ public class ServerProtocol extends Thread {
             SendPlayerDataMessage spdm = (SendPlayerDataMessage) m;
             spdm.setProfile(server.getProfile(spdm.getID()));
             sendToClient(spdm);
-            break;
-          case GETTILE:
-            ((GetTileMessage) m).setTile(server.getTile());
-            sendToClient(m);
             break;
           case EXCHANGETILES:
             ExchangeTileMessage etm = (ExchangeTileMessage) m;
@@ -172,7 +167,7 @@ public class ServerProtocol extends Thread {
             break;
           case ADDAI:
             // Check if server has space for a player
-            if (server.getPlayers().length >= 4) {
+            if (server.getPlayers().size() >= 4) {
               break;
             }
             AddAIMessage ai = (AddAIMessage) m;
@@ -192,7 +187,7 @@ public class ServerProtocol extends Thread {
             System.out.println(
                 "Host kicked: "
                     + server
-                        .getPlayers()[((KickPlayerMessage) m).getIndex()]
+                        .getPlayers().get(((KickPlayerMessage) m).getIndex())
                         .getProfile()
                         .getName());
 

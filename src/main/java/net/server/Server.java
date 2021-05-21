@@ -80,7 +80,7 @@ public class Server extends Thread {
     mapTileDistribution.put(((char) 35), tileDistributions[26]); // Joker
     mapScores.put(((char) 35), 0); // Joker
 
-    // game = new Game(players, mapTileDistribution, mapScores, dictionary);
+    game = new Game(players, mapTileDistribution, mapScores, dictionary);
   }
 
   /** @return returns if the game is running */

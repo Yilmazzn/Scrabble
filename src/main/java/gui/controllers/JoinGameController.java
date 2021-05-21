@@ -50,7 +50,9 @@ public class JoinGameController {
     window.show();
   }
 
-  public void gameView(MouseEvent mouseEvent) {
+  /** Triggered when 'Join' clicked */
+  @FXML
+  public void gameView() {
     if (ipField.getText().matches("[0-9.]+")) {
       client.getNetClient().setIp(ipField.getText().trim());
       client.getNetClient().setJoinGameController(this);

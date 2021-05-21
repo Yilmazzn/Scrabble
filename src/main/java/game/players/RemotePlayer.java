@@ -4,6 +4,9 @@ import client.PlayerProfile;
 import game.Scoreboard;
 import game.components.Board;
 import game.components.Tile;
+import net.message.GiveTileMessage;
+import net.message.SubmitMoveMessage;
+import net.message.TurnMessage;
 import net.server.ServerProtocol;
 
 import java.io.Serializable;

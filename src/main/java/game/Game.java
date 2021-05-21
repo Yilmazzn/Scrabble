@@ -5,6 +5,7 @@ import game.components.BoardField;
 import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
+import game.players.RemotePlayer;
 
 import java.util.*;
 
@@ -93,7 +94,8 @@ public class Game {
     roundNum++;
 
     // reassign turns
-    players.get((roundNum - 1) % players.size()).setTurn(false);
+    // TODO Handle with care, check for 3 and 4 players
+    players.get(Math.abs(roundNum - 1) % players.size()).setTurn(false);
     playerInTurn = players.get(roundNum % players.size());
     playerInTurn.setTurn(true);
 

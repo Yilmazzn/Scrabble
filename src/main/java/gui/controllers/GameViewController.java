@@ -311,10 +311,9 @@ public class GameViewController implements Initializable {
     updateRack();
   }
 
+  @FXML
   public void submit() {
-    System.out.println("Submit");
-    // TEST
-    player.setTurn(!player.isTurn());
+    player.submit();
   }
 
   /** Creates a Box/Label when player sends a message. Necessary to fill the ChatField */

@@ -32,15 +32,14 @@ import java.util.List;
 public class CreateGameController {
   /** @author vihofman for gameSettings and functionality */
   // setup for joined player
-  @FXML private Label PlayerOne;
-
-  @FXML private Label PlayerTwo;
-  @FXML private Label PlayerThree;
-  @FXML private Label PlayerFour;
-  @FXML private Label ReadyTwo;
-  @FXML private Label ReadyThree;
-  @FXML private Label ReadyFour;
-  @FXML private Label Host;
+  @FXML private Label playerOne;
+  @FXML private Label playerTwo;
+  @FXML private Label playerThree;
+  @FXML private Label playerFour;
+  @FXML private Label readyTwo;
+  @FXML private Label readyThree;
+  @FXML private Label readyFour;
+  @FXML private Label host;
   @FXML private TextArea textArea;
   @FXML private ScrollPane scrollPane;
   @FXML private VBox chat;
@@ -187,16 +186,6 @@ public class CreateGameController {
     window.setX(x);
     window.setY(y);
     window.show();
-  }
-
-  public void checkReadiness() throws IOException {
-    // if(profile.getName().isReady() && profile.getName().isAgree()){
-    ReadyTwo.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
-    // else
-    ReadyTwo.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-    // TODO get connection from players with isReady and isAgree
-    ReadyThree.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-    ReadyFour.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
   }
 
   /**

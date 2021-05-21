@@ -170,11 +170,10 @@ public class NetClient {
   }
 
   /**
-   * @param username username who wants to check
    * @author ygarip checks if move is valid
    */
-  public void submitMove(String username, Board board) {
-    this.connection.submitMove(username, board);
+  public void submitMove() {
+    this.connection.submitMove();
   }
 
   /**
