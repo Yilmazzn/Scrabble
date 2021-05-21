@@ -6,11 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 /** @author vihofman Controller for the Game Settings */
@@ -19,7 +22,7 @@ public class gameSettingsController {
   @FXML private TextField letter;
   @FXML private TextField value;
   @FXML private TextField distribution;
-  @FXML private TextField dictionary;
+  @FXML private Label dictionary;
   @FXML private TextField joker;
 
   private Client client;
@@ -49,6 +52,20 @@ public class gameSettingsController {
   /** Closes the GameSettings Screen through the CreateGameController */
   public void cancel(){
     createController.closeSettings();
+  }
+  /** opens a FileChooser to choose the fxml File which is supposed to be the dictionary */
+  /** if File is not a txt File or nothing has been selected, then show Error Message */
+  public void selectDictionary(MouseEvent mouseEvent) throws IOException {
+    FileChooser fc = new FileChooser();
+    File selectedFile = fc.showOpenDialog(null);
+      if((selectedFile != null) && selectedFile.getName().matches("/*.*.txt")){
+        dictionary.setText(selectedFile.getPath());
+        dictionaryID = dictionary.getText();
+        System.out.println("Dictionary has been uploaded successfully!");
+      }
+      else{
+        openDictionaryError();
+        }
   }
 
   public String getValue(char a) { // getter method for value of letter
@@ -150,29 +167,21 @@ public class gameSettingsController {
     initData();
   }
 
-  public void setDictionary() throws IOException { // set the dictionary
-    if (dictionary.getText().matches("/*.*.txt")) {
-      dictionaryID = dictionary.getText();
-      System.out.println("Dictionary has been uploaded successfully!");
-    } else {
-      openDictionaryError();
-    }
-  }
-
   public void openDictionaryError() throws IOException {
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/dictionaryError.fxml"));
-    Parent errorMessage = loader.load();
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(this.getClass().getResource("/views/dictionaryError.fxml"));
+      Parent errorMessage = loader.load();
 
-    Scene exitGameScene = new Scene(errorMessage);
-    Stage window = new Stage();
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Exit Game");
-    window.setScene(exitGameScene);
-    window.setWidth(200);
-    window.setHeight(200);
-    window.showAndWait();
+      Scene exitGameScene = new Scene(errorMessage);
+      Stage window = new Stage();
+      window.initModality(Modality.APPLICATION_MODAL);
+      window.setTitle("Exit Game");
+      window.setScene(exitGameScene);
+      window.setWidth(200);
+      window.setHeight(200);
+      window.showAndWait();
   }
+
 
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
