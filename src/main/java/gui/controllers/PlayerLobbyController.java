@@ -34,6 +34,7 @@ public class PlayerLobbyController {
 
   /**
    * Method to get back to the PlayScrabble Screen
+   *
    * @param mouseEvent to detect the current Stage
    * @throws IOException
    */
@@ -52,6 +53,7 @@ public class PlayerLobbyController {
 
   /**
    * Method to get to the Settings Screen
+   *
    * @param mouseEvent to detect the current Stage
    * @throws IOException
    */
@@ -70,6 +72,7 @@ public class PlayerLobbyController {
 
   /**
    * Method to get back to the WelcomeView Screen
+   *
    * @param mouseEvent to detect the current Stage
    * @throws IOException
    */
@@ -86,7 +89,9 @@ public class PlayerLobbyController {
     window.show();
   }
 
-  /** Method to open the exit Screen in a new window
+  /**
+   * Method to open the exit Screen in a new window
+   *
    * @throws IOException
    */
   public void exitGame() throws IOException {
@@ -107,6 +112,7 @@ public class PlayerLobbyController {
 
   /**
    * Method to get to the playerProfile Screen
+   *
    * @param mouseEvent to detect the current Stage
    * @throws IOException
    */
