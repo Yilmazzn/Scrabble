@@ -7,11 +7,10 @@ import game.components.Board;
 import game.components.BoardField;
 import game.components.Tile;
 import gui.components.Rack;
-import gui.components.RackField;
 import gui.controllers.GameViewController;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Class for representing player on client side
@@ -20,18 +19,18 @@ import java.util.*;
  */
 public class LocalPlayer {
 
-  private Client client;
-  private GameViewController controller;
+  private final Client client;
+  private final GameViewController controller;
 
-  private PlayerProfile profile;
-  private Board board = new Board();
-  private Rack rack = new Rack();
+  private final PlayerProfile profile;
+  private final Board board = new Board();
+  private final Rack rack = new Rack();
 
   private PlayerProfile[] profiles;
 
   private OvertimeWatch overtimeWatch;
 
-  private List<BoardField> placements = new LinkedList<>();
+  private final List<BoardField> placements = new LinkedList<>();
 
   private boolean turn = true;
   private int overtime = 600000;
@@ -48,12 +47,13 @@ public class LocalPlayer {
     this.profile = client.getSelectedProfile();
   }
 
-  public boolean isTurn(){
+  public boolean isTurn() {
     return turn;
   }
 
   /**
    * Adds tiles to personal Rack and updates GUI
+   *
    * @param tile Tile to add to rack (GUI)
    */
   public void addTilesToRack(Tile tile) {
@@ -61,17 +61,16 @@ public class LocalPlayer {
     controller.updateRack();
   }
 
-
   /** @return Returns personal rack */
   public Rack getRack() {
     return rack;
   }
 
   /** @return Returns personal score */
- /* public int getScore() {
-    return score;
-  }
-*/
+  /* public int getScore() {
+      return score;
+    }
+  */
   /**
    * TODO Ehrlich gesagt keine Ahnung was diese Methode macht
    *
@@ -120,7 +119,7 @@ public class LocalPlayer {
    * @param col Requires column, where to remove tile from board from
    */
   public void removePlacement(int row, int col) {
-    if(!turn){
+    if (!turn) {
       return;
     }
     if (placements.contains(board.getField(row, col))) {
@@ -140,21 +139,21 @@ public class LocalPlayer {
     placements.clear();
     this.turn = turn;
 
-    if(turn){   // if set to true --> start countdown
+    if (overtimeWatch != null) {
+      overtime = overtimeWatch.stopCountdown();
+    }
+
+    if (turn) { // if set to true --> start countdown
       overtimeWatch = new OvertimeWatch(controller, overtime);
       overtimeWatch.start();
-    }else{      // if set to false --> stop countdown
-      if(overtimeWatch != null){
-        overtime = overtimeWatch.stopCountdown();
-      }
     }
   }
 
-  public void sendMessage(String message){
+  public void sendMessage(String message) {
     client.getNetClient().sendChatMessage(message);
   }
 
-  public void setProfiles(PlayerProfile[] profiles){
+  public void setProfiles(PlayerProfile[] profiles) {
     this.profiles = profiles;
   }
 
@@ -163,14 +162,19 @@ public class LocalPlayer {
     return profiles;
   }
 
-  public PlayerProfile getProfile(){
+  public PlayerProfile getProfile() {
     return this.profile;
   }
 
   /** Submits turn */
-  public void submit(){
-    if(turn){
+  public void submit() {
+    if (turn) {
       client.getNetClient().submitMove();
     }
+  }
+
+  /** Returns placements of this player this turn */
+  public List<BoardField> getPlacements() {
+    return placements;
   }
 }

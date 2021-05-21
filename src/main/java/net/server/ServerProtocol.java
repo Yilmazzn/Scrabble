@@ -4,6 +4,7 @@ import client.PlayerProfile;
 import game.components.Tile;
 import game.players.*;
 import net.message.*;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -59,11 +60,11 @@ public class ServerProtocol extends Thread {
    * @param m the Message of a MessageType which should be send to the Client
    * @throws IOException exception by sending the message to the client
    */
-  public void sendToClient(Message m){
-    try{
+  public void sendToClient(Message m) {
+    try {
       this.out.writeObject(m);
       out.flush();
-    }catch(IOException ioe){
+    } catch (IOException ioe) {
       server.getPlayers().remove(player);
       ConnectMessage cm = new ConnectMessage(null);
       cm.setProfiles(server.getPlayerProfilesArray());
@@ -72,12 +73,12 @@ public class ServerProtocol extends Thread {
   }
 
   /** Sends to all others */
-  public void sendTurnMessage(boolean turn){
-      boolean[] turns = new boolean[server.getPlayers().size()];
-      for(int i = 0; i < turns.length; i++){
-        turns[i] = server.getPlayers().get(i).isTurn();
-      }
-      server.sendToAll(new TurnMessage(turn, turns));
+  public void sendTurnMessage(boolean turn) {
+    boolean[] turns = new boolean[server.getPlayers().size()];
+    for (int i = 0; i < turns.length; i++) {
+      turns[i] = server.getPlayers().get(i).isTurn();
+    }
+    server.sendToAll(new TurnMessage(turn, turns, server.getGame().getBagSize()));
   }
 
   /** the run method of ServerProtocol to handle the incoming messages of the server */
@@ -94,7 +95,12 @@ public class ServerProtocol extends Thread {
             player.setPlayerProfile(profile);
             System.out.println("Server added: " + profile.getName());
 
-            server.sendToAll(new ChatMessage(profile.getName() + " joined our round!" + (profile.getName().split(" ")[0].equals("Bot") ? "*Beep-Boop*" : ""), null)); // send system Message to all
+            server.sendToAll(
+                new ChatMessage(
+                    profile.getName()
+                        + " joined our round!"
+                        + (profile.getName().split(" ")[0].equals("Bot") ? "*Beep-Boop*" : ""),
+                    null)); // send system Message to all
 
             // send new lobby list to all
             cm.setProfiles(server.getPlayerProfilesArray());
@@ -112,7 +118,8 @@ public class ServerProtocol extends Thread {
               server.stopServer();
             } else { // take player out of player list and send new ConnectMessage with all player
 
-              server.sendToAll(new ChatMessage(profile.getName() + " left", null)); // send system Message to all
+              server.sendToAll(
+                  new ChatMessage(profile.getName() + " left", null)); // send system Message to all
 
               // profiles connected
               cm = new ConnectMessage(null);
@@ -203,7 +210,8 @@ public class ServerProtocol extends Thread {
             System.out.println(
                 "Host kicked: "
                     + server
-                        .getPlayers().get(((KickPlayerMessage) m).getIndex())
+                        .getPlayers()
+                        .get(((KickPlayerMessage) m).getIndex())
                         .getProfile()
                         .getName());
 
@@ -246,7 +254,14 @@ public class ServerProtocol extends Thread {
             break;
           case PLACETILE:
             // TODO Game logic
-            player.placeTile(((PlaceTileMessage) m).getTile(), ((PlaceTileMessage) m).getRow(), ((PlaceTileMessage) m).getCol());
+            if (((PlaceTileMessage) m).getTile() != null) {
+              player.placeTile(
+                  ((PlaceTileMessage) m).getTile(),
+                  ((PlaceTileMessage) m).getRow(),
+                  ((PlaceTileMessage) m).getCol());
+            } else {
+              player.removeTile(((PlaceTileMessage) m).getRow(), ((PlaceTileMessage) m).getCol());
+            }
             server.sendToOthers(this, m);
             break;
           default:

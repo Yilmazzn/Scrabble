@@ -14,12 +14,12 @@ import java.net.Socket;
 
 /** @author vkaczmar Handles all interactions from the server to the client */
 public class ClientProtocol extends Thread {
-  private NetClient client;
-  private Socket clientSocket;
-  private ObjectOutputStream out;
-  private ObjectInputStream in;
+  private final NetClient client;
+  private final Socket clientSocket;
+  private final ObjectOutputStream out;
+  private final ObjectInputStream in;
   private boolean running = true;
-  private int id = -1;
+  private final int id = -1;
 
   /**
    * Constructor for creating streams and connecting a client
@@ -365,6 +365,7 @@ public class ClientProtocol extends Thread {
             Platform.runLater(
                 () -> {
                   client.setTurns(((TurnMessage) m).getTurn(), ((TurnMessage) m).getTurns());
+                  client.setBagSize(((TurnMessage) m).getBagSize());
                 });
             break;
           case EXCHANGETILES:

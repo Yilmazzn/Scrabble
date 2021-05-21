@@ -2,10 +2,10 @@ package gui.controllers;
 
 import client.Client;
 import client.PlayerProfile;
-import game.Scoreboard;
 import game.components.BoardField;
 import game.components.Tile;
 import game.players.LocalPlayer;
+import gui.components.Rack;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -86,7 +86,7 @@ public class GameViewController implements Initializable {
     updateRack();
     updateChat();
     updateTime(600000L);
-    showAgreements(!client.getNetClient().isHost());  // show agreements if not host
+    showAgreements(!client.getNetClient().isHost()); // show agreements if not host
   }
 
   /**
@@ -110,7 +110,7 @@ public class GameViewController implements Initializable {
 
     System.out.println("Profiles received: " + profiles.length);
     System.out.println("Scores received: " + scores.length);
-    for(int i = 0; i < profiles.length; i++){
+    for (int i = 0; i < profiles.length; i++) {
       playerLabels[i].setText(profiles[i].getName());
       pointsLabels[i].setText(Integer.toString(scores[i]));
     }
@@ -123,7 +123,7 @@ public class GameViewController implements Initializable {
   /** Updates Rack, called after each move the LocalPlayer makes */
   public void updateRack() {
     tiles.getChildren().clear();
-    for (int i = 0; i < player.getRack().RACK_SIZE; i++) {
+    for (int i = 0; i < Rack.RACK_SIZE; i++) {
       if (player.getRack().isEmpty(i)) {
         continue;
       }
@@ -135,22 +135,21 @@ public class GameViewController implements Initializable {
   }
 
   /** Creates a listener for the TextArea so Enter can be pressed */
-  public void updateChat(){
+  public void updateChat() {
     textArea.setOnKeyPressed(
-            new EventHandler<KeyEvent>() {
-              @Override
-              public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-                  textArea.deletePreviousChar();
-                  sendMessage();
-                  keyEvent.consume();
-                }
-              }
+        new EventHandler<KeyEvent>() {
+          @Override
+          public void handle(KeyEvent keyEvent) {
+            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+              textArea.deletePreviousChar();
+              sendMessage();
+              keyEvent.consume();
             }
-    );
+          }
+        });
   }
 
-  public void loadChatFromHost(VBox messages){
+  public void loadChatFromHost(VBox messages) {
     chat.getChildren().add(messages);
   }
 
@@ -160,12 +159,12 @@ public class GameViewController implements Initializable {
     String minutes = String.format("%02d", milliseconds / 1000 / 60);
     String seconds = String.format("%02d", (milliseconds / 1000) % 60);
     time.setText(minutes + ":" + seconds);
-    if(milliseconds < 60000){   // less than one minute left
+    if (milliseconds < 60000) { // less than one minute left
       time.setStyle("-fx-font-family: Chalkboard; -fx-text-fill: red; -fx-font-weight: bold");
     }
   }
 
-  public void showAgreements(boolean show){
+  public void showAgreements(boolean show) {
     agreements.setVisible(show);
   }
 
@@ -265,7 +264,7 @@ public class GameViewController implements Initializable {
     alert.setHeaderText(null);
     alert.showAndWait();
 
-    if (alert.getResult() != ButtonType.YES) { //if not yes then leave method
+    if (alert.getResult() != ButtonType.YES) { // if not yes then leave method
       return;
     }
     client.getNetClient().disconnect();
@@ -378,8 +377,9 @@ public class GameViewController implements Initializable {
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
-  public void createSystemMessage(){
-
+  public void createSystemMessage(String message) {
+    // TODO SYSTEM MESSAGE
+    System.out.println("SYSTEM MESSAGE: " + message);
   }
 
   /**
@@ -395,6 +395,13 @@ public class GameViewController implements Initializable {
     Label points = new Label();
 
     label.setText("" + letter);
+
+    // Tooltip if Joker
+    if (letter == '#') {
+      Tooltip tip = new Tooltip("This is a joker tile");
+      tip.setShowDelay(Duration.millis(1500));
+      tip.setShowDuration(Duration.millis(3000));
+    }
 
     AnchorPane.setTopAnchor(label, 1.0);
     AnchorPane.setLeftAnchor(label, 1.0);
@@ -499,9 +506,21 @@ public class GameViewController implements Initializable {
     points.getStylesheets().add("/stylesheets/labelstyle.css");
     points.getStyleClass().add("digitTile");
 
-    /** Assignment of different styles of the field to the labels*/
+    /** Assignment of different styles of the field to the labels */
     if (!boardField.isEmpty()) {
       label.getStyleClass().add("tileWithLetter");
+      if (player
+          .getPlacements()
+          .contains(
+              boardField)) { // tile is in placements of player this turn --> change border color
+        label.setBorder(
+            new Border(
+                new BorderStroke(
+                    Color.YELLOW,
+                    BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY,
+                    BorderWidths.DEFAULT)));
+      }
     } else {
       if (boardField.getType() == BoardField.FieldType.DWS) {
         label.getStyleClass().add("tileDWS");
@@ -616,53 +635,50 @@ public class GameViewController implements Initializable {
   }
 
   /** Method to update the graphical containers of he board after a move */
-  public void placeTile(Tile tile, int row, int col){
+  public void placeTile(Tile tile, int row, int col) {
     System.out.println("Place Tile | GameViewController | " + row + ", " + col);
     player.getBoard().placeTile(tile, row, col);
     updateBoard();
   }
 
-
   public void clickOnField(int row, int col) {}
 
-  public void showPopup(String message){
+  public void showPopup(String message) {
     client.showPopUp(message);
   }
 
   /** Requests tile distribution from server */
   @FXML
-  public void showTileDistribution(){
+  public void showTileDistribution() {
     client.getNetClient().requestDistributions();
   }
 
   /** Requests tile distribution from server */
   @FXML
-  public void showTileValues(){
+  public void showTileValues() {
     client.getNetClient().requestValues();
   }
 
   /** Requests tile distribution from server */
   @FXML
-  public void showDictionary(){
+  public void showDictionary() {
     client.getNetClient().requestDictionary();
   }
 
   /** Triggered when checkBox 'I am ready' is selected/unselected */
   @FXML
-  public void toggleReadyState(){
+  public void toggleReadyState() {
     client.getNetClient().setPlayerReady(ready.isSelected());
   }
 
-  /** Triggered by incoming TURNMESSAGE
-   *  Makes turn labels (green circle) visible/invisible
-   * */
+  /** Triggered by incoming TURNMESSAGE Makes turn labels (green circle) visible/invisible */
   @FXML
-  public void updateTurns(boolean[] turns){
+  public void updateTurns(boolean[] turns) {
     Label[] turnLabels = {turn1, turn2, turn3, turn4};
-    for(int i = 0; i < turnLabels.length; i++){
+    for (int i = 0; i < turnLabels.length; i++) {
       turnLabels[i].setVisible((i < turns.length) && turns[i]);
     }
+
+    updateBoard(); // reload board to remove self-placed tiles
   }
-
-
 }

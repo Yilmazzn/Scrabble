@@ -6,15 +6,15 @@ import game.components.Board;
 public class SubmitMoveMessage extends Message {
   private Board board;
 
-  /** Constructor for creating a SubmitMoveMassage
-   * Only created for sending from client to server */
+  /** Constructor for creating a SubmitMoveMassage Only created for sending from client to server */
   public SubmitMoveMessage() {
     super(MessageType.SUBMITMOVE);
   }
 
   /**
-   * Constructor for creating a SubmitMoveMassage with board instance
-   * Only created for sending from Server to Client
+   * Constructor for creating a SubmitMoveMassage with board instance Only created for sending from
+   * Server to Client if submission was rejected
+   *
    * @param board Requires board to be set
    */
   public SubmitMoveMessage(Board board) {
@@ -26,5 +26,4 @@ public class SubmitMoveMessage extends Message {
   public Board getBoard() {
     return board;
   }
-
 }

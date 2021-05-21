@@ -22,7 +22,6 @@ public class NetClient {
   private ClientProtocol connection;
   private String ipAdr;
 
-
   private Dictionary dictionary;
   private PlayerProfile profile;
   private boolean isAIActive;
@@ -35,7 +34,7 @@ public class NetClient {
 
   private PlayerProfile[] coPlayers; // players in lobby (with local player himself)
   private int[] coPlayerScores; // scores of players in lobby
-  private int turnIdx = 0; // player whose turn it is
+  private final int turnIdx = 0; // player whose turn it is
 
   /**
    * Constructor to create a NetClient with client
@@ -169,9 +168,7 @@ public class NetClient {
     this.connection.updateGameBoard(board);
   }
 
-  /**
-   * @author ygarip checks if move is valid
-   */
+  /** @author ygarip checks if move is valid */
   public void submitMove() {
     this.connection.submitMove();
   }
@@ -192,7 +189,6 @@ public class NetClient {
   public String getUsername() {
     return client.getSelectedProfile().getName();
   }
-
 
   /**
    * @param dictionary requires the dictionary to be set
@@ -223,8 +219,6 @@ public class NetClient {
   public PlayerProfile getPlayerProfile() {
     return client.getSelectedProfile();
   }
-
-
 
   /** @return Returns client */
   public Client getClient() {
@@ -277,7 +271,7 @@ public class NetClient {
         gameViewController.getMessage(user.getName(), message);
       }
     } else {
-      // TODO SYSTEM MESSAGE
+      gameViewController.createSystemMessage(message);
     }
   }
 
@@ -398,28 +392,32 @@ public class NetClient {
     gameViewController.placeTile(tile, row, col);
   }
 
-  /**
-   * Initializes game in GameView Controller
-   */
+  /** Initializes game in GameView Controller */
   public void initializeGame() {
     if (!isHost()) {
       gameViewController.showAgreements(false);
     }
   }
 
-  /** Triggered by incoming PLAYERREADYMESSAGE*/
-  public void setReadies(boolean[] readies){
-    if(isHost()){
+  /** Triggered by incoming PLAYERREADYMESSAGE */
+  public void setReadies(boolean[] readies) {
+    if (isHost()) {
       createGameController.updatePlayerReadies(readies);
     }
   }
 
-  /** Triggered by incoming TURN MESSAGE
+  /**
+   * Triggered by incoming TURN MESSAGE
+   *
    * @param turn true if it is this client's turn
    * @param turns array of turn state (to be able to show whose turn it is)
-   * */
-  public void setTurns(boolean turn, boolean[] turns){
-    client.getLocalPlayer().setTurn(turn);    // set turn of local player -> true
-    gameViewController.updateTurns(turns);         // show whose turn it is
+   */
+  public void setTurns(boolean turn, boolean[] turns) {
+    client.getLocalPlayer().setTurn(turn); // set turn of local player -> true
+    gameViewController.updateTurns(turns); // show whose turn it is
+  }
+
+  public void setBagSize(int bagSize) {
+    gameViewController.setBagSize(bagSize);
   }
 }

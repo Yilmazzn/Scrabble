@@ -4,19 +4,18 @@ import client.PlayerProfile;
 import game.Scoreboard;
 import game.components.Board;
 import game.components.Tile;
+import net.message.ChatMessage;
 import net.message.GiveTileMessage;
 import net.message.SubmitMoveMessage;
-import net.message.TurnMessage;
 import net.server.ServerProtocol;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * @author yuzun
  *     <p>Remote player instance, which is controlled by ServerProtocol and sends messages back
  */
-public class RemotePlayer extends Player implements Serializable {
+public class RemotePlayer extends Player {
 
   private final ServerProtocol connection;
   private boolean isReady;
@@ -86,7 +85,7 @@ public class RemotePlayer extends Player implements Serializable {
   @Override
   public void setTurn(boolean turn) {
     super.setTurn(turn);
-    if(turn){
+    if (turn) {
       connection.sendTurnMessage(turn);
     }
   }
@@ -111,8 +110,14 @@ public class RemotePlayer extends Player implements Serializable {
     return host;
   }
 
-  /**  */
-  public void rejectSubmission(){
-    connection.sendToClient(new SubmitMoveMessage(game.getBoard()));
+  /**
+   * Sends remote player a system message with given reason Sends remote player the latest board
+   * after check (after validity of fields were checked and updated)
+   */
+  public void rejectSubmission(String reason) {
+    connection.sendToClient(new ChatMessage(reason, null)); // Send System Message
+    connection.sendToClient(
+        new SubmitMoveMessage(
+            game.getBoard())); // Send Board state With 'validities' of every and each field
   }
 }

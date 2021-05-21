@@ -6,18 +6,20 @@ package net.message;
  * @author vkaczmar
  */
 public class TurnMessage extends Message {
-  private boolean turn;
-  private boolean[] turns;
+  private final boolean turn;
+  private final boolean[] turns;
+  private final int bagSize;
 
   /**
    * Constructor for Creating TurnMessage
    *
    * @param turn Requires the boolean value for turn
    */
-  public TurnMessage(boolean turn, boolean[] turns) {
+  public TurnMessage(boolean turn, boolean[] turns, int bagSize) {
     super(MessageType.TURN);
     this.turn = turn;
     this.turns = turns;
+    this.bagSize = bagSize;
   }
 
   /** @return returns the boolean value of turn */
@@ -28,5 +30,10 @@ public class TurnMessage extends Message {
   /** @return returns in the boolean array the player's turns */
   public boolean[] getTurns() {
     return this.turns;
+  }
+
+  /** @return returns amount of tiles in game bag */
+  public int getBagSize() {
+    return bagSize;
   }
 }

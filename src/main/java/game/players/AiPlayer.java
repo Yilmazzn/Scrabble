@@ -69,5 +69,5 @@ public abstract class AiPlayer extends Player {
   }
 
   @Override
-  public void rejectSubmission() {}
+  public void rejectSubmission(String reason) {}
 }

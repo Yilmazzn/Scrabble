@@ -6,14 +6,16 @@ import game.Game;
 import game.components.Tile;
 import game.players.Player;
 import game.players.RemotePlayer;
-import net.message.ConnectMessage;
 import net.message.Message;
 import net.message.RefuseConnectionMessage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * a server class to setup the server
@@ -25,7 +27,7 @@ public class Server extends Thread {
   private boolean running;
   private static final int port = 12975;
   private static String serverIp;
-  private List<Player> players = new LinkedList<>();
+  private final List<Player> players = new LinkedList<>();
   private Game game;
 
   private int[] tileScores = {
@@ -40,7 +42,7 @@ public class Server extends Thread {
   /** Constructor to create server, sets serverIP */
   public Server() {
     try {
-      this.serverIp = getLocalHostIp4Address();
+      serverIp = getLocalHostIp4Address();
     } catch (UnknownHostException e) {
       e.printStackTrace();
     }
@@ -79,6 +81,7 @@ public class Server extends Thread {
     mapScores.put(((char) 35), 0); // Joker
 
     game = new Game(players, mapTileDistribution, mapScores, dictionary);
+    game.nextRound(); // Start first round
   }
 
   /** @return returns if the game is running */
@@ -251,7 +254,7 @@ public class Server extends Thread {
       if (!player.isHuman()) {
         continue;
       }
-        ((RemotePlayer) player).getConnection().sendToClient(m);
+      ((RemotePlayer) player).getConnection().sendToClient(m);
     }
   }
 
@@ -266,8 +269,8 @@ public class Server extends Thread {
           if (player.isHuman()
               && ((RemotePlayer) player).getConnection()
                   != protocol) { // if not protocol who initiated the call
-              ((RemotePlayer) player).getConnection().sendToClient(m);
-              System.out.println("ChatMessage sent to " + player.getProfile().getName());
+            ((RemotePlayer) player).getConnection().sendToClient(m);
+            System.out.println("ChatMessage sent to " + player.getProfile().getName());
           }
         });
   }
@@ -286,10 +289,7 @@ public class Server extends Thread {
    */
   public synchronized boolean getAmountOverValue(int value) {
     // TODO if bag amount >= value then
-    if ((value >= 0) && (value <= 7)) {
-      return true;
-    }
-    return false;
+    return (value >= 0) && (value <= 7);
   }
 
   /**
@@ -342,5 +342,9 @@ public class Server extends Thread {
   /** @return Returns dictionaryString */
   public String getDictionaryString() {
     return dictionaryString;
+  }
+
+  public Game getGame() {
+    return game;
   }
 }

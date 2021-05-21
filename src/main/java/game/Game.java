@@ -79,9 +79,6 @@ public class Game {
       }
       player.addTilesToRack(tilesToDistribute);
     }
-
-    // Start first round
-    nextRound();
   }
 
   /**
@@ -173,19 +170,18 @@ public class Game {
       // if not thrown error by now then board state valid
       int score = evaluateScore();
       System.out.println("SCORE: " + score);
-      /*
       List<Tile> tileRefill = new LinkedList<Tile>();
-      for(int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++){
+      for (int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++) {
         tileRefill.add(bag.pop());
       }
       playerInTurn.addTilesToRack(tileRefill);
-       */
 
       nextRound();
     } catch (BoardException e) {
       // Send SubmitMoveMessage back, acts as RejectMessage
       System.out.println("BOARD_ERROR: " + e.getMessage());
-      playerInTurn.rejectSubmission();
+      playerInTurn.rejectSubmission(
+          e.getMessage()); // Reject player's submission with reason of exception
     }
   }
 

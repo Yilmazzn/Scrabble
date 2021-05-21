@@ -26,5 +26,6 @@ public enum MessageType {
   REQUESTDISTRIBUTIONS,
   REQUESTDICTIONARY,
   PLACETILE,
-  TURN
+  TURN,
+  ERROR
 }
