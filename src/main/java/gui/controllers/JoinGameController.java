@@ -81,7 +81,9 @@ public class JoinGameController {
     window.show();
   }
 
-  /** @author mnetzer Controller for the joinGameView */
+  /** Method to open the exit Screen in a new window
+   * @throws IOException
+   */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
@@ -98,6 +100,11 @@ public class JoinGameController {
     window.showAndWait();
   }
 
+  /**
+   * @author mnetzer Method to get back to the PlayScrabble Screen
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));

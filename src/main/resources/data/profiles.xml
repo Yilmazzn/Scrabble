@@ -27,4 +27,13 @@
     <creationDate>20.05.2021</creationDate>
     <lastLogged>20.05.2021</lastLogged>
   </profile>
+  <profile>
+    <name>TheKingIsBack</name>
+    <highscore>0</highscore>
+    <wins>0</wins>
+    <losses>0</losses>
+    <totalScore>0</totalScore>
+    <creationDate>21.05.2021</creationDate>
+    <lastLogged>21.05.2021</lastLogged>
+  </profile>
 </PlayerProfiles>
