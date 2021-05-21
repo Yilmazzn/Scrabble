@@ -119,8 +119,8 @@ public class EasyAiPlayer extends AiPlayer {
     // if no valid solution is found exchange random tiles
     // tiles to exchange
     int random = 1 + (int) (Math.random() * 7);
-    if (getGame().getBagSize() < random) {
-      random = getGame().getBagSize();
+    if (game.getBagSize() < random) {
+      random = game.getBagSize();
     }
     for (int i = 0; i < random; i++) {
       exchange(getTilesFromPlayer().get(i));
@@ -433,7 +433,7 @@ public class EasyAiPlayer extends AiPlayer {
           }
         }
       }
-      if (getGame().getDictionary().wordExists(sb.toString())) {
+      if (game.getDictionary().wordExists(sb.toString())) {
         return true;
       } else {
         return false;
@@ -486,7 +486,7 @@ public class EasyAiPlayer extends AiPlayer {
           }
         }
       }
-      if (getGame().getDictionary().wordExists(sb.toString())) {
+      if (game.getDictionary().wordExists(sb.toString())) {
         return true;
       } else {
         return false;
