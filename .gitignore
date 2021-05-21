@@ -10,3 +10,4 @@ out
 .classpath
 
 #Test
+src/main/resources/data/profiles.xml

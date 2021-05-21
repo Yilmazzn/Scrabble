@@ -1,21 +1,26 @@
 package net.message;
 
+import client.PlayerProfile;
+
 /**
  * a message class to disconnect the client from server
  *
  * @author ygarip
  */
 public class DisconnectMessage extends Message {
-  private String username;
+  private PlayerProfile profile;
+  private String disconnectMessage;
 
   /**
    * a constructor to create a disconnect message for the client
    *
-   * @param username a username
+   * @param profile Requires PlayerProfile to be included in DisconnectMessage
+   * @param disconnectMessage Requires the 'reason' for disconnect
    */
-  public DisconnectMessage(String username) {
+  public DisconnectMessage(PlayerProfile profile, String disconnectMessage) {
     super(MessageType.DISCONNECT);
-    this.username = username;
+    this.profile = profile;
+    this.disconnectMessage = disconnectMessage;
   }
 
   /**
@@ -23,7 +28,15 @@ public class DisconnectMessage extends Message {
    *
    * @return returns the username
    */
-  public String getUsername() {
-    return this.username;
+  public PlayerProfile getProfile() {
+    return this.profile;
+  }
+
+  /**
+   *
+   * @return Returns the message sent with Disconnect
+   */
+  public String getDisconnectMessage() {
+    return disconnectMessage;
   }
 }

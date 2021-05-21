@@ -1,12 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PlayerProfiles>
   <profile>
-    <name>Profile 1</name>
+    <name>Test1</name>
     <highscore>871</highscore>
     <wins>95</wins>
     <losses>84</losses>
     <totalScore>408326</totalScore>
     <creationDate>19.04.2021</creationDate>
     <lastLogged>19.04.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Test2</name>
+    <highscore>0</highscore>
+    <wins>0</wins>
+    <losses>0</losses>
+    <totalScore>0</totalScore>
+    <creationDate>17.05.2021</creationDate>
+    <lastLogged>17.05.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>Test3</name>
+    <highscore>0</highscore>
+    <wins>0</wins>
+    <losses>0</losses>
+    <totalScore>0</totalScore>
+    <creationDate>20.05.2021</creationDate>
+    <lastLogged>20.05.2021</lastLogged>
+  </profile>
+  <profile>
+    <name>TheKingIsBack</name>
+    <highscore>0</highscore>
+    <wins>0</wins>
+    <losses>0</losses>
+    <totalScore>0</totalScore>
+    <creationDate>21.05.2021</creationDate>
+    <lastLogged>21.05.2021</lastLogged>
   </profile>
 </PlayerProfiles>

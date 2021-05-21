@@ -1,5 +1,8 @@
 package game;
 
+import gui.controllers.GameViewController;
+import javafx.application.Platform;
+
 /**
  * @author yuzun Thread which runs parallel to the game application Counts down from 10mins and ends
  *     the associated game object if player runs out of time If player made a move before then, then
@@ -7,11 +10,15 @@ package game;
  */
 public class OvertimeWatch extends Thread {
 
-  private static final long OVERTIME = 600000L; // 10 mins of overtime
-  private Game game; // Game which runs the thread
+  private int overtime; // 10 mins of overtime in ms
+  private boolean running = false;
 
-  public OvertimeWatch(Game game) {
-    this.game = game;
+  private GameViewController
+      gameViewController; // Controller to interact with GUI and update time every second
+
+  public OvertimeWatch(GameViewController gameViewController, int overtime) {
+    this.gameViewController = gameViewController;
+    this.overtime = overtime;
   }
 
   /**
@@ -20,18 +27,30 @@ public class OvertimeWatch extends Thread {
    */
   @Override
   public void run() {
+    running = true;
     try {
-      Thread.sleep(OVERTIME);
-      // only reaches here if player did not make move for 10mins since beginning of their round
-      game.end();
+      while (overtime > 0 && running) { // start after each nextRound()
+        Platform.runLater(
+            () -> {
+              gameViewController.updateTime(overtime);
+            });
+
+        Thread.sleep(500); // wait for 1/2th sec
+        overtime = overtime - 500;
+      }
+      if (running) { // overtime exceeded and turn still true
+        // TODO player.sendMesEXCEEDEDEDED
+      }
     } catch (InterruptedException e) {
-    } // catch exception and do nothing with it since expected
+      gameViewController.showPopup(e.getMessage());
+    }
   }
 
   /** Stops countdown by interrupting and killing this thread */
-  public void stopCountdown() {
-    if (!this.isInterrupted()) {
-      this.interrupt();
-    }
+  public int stopCountdown() {
+    running = false;
+    System.out.println("COUNTDOWN STOPPED");
+    gameViewController.updateTime(overtime);
+    return overtime;
   }
 }

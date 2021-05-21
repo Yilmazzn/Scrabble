@@ -8,30 +8,27 @@ import java.util.Iterator;
 
 /**
  * @author vkaczmar Class that is able to load, read and manage all words from the wordlist in a BST
- * Accessible via root Node
+ *     Accessible via root Node
  */
 public class Dictionary {
   private BufferedReader br;
   private ArrayList<String> uneditedLines, words;
   private NodeWordlist root;
 
-  /**
-   * Default Dictionary when called without specifying a path (dictionary is given in
-   * resources)
-   */
+  /** Default Dictionary when called without specifying a path (dictionary is given in resources) */
   public Dictionary() {
     String defaultDictionaryPath =
-            System.getProperty("user.dir")
-                    + System.getProperty("file.separator")
-                    + "src"
-                    + System.getProperty("file.separator")
-                    + "main"
-                    + System.getProperty("file.separator")
-                    + "resources"
-                    + System.getProperty("file.separator")
-                    + "data"
-                    + System.getProperty("file.separator")
-                    + "Collins Scrabble Words (2019) with definitions.txt";
+        System.getProperty("user.dir")
+            + System.getProperty("file.separator")
+            + "src"
+            + System.getProperty("file.separator")
+            + "main"
+            + System.getProperty("file.separator")
+            + "resources"
+            + System.getProperty("file.separator")
+            + "data"
+            + System.getProperty("file.separator")
+            + "Collins Scrabble Words (2019) with definitions.txt";
 
     File f = new File(defaultDictionaryPath);
 
@@ -51,7 +48,7 @@ public class Dictionary {
   /**
    * @param absolutePath Requires the absolute Path to the wordlist itself
    * @author vkaczmar Constructor with parameter to the wordlist.txt file. Does everything up to the
-   * creation of the binary search tree
+   *     creation of the binary search tree
    */
   public Dictionary(String absolutePath) {
     File f = new File(absolutePath);
@@ -121,19 +118,21 @@ public class Dictionary {
    * @return returns true, if word exists
    */
   public boolean wordExists(String word) {
-    return wordExists(root, word);
+    return wordExists(root, word.replaceAll("#", "[A-Z]")); // comply with regex
   }
 
   /**
    * @author vkaczmar Checks wether a certain word exists in wordlist.
    * @param node Requires node to start searching with
-   * @param word Requires word, in a non case sensitive way
+   * @param word Requires word/ REGEX, in a non case sensitive way
    * @return Returns true, if word exists
    */
+  // dictionary.wordExists("HEL\wO")
   private boolean wordExists(NodeWordlist node, String word) {
     if (node == null) {
       return false;
-    } else if (node.getData().compareTo(word.toUpperCase()) == 0) {
+    } else if (node.getData().matches(word)) {
+      System.out.println("WORD RECOGNIZED: " + node.getData());
       return true;
     } else if (node.getData().compareTo(word.toUpperCase()) > 0) {
       return wordExists(node.getLeft(), word);
@@ -142,5 +141,27 @@ public class Dictionary {
     } else {
       return false;
     }
+  }
+
+  /**
+   * @author vkaczmar
+   * @return returns a String array of all the words
+   */
+  public String[] getWordsAsArray() {
+    String[] s = new String[words.size()];
+    for (int i = 0; i < words.size(); i++) {
+      s[i] = words.get(i);
+    }
+    return s;
+  }
+
+  // TODO Might need to change 's' to 's + "\n"'
+  /** @return returns the whole dictionary as one String */
+  public String getDictionary() {
+    StringBuffer sb = new StringBuffer();
+    for (String s : uneditedLines) {
+      sb.append(s);
+    }
+    return sb.toString();
   }
 }

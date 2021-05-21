@@ -1,6 +1,7 @@
 package game;
 
 import game.components.Board;
+import game.components.BoardException;
 import game.components.BoardField;
 import game.components.Tile;
 import game.players.AiPlayer;
@@ -14,26 +15,24 @@ import java.util.*;
  */
 public class Game {
 
-  private final ArrayList<Player>
-          players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
+  private final List<Player>
+      players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
   // second last player, ...]
   private final boolean running; // true if game is running
-  private final HashMap<Character, Integer> letterScores; // Map representing letter's score
   private final LinkedList<Tile> bag = new LinkedList<>(); // bag of tiles in the game
-  private final ArrayList<String> wordsFound =
-          new ArrayList<>(); // a list of words found up to this point
+  private final List<String> wordsFound =
+      new ArrayList<>(); // a list of words found up to this point
   private final Board board = new Board(); // Game Board
   private final Board lastValidBoard =
-          new Board(); // Game Board which was last accepted as valid to reset after invalid player
+      new Board(); // Game Board which was last accepted as valid to reset after invalid player
   // turns
-  private int roundNum = 0; // amount of total rounds since start
+  private int roundNum = -1; // amount of total rounds since start
   private final int roundsSinceLastScore = 0; // last n amount of rounds without points
   private final Dictionary
-          dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
+      dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
   private Player playerInTurn; // Player whose turn it is
   private List<BoardField> placementsInTurn =
-          new LinkedList<>(); // Placements on the board in the last turn
-  private OvertimeWatch overtime; // Thread which counts down from 10mins, is reset each turn
+      new LinkedList<>(); // Placements on the board in the last turn
   private Scoreboard scoreboard; // Scoreboard containing game statistics
 
   /**
@@ -46,12 +45,11 @@ public class Game {
    * the players
    */
   public Game(
-          ArrayList<Player> players,
-          HashMap<Character, Integer> letterDistribution,
-          HashMap<Character, Integer> letterScores,
-          Dictionary dictionary) {
+      List<Player> players,
+      Map<Character, Integer> letterDistributions,
+      Map<Character, Integer> letterScores,
+      Dictionary dictionary) {
 
-    this.letterScores = letterScores;
     this.dictionary = dictionary;
 
     // Players participating
@@ -67,7 +65,7 @@ public class Game {
     // Setup letter scores
     // Create tiles, put them into the bag and shuffle
     for (char letter : letterScores.keySet()) {
-      for (int i = 0; i < letterDistribution.get(letter); i++) {
+      for (int i = 0; i < letterDistributions.get(letter); i++) {
         bag.add(new Tile(letter, letterScores.get(letter)));
       }
     }
@@ -81,9 +79,6 @@ public class Game {
       }
       player.addTilesToRack(tilesToDistribute);
     }
-
-    // Start first round
-    nextRound();
   }
 
   /**
@@ -91,22 +86,19 @@ public class Game {
    * player, then trigger it to to think and make a move
    */
   public void nextRound() {
-    // Stop overtime of last round's player (interrupt thread)
-    if (roundNum > 0) {
-      overtime.stopCountdown();
-    }
 
     // increment round number
     roundNum++;
+    System.out.println("Round Number: " + (roundNum + 1));
 
     // reassign turns
-    players.get((roundNum - 1) % players.size()).setTurn(false);
+    // TODO Handle with care, check for 3 and 4 players
+    players.get(Math.abs(roundNum - 1) % players.size()).setTurn(false);
     playerInTurn = players.get(roundNum % players.size());
     playerInTurn.setTurn(true);
 
-    // reset countdown and tracked placements
-    overtime = new OvertimeWatch(this);
-    overtime.start();
+    // TODO trigger Bag size info message send
+
     placementsInTurn = new LinkedList<>();
 
     // If player is Ai, then trigger it to think
@@ -144,7 +136,6 @@ public class Game {
     if (board.isEmpty(row, col)) {
       board.placeTile(tile, row, col);
       placementsInTurn.add(board.getField(row, col));
-      board.check(placementsInTurn, dictionary);
     }
   }
 
@@ -156,22 +147,11 @@ public class Game {
     if (!board.isEmpty(row, col)) {
       board.placeTile(null, row, col);
       placementsInTurn.remove(board.getField(row, col));
-      board.check(placementsInTurn, dictionary);
     }
   }
 
   /**
-   * Checks whether game is in a valid state
-   *
-   * @return true if board state is valid
-   * TODO how this method works when placements in Turn are no valid words??????
-   */
-  public boolean checkBoard() {
-    return board.check(placementsInTurn, dictionary);
-  }
-
-  /**
-   * Ends game (can also be called by running instance of OvertimeWatch if user runs out of time) If
+   * Ends game (can also be called by incomin EXCEEDED_TIME_MESSAGE or HOST_DISCONNECT_MESSAGE) If
    * ended abruptly, then because of a user running out of time --> removing pending placements from
    * the board Else just end normally and show every human player scoreboard
    */
@@ -184,8 +164,24 @@ public class Game {
 
   /** TODO change some things maybe... */
   public void submit() {
-    if (board.check(placementsInTurn, dictionary)) {
+    try { // Try checking board which throws BoardException if any checks fail
+      board.check(placementsInTurn, dictionary);
+
+      // if not thrown error by now then board state valid
+      int score = evaluateScore();
+      System.out.println("SCORE: " + score);
+      List<Tile> tileRefill = new LinkedList<Tile>();
+      for (int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++) {
+        tileRefill.add(bag.pop());
+      }
+      playerInTurn.addTilesToRack(tileRefill);
+
       nextRound();
+    } catch (BoardException e) {
+      // Send SubmitMoveMessage back, acts as RejectMessage
+      System.out.println("BOARD_ERROR: " + e.getMessage());
+      playerInTurn.rejectSubmission(
+          e.getMessage()); // Reject player's submission with reason of exception
     }
   }
 
@@ -201,16 +197,15 @@ public class Game {
     // Iterate over placements of last turn
     for (BoardField bf : placementsInTurn) {
 
-
       // check to the left if other placement exists there (would be evaluated in that spec.
       // iteration)
       BoardField helper = board.getField(bf.getRow(), bf.getColumn() - 1); // left of placement
       boolean leftmostPlacement = true; // is true if only placement to the left
 
       boolean formsWordHorizontal =
-              (bf.getColumn() - 1 >= 0 && !board.isEmpty(bf.getRow(), bf.getColumn() - 1))
-                      || (bf.getColumn() + 1 < Board.BOARD_SIZE
-                      && !board.isEmpty(
+          (bf.getColumn() - 1 >= 0 && !board.isEmpty(bf.getRow(), bf.getColumn() - 1))
+              || (bf.getColumn() + 1 < Board.BOARD_SIZE
+                  && !board.isEmpty(
                       bf.getRow(),
                       bf.getColumn() + 1)); // true if left or right of placement exists tile
 
@@ -229,9 +224,9 @@ public class Game {
       boolean topmostPlacement = true; // is true if top of placement in formed word
 
       boolean formsWordVertical =
-              (bf.getRow() - 1 >= 0 && !board.isEmpty(bf.getRow() - 1, bf.getColumn()))
-                      || (bf.getRow() + 1 < Board.BOARD_SIZE
-                      && !board.isEmpty(
+          (bf.getRow() - 1 >= 0 && !board.isEmpty(bf.getRow() - 1, bf.getColumn()))
+              || (bf.getRow() + 1 < Board.BOARD_SIZE
+                  && !board.isEmpty(
                       bf.getRow() + 1,
                       bf.getColumn())); // true if above or below of placement exists tile
 
@@ -251,7 +246,8 @@ public class Game {
 
         // traverse to the left
         helper = bf;
-        while (helper.getColumn() - 1 >= 0 && !board.isEmpty(helper.getRow(), helper.getColumn() - 1)) {
+        while (helper.getColumn() - 1 >= 0
+            && !board.isEmpty(helper.getRow(), helper.getColumn() - 1)) {
           helper = board.getField(helper.getRow(), helper.getColumn() - 1);
         }
 
@@ -284,7 +280,9 @@ public class Game {
             }
             wordScore += letterScore * letterMult;
           }
-
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last column
+            break;
+          }
           helper = board.getField(helper.getRow(), helper.getColumn() + 1);
         }
         totalScore += wordScore * wordMult;
@@ -297,7 +295,8 @@ public class Game {
 
         // traverse up
         helper = bf;
-        while (helper.getRow() >= 0 && !helper.isEmpty()) {
+        while (helper.getRow() - 1 >= 0
+            && !board.isEmpty(helper.getRow() - 1, helper.getColumn())) {
           helper = board.getField(helper.getRow() - 1, helper.getColumn());
         }
 
@@ -330,14 +329,15 @@ public class Game {
             }
             wordScore += letterScore * letterMult;
           }
-
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last row
+            break;
+          }
           helper = board.getField(helper.getRow() + 1, helper.getColumn());
         }
 
         totalScore += wordScore * wordMult;
       }
     }
-
     return totalScore;
   }
 

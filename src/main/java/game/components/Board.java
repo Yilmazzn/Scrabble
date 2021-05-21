@@ -9,16 +9,14 @@ import java.util.TreeSet;
 
 /**
  * @author yuzun The board is the main object in the game of scrabble This class handles all
- * interactions with the board itself -- Integrated Board Validity Check --
+ *     interactions with the board itself -- Integrated Board Validity Check --
  */
 public class Board implements Serializable {
 
   public static final int BOARD_SIZE = 15; // width and height of board
   private final BoardField[][] fields; // 2D array to represent the board fields
 
-  /**
-   * Initializes an empty board
-   */
+  /** Initializes an empty board */
   public Board() {
     fields = new BoardField[BOARD_SIZE][BOARD_SIZE];
 
@@ -74,7 +72,7 @@ public class Board implements Serializable {
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < 7; j++) {
         fields[i][BOARD_SIZE - j - 1] =
-                new BoardField(fields[i][j].getType(), i, BOARD_SIZE - j - 1);
+            new BoardField(fields[i][j].getType(), i, BOARD_SIZE - j - 1);
       }
     }
   }
@@ -83,8 +81,8 @@ public class Board implements Serializable {
    * Set given tile at given row and column
    *
    * @param tile Tile to place
-   * @param row  Row number of field on board (starting from 0)
-   * @param col  Column number of field on board (starting from 0)
+   * @param row Row number of field on board (starting from 0)
+   * @param col Column number of field on board (starting from 0)
    */
   public void placeTile(Tile tile, int row, int col) {
     fields[row][col].setTile(tile);
@@ -131,9 +129,9 @@ public class Board implements Serializable {
    *
    * @param placements placements in the last turn
    * @param dictionary Dictionary the game is based on
-   * @return true, if board is in a valid state after placements
+   * @throws Exception if board state is invalid with message as to why Board was invalid
    */
-  public boolean check(List<BoardField> placements, Dictionary dictionary) {
+  public void check(List<BoardField> placements, Dictionary dictionary) throws BoardException {
 
     // Every field is valid default
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -146,7 +144,7 @@ public class Board implements Serializable {
     //  --> mark every tile on board as invalid
     if (fields[7][7].isEmpty()) {
       placements.forEach(bf -> bf.setValid(false));
-      return false;
+      throw new BoardException("Star Field is not covered");
     }
 
     // Check placements are all in a specific row or column
@@ -159,7 +157,7 @@ public class Board implements Serializable {
     }
 
     if (uniqueRows.size() > 1 && uniqueColumns.size() > 1) {
-      return false;
+      throw new BoardException("Placements can only be in a single line or column");
     }
 
     // Check adjacency to ANY tile
@@ -170,10 +168,10 @@ public class Board implements Serializable {
       int j = bf.getColumn(); // column
 
       // Check if adjacent to other tiles
-      if (i > 0 && !fields[i - 1][j].isEmpty()                   //up
-              || i < BOARD_SIZE - 1 && !fields[i + 1][j].isEmpty()    //down
-              || j > 0 && !fields[i][j - 1].isEmpty()                 //left
-              || j < BOARD_SIZE - 1 && !fields[i][j + 1].isEmpty()) {  //right
+      if (i > 0 && !fields[i - 1][j].isEmpty() // up
+          || i < BOARD_SIZE - 1 && !fields[i + 1][j].isEmpty() // down
+          || j > 0 && !fields[i][j - 1].isEmpty() // left
+          || j < BOARD_SIZE - 1 && !fields[i][j + 1].isEmpty()) { // right
 
         // placement is adjacent to other placements
         bf.setValid(true);
@@ -183,18 +181,29 @@ public class Board implements Serializable {
       }
     }
     if (!placementAdjCheck) {
-      return false;
+      throw new BoardException("Placements cannot stand alone");
     }
 
-
-    // Check placements forming word with at least one tile NOT placed this turn
+    // Check placements forming word with at least one tile NOT placed this turn IF NOT BOARD EMPTY
+    // WITHOUT PLACEMENTS(ROUND 1)
+    boolean firstPlacements = true;
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      for (int j = 0; j < BOARD_SIZE; j++) {
+        if (!isEmpty(i, j)
+            && !placements.contains(
+                getField(i, j))) { // there is a placement on board excluding placements
+          firstPlacements = false;
+          break;
+        }
+      }
+    }
     boolean placementCheckOther = true;
     for (BoardField bf : placements) {
 
       int i = bf.getRow();
       int j = bf.getColumn();
 
-      boolean formsWordOther = false;   // forms word with at least one tile NOT placed this turn
+      boolean formsWordOther = false; // forms word with at least one tile NOT placed this turn
 
       // UP
       int k = 1;
@@ -202,7 +211,7 @@ public class Board implements Serializable {
         if (fields[i - k][j].isEmpty()) {
           break;
         }
-        if (!placements.contains(fields[i - k][j])) { //non-empty field was not placed this turn
+        if (!placements.contains(fields[i - k][j])) { // non-empty field was not placed this turn
           formsWordOther = true;
         }
         k++;
@@ -210,11 +219,12 @@ public class Board implements Serializable {
 
       // DOWN
       k = 1;
-      while (i + k < BOARD_SIZE && !formsWordOther) {   // skip if already forms word with tile NOT placed this turn
+      while (i + k < BOARD_SIZE
+          && !formsWordOther) { // skip if already forms word with tile NOT placed this turn
         if (fields[i + k][j].isEmpty()) {
           break;
         }
-        if (!placements.contains(fields[i + k][j])) { //non-empty field was not placed this turn
+        if (!placements.contains(fields[i + k][j])) { // non-empty field was not placed this turn
           formsWordOther = true;
         }
         k++;
@@ -222,11 +232,12 @@ public class Board implements Serializable {
 
       // RIGHT
       k = 1;
-      while (j + k < BOARD_SIZE && !formsWordOther) {   // skip if already forms word with tile NOT placed this turn
+      while (j + k < BOARD_SIZE
+          && !formsWordOther) { // skip if already forms word with tile NOT placed this turn
         if (fields[i][j + k].isEmpty()) {
           break;
         }
-        if (!placements.contains(fields[i][j + k])) { //non-empty field was not placed this turn
+        if (!placements.contains(fields[i][j + k])) { // non-empty field was not placed this turn
           formsWordOther = true;
         }
         k++;
@@ -234,11 +245,12 @@ public class Board implements Serializable {
 
       // LEFT
       k = 1;
-      while (j - k >= 0 && !formsWordOther) {   // skip if already forms word with tile NOT placed this turn
+      while (j - k >= 0
+          && !formsWordOther) { // skip if already forms word with tile NOT placed this turn
         if (fields[i][j - k].isEmpty()) {
           break;
         }
-        if (!placements.contains(fields[i][j - k])) { //non-empty field was not placed this turn
+        if (!placements.contains(fields[i][j - k])) { // non-empty field was not placed this turn
           formsWordOther = true;
         }
         k++;
@@ -247,10 +259,9 @@ public class Board implements Serializable {
       placementCheckOther = placementCheckOther && formsWordOther;
     }
 
-    if (!placementCheckOther) {
-      return false;
+    if (!placementCheckOther && !firstPlacements) { // if not adjacent to others AND others exist
+      throw new BoardException("Placements must join together with tiles on board");
     }
-
 
     // Check: Valid words are formed (Dictionary
     // Check horizontal
@@ -269,7 +280,7 @@ public class Board implements Serializable {
           word += getTile(i, k++).getLetter(); // Append tile letter to found word
         }
         if (!dictionary.wordExists(word)) {
-          return false;
+          throw new BoardException("Word " + word + " was not recognized");
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
@@ -291,12 +302,12 @@ public class Board implements Serializable {
           word += getTile(k++, i).getLetter(); // Append tile letter to found word
         }
         if (!dictionary.wordExists(word)) {
-          return false;
+          throw new BoardException("Word " + word + " was not recognized");
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
     }
 
-    return true;
+    // if reached here an no exception thrown --> valid
   }
 }

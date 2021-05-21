@@ -1,8 +1,9 @@
 package net.client;
 
-import game.Dictionary;
+import client.PlayerProfile;
 import game.components.Board;
 import game.components.Tile;
+import javafx.application.Platform;
 import net.message.*;
 
 import java.io.File;
@@ -13,30 +14,28 @@ import java.net.Socket;
 
 /** @author vkaczmar Handles all interactions from the server to the client */
 public class ClientProtocol extends Thread {
-  private Client client;
-  private Socket clientSocket;
-  private ObjectOutputStream out;
-  private ObjectInputStream in;
+  private final NetClient client;
+  private final Socket clientSocket;
+  private final ObjectOutputStream out;
+  private final ObjectInputStream in;
   private boolean running = true;
-  private int id = -1;
+  private final int id = -1;
 
   /**
    * Constructor for creating streams and connecting a client
    *
    * @param ip Requires the ip, the server runs on
-   * @param client Requires username for current profile
+   * @param netClient Requires username for current profile
    */
-  public ClientProtocol(String ip, Client client) {
-    this.client = client;
-    try {
-      this.clientSocket = new Socket(ip, 12975);
-      this.out = new ObjectOutputStream(clientSocket.getOutputStream());
-      this.in = new ObjectInputStream(clientSocket.getInputStream());
-      this.out.writeObject(new ConnectMessage(client.getUsername(), client.getPlayerProfile()));
-      out.flush();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  public ClientProtocol(String ip, NetClient netClient) throws IOException {
+    this.client = netClient;
+    this.clientSocket = new Socket(ip, 12975);
+    System.out.println(
+        "Client with IP:" + ip + " connected, " + client.getPlayerProfile().getName());
+    this.out = new ObjectOutputStream(clientSocket.getOutputStream());
+    this.in = new ObjectInputStream(clientSocket.getInputStream());
+    this.out.writeObject(new ConnectMessage(client.getPlayerProfile()));
+    this.out.flush();
   }
 
   /** Method for writing a DisconnectMessage Object to the server */
@@ -44,7 +43,7 @@ public class ClientProtocol extends Thread {
     running = false;
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new DisconnectMessage(client.getUsername()));
+        this.out.writeObject(new DisconnectMessage(client.getClient().getSelectedProfile(), ""));
         clientSocket.close();
       }
     } catch (IOException e) {
@@ -52,7 +51,27 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /** Method for writing a StartGameMessage Object to the server */
+  /**
+   * Sets players readiness
+   *
+   * @param ready Requires value ready should be set to
+   */
+  public void setPlayerReady(boolean ready) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new PlayerReadyMessage(ready));
+        this.out.flush();
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Method for writing a StartGameMessage Object to the server
+   *
+   * @param file Requires File, that includes Dictionary
+   */
   public void startGame(File file) {
     try {
       if (!clientSocket.isClosed()) {
@@ -67,29 +86,11 @@ public class ClientProtocol extends Thread {
    * Method for writing a ChatMessage Object to the server
    *
    * @param chatMessage message to be sent
-   * @param username user, which sends the message
    */
-  public void sendChatMessage(String chatMessage, String username) {
+  public void sendChatMessage(String chatMessage) {
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new ChatMessage(chatMessage, username));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Method for writing a PlayReadyMessage Object to the server
-   *
-   * @param ready true, if player is ready
-   * @param username user, which wants to set his ready state
-   */
-  public void setReadyState(boolean ready, String username) {
-    try {
-      if (!clientSocket.isClosed()) {
-        this.out.writeObject(new PlayerReadyMessage(ready, username));
-        this.out.flush();
+        this.out.writeObject(new ChatMessage(chatMessage, client.getClient().getSelectedProfile()));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -111,16 +112,11 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /**
-   * a method to submit the move of the client
-   *
-   * @param username requires the players username
-   * @param board the state of the current board
-   */
-  public void submitMove(String username, Board board) {
+  /** a method to submit the move of the client */
+  public void submitMove() {
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new SubmitMoveMessage(username, board));
+        this.out.writeObject(new SubmitMoveMessage());
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -143,24 +139,15 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /** @param id Requires id to receive profile from */
+  /**
+   * A method for writing a SendPlayerMessage Object to server
+   *
+   * @param id Requires id to receive profile from
+   */
   public void sendPlayerData(int id) {
     try {
       if (!clientSocket.isClosed()) {
         this.out.writeObject(new SendPlayerDataMessage(id));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * A method for creation and sending of GetTileMessage instance Receives One Tile in run method
-   */
-  public void getTile() {
-    try {
-      if (!clientSocket.isClosed()) {
-        this.out.writeObject(new GetTileMessage());
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -183,52 +170,177 @@ public class ClientProtocol extends Thread {
   }
 
   /**
+   * Creates and sends UpdateGameSettingsMessage instance to server
+   *
+   * @param tileScores Requires tileScores
+   * @param tileDistributions Requires tileDistribution
+   * @param dictionary Requires dictionary file
+   */
+  public void sendGameSettings(int[] tileScores, int[] tileDistributions, String dictionary) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(
+            new UpdateGameSettingsMessage(tileScores, tileDistributions, dictionary));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Creates and sends AddAIMessage instance to server
+   *
+   * @param difficult Requires difficulty, true = hard, false = easy
+   */
+  public void addAIPlayer(boolean difficult) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new AddAIMessage(difficult));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * creates and sends KickplayerMessage instance to server
+   *
+   * @param index Requires the index of the player who should be kicked from server
+   */
+  public void kickPlayer(int index) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new KickPlayerMessage(index));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /** Creates and sends RequestDictionaryMessage to server */
+  public void requestDictionary() {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new RequestDictionaryMessage());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void sendMessage(Message m) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(m);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /** Creates and sends RequestDistributionsMessage to server */
+  public void requestDistributions() {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new RequestDistributionsMessage());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /** Creates and sends RequestValuesMessage to server */
+  public void requestValues() {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new RequestValuesMessage());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Creates and sends PlaceTileMessage to server
+   *
+   * @param tile Requires Tile that is placed or removed on board
+   * @param row Requires row of board
+   * @param col Requires col of board
+   */
+  public void placeTile(Tile tile, int row, int col) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new PlaceTileMessage(tile, row, col));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
    * Overwritten run method from Thread. Accepts and works through incoming messages from the server
    */
   public void run() {
     while (running) {
       try {
         Message m = (Message) in.readObject();
+        System.out.println("Message received(Client-Side): " + m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
-            if (this.id == -1) {
-              this.id = ((ConnectMessage) m).getID();
-              if (this.id >= 4) {
-                System.out.println("Lobby is full");
-                disconnect();
-              }
-            }
-            // TODO update Lobby View
-            // System.out.println("New player joined the lobby");
+            PlayerProfile[] lobbyProfiles = ((ConnectMessage) m).getProfiles();
+
+            // sets list of coplayers and updates respective views
+            Platform.runLater(
+                () -> {
+                  if (!client.isHost()) {
+                    client.loadGameView(); // Load Game view only if connected
+                  }
+
+                  // set Data
+                  client.setLobbyState(lobbyProfiles, new int[lobbyProfiles.length]);
+                });
+            setPlayerReady(false);
+            break;
+          case REFUSECONNECTION:
+            Platform.runLater(
+                () -> {
+                  client.getClient().showPopUp(((RefuseConnectionMessage) m).getMessage());
+                });
+            running = false;
+            break;
+          case UPDATEGAMESETTINGS: // todo done eigentlich nur connection zu controllern herstellen
+            // TODO netClient.getClient().updateGameSettings
+            // TODO Dictionary erstmal als String, erst beim Spielstart wird auf dem Server das
+            // richtige Dictionary erzeugt
             break;
           case STARTGAME:
-            // TODO add method
-            System.out.println("Rufe FXML Wechsel auf");
-            client.setDictionary(
-                new Dictionary(((StartGameMessage) m).getFile().getAbsolutePath()));
+            client.initializeGame(); // load Game view
             break;
           case CHATMESSAGE:
-            // TODO add method
-            System.out.println(((ChatMessage) m).getUsername() + ": " + ((ChatMessage) m).getMsg());
+            // TODO add methode
+            PlayerProfile user = ((ChatMessage) m).getProfile();
+            String message = ((ChatMessage) m).getMsg();
+            Platform.runLater(
+                () -> {
+                  client.updateChat(user, message);
+                });
             break;
           case PLAYERREADY:
-            // TODO add method
-            System.out.println("Host should now be able to start the game");
-            /*
-            if (host) {
-              do something, like enable the startgame button
+            PlayerReadyMessage prm = (PlayerReadyMessage) m;
+            for (int i = 0; i < prm.getValues().length; i++) {
+              System.out.println("Status " + (i + 1) + ": " + (prm.getValues()[i]));
             }
-             */
+            Platform.runLater(
+                () -> {
+                  client.setReadies(prm.getValues());
+                });
             break;
           case UPDATEGAMEBOARD:
             // TODO add method
             System.out.println("Update Board");
             break;
           case SUBMITMOVE:
-            // TODO if word valid, submit move, otherwise color wrong words red
-            // TODO Button appears, which enables deletion of current layed tiled User can delete
-            // all or just remove single tiles
-            System.out.println("Submit Move");
+            // TODO
             break;
           case UPDATEPOINTS:
             // TODO updateView()
@@ -240,9 +352,21 @@ public class ClientProtocol extends Thread {
             // TODO show Profile
             System.out.println(((SendPlayerDataMessage) m).getProfile().getName());
             break;
-          case GETTILE:
-            // TODO add tile to personal rack and display it
-            System.out.println(((GetTileMessage) m).getTile().getLetter());
+          case GIVETILE:
+            Platform.runLater(
+                () -> {
+                  client
+                      .getClient()
+                      .getLocalPlayer()
+                      .addTilesToRack(((GiveTileMessage) m).getTile());
+                });
+            break;
+          case TURN:
+            Platform.runLater(
+                () -> {
+                  client.setTurns(((TurnMessage) m).getTurn(), ((TurnMessage) m).getTurns());
+                  client.setBagSize(((TurnMessage) m).getBagSize());
+                });
             break;
           case EXCHANGETILES:
             ExchangeTileMessage etm = (ExchangeTileMessage) m;
@@ -255,6 +379,40 @@ public class ClientProtocol extends Thread {
             } else {
               System.out.println(etm.getError());
             }
+            break;
+          case DISCONNECT:
+            Platform.runLater(
+                () -> {
+                  try {
+                    client
+                        .getClient()
+                        .showPopUp(
+                            ((DisconnectMessage) m)
+                                .getDisconnectMessage()); // show reason for forced disconnection
+                    client.getClient().showMainMenu();
+                  } catch (Exception e) {
+                    e.printStackTrace();
+                  }
+                });
+            break;
+          case REQUESTDICTIONARY:
+            String dictionary = ((RequestDictionaryMessage) m).getDictionary();
+            client.updateGameSettings(null, null, dictionary);
+            break;
+          case REQUESTVALUES:
+            int[] values = ((RequestValuesMessage) m).getValues();
+            client.updateGameSettings(values, null, null);
+            break;
+          case REQUESTDISTRIBUTIONS:
+            int[] distributions = ((RequestDistributionsMessage) m).getDistributions();
+            client.updateGameSettings(null, distributions, null);
+            break;
+          case PLACETILE:
+            PlaceTileMessage ptm = (PlaceTileMessage) m;
+            Platform.runLater(
+                () -> {
+                  client.placeIncomingTile(ptm.getTile(), ptm.getRow(), ptm.getCol());
+                });
             break;
           default:
             break;

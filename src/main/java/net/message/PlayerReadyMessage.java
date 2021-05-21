@@ -3,18 +3,16 @@ package net.message;
 /** @author vkaczmar Message Class for signaling, that you are ready when you are in a lobby */
 public class PlayerReadyMessage extends Message {
   private boolean ready = false;
-  private String username;
+  private boolean[] values;
 
   /**
    * Constructor for creation
    *
-   * @param ready true, if player is ready
-   * @param username username, from client, who sets ready flag
+   * @param ready true, if player is read
    */
-  public PlayerReadyMessage(boolean ready, String username) {
+  public PlayerReadyMessage(boolean ready) {
     super(MessageType.PLAYERREADY);
     this.ready = ready;
-    this.username = username;
   }
 
   /** @return returns readyState */
@@ -22,8 +20,26 @@ public class PlayerReadyMessage extends Message {
     return this.ready;
   }
 
-  /** @return returns username */
-  public String getUsername() {
-    return this.username;
+  /**
+   * a method to set the ready state of the player
+   *
+   * @param ready Requires the boolean value of ready
+   */
+  public void setReady(boolean ready) {
+    this.ready = ready;
+  }
+
+  /**
+   * method to set the values that should be sent with the PlayerReadyMessage
+   *
+   * @param values Requires the boolean values
+   */
+  public void setValues(boolean[] values) {
+    this.values = values;
+  }
+
+  /** @return Returns boolean[] with all ready values for all players */
+  public boolean[] getValues() {
+    return this.values;
   }
 }

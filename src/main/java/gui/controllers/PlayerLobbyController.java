@@ -7,7 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,6 +20,11 @@ public class PlayerLobbyController {
 
   private Client client;
 
+  /**
+   * Sets client in JoinGameController
+   *
+   * @param client Requires client to be set
+   */
   public void setModel(Client client){
     this.client = client;
     if(client.getSelectedProfile() != null){
@@ -28,6 +32,12 @@ public class PlayerLobbyController {
     }
   }
 
+  /**
+   * Method to get back to the PlayScrabble Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void playScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
@@ -41,12 +51,18 @@ public class PlayerLobbyController {
     window.show();
   }
 
+  /**
+   * Method to get to the Settings Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void settings(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/settings.fxml"));
     Parent settings = loader.load();
     SettingsController controller = loader.getController();
-    //controller.setModel(client);
+    controller.setModel(client);
 
     Scene settingsScene = new Scene(settings);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
@@ -54,8 +70,13 @@ public class PlayerLobbyController {
     window.show();
   }
 
+  /**
+   * Method to get back to the WelcomeView Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void backToLogin(MouseEvent mouseEvent) throws IOException {
-
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/welcomeView.fxml"));
     Parent welcomeView = loader.load();
@@ -68,11 +89,16 @@ public class PlayerLobbyController {
     window.show();
   }
 
+  /**
+   * Method to open the exit Screen in a new window
+   *
+   * @throws IOException
+   */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
-    // exitGameController controller = loader.getController();
+    ExitGameController controller = loader.getController();
 
     Scene exitGameScene = new Scene(exitGameView);
     Stage window = new Stage();
@@ -82,35 +108,20 @@ public class PlayerLobbyController {
     window.setWidth(300);
     window.setHeight(200);
     window.showAndWait();
-
-    /*Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-    alert.setWidth(800.0);
-    alert.setWidth(1000.0);
-    alert.setResizable(true);
-    alert.onShownProperty().addListener(e -> {
-        Platform.runLater(() -> alert.setResizable(false));
-    });
-    alert.setTitle("Exit Game");
-    alert.setHeaderText("You're about to close the game!");
-    alert.setContentText("Are you sure?");
-
-    if(alert.showAndWait().get() == ButtonType.OK){
-        Stage window = (Stage)((Node)mouseEvent.getSource()).getScene().getWindow();
-        System.out.println("You've successfully logged out!");
-        window.close();
-    }*/
-
   }
 
+  /**
+   * Method to get to the playerProfile Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void changeToProfileView(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerProfileView.fxml"));
     Parent profileControllerView = loader.load();
     PlayerProfileController controller = loader.getController();
     controller.setModel(client);
-
-    // Parent profileControllerView =
-    // FXMLLoader.load(getClass().getResource("/views/playerProfileView.fxml"));
 
     Scene profileControllerScene = new Scene(profileControllerView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

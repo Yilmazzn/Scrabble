@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
@@ -25,7 +26,6 @@ public class PlayerProfileController {
   @FXML private Label playerName;
   @FXML private Label playerTotalPoints;
   @FXML private Label playerCurrentHighscore;
-  @FXML private Label playerPlaytime;
   @FXML private Label playerPlayedGames;
   @FXML private Label playerWins;
   @FXML private Label playerLosses;
@@ -35,16 +35,22 @@ public class PlayerProfileController {
   private List<PlayerProfile> profiles;
   private int selectedIdx = 0;
 
-  public void setModel(Client client){
+  /**
+   * Sets client in JoinGameController
+   *
+   * @param client Requires client to be set
+   */
+  public void setModel(Client client) {
     this.client = client;
     this.profiles = client.getPlayerProfiles();
-    if(profiles.size() > 0 && client.getSelectedProfile() != null){
+    if (profiles.size() > 0 && client.getSelectedProfile() != null) {
       selectedIdx = profiles.indexOf(client.getSelectedProfile());
       showPlayer();
     }
   }
 
-  public void showPlayer(){
+  /** Update statistics according to the last selected player in the list */
+  public void showPlayer() {
     playerNo.setText(String.valueOf(selectedIdx + 1));
     playerName.setText(profiles.get(selectedIdx).getName());
     playerTotalPoints.setText(String.valueOf(profiles.get(selectedIdx).getTotalScore()));
@@ -55,6 +61,12 @@ public class PlayerProfileController {
     playerScrabblerSince.setText(profiles.get(selectedIdx).getCreation());
   }
 
+  /**
+   * Method to get back to the playerLobby Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void backToLogin(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
@@ -62,20 +74,37 @@ public class PlayerProfileController {
     PlayerLobbyController controller = loader.getController();
     controller.setModel(client);
 
-    // Parent profileControllerView =
-    // FXMLLoader.load(getClass().getResource("/views/playerProfileView.fxml"));
-
     Scene profileControllerScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(profileControllerScene);
     window.show();
   }
 
+  /** Shows prompt to edit the name of the currently selected profile */
+  public void editProfile() {
+    TextInputDialog td = new TextInputDialog();
+    td.setTitle("Edit Profile");
+    td.setHeaderText("Enter new name of profile");
+    td.setContentText("Name: ");
+    Optional<String> result = td.showAndWait();
+    result.ifPresent(
+        name -> {
+          profiles.get(selectedIdx).setName(name);
+          showPlayer();
+          client.savePlayerProfiles();
+        });
+  }
+
+  /**
+   * Method to open the exit Screen in a new window
+   *
+   * @throws IOException
+   */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
-    // exitGameController controller = loader.getController();
+    ExitGameController controller = loader.getController();
 
     Scene exitGameScene = new Scene(exitGameView);
     Stage window = new Stage();
@@ -87,18 +116,22 @@ public class PlayerProfileController {
     window.showAndWait();
   }
 
-  public void previousPlayer(MouseEvent mouseEvent) {
+  /** Shows the previous playerProfile in the list. Jumps from the beginning to the end */
+  public void previousPlayer() {
     selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
     client.setSelectedProfile(profiles.get(selectedIdx));
     showPlayer();
+    //TODO Fehler bei der Auswahl: springt nicht zum Ende
   }
 
-  public void nextPlayer(MouseEvent mouseEvent) {
+  /** Shows the next playerProfile in the list. Jumps from the end to the beginning */
+  public void nextPlayer() {
     selectedIdx = (selectedIdx + 1) % profiles.size();
     client.setSelectedProfile(profiles.get(selectedIdx));
     showPlayer();
   }
 
+  /** Shows prompt for the name of the new profile and creates the profile */
   public void createNewProfile() {
     System.out.println("CreateNewProfile");
 
@@ -107,23 +140,31 @@ public class PlayerProfileController {
     td.setHeaderText("Enter name of new profile");
     td.setContentText("Name: ");
     Optional<String> result = td.showAndWait();
-    result.ifPresent(name -> {
-      profiles.add(new PlayerProfile(name, 0, 0, 0, 0, LocalDate.now(), LocalDate.now()));
-      selectedIdx = profiles.size() - 1;
-      showPlayer();
-      client.savePlayerProfiles();
-    });
+    result.ifPresent(
+        name -> {
+          profiles.add(new PlayerProfile(name, 0, 0, 0, 0, LocalDate.now(), LocalDate.now()));
+          selectedIdx = profiles.size() - 1;
+          showPlayer();
+          client.setSelectedProfile(profiles.get(selectedIdx));
+          client.savePlayerProfiles();
+        });
   }
 
-  public void deleteProfile(MouseEvent mouseEvent){
-    profiles.remove(profiles.get(selectedIdx));
-    if (profiles.size() == 0) {
-      createNewProfile();
-      selectedIdx = 0;
+  /** Deletes the selected profile. Last one cannot be deleted */
+  public void deleteProfile() {
+    if (profiles.size() <= 1) {
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Minimum Profile");
+      alert.setHeaderText(null);
+      alert.setContentText("You cannot delete your last profile!");
+      alert.showAndWait();
     } else {
+      profiles.remove(profiles.get(selectedIdx));
       selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
+      showPlayer();
+      client.setSelectedProfile(profiles.get(selectedIdx));
+      client.savePlayerProfiles();
     }
-    showPlayer();
-    client.savePlayerProfiles();
   }
+
 }

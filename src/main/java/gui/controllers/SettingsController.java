@@ -1,5 +1,6 @@
 package gui.controllers;
 
+import client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,35 +13,47 @@ import javafx.stage.Stage;
 import java.io.IOException;
 /** @author vihofman Controller for the Settings */
 public class SettingsController {
-  //setup for settings
-  @FXML
-  private CheckBox soundOn;
-  @FXML
-  private CheckBox soundOff;
-  @FXML
-  private CheckBox animationsOn;
-  @FXML
-  private CheckBox animationsOff;
-  //settings logic with setter methods
-  public void enableSound(){
+  // setup for settings
+  @FXML private CheckBox soundOn;
+  @FXML private CheckBox soundOff;
+  @FXML private CheckBox animationsOn;
+  @FXML private CheckBox animationsOff;
+  private Client client;
+
+  /**
+   * Sets client in SettingsController
+   *
+   * @param client Requires client to be set
+   */
+  public void setModel(Client client) {
+    this.client = client;
+  }
+  // settings logic with setter methods
+  public void enableSound() {
     soundOff.setSelected(false);
   }
-  public void disableSound(){
+
+  public void disableSound() {
     soundOn.setSelected(false);
   }
-  public void enableAnimations(){
+
+  public void enableAnimations() {
     animationsOff.setSelected(false);
   }
-  public void disableAnimations(){
+
+  public void disableAnimations() {
     animationsOn.setSelected(false);
   }
- //Getter methods for settings
-  public boolean sound(){
+
+  // Getter methods for settings
+  public boolean getSound() {
     return soundOn.isSelected();
   }
-  public boolean animations() {
+
+  public boolean getAnimations() {
     return animationsOn.isSelected();
   }
+
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
@@ -60,12 +73,12 @@ public class SettingsController {
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
-    //controller.InitData();
+    controller.setModel(client);
+    // controller.InitData();
 
     Scene playerLobbyScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(playerLobbyScene);
     window.show();
   }
-
 }

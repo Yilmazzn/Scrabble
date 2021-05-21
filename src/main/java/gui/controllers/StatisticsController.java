@@ -1,43 +1,52 @@
 package gui.controllers;
 
+import client.Client;
+import client.PlayerProfile;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/** @author vihofman Controller for the statistics Controller */
+import java.io.IOException;
+
+/** @author vihofman Controller for the statistics  */
 public class StatisticsController {
     // setup for all the statistics
     @FXML
-    private TextArea name;
+    private Text name;
     @FXML
-    private TextArea totalPoints;
+    private Text totalPoints;
     @FXML
-    private TextArea currentPoints;
+    private Text currentPoints;
     @FXML
-    private TextArea playtime;
+    private Text playedGames;
     @FXML
-    private TextArea playedGames;
+    private Text wins;
     @FXML
-    private TextArea wins;
+    private Text losses;
     @FXML
-    private TextArea losses;
-    @FXML
-    private TextArea scrabblerSince;
+    private Text scrabblerSince;
+    //TODO Label in FXML
 
-    //fill al the TextFields with Data from Player by clicking EVALUATE in gui
-    String currentPlayer = gameResultsController.player;
+    private PlayerProfile profile;
 
-  public void setText() {
-    name.setText("currentPlayer.getName()");
-    totalPoints.setText("currentPlayer.getTotalPoints()");
-    currentPoints.setText("currentPlayer.getCurrentPoints()");
-    playtime.setText("currentPLayer.getPlaytime()");
-    playedGames.setText("currentPlayer.getPlayedGames()");
-    wins.setText("currentPlayer.getWins()");
-    losses.setText("currentPlayer.getLosses()");
-    scrabblerSince.setText("currentPlayer.getScrabblerSince()");
+    public void setModel(PlayerProfile profile){
+        this.profile = profile;
+        initData(profile);
+    }
+
+
+  public void initData(PlayerProfile player) { //TODO does not work
+    name.setText(player.getName());
+    totalPoints.setText(Integer.toString(player.getTotalScore()));
+    currentPoints.setText(Integer.toString(player.getTotalScore()));
+    playedGames.setText(Integer.toString(player.getPlayedGames()));
+    wins.setText(Integer.toString(player.getLosses()));
+    losses.setText(Integer.toString(player.getLosses()));
+    scrabblerSince.setText(player.getCreation());
   }
 
     public void closeStatistics(MouseEvent mouseEvent) { // close the statistics

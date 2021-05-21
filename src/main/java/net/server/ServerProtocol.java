@@ -2,13 +2,14 @@ package net.server;
 
 import client.PlayerProfile;
 import game.components.Tile;
+import game.players.*;
 import net.message.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * A ServerProtocol class to handle serverside messages
@@ -16,12 +17,14 @@ import java.util.HashMap;
  * @author ygarip
  */
 public class ServerProtocol extends Thread {
-  private Socket socket;
+  private final Socket socket;
   private ObjectInputStream in;
   private ObjectOutputStream out;
-  private Server server;
+  private final Server server;
   private String clientName;
   private boolean running = true;
+
+  private RemotePlayer player; // Controlled player
 
   /**
    * constructor for creating a new Serverprotocol and connecting the server to the clients and the
@@ -54,80 +57,122 @@ public class ServerProtocol extends Thread {
   /**
    * a method to send a Message to the client
    *
-   * @param m the Message of a MessageType which should be send to the client.Client
+   * @param m the Message of a MessageType which should be send to the Client
    * @throws IOException exception by sending the message to the client
    */
-  public void sendToClient(Message m) throws IOException {
-    this.out.writeObject(m);
-    out.flush();
+  public void sendToClient(Message m) {
+    try {
+      this.out.writeObject(m);
+      out.flush();
+    } catch (IOException ioe) {
+      server.getPlayers().remove(player);
+      ConnectMessage cm = new ConnectMessage(null);
+      cm.setProfiles(server.getPlayerProfilesArray());
+      server.sendToAll(cm);
+    }
   }
 
-  /** the run method of serverprotocol to handle the incoming messages of the server */
+  /** Sends to all others */
+  public void sendTurnMessage(boolean turn) {
+    boolean[] turns = new boolean[server.getPlayers().size()];
+    for (int i = 0; i < turns.length; i++) {
+      turns[i] = server.getPlayers().get(i).isTurn();
+    }
+    server.sendToAll(new TurnMessage(turn, turns, server.getGame().getBagSize()));
+  }
+
+  /** the run method of ServerProtocol to handle the incoming messages of the server */
   public void run() {
     try {
 
       while (running) {
         Message m = (Message) in.readObject();
-        String username;
+        System.out.println("Message received(Server-Side): " + m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
-            username = ((ConnectMessage) m).getUsername();
             PlayerProfile profile = ((ConnectMessage) m).getProfile();
-            server.setReady(username);
-            this.clientName = username;
-            server.addClientName(username);
-            ConnectMessage cm = server.setID(username, profile);
-            server.setPlayerProfiles(cm.getID(), profile);
-            System.out.println("Server added: " + username);
+            ConnectMessage cm = (ConnectMessage) m;
+            player.setPlayerProfile(profile);
+            System.out.println("Server added: " + profile.getName());
+
+            server.sendToAll(
+                new ChatMessage(
+                    profile.getName()
+                        + " joined our round!"
+                        + (profile.getName().split(" ")[0].equals("Bot") ? "*Beep-Boop*" : ""),
+                    null)); // send system Message to all
+
+            // send new lobby list to all
+            cm.setProfiles(server.getPlayerProfilesArray());
             server.sendToAll(cm);
             break;
           case DISCONNECT:
-            username = ((DisconnectMessage) m).getUsername();
-            server.removeClientName(username);
-            server.removeClient(this);
-            System.out.println("Server removed: " + username);
-            running = false;
+            profile = ((DisconnectMessage) m).getProfile();
+            server.removePlayer(player); // Remove Player from server
+            System.out.println("Server removed: " + profile.getName());
+            if (player.isHost()) {
+              server.sendToAll(
+                  new DisconnectMessage(
+                      null,
+                      "The server is closed.\n\nThe Host sadly doesn't want to play any longer"));
+              server.stopServer();
+            } else { // take player out of player list and send new ConnectMessage with all player
+
+              server.sendToAll(
+                  new ChatMessage(profile.getName() + " left", null)); // send system Message to all
+
+              // profiles connected
+              cm = new ConnectMessage(null);
+              cm.setProfiles(server.getPlayerProfilesArray());
+              server.sendToAll(cm);
+            }
             disconnect();
             break;
-          case CHATMESSAGE:
-            server.sendToAll(m);
+          case CHATMESSAGE: // Send chat message to all other connections
+            server.sendToOthers(this, m);
             break;
-          case STARTGAME:
-            server.sendToAll(m);
+          case UPDATEGAMESETTINGS:
+            UpdateGameSettingsMessage ugsm = (UpdateGameSettingsMessage) m;
+            int[] tileScores = ugsm.getTileScores();
+            int[] tileDistributions = ugsm.getTileDistributions();
+            String dictionary = ugsm.getDictionary();
+            server.updateGameSettings(tileScores, tileDistributions, dictionary);
             break;
           case PLAYERREADY:
-            // Checks, if all player are ready, then sends message to all clients
-            HashMap<String, Boolean> playersReady = server.getPlayersReady();
-            boolean ready = true;
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
-            server.setPlayersReady(prm.getUsername(), prm.getReady());
-            for (String s : playersReady.keySet()) {
-              ready = ready && playersReady.get(s);
+            player.setIsReady(prm.getReady());
+            List<Player> players = server.getPlayers();
+            boolean[] playerReady = new boolean[players.size()];
+            boolean ready = true;
+            for (int i = 1; i < playerReady.length; i++) {
+              playerReady[i] = ((RemotePlayer) players.get(i)).getReady();
+              ready = ready && playerReady[i];
             }
-            if (ready) {
-              server.sendToAll(m);
-            }
+            prm.setValues(playerReady);
+            prm.setReady(ready);
+            server.sendToAll(prm);
+            break;
+          case STARTGAME:
+            server.createDictionary(((StartGameMessage) m).getFile());
+            server.sendToAll(m);
+            server.startGame();
             break;
           case UPDATEGAMEBOARD:
             server.sendToAll(m);
             break;
           case SUBMITMOVE:
-            // TODO add checkValid method
-            // Message m contains username and valid and board attributes
-            sendToClient(m);
+            // TODO something is fishy
+            player.submit();
             break;
           case UPDATEPOINTS:
             // TODO add pointUpdating method
+            // Game.evaluateScore()
             server.sendToAll(m);
             break;
           case SENDPLAYERDATA:
             SendPlayerDataMessage spdm = (SendPlayerDataMessage) m;
-            spdm.setProfile(server.getProfile(spdm.getID()));
+            spdm.setProfile(server.getPlayers().get(spdm.getID()).getProfile());
             sendToClient(spdm);
-            break;
-          case GETTILE:
-            ((GetTileMessage) m).setTile(server.getTile());
-            sendToClient(m);
             break;
           case EXCHANGETILES:
             ExchangeTileMessage etm = (ExchangeTileMessage) m;
@@ -143,6 +188,82 @@ public class ServerProtocol extends Thread {
             }
             sendToClient(etm);
             break;
+          case ADDAI:
+            // Check if server has space for a player
+            if (server.getPlayers().size() >= 4) {
+              break;
+            }
+            AddAIMessage ai = (AddAIMessage) m;
+            AiPlayer aiPlayer;
+            if (ai.getDifficulty()) {
+              aiPlayer = new HardAiPlayer();
+            } else {
+              aiPlayer = new EasyAiPlayer();
+            }
+
+            server.addPlayer(aiPlayer);
+            ConnectMessage cm1 = new ConnectMessage(null);
+            cm1.setProfiles(server.getPlayerProfilesArray());
+            server.sendToAll(cm1);
+            break;
+          case KICKPLAYER:
+            System.out.println(
+                "Host kicked: "
+                    + server
+                        .getPlayers()
+                        .get(((KickPlayerMessage) m).getIndex())
+                        .getProfile()
+                        .getName());
+
+            DisconnectMessage dm =
+                new DisconnectMessage(
+                    null,
+                    "You were kicked out of the lobby!\n\nThe host doesn't like you anymore!");
+
+            // Send message to kicked player
+            RemotePlayer rp1 =
+                (RemotePlayer) server.getPlayers().get(((KickPlayerMessage) m).getIndex());
+            rp1.getConnection().sendToClient(dm);
+
+            // remove from server
+            server.removePlayer(rp1); // Remove Player from server
+
+            // Send system message
+            server.sendToAll(
+                new ChatMessage(rp1.getProfile().getName() + " was kicked by the host", null));
+
+            // update lobby profiles
+            cm = new ConnectMessage(null);
+            cm.setProfiles(server.getPlayerProfilesArray());
+            server.sendToAll(cm);
+            break;
+          case REQUESTVALUES:
+            RequestValuesMessage rvm = (RequestValuesMessage) m;
+            rvm.setValues(server.getTileScores());
+            sendToClient(rvm);
+            break;
+          case REQUESTDISTRIBUTIONS:
+            RequestDistributionsMessage rdm = (RequestDistributionsMessage) m;
+            rdm.setDistributions(server.getTileDistributions());
+            sendToClient(rdm);
+            break;
+          case REQUESTDICTIONARY:
+            RequestDictionaryMessage rdm2 = (RequestDictionaryMessage) m;
+            rdm2.setDictionary(server.getDictionaryString());
+            sendToClient(rdm2);
+            break;
+          case PLACETILE:
+            // TODO Game logic
+            if (((PlaceTileMessage) m).getTile() != null) {
+              player.placeTile(
+                  ((PlaceTileMessage) m).getTile(),
+                  ((PlaceTileMessage) m).getRow(),
+                  ((PlaceTileMessage) m).getCol());
+            } else {
+              player.removeTile(((PlaceTileMessage) m).getRow(), ((PlaceTileMessage) m).getCol());
+            }
+            server.sendToOthers(this, m);
+            break;
           default:
             break;
         }
@@ -150,7 +271,7 @@ public class ServerProtocol extends Thread {
     } catch (IOException e) {
       running = false;
       if (socket.isClosed()) {
-        System.out.println("Socket was closed. client.Client:" + clientName);
+        System.out.println("Socket was closed. Client:" + clientName);
       } else {
         try {
           socket.close();
@@ -162,5 +283,14 @@ public class ServerProtocol extends Thread {
       System.out.println(e2.getMessage());
       e2.printStackTrace();
     }
+  }
+
+  /**
+   * Sets remote player in ServerProtocol
+   *
+   * @param player Requires player to be set
+   */
+  public void setPlayer(RemotePlayer player) {
+    this.player = player;
   }
 }
