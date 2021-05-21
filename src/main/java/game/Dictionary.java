@@ -118,7 +118,7 @@ public class Dictionary {
    * @return returns true, if word exists
    */
   public boolean wordExists(String word) {
-    return wordExists(root, word);
+    return wordExists(root, word.replaceAll("#", "[A-Z]")); // comply with regex
   }
 
   /**
@@ -131,7 +131,8 @@ public class Dictionary {
   private boolean wordExists(NodeWordlist node, String word) {
     if (node == null) {
       return false;
-    } else if(node.getData().matches(word)){
+    } else if (node.getData().matches(word)) {
+      System.out.println("WORD RECOGNIZED: " + node.getData());
       return true;
     } else if (node.getData().compareTo(word.toUpperCase()) > 0) {
       return wordExists(node.getLeft(), word);

@@ -1,11 +1,11 @@
 package game;
 
 import game.components.Board;
+import game.components.BoardException;
 import game.components.BoardField;
 import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
-import game.players.RemotePlayer;
 
 import java.util.*;
 
@@ -139,7 +139,6 @@ public class Game {
     if (board.isEmpty(row, col)) {
       board.placeTile(tile, row, col);
       placementsInTurn.add(board.getField(row, col));
-      board.check(placementsInTurn, dictionary);
     }
   }
 
@@ -151,17 +150,7 @@ public class Game {
     if (!board.isEmpty(row, col)) {
       board.placeTile(null, row, col);
       placementsInTurn.remove(board.getField(row, col));
-      board.check(placementsInTurn, dictionary);
     }
-  }
-
-  /**
-   * Checks whether game is in a valid state
-   *
-   * @return true if board state is valid
-   */
-  public boolean checkBoard() {
-    return board.check(placementsInTurn, dictionary);
   }
 
   /**
@@ -178,20 +167,24 @@ public class Game {
 
   /** TODO change some things maybe... */
   public void submit() {
-    if (board.check(placementsInTurn, dictionary)) {    //board state is valid
+    try { // Try checking board which throws BoardException if any checks fail
+      board.check(placementsInTurn, dictionary);
+
+      // if not thrown error by now then board state valid
       int score = evaluateScore();
       System.out.println("SCORE: " + score);
-
-      // TODO refill hand
+      /*
       List<Tile> tileRefill = new LinkedList<Tile>();
       for(int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++){
         tileRefill.add(bag.pop());
       }
       playerInTurn.addTilesToRack(tileRefill);
+       */
 
       nextRound();
-    }else{    // board state is invalid
+    } catch (BoardException e) {
       // Send SubmitMoveMessage back, acts as RejectMessage
+      System.out.println("BOARD_ERROR: " + e.getMessage());
       playerInTurn.rejectSubmission();
     }
   }
