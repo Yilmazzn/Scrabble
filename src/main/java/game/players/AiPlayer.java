@@ -1,6 +1,8 @@
 package game.players;
 
 import client.PlayerProfile;
+import game.Dictionary;
+import game.components.Board;
 import game.components.Tile;
 
 import java.time.LocalDate;
@@ -46,7 +48,7 @@ public abstract class AiPlayer extends Player {
    * Main method which is triggered by the game instance All computations from start of round till
    * end need to be done in here!
    */
-  public abstract void think();
+  public abstract void think(Board board, Dictionary dictionary);
 
   /**
    * Adds given tiles to rack
@@ -69,6 +71,8 @@ public abstract class AiPlayer extends Player {
   public void quit() {
     botNames.add(super.getProfile().getName());
   }
+
+  public ArrayList<Tile> getTilesFromPlayer(){return this.rack;}
 
   public enum DIFFICULTY {
     EASY,

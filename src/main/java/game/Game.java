@@ -112,7 +112,7 @@ public class Game {
     // If player is Ai, then trigger it to think
     if (!playerInTurn.isHuman()) { // player is not human
       AiPlayer ai = (AiPlayer) playerInTurn;
-      ai.think();
+      ai.think(board,dictionary);
     }
   }
 
@@ -164,6 +164,7 @@ public class Game {
    * Checks whether game is in a valid state
    *
    * @return true if board state is valid
+   * TODO how this method works when placements in Turn are no valid words??????
    */
   public boolean checkBoard() {
     return board.check(placementsInTurn, dictionary);
@@ -346,5 +347,9 @@ public class Game {
 
   public Board getBoard() {
     return board;
+  }
+
+  public Dictionary getDictionary(){
+    return this.dictionary;
   }
 }

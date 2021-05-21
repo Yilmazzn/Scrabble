@@ -20,11 +20,16 @@ public abstract class Player {
   private final ArrayList<String> foundWords = new ArrayList<>();
   private Game game;
   private boolean turn;
+  /**
+   * Implementation of Tiles from Player still is  needed TODO
+   */
+  private ArrayList<Tile> rack;
   private int score;
 
   public Player(PlayerProfile profile, boolean human) {
     this.profile = profile;
     this.human = human;
+   rack = new ArrayList<>();
   }
 
   // Starter
@@ -136,4 +141,12 @@ public abstract class Player {
   public PlayerProfile getProfile() {
     return profile;
   }
+
+  /**
+   * @author nsiebler
+   * get the Game in order to excess the dictionary and its NodeList which is private
+   * also get the tiles from Player to search for potential word combinations
+   */
+  public Game getGame(){return this.game;}
+
 }
