@@ -68,7 +68,7 @@ public class JoinGameController {
 
   public void loadGameView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
+    loader.setLocation(this.getClass().getResource("/views/gameViewNew.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
     client.getNetClient().setGameViewController(controller);

@@ -70,6 +70,7 @@ public class GameViewController implements Initializable {
     tip.setText("There are 0 tiles in the bag");
     tip.setShowDelay(Duration.seconds(0.1));
     bag.setTooltip(tip);
+    agreements.managedProperty().bind(agreements.visibleProperty());
   }
 
   /**
@@ -163,6 +164,10 @@ public class GameViewController implements Initializable {
     if(milliseconds < 60000){   // less than one minute left
       time.setStyle("-fx-font-family: Chalkboard; -fx-text-fill: red; -fx-font-weight: bold");
     }
+  }
+
+  public void showAgreements(boolean show){
+    agreements.setVisible(show);
   }
 
   /**
