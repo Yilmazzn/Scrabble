@@ -104,7 +104,7 @@ public class Game {
     // If player is Ai, then trigger it to think
     if (!playerInTurn.isHuman()) { // player is not human
       AiPlayer ai = (AiPlayer) playerInTurn;
-      ai.think();
+      ai.think(board,dictionary);
     }
   }
 
@@ -347,5 +347,9 @@ public class Game {
 
   public Board getBoard() {
     return board;
+  }
+
+  public Dictionary getDictionary(){
+    return this.dictionary;
   }
 }

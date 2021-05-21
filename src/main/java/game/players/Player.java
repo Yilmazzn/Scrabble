@@ -21,11 +21,16 @@ public abstract class Player implements Serializable { // todo maybe delete seri
   private final ArrayList<String> foundWords = new ArrayList<>();
   protected Game game;
   private boolean turn;
+  /**
+   * Implementation of Tiles from Player still is  needed TODO
+   */
+  private ArrayList<Tile> rack;
   private int score;
 
   public Player(PlayerProfile profile, boolean human) {
     this.profile = profile;
     this.human = human;
+   rack = new ArrayList<>();
   }
 
   public Player(boolean human) {
