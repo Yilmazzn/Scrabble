@@ -26,8 +26,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class CreateGameController {
   /** @author vihofman for gameSettings and functionality */
@@ -351,7 +350,9 @@ public class CreateGameController {
                     + "/src/main/resources/data/Collins Scrabble Words (2019) with definitions.txt"));
     controller.setModel(client);
     int[] scores = new int[profiles.length];
-    controller.updateScoreboard(profiles, scores, 0);
+    controller.updateScoreboard(profiles, scores);
+    controller.loadChatFromHost(chat);
+
 
     Scene welcomeScene = new Scene(gameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

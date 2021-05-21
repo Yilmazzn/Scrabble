@@ -157,7 +157,7 @@ public class GameViewController implements Initializable {
   }
 
   public void loadChatFromHost(VBox messages){
-    //chat=
+    chat.getChildren().add(messages);
   }
 
   /** Update Remaining Time for the current move */

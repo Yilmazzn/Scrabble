@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -8,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
@@ -28,6 +31,17 @@ public class JoinGameController {
    */
   public void setModel(Client client) {
     this.client = client;
+    ipField.setOnKeyPressed(
+            new EventHandler<KeyEvent>() {
+              @Override
+              public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                  gameView();
+                  keyEvent.consume();
+                }
+              }
+            }
+    );
   }
 
   public void showErrorMessage() throws IOException {

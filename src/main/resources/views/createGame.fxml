@@ -80,12 +80,12 @@
                             </Text>
                   <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
                      <children>
-                        <Label fx:id="PlayerOne" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
+                        <Label fx:id="playerOne" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="Host" prefHeight="35.0" prefWidth="58.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Host">
+                        <Label fx:id="host" prefHeight="35.0" prefWidth="58.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Host">
                            <font>
                               <Font name="Chalkboard" size="18.0" />
                            </font>
@@ -97,12 +97,12 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
                      <children>
-                        <Label fx:id="PlayerTwo" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
+                        <Label fx:id="playerTwo" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="ReadyTwo" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready">
+                        <Label fx:id="readyTwo" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
@@ -111,12 +111,12 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
                      <children>
-                        <Label fx:id="PlayerThree" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
+                        <Label fx:id="playerThree" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="ReadyThree" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready">
+                        <Label fx:id="readyThree" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
@@ -125,12 +125,12 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
                      <children>
-                        <Label fx:id="PlayerFour" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
+                        <Label fx:id="playerFour" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="ReadyFour" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready">
+                        <Label fx:id="readyFour" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Ready">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
