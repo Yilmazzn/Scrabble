@@ -23,8 +23,6 @@ public class gameSettingsController {
   @FXML private TextField distribution;
   @FXML private TextField dictionary;
   @FXML private TextField joker;
-  @FXML private AnchorPane gameSettingsPane;
-  @FXML private BorderPane createGamePane;
 
   private Client client;
   private CreateGameController createController;
