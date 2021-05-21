@@ -1,5 +1,8 @@
 package game.players;
 
+import game.Dictionary;
+import game.components.Board;
+
 /**
  * @author yuzun
  * <p>Hard AI Player Only implements think method
@@ -15,6 +18,6 @@ public class HardAiPlayer extends AiPlayer {
      * end need to be done in here!
      */
     @Override
-    public void think() {
+    public void think(Board board, Dictionary dictionary) {
     }
 }
