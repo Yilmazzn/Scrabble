@@ -1,13 +1,11 @@
 package net.server;
 
-import client.Client;
 import client.PlayerProfile;
 import game.Dictionary;
 import game.Game;
 import game.components.Tile;
 import game.players.Player;
 import game.players.RemotePlayer;
-import net.client.NetClient;
 import net.message.ConnectMessage;
 import net.message.Message;
 import net.message.RefuseConnectionMessage;
@@ -15,7 +13,6 @@ import net.message.RefuseConnectionMessage;
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
-import java.rmi.Remote;
 import java.util.*;
 
 /**
@@ -31,10 +28,14 @@ public class Server extends Thread {
   private List<Player> players = new LinkedList<>();
   private Game game;
 
-  private int[] tileScores = new int[27];
-  private int[] tileDistributions = new int[27];
-  private String dictionaryString; // String of file content
+  private int[] tileScores = {
+    1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
+  };
+  private int[] tileDistributions = {
+    9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
+  };
   private Dictionary dictionary = new Dictionary();
+  private String dictionaryString = dictionary.getDictionary();
 
   /** Constructor to create server, sets serverIP */
   public Server() {
@@ -79,7 +80,7 @@ public class Server extends Thread {
     mapTileDistribution.put(((char) 35), tileDistributions[26]); // Joker
     mapScores.put(((char) 35), 0); // Joker
 
-   //game = new Game(players, mapTileDistribution, mapScores, dictionary);
+    // game = new Game(players, mapTileDistribution, mapScores, dictionary);
   }
 
   /** @return returns if the game is running */
