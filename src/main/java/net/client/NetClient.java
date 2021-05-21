@@ -417,4 +417,13 @@ public class NetClient {
   public void placeIncomingTile(Tile tile, int row, int col) {
     gameViewController.placeTile(tile, row, col);
   }
+
+  /**
+   * Initializes game in GameView Controller
+   */
+  public void initializeGame() {
+    if (!isHost()) {
+      gameViewController.showAgreements(false);
+    }
+  }
 }

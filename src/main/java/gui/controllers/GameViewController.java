@@ -84,6 +84,7 @@ public class GameViewController implements Initializable {
     updateRack();
     updateChat();
     updateTime(600000L);
+    showAgreements(!client.getNetClient().isHost());  // show agreements if not host
 
     // TEST
     player.setTurn(true);

@@ -66,7 +66,7 @@ public class Game {
     // Setup letter scores
     // Create tiles, put them into the bag and shuffle
     for (char letter : letterScores.keySet()) {
-      for (int i = 0; i < letterDistribution.get(letter); i++) {
+      for (int i = 0; i < letterDistributions.get(letter); i++) {
         bag.add(new Tile(letter, letterScores.get(letter)));
       }
     }

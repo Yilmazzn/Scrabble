@@ -131,6 +131,7 @@ public class ServerProtocol extends Thread {
           case STARTGAME:
             server.createDictionary(((StartGameMessage) m).getFile());
             server.startGame();
+            server.sendToAll(m);
             break;
           case UPDATEGAMEBOARD:
             server.sendToAll(m);

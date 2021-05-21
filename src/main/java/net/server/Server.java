@@ -31,10 +31,10 @@ public class Server extends Thread {
   private List<Player> players = new LinkedList<>();
   private Game game;
 
-  private int[] tileScores;
-  private int[] tileDistributions;
-  private String dictionaryString;    // String of file content
-  private Dictionary dictionary;
+  private int[] tileScores = new int[27];
+  private int[] tileDistributions = new int[27];
+  private String dictionaryString; // String of file content
+  private Dictionary dictionary = new Dictionary();
 
   /** Constructor to create server, sets serverIP */
   public Server() {
@@ -70,25 +70,24 @@ public class Server extends Thread {
   /** Starts game from server */
   public void startGame() {
     // Convert TileScores and TileDistributions to HashMap
-    HashMap<Character, Integer> mapTileDistribution = new HashMap<>();
-    HashMap<Character, Integer> mapScores = new HashMap<>();
-    for (int i = 0; i < tileDistributions.length; i++) {
+    LinkedHashMap<Character, Integer> mapTileDistribution = new LinkedHashMap<>();
+    LinkedHashMap<Character, Integer> mapScores = new LinkedHashMap<>();
+    for (int i = 0; i < 26; i++) {
       mapTileDistribution.put(((char) ('A' + i)), tileDistributions[i]);
       mapScores.put(((char) ('A' + i)), tileScores[i]);
     }
-    // TODO Might change type of players in game or in server , but it could work like this
-    game = new Game((ArrayList<Player>) players, mapTileDistribution, mapScores, dictionary);
+    mapTileDistribution.put(((char) 35), tileDistributions[26]); // Joker
+    mapScores.put(((char) 35), 0); // Joker
+
+   //game = new Game(players, mapTileDistribution, mapScores, dictionary);
   }
 
-  /**
-   *
-   * @return returns if the game is running
-   */
-  public boolean gameIsRunning(){
+  /** @return returns if the game is running */
+  public boolean gameIsRunning() {
     return game != null;
   }
 
-  public void stopGame(){
+  public void stopGame() {
     // TODO send stats back
     game = null;
   }
@@ -255,7 +254,7 @@ public class Server extends Thread {
       }
       try {
         ((RemotePlayer) player).getConnection().sendToClient(m);
-      } catch (IOException e) {   // remove player and send new lobby list to all
+      } catch (IOException e) { // remove player and send new lobby list to all
         players.remove(player);
         ConnectMessage cm = new ConnectMessage(null);
         cm.setProfiles(getPlayerProfilesArray());
@@ -269,10 +268,12 @@ public class Server extends Thread {
    *
    * @param m requires the message
    */
-  public synchronized void sendToOthers(ServerProtocol protocol, Message m){
+  public synchronized void sendToOthers(ServerProtocol protocol, Message m) {
     players.forEach(
         player -> {
-          if (player.isHuman() && ((RemotePlayer) player).getConnection() != protocol) { // if not protocol who initiated the call
+          if (player.isHuman()
+              && ((RemotePlayer) player).getConnection()
+                  != protocol) { // if not protocol who initiated the call
             try {
               ((RemotePlayer) player).getConnection().sendToClient(m);
               System.out.println("ChatMessage sent to " + player.getProfile().getName());
@@ -354,26 +355,17 @@ public class Server extends Thread {
     return temp;
   }
 
-  /**
-   *
-   * @return Returns TileValues
-   */
+  /** @return Returns TileValues */
   public int[] getTileScores() {
     return tileScores;
   }
 
-  /**
-   *
-   * @return Returns TileDistributions
-   */
-  public int[]getTileDistributions() {
+  /** @return Returns TileDistributions */
+  public int[] getTileDistributions() {
     return tileDistributions;
   }
 
-  /**
-   *
-   * @return Returns dictionaryString
-   */
+  /** @return Returns dictionaryString */
   public String getDictionaryString() {
     return dictionaryString;
   }

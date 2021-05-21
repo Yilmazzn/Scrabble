@@ -26,6 +26,7 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,7 @@ public class CreateGameController {
    */
   public void setModel(Client client) {
     this.client = client;
+    profiles = new PlayerProfile[] {client.getSelectedProfile()};
 
     client.getNetClient().createServer();
     try {
@@ -81,36 +83,6 @@ public class CreateGameController {
     client.getNetClient().setCreateGameController(this);
     connectionDetails.setText(client.getNetClient().getIp());
     updateChat();
-  }
-
-  /**
-   * Adds player to profiles list
-   *
-   * @param profile Requires PlayerProfile to be added
-   */
-  public void addPlayer(PlayerProfile profile) {
-    profiles.add(profile);
-  }
-
-  /**
-   * Removes player from profiles list
-   *
-   * @param profile Requires PlayerProfile to be removed
-   */
-  public void removePlayer(PlayerProfile profile) {
-    profiles.remove(profile);
-  }
-
-  /** Updates player list, if client connects or disconnects */
-  public void updatePlayerList() {
-    Label[] areas = {PlayerOne, PlayerTwo, PlayerThree, PlayerFour};
-
-    for (int i = 1; i < profiles.size(); i++) {
-      areas[i].setText(profiles.get(i).getName());
-    }
-    for (int i = profiles.size(); i < 4; i++) {
-      areas[i].setText("");
-    }
   }
 
   /**
@@ -156,6 +128,7 @@ public class CreateGameController {
    * @param profiles Requires profiles to be set
    */
   public void fillLobby(PlayerProfile[] profiles) {
+    this.profiles = profiles;
     Label[] areas = {PlayerOne, PlayerTwo, PlayerThree, PlayerFour};
 
     for (int i = 0; i < 4; i++) {
@@ -228,6 +201,7 @@ public class CreateGameController {
             ButtonType.CANCEL);
     alert.setTitle("Add AI");
     alert.setHeaderText(null);
+    alert.showAndWait();
 
     if (alert.getResult() == ButtonType.CANCEL) {
       return;
@@ -360,12 +334,19 @@ public class CreateGameController {
    *
    * @param mouseEvent to detect the current Stage
    */
-  public void gameView(MouseEvent mouseEvent) throws IOException {
+  public void startGameView(MouseEvent mouseEvent) throws IOException {
     System.out.println("createGame");
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
+    loader.setLocation(this.getClass().getResource("/views/gameViewNew.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
+
+    client
+        .getNetClient()
+        .startGame(
+            new File(
+                System.getProperty("user.dir")
+                    + "/src/main/resources/data/Collins Scrabble Words (2019) with definitions.txt"));
     controller.setModel(client);
 
     Scene welcomeScene = new Scene(gameView);

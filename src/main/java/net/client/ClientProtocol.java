@@ -334,11 +334,7 @@ public class ClientProtocol extends Thread {
             // richtige Dictionary erzeugt
             break;
           case STARTGAME:
-            // TODO add method
-
-            System.out.println("Rufe FXML Wechsel auf");
-            client.setDictionary(
-                new Dictionary(((StartGameMessage) m).getFile().getAbsolutePath()));
+            client.initializeGame();
             break;
           case CHATMESSAGE:
             // TODO add methode

@@ -33,7 +33,7 @@ public class LocalPlayer {
   private List<BoardField> placements = new LinkedList<>();
 
   private boolean turn = true;
-  private int overtime = 62000;//600000;
+  private int overtime = 600000;
 
   /**
    * Sets basic attributes of class, for testing it creates 5 tiles in personal rack
