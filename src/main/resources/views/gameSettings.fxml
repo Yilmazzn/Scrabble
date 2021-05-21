@@ -179,7 +179,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="cancel" mnemonicParsing="false" prefHeight="49.0" prefWidth="107.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Cancel">
+                  <Button mnemonicParsing="false" onMouseClicked="#apply" prefHeight="49.0" prefWidth="107.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Apply">
                      <HBox.margin>
                         <Insets top="20.0" />
                      </HBox.margin>
@@ -187,9 +187,9 @@
                         <Font name="Chalkboard" size="24.0" />
                      </font>
                   </Button>
-                  <Button fx:id="apply" mnemonicParsing="false" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Apply">
+                  <Button fx:id="apply" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="49.0" prefWidth="123.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Cancel">
                      <HBox.margin>
-                        <Insets left="295.0" top="20.0" />
+                        <Insets left="290.0" top="20.0" />
                      </HBox.margin>
                      <font>
                         <Font name="Chalkboard" size="24.0" />
