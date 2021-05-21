@@ -261,12 +261,11 @@ public class NetClient {
    *
    * @param profiles Requires PlayerProfiles array
    */
-  public void setLobbyState(PlayerProfile[] profiles, int[] scores, int turnIdx) {
+  public void setLobbyState(PlayerProfile[] profiles, int[] scores) {
     if (isHost() && !server.gameIsRunning()) { // player is host and game is not running
-      createGameController.changeStartGameButton(profiles.length <= 1);
       createGameController.fillLobby(profiles);
     } else { // player is not host
-      gameViewController.updateScoreboard(profiles, scores, turnIdx);
+      gameViewController.updateScoreboard(profiles, scores);
     }
   }
 
@@ -366,15 +365,6 @@ public class NetClient {
   }
 
   /**
-   * changes button in CreateGameController
-   *
-   * @param enabled Requires enabled value for start game button
-   */
-  public void changeStartGameButton(boolean enabled) {
-    createGameController.changeStartGameButton(enabled);
-  }
-
-  /**
    * Kicks player out of the game
    *
    * @param index Requires index, which player you want to kick
@@ -415,5 +405,21 @@ public class NetClient {
     if (!isHost()) {
       gameViewController.showAgreements(false);
     }
+  }
+
+  /** Triggered by incoming PLAYERREADYMESSAGE*/
+  public void setReadies(boolean[] readies){
+    if(isHost()){
+      createGameController.updatePlayerReadies(readies);
+    }
+  }
+
+  /** Triggered by incoming TURN MESSAGE
+   * @param turn true if it is this client's turn
+   * @param turns array of turn state (to be able to show whose turn it is)
+   * */
+  public void setTurns(boolean turn, boolean[] turns){
+    client.getLocalPlayer().setTurn(turn);    // set turn of local player -> true
+    gameViewController.updateTurns(turns);         // show whose turn it is
   }
 }

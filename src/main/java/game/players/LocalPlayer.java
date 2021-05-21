@@ -46,23 +46,18 @@ public class LocalPlayer {
     this.client = client;
     this.controller = controller;
     this.profile = client.getSelectedProfile();
-    rack.add(new Tile('H', 1));
-    rack.add(new Tile('E', 2));
-    rack.add(new Tile('L', 1));
-    rack.add(new Tile('L', 1));
-    rack.add(new Tile('O', 4));
+  }
+
+  public boolean isTurn(){
+    return turn;
   }
 
   /**
-   * Adds tiles to personal Rack
-   *
-   * @param tiles Requires collection of any kind to add elements from it to personal rack
+   * Adds tiles to personal Rack and updates GUI
+   * @param tile Tile to add to rack (GUI)
    */
-  public void addTilesToRack(Collection<Tile> tiles) {
-    tiles.forEach(
-        tile -> {
-          rack.add(tile);
-        });
+  public void addTilesToRack(Tile tile) {
+    rack.add(tile);
     controller.updateRack();
   }
 
@@ -129,7 +124,7 @@ public class LocalPlayer {
       return;
     }
     if (placements.contains(board.getField(row, col))) {
-      addTilesToRack(Arrays.asList(board.getTile(row, col)));
+      addTilesToRack(board.getTile(row, col));
       client.getNetClient().placeTile(null, row, col);
       board.getField(row, col).setTile(null);
       placements.remove(board.getField(row, col));
@@ -149,13 +144,10 @@ public class LocalPlayer {
       overtimeWatch = new OvertimeWatch(controller, overtime);
       overtimeWatch.start();
     }else{      // if set to false --> stop countdown
-      overtime = overtimeWatch.stopCountdown();
+      if(overtimeWatch != null){
+        overtime = overtimeWatch.stopCountdown();
+      }
     }
-  }
-
-  /** @return Returns, if the LocalPlayer has its own turn */
-  public boolean isTurn() {
-    return turn;
   }
 
   public void sendMessage(String message){
@@ -173,5 +165,12 @@ public class LocalPlayer {
 
   public PlayerProfile getProfile(){
     return this.profile;
+  }
+
+  /** Submits turn */
+  public void submit(){
+    if(turn){
+      client.getNetClient().submitMove();
+    }
   }
 }

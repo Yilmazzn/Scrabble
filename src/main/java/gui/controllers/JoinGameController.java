@@ -82,6 +82,7 @@ public class JoinGameController {
     }
   }
 
+  /** Triggered when message CONNECT received*/
   public void loadGameView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameViewNew.fxml"));

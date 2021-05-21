@@ -26,7 +26,7 @@ public class Game {
   private final Board lastValidBoard =
       new Board(); // Game Board which was last accepted as valid to reset after invalid player
   // turns
-  private int roundNum = 0; // amount of total rounds since start
+  private int roundNum = -1; // amount of total rounds since start
   private final int roundsSinceLastScore = 0; // last n amount of rounds without points
   private final Dictionary
       dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
@@ -92,12 +92,15 @@ public class Game {
 
     // increment round number
     roundNum++;
+    System.out.println("Round Number: " + (roundNum + 1));
 
     // reassign turns
     // TODO Handle with care, check for 3 and 4 players
     players.get(Math.abs(roundNum - 1) % players.size()).setTurn(false);
     playerInTurn = players.get(roundNum % players.size());
     playerInTurn.setTurn(true);
+
+    // TODO trigger Bag size info message send
 
     placementsInTurn = new LinkedList<>();
 
@@ -175,8 +178,21 @@ public class Game {
 
   /** TODO change some things maybe... */
   public void submit() {
-    if (board.check(placementsInTurn, dictionary)) {
+    if (board.check(placementsInTurn, dictionary)) {    //board state is valid
+      int score = evaluateScore();
+      System.out.println("SCORE: " + score);
+
+      // TODO refill hand
+      List<Tile> tileRefill = new LinkedList<Tile>();
+      for(int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++){
+        tileRefill.add(bag.pop());
+      }
+      playerInTurn.addTilesToRack(tileRefill);
+
       nextRound();
+    }else{    // board state is invalid
+      // Send SubmitMoveMessage back, acts as RejectMessage
+      playerInTurn.rejectSubmission();
     }
   }
 

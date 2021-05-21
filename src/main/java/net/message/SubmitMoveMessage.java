@@ -26,4 +26,5 @@ public class SubmitMoveMessage extends Message {
   public Board getBoard() {
     return board;
   }
+
 }

@@ -19,7 +19,7 @@ public abstract class Player implements Serializable { //todo maybe delete seria
   private final boolean human;
   private PlayerProfile profile;
   private final ArrayList<String> foundWords = new ArrayList<>();
-  private Game game;
+  protected Game game;
   private boolean turn;
   private int score;
 
@@ -94,6 +94,10 @@ public abstract class Player implements Serializable { //todo maybe delete seria
     this.turn = turn;
   }
 
+  public boolean isTurn(){
+    return turn;
+  }
+
   /**
    * Add tile to player's rack
    */
@@ -150,4 +154,7 @@ public abstract class Player implements Serializable { //todo maybe delete seria
   public void setPlayerProfile(PlayerProfile profile) {
     this.profile = profile;
   }
+
+  /** Submission invalid */
+  public abstract void rejectSubmission();
 }

@@ -21,7 +21,7 @@ public abstract class AiPlayer extends Player {
               "Yasin",
               "Max",
               "Nicolas")); // bots get random names which is removed from collection then (no
-                           // duplicates)
+  // duplicates)
   private final ArrayList<Tile> rack = new ArrayList<>();
   private final DIFFICULTY difficulty;
 
@@ -67,4 +67,7 @@ public abstract class AiPlayer extends Player {
     EASY,
     HARD
   }
+
+  @Override
+  public void rejectSubmission() {}
 }

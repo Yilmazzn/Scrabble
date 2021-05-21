@@ -131,10 +131,15 @@ public class CreateGameController {
    */
   public void fillLobby(PlayerProfile[] profiles) {
     this.profiles = profiles;
-    Label[] areas = {PlayerOne, PlayerTwo, PlayerThree, PlayerFour};
+    Label[] areas = {playerOne, playerTwo, playerThree, playerFour};
+    Label[] readyLabels = {readyTwo, readyThree, readyFour};
 
     for (int i = 0; i < 4; i++) {
       areas[i].setText((i < profiles.length) ? profiles[i].getName() : "");
+    }
+
+    for(int i = 0; i < 3; i++){
+      readyLabels[i].setVisible(i < profiles.length - 1);
     }
   }
 

@@ -86,7 +86,9 @@ public class RemotePlayer extends Player implements Serializable {
   @Override
   public void setTurn(boolean turn) {
     super.setTurn(turn);
-    // TODO SEND MESSAGES
+    if(turn){
+      connection.sendTurnMessage(turn);
+    }
   }
 
   /** Quit from game. Player is sent all relevant information */
@@ -100,12 +102,17 @@ public class RemotePlayer extends Player implements Serializable {
   public void addTilesToRack(Collection<Tile> tiles) {
     tiles.forEach(
         tile -> {
-          // TODO SEND MESSAGE
+          connection.sendToClient(new GiveTileMessage(tile));
         });
   }
 
   /** @return Returns if this player is host of the game */
   public boolean isHost() {
     return host;
+  }
+
+  /**  */
+  public void rejectSubmission(){
+    connection.sendToClient(new SubmitMoveMessage(game.getBoard()));
   }
 }

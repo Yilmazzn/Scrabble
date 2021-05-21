@@ -124,13 +124,14 @@ public class Dictionary {
   /**
    * @author vkaczmar Checks wether a certain word exists in wordlist.
    * @param node Requires node to start searching with
-   * @param word Requires word, in a non case sensitive way
+   * @param word Requires word/ REGEX, in a non case sensitive way
    * @return Returns true, if word exists
    */
+  // dictionary.wordExists("HEL\wO")
   private boolean wordExists(NodeWordlist node, String word) {
     if (node == null) {
       return false;
-    } else if (node.getData().compareTo(word.toUpperCase()) == 0) {
+    } else if(node.getData().matches(word)){
       return true;
     } else if (node.getData().compareTo(word.toUpperCase()) > 0) {
       return wordExists(node.getLeft(), word);

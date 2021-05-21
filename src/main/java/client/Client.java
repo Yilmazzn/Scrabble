@@ -82,19 +82,33 @@ public class Client extends Application {
    * @return Returns LocalPlayer, creates new one if none is existent
    */
   public LocalPlayer initLocalPlayer(GameViewController controller) {
-    if (localPlayer == null) {
-      localPlayer = new LocalPlayer(this, controller);
-    }
+    localPlayer = new LocalPlayer(this, controller);
+    return localPlayer;
+  }
+
+  public LocalPlayer getLocalPlayer(){
     return localPlayer;
   }
 
   /**
    * Method for creating a custom Popup for different Use Cases
-   *
+   * @author yuzun
    * @param message Requires Message to be displayed
    */
   public void showPopUp(String message) {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
+    alert.setHeaderText(null);
+    alert.setTitle("Information");
+    alert.showAndWait();
+  }
+
+  /**
+   * Method for creating a custom Popup for different Use Cases
+   * @author yuzun
+   * @param message Requires Message to be displayed
+   */
+  public void showError(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
     alert.setHeaderText(null);
     alert.setTitle("Information");
     alert.showAndWait();

@@ -62,10 +62,8 @@ public class Server extends Thread {
   }
 
   /** @return returns the playerList in an array */
-  public synchronized Player[] getPlayers() {
-    // TODO Vorher in for each mit Doppelpunkt Elemente rausgezogen und in Array gepackt, immer
-    // null, mit player.get(i) funktioniert es irgendwie, weiß jemand warum?
-    return players.toArray(new Player[0]);
+  public synchronized List<Player> getPlayers() {
+    return players;
   }
 
   /** Starts game from server */
@@ -253,14 +251,7 @@ public class Server extends Thread {
       if (!player.isHuman()) {
         continue;
       }
-      try {
         ((RemotePlayer) player).getConnection().sendToClient(m);
-      } catch (IOException e) { // remove player and send new lobby list to all
-        players.remove(player);
-        ConnectMessage cm = new ConnectMessage(null);
-        cm.setProfiles(getPlayerProfilesArray());
-        sendToAll(cm);
-      }
     }
   }
 
@@ -275,27 +266,10 @@ public class Server extends Thread {
           if (player.isHuman()
               && ((RemotePlayer) player).getConnection()
                   != protocol) { // if not protocol who initiated the call
-            try {
               ((RemotePlayer) player).getConnection().sendToClient(m);
               System.out.println("ChatMessage sent to " + player.getProfile().getName());
-            } catch (IOException e) { // remove player and send lobby list to all
-              players.remove(player);
-              ConnectMessage cm = new ConnectMessage(null);
-              cm.setProfiles(getPlayerProfilesArray());
-              sendToAll(cm);
-            }
           }
         });
-  }
-
-  /**
-   * a method go get the playerProfile
-   *
-   * @param id requires the id of the clientplayer
-   * @return returns the PlayerProfile
-   */
-  public synchronized PlayerProfile getProfile(int id) {
-    return players.get(id).getProfile(); // profiles[id];
   }
 
   // TODO remove one tile from bag,increment bag
@@ -348,10 +322,9 @@ public class Server extends Thread {
 
   /** @return Returns array with all playerProfiles */
   public PlayerProfile[] getPlayerProfilesArray() {
-    int index = Math.min(4, getPlayers().length);
-    PlayerProfile[] temp = new PlayerProfile[index];
-    for (int i = 0; i < index; i++) {
-      temp[i] = getProfile(i);
+    PlayerProfile[] temp = new PlayerProfile[players.size()];
+    for (int i = 0; i < players.size(); i++) {
+      temp[i] = players.get(i).getProfile();
     }
     return temp;
   }

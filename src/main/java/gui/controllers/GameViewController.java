@@ -87,9 +87,6 @@ public class GameViewController implements Initializable {
     updateChat();
     updateTime(600000L);
     showAgreements(!client.getNetClient().isHost());  // show agreements if not host
-
-    // TEST
-    player.setTurn(true);
   }
 
   /**
@@ -107,22 +104,19 @@ public class GameViewController implements Initializable {
   }
 
   /** Updates Scoreboard, called from NetClient if changes are made */
-  public void updateScoreboard(PlayerProfile[] profiles, int[] scores, int turnIdx) {
+  public void updateScoreboard(PlayerProfile[] profiles, int[] scores) {
     Label[] playerLabels = {player1, player2, player3, player4};
     Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
-    Label[] turnLabels = {turn1, turn2, turn3, turn4};
 
     System.out.println("Profiles received: " + profiles.length);
     System.out.println("Scores received: " + scores.length);
     for(int i = 0; i < profiles.length; i++){
       playerLabels[i].setText(profiles[i].getName());
       pointsLabels[i].setText(Integer.toString(scores[i]));
-      turnLabels[i].setVisible(i == turnIdx);
     }
     for (int i = profiles.length; i < 4; i++) {
       playerLabels[i].setText("---");
       pointsLabels[i].setText("-");
-      turnLabels[i].setVisible(false);
     }
   }
 
@@ -658,4 +652,17 @@ public class GameViewController implements Initializable {
   public void toggleReadyState(){
     client.getNetClient().setPlayerReady(ready.isSelected());
   }
+
+  /** Triggered by incoming TURNMESSAGE
+   *  Makes turn labels (green circle) visible/invisible
+   * */
+  @FXML
+  public void updateTurns(boolean[] turns){
+    Label[] turnLabels = {turn1, turn2, turn3, turn4};
+    for(int i = 0; i < turnLabels.length; i++){
+      turnLabels[i].setVisible((i < turns.length) && turns[i]);
+    }
+  }
+
+
 }

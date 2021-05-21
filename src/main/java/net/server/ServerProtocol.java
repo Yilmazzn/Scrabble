@@ -59,9 +59,25 @@ public class ServerProtocol extends Thread {
    * @param m the Message of a MessageType which should be send to the Client
    * @throws IOException exception by sending the message to the client
    */
-  public void sendToClient(Message m) throws IOException {
-    this.out.writeObject(m);
-    out.flush();
+  public void sendToClient(Message m){
+    try{
+      this.out.writeObject(m);
+      out.flush();
+    }catch(IOException ioe){
+      server.getPlayers().remove(player);
+      ConnectMessage cm = new ConnectMessage(null);
+      cm.setProfiles(server.getPlayerProfilesArray());
+      server.sendToAll(cm);
+    }
+  }
+
+  /** Sends to all others */
+  public void sendTurnMessage(boolean turn){
+      boolean[] turns = new boolean[server.getPlayers().size()];
+      for(int i = 0; i < turns.length; i++){
+        turns[i] = server.getPlayers().get(i).isTurn();
+      }
+      server.sendToAll(new TurnMessage(turn, turns));
   }
 
   /** the run method of ServerProtocol to handle the incoming messages of the server */
@@ -131,8 +147,8 @@ public class ServerProtocol extends Thread {
             break;
           case STARTGAME:
             server.createDictionary(((StartGameMessage) m).getFile());
-            server.startGame();
             server.sendToAll(m);
+            server.startGame();
             break;
           case UPDATEGAMEBOARD:
             server.sendToAll(m);
@@ -148,7 +164,7 @@ public class ServerProtocol extends Thread {
             break;
           case SENDPLAYERDATA:
             SendPlayerDataMessage spdm = (SendPlayerDataMessage) m;
-            spdm.setProfile(server.getProfile(spdm.getID()));
+            spdm.setProfile(server.getPlayers().get(spdm.getID()).getProfile());
             sendToClient(spdm);
             break;
           case EXCHANGETILES:
@@ -198,13 +214,11 @@ public class ServerProtocol extends Thread {
 
             // Send message to kicked player
             RemotePlayer rp1 =
-                (RemotePlayer) server.getPlayers()[((KickPlayerMessage) m).getIndex()];
+                (RemotePlayer) server.getPlayers().get(((KickPlayerMessage) m).getIndex());
             rp1.getConnection().sendToClient(dm);
 
             // remove from server
-            server.removePlayer(
-                    server
-                            .getPlayers()[((KickPlayerMessage) m).getIndex()]); // Remove Player from server
+            server.removePlayer(rp1); // Remove Player from server
 
             // Send system message
             server.sendToAll(
@@ -232,6 +246,7 @@ public class ServerProtocol extends Thread {
             break;
           case PLACETILE:
             // TODO Game logic
+            player.placeTile(((PlaceTileMessage) m).getTile(), ((PlaceTileMessage) m).getRow(), ((PlaceTileMessage) m).getCol());
             server.sendToOthers(this, m);
             break;
           default:

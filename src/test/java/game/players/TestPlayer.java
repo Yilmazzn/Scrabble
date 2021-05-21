@@ -21,12 +21,14 @@ public class TestPlayer extends Player {
         super(new PlayerProfile(username, 0, 0, 0, 0, LocalDate.now(), LocalDate.now()), true);
     }
 
+  /** Quit from game. Player is sent all relevant informations */
+  @Override
+  public void quit() {
+    // empty
+  }
 
-    /**
-     * Quit from game. Player is sent all relevant informations
-     */
     @Override
-    public void quit() {
+    public void rejectSubmission() {
         //empty
     }
 
