@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="539.0" prefWidth="761.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.gameSettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.gameSettingsController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Game Settings" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -18,9 +18,9 @@
             </font>
         </Label>
         <Label layoutX="278.0" layoutY="331.0" prefHeight="100.0" prefWidth="1152.0" style="-fx-background-color: #fdf8da;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <VBox layoutX="136.0" layoutY="107.0" prefHeight="278.0" prefWidth="498.0" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="136.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="107.0">
+      <VBox alignment="CENTER" layoutX="136.0" layoutY="107.0" prefHeight="278.0" prefWidth="498.0" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="136.0" AnchorPane.rightAnchor="127.0" AnchorPane.topAnchor="107.0">
          <children>
-            <HBox prefHeight="81.0" prefWidth="483.0">
+            <HBox alignment="CENTER" prefHeight="81.0" prefWidth="483.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Letters:">
                      <font>
@@ -53,7 +53,7 @@
                   </Button>
                </children>
             </HBox>
-            <HBox prefHeight="58.0" prefWidth="483.0">
+            <HBox alignment="CENTER" prefHeight="58.0" prefWidth="483.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Value:">
                      <font>
@@ -86,7 +86,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefHeight="80.0" prefWidth="483.0">
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="483.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Distribution:">
                      <font>
@@ -119,14 +119,14 @@
                   </Button>
                </children>
             </HBox>
-            <HBox prefHeight="55.0" prefWidth="483.0">
+            <HBox alignment="CENTER" prefHeight="55.0" prefWidth="483.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Upload Dictionary:">
                      <font>
                         <Font name="Chalkboard" size="24.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="10.0" />
+                        <Insets left="20.0" right="160.0" top="10.0" />
                      </HBox.margin>
                   </Text>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Joker Distribution:">
@@ -134,12 +134,12 @@
                         <Font name="Chalkboard" size="24.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="80.0" top="10.0" />
+                        <Insets left="30.0" top="10.0" />
                      </HBox.margin>
                   </Text>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
                <children>
                   <TextField fx:id="dictionary" prefHeight="27.0" prefWidth="197.0">
                      <HBox.margin>
@@ -148,7 +148,7 @@
                   </TextField>
                   <Button mnemonicParsing="false" onMouseClicked="#setDictionary" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Set">
                      <HBox.margin>
-                        <Insets left="10.0" top="10.0" />
+                        <Insets right="150.0" top="10.0" />
                      </HBox.margin>
                      <font>
                         <Font name="Chalkboard" size="18.0" />
@@ -159,12 +159,12 @@
                         <Font name="Chalkboard" size="18.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="50.0" top="10.0" />
+                        <Insets top="10.0" />
                      </HBox.margin>
                   </Button>
                   <TextField fx:id="joker" prefHeight="27.0" prefWidth="27.0" text="2">
                      <HBox.margin>
-                        <Insets left="15.0" right="15.0" top="15.0" />
+                        <Insets top="15.0" />
                      </HBox.margin>
                   </TextField>
                   <Button mnemonicParsing="false" onMouseClicked="#increaseJoker" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="+">
@@ -177,7 +177,7 @@
                   </Button>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button mnemonicParsing="false" onMouseClicked="#apply" prefHeight="49.0" prefWidth="107.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Apply">
                      <HBox.margin>

@@ -15,9 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -47,6 +45,8 @@ public class CreateGameController {
   @FXML private ScrollPane scrollPane;
   @FXML private VBox chat;
   @FXML private Button startButton;
+  @FXML private AnchorPane gameSettingsPane;
+  @FXML private BorderPane createGamePane;
 
   @FXML private Label connectionDetails;
 
@@ -83,6 +83,10 @@ public class CreateGameController {
     client.getNetClient().setCreateGameController(this);
     connectionDetails.setText(client.getNetClient().getIp());
     updateChat();
+    gameSettingsPane.setVisible(false);
+    gameSettingsPane.managedProperty().bind(gameSettingsPane.visibleProperty());
+    createGamePane.managedProperty().bind(createGamePane.visibleProperty());
+
   }
 
   /**
@@ -144,15 +148,24 @@ public class CreateGameController {
   public void openGameSettings(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameSettings.fxml"));
-    Parent gameSettings = loader.load();
+    //Parent gameSettings = loader.load();
+    gameSettingsPane.getChildren().add(loader.load());
+    createGamePane.setVisible(false);
+    gameSettingsPane.setVisible(true);
     gameSettingsController controller = loader.getController();
 
     controller.setModel(client, this);
 
-    Scene gameSettingsScene = new Scene(gameSettings);
+    /*Scene gameSettingsScene = new Scene(gameSettings);
     Stage window = new Stage();
     window.setScene(gameSettingsScene);
-    window.show();
+    window.show();*/
+  }
+
+  /** Closes the GameSettings*/
+  public void closeSettings(){
+    createGamePane.setVisible(true);
+    gameSettingsPane.setVisible(false);
   }
 
   /** Method to open the Chat Screen */
