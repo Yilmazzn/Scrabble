@@ -39,11 +39,16 @@ public class gameSettingsController {
     this.values = createController.getValues();
     this.distributions = createController.getDistributions();
   }
-  public void apply(){
 
+  /** Applies the Settings and closes the GameSettingView trough the CreateGameController */
+  public void apply() {
+    //TODO Apply Changes
+    createController.closeSettings();
   }
-  public void cancel(){
 
+  /** Closes the GameSettings Screen through the CreateGameController */
+  public void cancel(){
+    createController.closeSettings();
   }
 
   public String getValue(char a) { // getter method for value of letter
