@@ -347,7 +347,7 @@
                                 <Insets left="25.0"/>
                             </HBox.margin>
                             <tooltip>
-                                <Tooltip text="Submit your turn and show how many points you made!"
+                                <Tooltip text="Submit your turn and see how many points you made!"
                                          textAlignment="JUSTIFY">
                                     <showDelay>
                                         <Duration millis="500"/>
