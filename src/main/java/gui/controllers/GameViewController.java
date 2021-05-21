@@ -60,13 +60,8 @@ public class GameViewController implements Initializable {
   @FXML private CheckBox ready;
   @FXML private AnchorPane agreements;
 
-  private String text = "";
-
-
   private Client client;
-
   private LocalPlayer player;
-
   private int draggedTileIndex = -1;
 
   @Override
@@ -78,7 +73,9 @@ public class GameViewController implements Initializable {
   }
 
   /**
-   * Method to set the client and initialize the board
+   * Sets client instance in GameViewController, builds graphics of board, rack, chat and time
+   *
+   * @param client Requires client to be set
    */
   public void setModel(Client client) {
     this.client = client;
@@ -93,7 +90,7 @@ public class GameViewController implements Initializable {
   }
 
   /**
-   * Method to initialize the board with instances of PlayerProfiles/Board
+   * Update the graphics of the board with instances of PlayerProfiles/Board. Called after each move
    */
   public void updateBoard() {
     /** AnchorPane as graphical container for the tiles are created */
@@ -106,9 +103,7 @@ public class GameViewController implements Initializable {
     }
   }
 
-  /**
-   * Updates Scoreboard, called from NetClient if changes are made
-   */
+  /** Updates Scoreboard, called from NetClient if changes are made */
   public void updateScoreboard(PlayerProfile[] profiles, int[] scores, int turnIdx) {
     Label[] playerLabels = {player1, player2, player3, player4};
     Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
@@ -128,9 +123,7 @@ public class GameViewController implements Initializable {
     }
   }
 
-  /**
-   * Updates Rack
-   */
+  /** Updates Rack, called after each move the LocalPlayer makes */
   public void updateRack() {
     tiles.getChildren().clear();
     for (int i = 0; i < player.getRack().RACK_SIZE; i++) {
@@ -144,9 +137,7 @@ public class GameViewController implements Initializable {
     }
   }
 
-  /**
-   * Update ChatField
-   */
+  /** Creates a listener for the TextArea so Enter can be pressed */
   public void updateChat(){
     textArea.setOnKeyPressed(
             new EventHandler<KeyEvent>() {
@@ -162,10 +153,8 @@ public class GameViewController implements Initializable {
     );
   }
 
-  /**
-   * Update Remaining Time for the current move
-   */
-  public void updateTime(long milliseconds){
+  /** Update Remaining Time for the current move */
+  public void updateTime(long milliseconds) {
     // TODO get time from Server
     String minutes = String.format("%02d", milliseconds / 1000 / 60);
     String seconds = String.format("%02d", (milliseconds / 1000) % 60);
@@ -304,6 +293,7 @@ public class GameViewController implements Initializable {
     System.out.println("tiles");
   }
 
+  /** Shuffles the tiles on the rack */
   public void shuffle() {
     System.out.println("Shuffle");
     player.getRack().shuffleRack();
@@ -316,13 +306,10 @@ public class GameViewController implements Initializable {
     player.setTurn(!player.isTurn());
   }
 
-  /**
-   * Creates a Box/Label when player sends a message
-   * Necessary to fill the ChatField
-   */
-  public void sendMessage(){
+  /** Creates a Box/Label when player sends a message. Necessary to fill the ChatField */
+  public void sendMessage() {
     // falls leer --> nix
-    if(textArea.getText().equals("")){
+    if (textArea.getText().equals("")) {
       return;
     }
 
@@ -339,12 +326,12 @@ public class GameViewController implements Initializable {
     message.setFont(Font.font("Chalkboard", 14));
     message.setFill(Color.WHITE);
 
-    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()),  message);
+    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()), message);
 
-    //Label text = new Label("User \n" + textArea.getText());
+    // Label text = new Label("User \n" + textArea.getText());
     Label text = new Label(null, flowTemp);
     text.setWrapText(true);
-    text.setPadding(new Insets(2,10,2,2));
+    text.setPadding(new Insets(2, 10, 2, 2));
     text.getStylesheets().add("stylesheets/chatstyle.css");
     text.getStyleClass().add("textBubble");
 
@@ -352,17 +339,14 @@ public class GameViewController implements Initializable {
     chat.setAlignment(Pos.BOTTOM_RIGHT);
     chat.setSpacing(20);
     chat.getChildren().add(box);
-    chat.heightProperty().addListener(observer ->  scrollPane.setVvalue(1.0));
+    chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
     client.getNetClient().sendChatMessage(textArea.getText());
 
     textArea.clear();
   }
 
-  /**
-   * Creates a Box/Label when player gets a message
-   * Necessary to fill the ChatField
-   */
-  public void getMessage(String username, String text){
+  /** Creates a Box/Label when player gets a message. Necessary to fill the ChatField */
+  public void getMessage(String username, String text) {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
     box.setPrefWidth(Region.USE_COMPUTED_SIZE);
@@ -376,28 +360,30 @@ public class GameViewController implements Initializable {
     message.setFont(Font.font("Chalkboard", 14));
     message.setFill(Color.DARKGREY);
 
-    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()),  message);
+    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()), message);
 
     Label label = new Label(null, flowTemp);
     label.setWrapText(true);
-    label.setPadding(new Insets(2,10,2,2));
+    label.setPadding(new Insets(2, 10, 2, 2));
     label.getStylesheets().add("stylesheets/chatstyle.css");
     label.getStyleClass().add("textBubbleFlipped");
 
     box.getChildren().add(label);
     chat.setSpacing(20);
     chat.getChildren().add(box);
-    chat.heightProperty().addListener(observer ->  scrollPane.setVvalue(1.0));
+    chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
   public void createSystemMessage(){
 
   }
 
-
   /**
    * Method to create the Containers for the tiles on the Rack includes graphical components and
    * adds the Drag and Drop feature
+   *
+   * @param letter,value,position
+   * @return AnchorPane
    */
   public AnchorPane createBottomTile(char letter, int value, int position) {
     AnchorPane pane = new AnchorPane();
@@ -476,6 +462,9 @@ public class GameViewController implements Initializable {
   /**
    * Method to create the Containers for the tiles on the Board includes graphical components and
    * adds the Drag and Drop feature
+   *
+   * @param boardField
+   * @return AnchorPane
    */
   public AnchorPane createTile(BoardField boardField) {
     AnchorPane pane = new AnchorPane();
@@ -508,7 +497,7 @@ public class GameViewController implements Initializable {
     points.getStylesheets().add("/stylesheets/labelstyle.css");
     points.getStyleClass().add("digitTile");
 
-    /** @author mnetzer verschiedene Felder erzeugen */
+    /** Assignment of different styles of the field to the labels*/
     if (!boardField.isEmpty()) {
       label.getStyleClass().add("tileWithLetter");
     } else {
@@ -572,7 +561,6 @@ public class GameViewController implements Initializable {
             event.setDropCompleted(success);
 
             event.consume();
-
           }
         });
 
@@ -589,15 +577,22 @@ public class GameViewController implements Initializable {
         });
 
     // Color border yellow when entered
-    pane.setOnDragEntered(event -> {
-      pane.setBorder(new Border(new BorderStroke(Color.YELLOW,
-              BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-    });
+    pane.setOnDragEntered(
+        event -> {
+          pane.setBorder(
+              new Border(
+                  new BorderStroke(
+                      Color.YELLOW,
+                      BorderStrokeStyle.SOLID,
+                      CornerRadii.EMPTY,
+                      BorderWidths.DEFAULT)));
+        });
 
     // Remove border
-    pane.setOnDragExited(event -> {
-      pane.setBorder(null);
-    });
+    pane.setOnDragExited(
+        event -> {
+          pane.setBorder(null);
+        });
 
     return pane;
   }
@@ -615,11 +610,13 @@ public class GameViewController implements Initializable {
     updateRack();
   }
 
+  /** Method to update the graphical container of a Tile on the rack */
   public void updateBottomTile(char letter, int points, int col) {
     AnchorPane pane = createBottomTile(letter, points, col);
     tiles.add(pane, col, 0);
   }
 
+  /** Method to update the graphical containers of he board after a move */
   public void placeTile(Tile tile, int row, int col){
     player.getBoard().placeTile(tile, row, col);
     updateBoard();
