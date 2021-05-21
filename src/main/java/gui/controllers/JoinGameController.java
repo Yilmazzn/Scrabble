@@ -71,7 +71,6 @@ public class JoinGameController {
     loader.setLocation(this.getClass().getResource("/views/gameViewNew.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
-    client.getNetClient().setGameViewController(controller);
     System.out.println("Game View Controller set");
     controller.setModel(client);
 

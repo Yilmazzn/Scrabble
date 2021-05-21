@@ -273,7 +273,7 @@ public class NetClient {
    * @param profiles Requires PlayerProfiles array
    */
   public void setLobbyState(PlayerProfile[] profiles, int[] scores, int turnIdx) {
-    if (server != null && !server.gameIsRunning()) { // player is host and game is not running
+    if (isHost() && !server.gameIsRunning()) { // player is host and game is not running
       createGameController.changeStartGameButton(profiles.length <= 1);
       createGameController.fillLobby(profiles);
     } else { // player is not host
@@ -415,6 +415,7 @@ public class NetClient {
 
   /** Place tile on GUI */
   public void placeIncomingTile(Tile tile, int row, int col) {
+    System.out.println("Place incoming Tile | NetClient");
     gameViewController.placeTile(tile, row, col);
   }
 

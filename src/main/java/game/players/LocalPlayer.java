@@ -26,6 +26,7 @@ public class LocalPlayer {
   private PlayerProfile profile;
   private Board board = new Board();
   private Rack rack = new Rack();
+
   private PlayerProfile[] profiles;
 
   private OvertimeWatch overtimeWatch;
@@ -98,13 +99,8 @@ public class LocalPlayer {
     return board;
   }
 
-  /** @return Returns playerProfiles as an Array */
-  public PlayerProfile[] getProfiles() {
-    return profiles;
-  }
-
   /**
-   * Place Tile on board
+   * Place Tile on board when player himself
    *
    * @param position Requires which tile from rack you want to set
    * @param row Requires which row you placed the tile in
@@ -165,6 +161,16 @@ public class LocalPlayer {
   public void sendMessage(String message){
     client.getNetClient().sendChatMessage(message);
   }
+
+  public void setProfiles(PlayerProfile[] profiles){
+    this.profiles = profiles;
+  }
+
+  /** @return Returns playerProfiles as an Array */
+  public PlayerProfile[] getProfiles() {
+    return profiles;
+  }
+
   public PlayerProfile getProfile(){
     return this.profile;
   }

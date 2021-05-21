@@ -51,7 +51,7 @@ public class CreateGameController {
   @FXML private Label connectionDetails;
 
   private Client client;
-  List<PlayerProfile> profiles = new ArrayList<>(); // manage profiles with arrayList
+  PlayerProfile[] profiles; // manage profiles with arrayList
 
   private String[] values = {
     "1", "3", "3", "2", "1", "4", "2", "4", "1", "8", "5", "1", "3", "1", "1", "3", "10", "1", "1",
@@ -348,6 +348,8 @@ public class CreateGameController {
                 System.getProperty("user.dir")
                     + "/src/main/resources/data/Collins Scrabble Words (2019) with definitions.txt"));
     controller.setModel(client);
+    int[] scores = new int[profiles.length];
+    controller.updateScoreboard(profiles, scores, 0);
 
     Scene welcomeScene = new Scene(gameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

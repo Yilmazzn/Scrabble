@@ -14,13 +14,12 @@ import java.util.*;
  */
 public class Game {
 
-  private final ArrayList<Player>
+  private final List<Player>
       players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
   // second last player, ...]
   private final boolean running; // true if game is running
-  private final HashMap<Character, Integer> letterScores; // Map representing letter's score
   private final LinkedList<Tile> bag = new LinkedList<>(); // bag of tiles in the game
-  private final ArrayList<String> wordsFound =
+  private final List<String> wordsFound =
       new ArrayList<>(); // a list of words found up to this point
   private final Board board = new Board(); // Game Board
   private final Board lastValidBoard =
@@ -45,12 +44,11 @@ public class Game {
    * the players
    */
   public Game(
-      ArrayList<Player> players,
-      HashMap<Character, Integer> letterDistribution,
-      HashMap<Character, Integer> letterScores,
+      List<Player> players,
+      Map<Character, Integer> letterDistributions,
+      Map<Character, Integer> letterScores,
       Dictionary dictionary) {
 
-    this.letterScores = letterScores;
     this.dictionary = dictionary;
 
     // Players participating
@@ -89,7 +87,7 @@ public class Game {
    * Called to start a new round increments round number assigns turn, if it is the turn of an AI
    * player, then trigger it to to think and make a move
    */
-  public void nextRound(){
+  public void nextRound() {
 
     // increment round number
     roundNum++;

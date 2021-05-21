@@ -127,6 +127,10 @@ public class Client extends Application {
                 && netClient.getConnection() != null) { // disconnect if connection is open
               netClient.disconnect();
             }
+
+            if(localPlayer != null){
+              localPlayer.setTurn(false);   // stop countdown
+            }
           }
         });
   }

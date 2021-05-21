@@ -350,7 +350,9 @@ public class ClientProtocol extends Thread {
             for (int i = 0; i < prm.getValues().length; i++) {
               System.out.println("Status " + (i + 1) + ": " + (prm.getValues()[i]));
             }
-            client.changeStartGameButton(prm.getReady()); // all players are ready
+            if(client.isHost()){    // if player is host
+              client.changeStartGameButton(prm.getReady()); // all players are ready
+            }
             break;
           case UPDATEGAMEBOARD:
             // TODO add method
@@ -417,7 +419,9 @@ public class ClientProtocol extends Thread {
             break;
           case PLACETILE:
             PlaceTileMessage ptm = (PlaceTileMessage) m;
-            client.placeIncomingTile(ptm.getTile(), ptm.getRow(), ptm.getCol());
+            Platform.runLater(() -> {
+              client.placeIncomingTile(ptm.getTile(), ptm.getRow(), ptm.getCol());
+            });
             break;
           default:
             break;

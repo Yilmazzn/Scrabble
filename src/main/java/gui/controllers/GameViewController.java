@@ -58,7 +58,7 @@ public class GameViewController implements Initializable {
   @FXML private Button values;
   @FXML private Button dictionary;
   @FXML private CheckBox ready;
-  @FXML private AnchorPane agreements;
+  @FXML private BorderPane agreements;
 
   private Client client;
   private LocalPlayer player;
@@ -81,6 +81,7 @@ public class GameViewController implements Initializable {
   public void setModel(Client client) {
     this.client = client;
     this.player = client.initLocalPlayer(this);
+    client.getNetClient().setGameViewController(this);
     updateBoard();
     updateRack();
     updateChat();
@@ -442,7 +443,6 @@ public class GameViewController implements Initializable {
           public void handle(DragEvent event) {
             /* the drag-and-drop gesture ended */
             if (event.isDropCompleted()) {
-              System.out.println("onDragDone");
               draggedTileIndex = -1;
             }
 
@@ -453,7 +453,6 @@ public class GameViewController implements Initializable {
     pane.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           public void handle(MouseEvent event) {
-            System.out.println("ClickedOnTile");
             player.selectTile(position);
             updateBottomTile(letter, value, position);
             event.consume();
@@ -531,7 +530,6 @@ public class GameViewController implements Initializable {
         new EventHandler<DragEvent>() {
           public void handle(DragEvent event) {
             /* data is dragged over the target */
-            System.out.println("onDragOver");
 
             /* accept it only if it is  not dragged from the same node
              * and if it has a string data */
@@ -548,7 +546,6 @@ public class GameViewController implements Initializable {
         new EventHandler<DragEvent>() {
           public void handle(DragEvent event) {
             /* data dropped */
-            System.out.println("onDragDropped");
             /* if there is a string data on dragboard, read it and use it */
             Dragboard db = event.getDragboard();
             boolean success = false;
@@ -573,7 +570,6 @@ public class GameViewController implements Initializable {
     pane.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           public void handle(MouseEvent event) {
-            System.out.println("Tile removed");
             if (!boardField.isEmpty()) {
               player.removePlacement(boardField.getRow(), boardField.getColumn());
               updateBoard();
@@ -624,6 +620,7 @@ public class GameViewController implements Initializable {
 
   /** Method to update the graphical containers of he board after a move */
   public void placeTile(Tile tile, int row, int col){
+    System.out.println("Place Tile | GameViewController | " + row + ", " + col);
     player.getBoard().placeTile(tile, row, col);
     updateBoard();
   }
@@ -651,5 +648,11 @@ public class GameViewController implements Initializable {
   @FXML
   public void showDictionary(){
     client.getNetClient().requestDictionary();
+  }
+
+  /** Triggered when checkBox 'I am ready' is selected/unselected */
+  @FXML
+  public void toggleReadyState(){
+    client.getNetClient().setPlayerReady(ready.isSelected());
   }
 }
