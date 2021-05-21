@@ -156,6 +156,10 @@ public class GameViewController implements Initializable {
     );
   }
 
+  public void loadChatFromHost(VBox messages){
+    //chat=
+  }
+
   /** Update Remaining Time for the current move */
   public void updateTime(long milliseconds) {
     // TODO get time from Server
