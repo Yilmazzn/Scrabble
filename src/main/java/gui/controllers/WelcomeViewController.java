@@ -16,10 +16,22 @@ public class WelcomeViewController {
 
   private Client client;
 
+  /**
+   * Sets client in JoinGameController
+   *
+   * @param client Requires client to be set
+   */
   public void setModel(Client client){
     this.client = client;
   }
 
+  /**
+   * Start GameView without server
+   * //TODO Help View or delete
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void help(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameViewNew.fxml"));
@@ -33,6 +45,11 @@ public class WelcomeViewController {
     window.show();
   }
 
+  /**
+   * Method to open the exit Screen in a new window
+   *
+   * @throws IOException
+   */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
@@ -49,15 +66,18 @@ public class WelcomeViewController {
     window.showAndWait();
   }
 
+  /**
+   * Method to get to the playerLobby Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void continueToLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent lobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
     controller.setModel(client);
-
-    // Parent profileControllerView =
-    // FXMLLoader.load(getClass().getResource("/views/playerProfileView.fxml"));
 
     Scene lobbyScene = new Scene(lobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

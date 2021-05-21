@@ -16,10 +16,21 @@ public class PlayScrabbleController {
 
   private Client client;
 
+  /**
+   * Sets client in JoinGameController
+   *
+   * @param client Requires client to be set
+   */
   public void setModel(Client client) {
     this.client = client;
   }
 
+  /**
+   * Method to get back to the playerLobby Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
@@ -33,6 +44,12 @@ public class PlayScrabbleController {
     window.show();
   }
 
+  /**
+   * Method to get to the CreateGame Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void createGame(MouseEvent mouseEvent) throws IOException {
     System.out.println("createGame");
     FXMLLoader loader = new FXMLLoader();
@@ -46,6 +63,12 @@ public class PlayScrabbleController {
     window.show();
   }
 
+  /**
+   * Method to get to the joinGame Screen
+   *
+   * @param mouseEvent to detect the current Stage
+   * @throws IOException
+   */
   public void joinGame(MouseEvent mouseEvent) throws IOException {
     System.out.println("JoinGame");
     FXMLLoader loader = new FXMLLoader();
@@ -60,15 +83,21 @@ public class PlayScrabbleController {
     window.show();
   }
 
+  /** Starts the TutorialMode */
   public void playTutorial() {
     System.out.println("PlayTutorial");
   }
 
+  /**
+   * Method to open the exit Screen in a new window
+   *
+   * @throws IOException
+   */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
-    // exitGameController controller = loader.getController();
+    ExitGameController controller = loader.getController();
 
     Scene exitGameScene = new Scene(exitGameView);
     Stage window = new Stage();
