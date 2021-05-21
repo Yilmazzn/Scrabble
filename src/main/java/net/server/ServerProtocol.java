@@ -118,8 +118,8 @@ public class ServerProtocol extends Thread {
           case PLAYERREADY:
             PlayerReadyMessage prm = (PlayerReadyMessage) m;
             player.setIsReady(prm.getReady());
-            Player[] player = server.getPlayers();
-            boolean[] playerReady = new boolean[player.length];
+            List<Player> players = server.getPlayers();
+            boolean[] playerReady = new boolean[players.size()];
             boolean ready = true;
             for (int i = 1; i < playerReady.length; i++) {
               playerReady[i] = ((RemotePlayer) players.get(i)).getReady();

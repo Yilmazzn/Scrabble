@@ -21,8 +21,8 @@ import java.io.IOException;
 public class NetClient {
   private ClientProtocol connection;
   private String ipAdr;
-  private String username; // username from playersprofile
-  private int points;
+
+
   private Dictionary dictionary;
   private PlayerProfile profile;
   private boolean isAIActive;
@@ -193,13 +193,6 @@ public class NetClient {
     return client.getSelectedProfile().getName();
   }
 
-  /**
-   * @return returns points
-   * @author vkaczmar
-   */
-  public int getPoints() {
-    return points;
-  }
 
   /**
    * @param dictionary requires the dictionary to be set
@@ -231,10 +224,7 @@ public class NetClient {
     return client.getSelectedProfile();
   }
 
-  /** @author ygarip a method to get the tile from server */
-  public void getTile() {
-    connection.getTile();
-  }
+
 
   /** @return Returns client */
   public Client getClient() {

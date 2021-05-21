@@ -368,4 +368,22 @@ public class CreateGameController {
   public void changeStartGameButton(boolean enabled) {
     startButton.setDisable(!enabled);
   }
+
+
+  /** Set player's turns */
+  public void updatePlayerReadies(boolean[] readies){
+    boolean allReady = true;
+    for(int i = 1; i < readies.length; i++){
+      allReady = allReady && readies[i];
+    }
+    changeStartGameButton(allReady);
+
+    Label[] readyLabels = {readyTwo, readyThree,readyFour};
+
+    for(int i = 0; i < readies.length - 1; i++){
+      readyLabels[i].setStyle("-fx-border-width: 2px;-fx-border-color: "
+              + (readies[i+1] ? "green" :
+              "red"));
+    }
+  }
 }
