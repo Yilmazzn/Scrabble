@@ -95,12 +95,14 @@ public class ServerProtocol extends Thread {
             player.setPlayerProfile(profile);
             System.out.println("Server added: " + profile.getName());
 
-            server.sendToAll(
-                new ChatMessage(
-                    profile.getName()
-                        + " joined our round!"
-                        + (profile.getName().split(" ")[0].equals("Bot") ? "*Beep-Boop*" : ""),
-                    null)); // send system Message to all
+            if (!player.isHost()) { // if not host --> joined us message
+              server.sendToAll(
+                  new ChatMessage(
+                      profile.getName()
+                          + " joined our round!"
+                          + (profile.getName().split(" ")[0].equals("Bot") ? "*Beep-Boop*" : ""),
+                      null)); // send system Message to all
+            }
 
             // send new lobby list to all
             cm.setProfiles(server.getPlayerProfilesArray());

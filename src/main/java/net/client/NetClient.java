@@ -271,7 +271,11 @@ public class NetClient {
         gameViewController.getMessage(user.getName(), message);
       }
     } else {
-      gameViewController.createSystemMessage(message);
+      if (isHost() && !server.gameIsRunning()) {
+        createGameController.createSystemMessage(message);
+      } else {
+        gameViewController.createSystemMessage(message);
+      }
     }
   }
 

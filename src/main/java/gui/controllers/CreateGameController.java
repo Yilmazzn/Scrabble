@@ -26,12 +26,12 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class CreateGameController {
   /** @author vihofman for gameSettings and functionality */
   // setup for joined player
   @FXML private Label playerOne;
+
   @FXML private Label playerTwo;
   @FXML private Label playerThree;
   @FXML private Label playerFour;
@@ -84,7 +84,6 @@ public class CreateGameController {
     gameSettingsPane.setVisible(false);
     gameSettingsPane.managedProperty().bind(gameSettingsPane.visibleProperty());
     createGamePane.managedProperty().bind(createGamePane.visibleProperty());
-
   }
 
   /**
@@ -138,7 +137,7 @@ public class CreateGameController {
       areas[i].setText((i < profiles.length) ? profiles[i].getName() : "");
     }
 
-    for(int i = 0; i < 3; i++){
+    for (int i = 0; i < 3; i++) {
       readyLabels[i].setVisible(i < profiles.length - 1);
     }
   }
@@ -151,7 +150,7 @@ public class CreateGameController {
   public void openGameSettings(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameSettings.fxml"));
-    //Parent gameSettings = loader.load();
+    // Parent gameSettings = loader.load();
     gameSettingsPane.getChildren().add(loader.load());
     createGamePane.setVisible(false);
     gameSettingsPane.setVisible(true);
@@ -165,8 +164,8 @@ public class CreateGameController {
     window.show();*/
   }
 
-  /** Closes the GameSettings*/
-  public void closeSettings(){
+  /** Closes the GameSettings */
+  public void closeSettings() {
     createGamePane.setVisible(true);
     gameSettingsPane.setVisible(false);
   }
@@ -229,6 +228,11 @@ public class CreateGameController {
             }
           }
         });
+  }
+
+  /** Creates system message in chat */
+  public void createSystemMessage(String message) {
+    System.out.println("SYSTEM: " + message);
   }
 
   /** Creates a Box/Label when player sends a message Necessary to fill the ChatField */
@@ -358,7 +362,6 @@ public class CreateGameController {
     controller.updateScoreboard(profiles, scores);
     controller.loadChatFromHost(chat);
 
-
     Scene welcomeScene = new Scene(gameView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(welcomeScene);
@@ -374,21 +377,19 @@ public class CreateGameController {
     startButton.setDisable(!enabled);
   }
 
-
   /** Set player's turns */
-  public void updatePlayerReadies(boolean[] readies){
+  public void updatePlayerReadies(boolean[] readies) {
     boolean allReady = true;
-    for(int i = 1; i < readies.length; i++){
+    for (int i = 1; i < readies.length; i++) {
       allReady = allReady && readies[i];
     }
     changeStartGameButton(allReady);
 
-    Label[] readyLabels = {readyTwo, readyThree,readyFour};
+    Label[] readyLabels = {readyTwo, readyThree, readyFour};
 
-    for(int i = 0; i < readies.length - 1; i++){
-      readyLabels[i].setStyle("-fx-border-width: 2px;-fx-border-color: "
-              + (readies[i+1] ? "green" :
-              "red"));
+    for (int i = 0; i < readies.length - 1; i++) {
+      readyLabels[i].setStyle(
+          "-fx-border-width: 2px;-fx-border-color: " + (readies[i + 1] ? "green" : "red"));
     }
   }
 }
