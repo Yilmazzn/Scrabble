@@ -182,10 +182,7 @@ public class CreateGameController {
     window.show();
   }
 
-
-  /**
-   * Method to open the Chat Screen
-   */
+  /** Method to open the Chat Screen */
   public void openChat() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
@@ -239,30 +236,23 @@ public class CreateGameController {
     }
   }
 
-
-  /**
-   * Creates a listener for the TextArea so Enter can be pressed
-   */
-  public void updateChat(){
+  /** Creates a listener for the TextArea so Enter can be pressed */
+  public void updateChat() {
     textArea.setOnKeyPressed(
-            new EventHandler<KeyEvent>() {
-              @Override
-              public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-                  textArea.deletePreviousChar();
-                  sendMessage();
-                  keyEvent.consume();
-                }
-              }
+        new EventHandler<KeyEvent>() {
+          @Override
+          public void handle(KeyEvent keyEvent) {
+            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+              textArea.deletePreviousChar();
+              sendMessage();
+              keyEvent.consume();
             }
-    );
+          }
+        });
   }
 
-  /**
-   * Creates a Box/Label when player sends a message
-   * Necessary to fill the ChatField
-   */
-  public void sendMessage(){
+  /** Creates a Box/Label when player sends a message Necessary to fill the ChatField */
+  public void sendMessage() {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
     box.setPrefWidth(Region.USE_COMPUTED_SIZE);
@@ -276,12 +266,12 @@ public class CreateGameController {
     message.setFont(Font.font("Chalkboard", 14));
     message.setFill(Color.WHITE);
 
-    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()),  message);
+    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()), message);
 
-    //Label text = new Label("User \n" + textArea.getText());
+    // Label text = new Label("User \n" + textArea.getText());
     Label text = new Label(null, flowTemp);
     text.setWrapText(true);
-    text.setPadding(new Insets(2,10,2,2));
+    text.setPadding(new Insets(2, 10, 2, 2));
     text.getStylesheets().add("stylesheets/chatstyle.css");
     text.getStyleClass().add("textBubble");
 
@@ -289,19 +279,18 @@ public class CreateGameController {
     chat.setAlignment(Pos.BOTTOM_RIGHT);
     chat.setSpacing(20);
     chat.getChildren().add(box);
-    chat.heightProperty().addListener(observer ->  scrollPane.setVvalue(1.0));
+    chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
     client.getNetClient().sendChatMessage(textArea.getText());
 
     textArea.clear();
   }
 
   /**
-   * Creates a Box/Label when player gets a message
-   * Necessary to fill the ChatField
+   * Creates a Box/Label when player gets a message Necessary to fill the ChatField
    *
    * @param username,text to fill the Label with relevant data
    */
-  public void getMessage(String username, String text){
+  public void getMessage(String username, String text) {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
     box.setPrefWidth(Region.USE_COMPUTED_SIZE);
@@ -315,24 +304,22 @@ public class CreateGameController {
     message.setFont(Font.font("Chalkboard", 14));
     message.setFill(Color.DARKGREY);
 
-    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()),  message);
+    TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()), message);
 
     Label label = new Label(null, flowTemp);
     label.setWrapText(true);
-    label.setPadding(new Insets(2,10,2,2));
+    label.setPadding(new Insets(2, 10, 2, 2));
     label.getStylesheets().add("stylesheets/chatstyle.css");
     label.getStyleClass().add("textBubbleFlipped");
 
     box.getChildren().add(label);
     chat.setSpacing(20);
     chat.getChildren().add(box);
-    chat.heightProperty().addListener(observer ->  scrollPane.setVvalue(1.0));
+    chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
   /**
-   * @author mnetzer
-   * Method to get back to the PlayScrabble Screen
-   *
+   * @author mnetzer Method to get back to the PlayScrabble Screen
    * @param mouseEvent to detect the current Stage
    */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
@@ -351,9 +338,7 @@ public class CreateGameController {
     window.show();
   }
 
-  /**
-   * Method to open the exit Screen in a new window
-   */
+  /** Method to open the exit Screen in a new window */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));

@@ -10,10 +10,16 @@ import javafx.stage.Stage;
 public class ExitGameController {
   private Client client;
 
+  /**
+   * Sets client instance in ExitGameController
+   *
+   * @param client Requires client to be set
+   */
   public void setModel(Client client) {
     this.client = client;
   }
 
+  /** Closes all windows and ends the game */
   public void exitGame(MouseEvent mouseEvent) {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     System.out.println("You've successfully logged out!");
@@ -23,6 +29,7 @@ public class ExitGameController {
     System.exit(0);
   }
 
+  /** Application will be continued only the exit window is closed */
   public void cancelExit(MouseEvent mouseEvent) {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.close();
