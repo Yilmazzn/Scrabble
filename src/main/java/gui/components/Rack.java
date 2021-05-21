@@ -74,6 +74,7 @@ public class Rack implements Serializable {
     return fields[col];
   }
 
+  /** Shuffles the tiles on the rack */
   public void shuffleRack(){
     RackField tmp;
     int rand;
@@ -86,11 +87,22 @@ public class Rack implements Serializable {
     }
   }
 
-  public boolean isSelected(int col){
+  /**
+   * Returns if a tile on the rack is selected for an exchange
+   *
+   * @param col identifies the tile
+   * @return boolean if tile is selected
+   */
+  public boolean isSelected(int col) {
     return fields[col].isSelected();
   }
 
-  public void add(Tile tile){
+  /**
+   * Add a tile to the next free spot on the rack
+   *
+   * @param tile tile that should be added
+   */
+  public void add(Tile tile) {
     for(int i = 0; i < RACK_SIZE; i++){
       if(fields[i].isEmpty()){
         fields[i].setTile(tile);
@@ -99,6 +111,11 @@ public class Rack implements Serializable {
     }
   }
 
+  /**
+   * Removes a tile of the rack
+   *
+   * @param position identifies the tile position
+   */
   public void remove(int position){
     System.out.println("Position: " + position);
     fields[position].setTile(null);
