@@ -3,9 +3,11 @@ package game.players;
 import game.Dictionary;
 import game.Game;
 import game.components.Board;
-import game.components.Tile;
+import game.components.BoardField;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,8 +19,9 @@ public class HardAiPlayer extends AiPlayer {
 
   private static Node
       root; // Root of Word tree built by dictionary (see below) if multiple hard bots exist, only
-            // // once created !
+  // // once created !
   // Only used for hard ai, I dont know what Nico will use :)
+  private final List<BoardField> placements = new LinkedList<>();
 
   private long startTime; // Start time of think method (used to track time it took)
   // once created !
@@ -43,16 +46,21 @@ public class HardAiPlayer extends AiPlayer {
   @Override
   public void think(Board gameBoard, Dictionary dictionary) {
     Board board = new Board(gameBoard); // Deep copy of game board
+    placements.clear();
     startTime = System.currentTimeMillis(); // Init start time
 
     System.out.println("Before AI Move");
     printBoard(board);
 
+    // fill placements with best computed solution
     if (game.getRoundNumber() == 1) { // First round --> think different since no anchors
-      computeFirstRound(dictionary);
+      computeFirstRound(board); // fills placements with best computed solution
     } else {
-
+      compute(board);
     }
+
+    // play placements
+
   }
 
   /** TODO REMOVE */
@@ -63,6 +71,15 @@ public class HardAiPlayer extends AiPlayer {
       }
       System.out.println();
     }
+  }
+
+  /** Reset board */
+  private void resetBoard(Board board) {
+    placements.forEach(
+        placement -> {
+          super.addTilesToRack(Arrays.asList(placement.getTile()));
+          board.placeTile(null, placement.getRow(), placement.getColumn());
+        });
   }
 
   /**
@@ -95,9 +112,20 @@ public class HardAiPlayer extends AiPlayer {
     return root;
   }
 
-  /** Called if first round */
-  private void computeFirstRound(Dictionary dictionary) {
-    for (Tile tile : rack) {}
+  /**
+   * Called if first round. Tries to build word with tiles on hand
+   *
+   * @param board copy of game board
+   */
+  private void computeFirstRound(Board board) {}
+
+  /** @param board copy of game board */
+  private void compute(Board board) {}
+
+  /** @return list of words possible with given prefix and RACK */
+  private List<String> getWords(String prefix, int maxDepth) {
+    List<String> possibleWord = new ArrayList<>();
+    return possibleWord;
   }
 
   /** A tree built by the bot at the start of game (PREFIX-/SUFFIX-TREE) */

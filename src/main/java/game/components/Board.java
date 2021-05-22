@@ -483,6 +483,10 @@ public class Board implements Serializable {
         totalScore += wordScore * wordMult;
       }
     }
+
+    if (placementsInTurn.size() == 7) { // if all tiles from rack were placed --> BONUS
+      totalScore += 50;
+    }
     return totalScore;
   }
 }
