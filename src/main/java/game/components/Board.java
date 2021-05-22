@@ -144,7 +144,7 @@ public class Board implements Serializable {
    *
    * @param placements placements in the last turn
    * @param dictionary Dictionary the game is based on
-   * @throws Exception if board state is invalid with message as to why Board was invalid
+   * @throws BoardException if board state is invalid with message as to why Board was invalid
    */
   public void check(List<BoardField> placements, Dictionary dictionary) throws BoardException {
 
@@ -328,5 +328,161 @@ public class Board implements Serializable {
     }
 
     // if reached here an no exception thrown --> valid
+  }
+  /**
+   * Evaluates the score of the play in the last turn (Efficient). Iterates over placements in last
+   * turn and only ever starts evaluating if placement is to the most top/left placement of all
+   * placements in last turn of the specific word it is forming
+   *
+   * @param placementsInTurn Placements which shall be evaluated
+   * @return total score of placements
+   */
+  public int evaluateScore(List<BoardField> placementsInTurn) {
+    int totalScore = 0;
+
+    // Iterate over placements of last turn
+    for (BoardField bf : placementsInTurn) {
+
+      // check to the left if other placement exists there (would be evaluated in that spec.
+      // iteration)
+      BoardField helper = this.getField(bf.getRow(), bf.getColumn() - 1); // left of placement
+      boolean leftmostPlacement = true; // is true if only placement to the left
+
+      boolean formsWordHorizontal =
+          (bf.getColumn() - 1 >= 0 && !this.isEmpty(bf.getRow(), bf.getColumn() - 1))
+              || (bf.getColumn() + 1 < Board.BOARD_SIZE
+                  && !this.isEmpty(
+                      bf.getRow(),
+                      bf.getColumn() + 1)); // true if left or right of placement exists tile
+
+      // traverse to left till empty or out of bounds (if forms word horitonal)
+      while (helper.getColumn() >= 0 && !helper.isEmpty() && formsWordHorizontal) {
+        if (placementsInTurn.contains(helper)) {
+          leftmostPlacement = false;
+          break;
+        }
+        helper = this.getField(helper.getRow(), helper.getColumn() - 1);
+      }
+
+      // check to the top if other placement this turn exists there (would be evaluated in that
+      // spec. iteration)
+      helper = this.getField(bf.getRow() - 1, bf.getColumn()); // above placement
+      boolean topmostPlacement = true; // is true if top of placement in formed word
+
+      boolean formsWordVertical =
+          (bf.getRow() - 1 >= 0 && !this.isEmpty(bf.getRow() - 1, bf.getColumn()))
+              || (bf.getRow() + 1 < Board.BOARD_SIZE
+                  && !this.isEmpty(
+                      bf.getRow() + 1,
+                      bf.getColumn())); // true if above or below of placement exists tile
+
+      // traverse up till empty or out of bounds (if forms word veritcal)
+      while (helper.getRow() >= 0 && !helper.isEmpty() && formsWordVertical) {
+        if (placementsInTurn.contains(helper)) {
+          topmostPlacement = false;
+          break;
+        }
+        helper = this.getField(helper.getRow() - 1, helper.getColumn());
+      }
+
+      // if leftmost placement & to the left/right tiles exist--> evaluate horizontal
+      if (leftmostPlacement && formsWordHorizontal) {
+        int wordScore = 0;
+        int wordMult = 1;
+
+        // traverse to the left
+        helper = bf;
+        while (helper.getColumn() - 1 >= 0
+            && !this.isEmpty(helper.getRow(), helper.getColumn() - 1)) {
+          helper = this.getField(helper.getRow(), helper.getColumn() - 1);
+        }
+
+        // traverse to the right
+        while (helper.getColumn() < Board.BOARD_SIZE && !helper.isEmpty()) {
+
+          int letterScore = helper.getTile().getScore();
+          int letterMult = 1;
+
+          // check if tile was placed last turn
+          if (!placementsInTurn.contains(helper)) { // tile was not placed last turn
+            wordScore += letterScore;
+          } else { // tile was placed last turn
+
+            // check field type and evaluate multipliers
+            switch (helper.getType()) {
+              case STAR:
+              case DWS:
+                wordMult *= 2;
+                break;
+              case TWS:
+                wordMult *= 3;
+                break;
+              case DLS:
+                letterMult *= 2;
+                break;
+              case TLS:
+                letterMult *= 3;
+                break;
+            }
+            wordScore += letterScore * letterMult;
+          }
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last column
+            break;
+          }
+          helper = this.getField(helper.getRow(), helper.getColumn() + 1);
+        }
+        totalScore += wordScore * wordMult;
+      }
+
+      // if topmost placement & tiles exist above or below --> evaluate vertical
+      if (topmostPlacement && formsWordVertical) {
+        int wordScore = 0;
+        int wordMult = 1;
+
+        // traverse up
+        helper = bf;
+        while (helper.getRow() - 1 >= 0 && !this.isEmpty(helper.getRow() - 1, helper.getColumn())) {
+          helper = this.getField(helper.getRow() - 1, helper.getColumn());
+        }
+
+        // traverse down
+        while (helper.getRow() < Board.BOARD_SIZE && !helper.isEmpty()) {
+
+          int letterScore = helper.getTile().getScore();
+          int letterMult = 1;
+
+          // check if tile was placed last turn
+          if (!placementsInTurn.contains(helper)) { // tile was not placed last turn
+            wordScore += letterScore;
+          } else { // tile was placed last turn
+
+            // check field type and evaluate multipliers
+            switch (helper.getType()) {
+              case STAR:
+              case DWS:
+                wordMult *= 2;
+                break;
+              case TWS:
+                wordMult *= 3;
+                break;
+              case DLS:
+                letterMult *= 2;
+                break;
+              case TLS:
+                letterMult *= 3;
+                break;
+            }
+            wordScore += letterScore * letterMult;
+          }
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last row
+            break;
+          }
+          helper = this.getField(helper.getRow() + 1, helper.getColumn());
+        }
+
+        totalScore += wordScore * wordMult;
+      }
+    }
+    return totalScore;
   }
 }
