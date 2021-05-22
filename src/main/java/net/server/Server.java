@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,17 +69,19 @@ public class Server extends Thread {
 
   /** Starts game from server */
   public void startGame() {
-    // Convert TileScores and TileDistributions to HashMap
-    LinkedHashMap<Character, Integer> mapTileDistribution = new LinkedHashMap<>();
-    LinkedHashMap<Character, Integer> mapScores = new LinkedHashMap<>();
-    for (int i = 0; i < 26; i++) {
-      mapTileDistribution.put(((char) ('A' + i)), tileDistributions[i]);
-      mapScores.put(((char) ('A' + i)), tileScores[i]);
+    // set game bag
+    LinkedList<Tile> gameBag = new LinkedList<>();
+    for (int i = 0; i < tileDistributions.length; i++) {
+      for (int j = 0; j < tileDistributions[i]; j++) {
+        if (i != tileDistributions.length - 1) { // Not joker
+          gameBag.add(new Tile(((char) ('A' + i)), tileScores[i]));
+        } else { // joker
+          gameBag.add(new Tile('#', 0));
+        }
+      }
     }
-    mapTileDistribution.put(((char) 35), tileDistributions[26]); // Joker
-    mapScores.put(((char) 35), 0); // Joker
 
-    game = new Game(players, mapTileDistribution, mapScores, dictionary);
+    game = new Game(players, gameBag, dictionary);
     game.nextRound(); // Start first round
   }
 

@@ -118,7 +118,7 @@ public class Dictionary {
    * @return returns true, if word exists
    */
   public boolean wordExists(String word) {
-    return wordExists(root, word.replaceAll("#", "[A-Z]")); // comply with regex
+    return wordExists(root, word);
   }
 
   /**
@@ -127,12 +127,10 @@ public class Dictionary {
    * @param word Requires word/ REGEX, in a non case sensitive way
    * @return Returns true, if word exists
    */
-  // dictionary.wordExists("HEL\wO")
   private boolean wordExists(NodeWordlist node, String word) {
     if (node == null) {
       return false;
-    } else if (node.getData().matches(word)) {
-      System.out.println("WORD RECOGNIZED: " + node.getData());
+    } else if (node.getData().compareTo(word.toUpperCase()) == 0) {
       return true;
     } else if (node.getData().compareTo(word.toUpperCase()) > 0) {
       return wordExists(node.getLeft(), word);

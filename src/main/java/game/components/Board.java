@@ -77,6 +77,20 @@ public class Board implements Serializable {
     }
   }
 
+  /** Creates deep copy of board (Used by AiPlayer to test moves without interacting with game) */
+  public Board(Board board) {
+    fields = new BoardField[BOARD_SIZE][BOARD_SIZE];
+    for (int i = 0; i < BOARD_SIZE; i++) {
+      for (int j = 0; j < BOARD_SIZE; j++) {
+        this.fields[i][j] = new BoardField(board.getField(i, j).getType(), i, j);
+        Tile tile = board.getTile(i, j);
+        if (tile != null) {
+          placeTile(new Tile(tile.getLetter(), tile.getScore()), i, j);
+        }
+      }
+    }
+  }
+
   /**
    * Set given tile at given row and column
    *
@@ -122,9 +136,10 @@ public class Board implements Serializable {
   }
 
   /**
-   * Checks validity of board state checks if STAR field is covered, checks that there are no tiles
-   * not adjacent to others, checks that valid words are formed on the board based on the
-   * dictionary, As it checks it sets fields which hold invalid tiles as invalid (field.valid =
+   * Only Checks validity of placements (Prior board state is assumed to be true). Makes it
+   * efficient! Checks validity of board state checks if STAR field is covered, checks that there
+   * are no tiles not adjacent to others, checks that valid words are formed on the board based on
+   * the dictionary, As it checks it sets fields which hold invalid tiles as invalid (field.valid =
    * false)
    *
    * @param placements placements in the last turn
@@ -281,6 +296,8 @@ public class Board implements Serializable {
         }
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
+        } else {
+          System.out.println("Word " + word + " was recognized");
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
@@ -303,6 +320,8 @@ public class Board implements Serializable {
         }
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
+        } else {
+          System.out.println("Word " + word + " was recognized");
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }

@@ -19,17 +19,16 @@ public class Game {
       players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
   // second last player, ...]
   private final boolean running; // true if game is running
-  private final LinkedList<Tile> bag = new LinkedList<>(); // bag of tiles in the game
   private final List<String> wordsFound =
       new ArrayList<>(); // a list of words found up to this point
-  private final Board board = new Board(); // Game Board
-  private final Board lastValidBoard =
-      new Board(); // Game Board which was last accepted as valid to reset after invalid player
-  // turns
-  private int roundNum = -1; // amount of total rounds since start
+  private final Board board; // Game Board
+  private final LinkedList<Tile> bag; // bag of tiles in the game
   private final int roundsSinceLastScore = 0; // last n amount of rounds without points
   private final Dictionary
       dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
+  private Board
+      lastValidBoard; // Game Board which was last accepted as valid to reset after invalid player
+  private int roundNum = -1; // amount of total rounds since start
   private Player playerInTurn; // Player whose turn it is
   private List<BoardField> placementsInTurn =
       new LinkedList<>(); // Placements on the board in the last turn
@@ -44,13 +43,10 @@ public class Game {
    * tiles (amount & score determined by the given arrays), shuffles them and distributes them to
    * the players
    */
-  public Game(
-      List<Player> players,
-      Map<Character, Integer> letterDistributions,
-      Map<Character, Integer> letterScores,
-      Dictionary dictionary) {
+  public Game(List<Player> players, LinkedList<Tile> bag, Dictionary dictionary) {
 
     this.dictionary = dictionary;
+    this.bag = bag;
 
     // Players participating
     this.players = players;
@@ -60,15 +56,9 @@ public class Game {
     this.running = true;
 
     // Set up a board
-    Board board = new Board();
+    this.board = new Board();
 
-    // Setup letter scores
-    // Create tiles, put them into the bag and shuffle
-    for (char letter : letterScores.keySet()) {
-      for (int i = 0; i < letterDistributions.get(letter); i++) {
-        bag.add(new Tile(letter, letterScores.get(letter)));
-      }
-    }
+    // Shuffle bag for certainty
     Collections.shuffle(bag);
 
     // Give each player 7 tiles and remove them from the bag
@@ -89,7 +79,14 @@ public class Game {
 
     // increment round number
     roundNum++;
+    // TODO Remove
+    if (roundNum > 10) {
+      System.out.println("GAME END\t\t| limited to 10 rounds");
+    }
     System.out.println("Round Number: " + (roundNum + 1));
+
+    // Save last valid board state
+    this.lastValidBoard = new Board(board); // deep copy
 
     // reassign turns
     // TODO Handle with care, check for 3 and 4 players
@@ -97,14 +94,12 @@ public class Game {
     playerInTurn = players.get(roundNum % players.size());
     playerInTurn.setTurn(true);
 
-    // TODO trigger Bag size info message send
-
     placementsInTurn = new LinkedList<>();
 
     // If player is Ai, then trigger it to think
     if (!playerInTurn.isHuman()) { // player is not human
       AiPlayer ai = (AiPlayer) playerInTurn;
-      ai.think(board,dictionary);
+      ai.think(board, dictionary);
     }
   }
 
@@ -349,7 +344,7 @@ public class Game {
     return board;
   }
 
-  public Dictionary getDictionary(){
+  public Dictionary getDictionary() {
     return this.dictionary;
   }
 }
