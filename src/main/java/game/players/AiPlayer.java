@@ -23,8 +23,9 @@ public abstract class AiPlayer extends Player {
               "Yasin",
               "Max",
               "Nicolas")); // bots get random names which is removed from collection then (no
+  private final String name;
   // duplicates)
-  private final ArrayList<Tile> rack = new ArrayList<>();
+  protected ArrayList<Tile> rack = new ArrayList<>();
   private final DIFFICULTY difficulty;
 
   /** Initializes Bot with random name of collection and removes it from list of available names */
@@ -35,10 +36,11 @@ public abstract class AiPlayer extends Player {
 
     // Get random name
     int randomIdx = (int) (Math.random() * botNames.size()); // random number 0-5
-    String botName = botNames.get(randomIdx);
+    name = botNames.get(randomIdx);
 
     // Set name of profile to 'Bot <name>' and remove name from list
-    super.getProfile().setName("Bot " + botName);
+    super.getProfile()
+        .setName("Bot " + name + " (" + (difficulty == DIFFICULTY.EASY ? "Easy" : "Hard") + ")");
     botNames.remove(randomIdx);
   }
 
@@ -62,10 +64,12 @@ public abstract class AiPlayer extends Player {
   /** Quit from game. Set username back to list of available bot names */
   public void quit() {
     // Adds botName back to 'pool' of available names
-    botNames.add(super.getProfile().getName().split(" ")[1]);
+    botNames.add(name);
   }
 
-  public ArrayList<Tile> getTilesFromPlayer(){return this.rack;}
+  public ArrayList<Tile> getTilesFromPlayer() {
+    return this.rack;
+  }
 
   public enum DIFFICULTY {
     EASY,

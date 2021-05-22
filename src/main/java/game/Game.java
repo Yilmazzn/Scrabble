@@ -165,7 +165,7 @@ public class Game {
       // if not thrown error by now then board state valid
       int score = evaluateScore();
       System.out.println("SCORE: " + score);
-      List<Tile> tileRefill = new LinkedList<Tile>();
+      List<Tile> tileRefill = new LinkedList<>();
       for (int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++) {
         tileRefill.add(bag.pop());
       }
@@ -346,5 +346,9 @@ public class Game {
 
   public Dictionary getDictionary() {
     return this.dictionary;
+  }
+
+  public int getRoundNumber() {
+    return roundNum + 1;
   }
 }
