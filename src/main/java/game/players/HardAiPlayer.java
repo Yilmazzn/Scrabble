@@ -15,8 +15,13 @@ import java.util.List;
  */
 public class HardAiPlayer extends AiPlayer {
 
+  private static Node
+      root; // Root of Word tree built by dictionary (see below) if multiple hard bots exist, only
+            // // once created !
+  // Only used for hard ai, I dont know what Nico will use :)
+
   private long startTime; // Start time of think method (used to track time it took)
-  private Node root; // Root of Word tree built by dictionary (see below)
+  // once created !
 
   public HardAiPlayer() {
     super(DIFFICULTY.HARD);
@@ -26,7 +31,9 @@ public class HardAiPlayer extends AiPlayer {
   @Override
   public void joinGame(Game game) {
     super.joinGame(game); // assign game to this player
-    root = buildTree(game.getDictionary()); // Build word tree
+    if (root == null) { // create only first time
+      root = buildTree(game.getDictionary()); // Build word tree
+    }
   }
 
   /**
