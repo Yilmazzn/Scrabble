@@ -58,7 +58,7 @@ public class GameViewController implements Initializable {
   @FXML private Button values;
   @FXML private Button dictionary;
   @FXML private CheckBox ready;
-  @FXML private BorderPane agreements;
+  @FXML private VBox agreements;
 
   private Client client;
   private LocalPlayer player;
