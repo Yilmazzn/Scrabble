@@ -147,7 +147,10 @@ public class ServerProtocol extends Thread {
             boolean[] playerReady = new boolean[players.size()];
             boolean ready = true;
             for (int i = 1; i < playerReady.length; i++) {
-              playerReady[i] = ((RemotePlayer) players.get(i)).getReady();
+              playerReady[i] =
+                  (!players.get(i).isHuman()
+                      || ((RemotePlayer) players.get(i))
+                          .getReady()); // bots are always ready / remote player if set
               ready = ready && playerReady[i];
             }
             prm.setValues(playerReady);
