@@ -6,7 +6,7 @@ import game.components.Tile;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * @author nsiebler the test is about the words hallo, world and middle, and test the various cases
@@ -32,8 +32,6 @@ class GameTest {
   Player p4;
   Game g;
   ArrayList<Player> players = new ArrayList<>();
-  HashMap<Character, Integer> letterDistribution;
-  HashMap<Character, Integer> letterScores;
 
   @BeforeAll
   void setUp() throws Exception {
@@ -53,12 +51,12 @@ class GameTest {
     // Initialize the players
     players.add(new TestPlayer("TestPlayer-1"));
 
-    // Initialize the Hash Maps
-    letterDistribution = new HashMap<>();
-    letterDistribution.put('X', 100);
-    letterScores = new HashMap<>();
-    letterScores.put('X', -1);
-    g = new Game(players, letterDistribution, letterScores, new Dictionary());
+    // Init mock bag
+    LinkedList<Tile> tiles = new LinkedList<>();
+    for (int i = 0; i < 100; i++) {
+      tiles.add(new Tile('X', 0));
+    }
+    g = new Game(players, tiles, new Dictionary());
   }
 
   @Test
