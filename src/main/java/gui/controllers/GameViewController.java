@@ -174,6 +174,7 @@ public class GameViewController implements Initializable {
    * @param bagSize Requires size bag should have
    */
   public void setBagSize(int bagSize) {
+    player.setBagSize(bagSize);
     Tooltip tip = bag.getTooltip();
     tip.setText("There are " + bagSize + " tiles in the game bag");
   }
@@ -295,6 +296,7 @@ public class GameViewController implements Initializable {
 
   public void tiles() {
     System.out.println("tiles");
+    player.exchange();
   }
 
   /** Shuffles the tiles on the rack */

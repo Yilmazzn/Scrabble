@@ -114,14 +114,15 @@ public class Game {
    */
   public void exchange(Collection<Tile> tilesFromPlayer) {
 
+    Collections.shuffle(bag);
     Collection<Tile> tilesFromBag = new LinkedList<>(); // tiles that are to be given back
 
     for (int i = 0; i < tilesFromPlayer.size(); i++) {
       tilesFromBag.add(bag.pop());
     }
 
+    bag.addAll(tilesFromPlayer);
     playerInTurn.addTilesToRack(tilesFromBag);
-    Collections.shuffle(bag);
     nextRound();
   }
 

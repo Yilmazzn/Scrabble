@@ -67,15 +67,11 @@ public class ClientProtocol extends Thread {
     }
   }
 
-  /**
-   * Method for writing a StartGameMessage Object to the server
-   *
-   * @param file Requires File, that includes Dictionary
-   */
-  public void startGame(File file) {
+  /** Method for writing a StartGameMessage Object to the server */
+  public void startGame() {
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new StartGameMessage(file));
+        this.out.writeObject(new StartGameMessage());
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -339,9 +335,6 @@ public class ClientProtocol extends Thread {
             // TODO add method
             System.out.println("Update Board");
             break;
-          case SUBMITMOVE:
-            // TODO
-            break;
           case UPDATEPOINTS:
             // TODO updateView()
             // The message knows, which points have been changed
@@ -366,19 +359,8 @@ public class ClientProtocol extends Thread {
                 () -> {
                   client.setTurns(((TurnMessage) m).getTurn(), ((TurnMessage) m).getTurns());
                   client.setBagSize(((TurnMessage) m).getBagSize());
+                  client.setCoPlayerScores(((TurnMessage) m).getPoints());
                 });
-            break;
-          case EXCHANGETILES:
-            ExchangeTileMessage etm = (ExchangeTileMessage) m;
-            if (etm.getError() == null) {
-              // TODO remove oldTiles from Players rack
-              // then add newTiles to Players rack
-              // maybe chat message to other players, that rack is changed
-              // call nextTurn()
-              System.out.println("No Error");
-            } else {
-              System.out.println(etm.getError());
-            }
             break;
           case DISCONNECT:
             Platform.runLater(

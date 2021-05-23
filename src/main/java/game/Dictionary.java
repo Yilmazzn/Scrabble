@@ -17,32 +17,24 @@ public class Dictionary {
 
   /** Default Dictionary when called without specifying a path (dictionary is given in resources) */
   public Dictionary() {
-    String defaultDictionaryPath =
-        System.getProperty("user.dir")
-            + System.getProperty("file.separator")
-            + "src"
-            + System.getProperty("file.separator")
-            + "main"
-            + System.getProperty("file.separator")
-            + "resources"
-            + System.getProperty("file.separator")
-            + "data"
-            + System.getProperty("file.separator")
-            + "Collins Scrabble Words (2019) with definitions.txt";
+    String defaultDictionaryPath = "/data/Collins Scrabble Words (2019) with definitions.txt";
+    uneditedLines = new ArrayList<>();
 
-    File f = new File(defaultDictionaryPath);
-
-    try {
-      br = new BufferedReader(new FileReader(f));
-
-      uneditedLines = new ArrayList<>();
-      getUneditedLines();
-      words = new ArrayList<>();
-      getWords();
-      root = createBSTFromArrayList(words, 0, words.size() - 1);
-    } catch (FileNotFoundException e) {
-      System.out.print(defaultDictionaryPath + " could not be found!");
+    InputStream in = getClass().getResourceAsStream(defaultDictionaryPath);
+    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+    String line;
+    try{
+      while((line = reader.readLine()) != null){
+        uneditedLines.add(line);
+      }
+    }catch(Exception e){
+      e.printStackTrace();
     }
+
+    words = new ArrayList<>();
+    getWords();
+    root = createBSTFromArrayList(words, 0, words.size() - 1);
+
   }
 
   /**

@@ -36,7 +36,6 @@ public class Server extends Thread {
     9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
   };
   private Dictionary dictionary = new Dictionary();
-  private String dictionaryString = dictionary.getDictionary();
 
   /** Constructor to create server, sets serverIP */
   public Server() {
@@ -93,15 +92,6 @@ public class Server extends Thread {
   public void stopGame() {
     // TODO send stats back
     game = null;
-  }
-
-  /**
-   * Creates new dictionary from absolute path
-   *
-   * @param file Requires File that includes Path to dictionary.txt
-   */
-  public void createDictionary(File file) {
-    dictionary = new Dictionary(file.getAbsolutePath());
   }
 
   // TODO test if method from StackOverflow works as well, should use it then, so we could cite the
@@ -313,7 +303,13 @@ public class Server extends Thread {
       int[] tileScores, int[] tileDistributions, String dictionary) {
     this.tileScores = tileScores;
     this.tileDistributions = tileDistributions;
-    this.dictionaryString = dictionary;
+    if (dictionary != null) {
+      if (dictionary.equals("")) {
+        this.dictionary = new Dictionary();
+      } else {
+        this.dictionary = new Dictionary(dictionary);
+      }
+    }
   }
 
   /** @return Returns if server is still running */
@@ -342,7 +338,7 @@ public class Server extends Thread {
 
   /** @return Returns dictionaryString */
   public String getDictionaryString() {
-    return dictionaryString;
+    return dictionary.getDictionary();
   }
 
   public Game getGame() {

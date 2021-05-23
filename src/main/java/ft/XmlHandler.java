@@ -8,9 +8,10 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -22,28 +23,18 @@ import java.util.List;
 public class XmlHandler {
 
   /**
-   * @author nsiebler This is the class that contains the Methods to Handle the XML files With that i
-   *     mean create new files and update files that are already existing as well as read the values
-   *     out of the data. This is made by the playertoElement and elementToPlayer functions Get
-   *     Player Functionality is made by the ArrayList
+   * @author nsiebler This is the class that contains the Methods to Handle the XML files With that
+   *     i mean create new files and update files that are already existing as well as read the
+   *     values out of the data. This is made by the playertoElement and elementToPlayer functions
+   *     Get Player Functionality is made by the ArrayList
    *     <p>This class creates the XML Document based on the NewPlayer Class We want a method that
    *     just creates the Document here. The deletion and change of values is done on another Class.
    *     We just wanna make sure that we can create the doc that we created here
    */
   private static final String sep = System.getProperty("file.separator");
 
-  public static final String XML_PATH =
-      System.getProperty("user.dir")
-          + sep
-          + "src"
-          + sep
-          + "main"
-          + sep
-          + "resources"
-          + sep
-          + "data"
-          + sep
-          + "profiles.xml";
+  public static final String XML_PATH = System.getProperty("user.dir") + sep + "res" + sep + "profiles.xml";
+
   public static Document xmlDoc;
 
   private static void initDocument() {
@@ -51,8 +42,24 @@ public class XmlHandler {
       // Prepare SAXBuilder
       SAXBuilder builder = new SAXBuilder();
       try {
-        // Make sure the XML file exists and return it
+        // Make sure the XML file exists
+        File resDir = new File(System.getProperty("user.dir") + sep + "res");
+        if(!resDir.exists()){
+          if(!resDir.mkdir()){  // Create directory
+            System.out.println("Directory 'res' could not be created.");
+          }
+        }
         File xmlFile = new File(XML_PATH);
+        if(!xmlFile.exists()){
+          if(!xmlFile.createNewFile()){  // Create new file
+            System.out.println("File 'profiles.xml' could not be created.");
+          }else{
+            FileWriter writer = new FileWriter(xmlFile);
+            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n<PlayerProfiles></PlayerProfiles>"); // Write new XML
+            writer.flush();
+            writer.close();
+          }
+        }
         xmlDoc = builder.build(xmlFile);
       } catch (JDOMException | IOException e) {
         e.printStackTrace();
@@ -174,7 +181,7 @@ public class XmlHandler {
   }
 
   /**
-   * Worked Sav Method which generates a updatet XML-file the normal save method still has to be
+   * Worked Sav Method which generates a updated XML-file the normal save method still has to be
    * their because this method saves the xml document itself
    */
   public static List<PlayerProfile> loadProfiles() {

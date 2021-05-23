@@ -49,7 +49,6 @@ public class OvertimeWatch extends Thread {
   /** Stops countdown by interrupting and killing this thread */
   public int stopCountdown() {
     running = false;
-    System.out.println("COUNTDOWN STOPPED");
     gameViewController.updateTime(overtime);
     return overtime;
   }

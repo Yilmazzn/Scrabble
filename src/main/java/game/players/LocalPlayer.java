@@ -9,6 +9,8 @@ import game.components.Tile;
 import gui.components.Rack;
 import gui.controllers.GameViewController;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class LocalPlayer {
 
   private boolean turn = true;
   private int overtime = 600000;
+  private int bagSize;
 
   /**
    * Sets basic attributes of class, for testing it creates 5 tiles in personal rack
@@ -47,6 +50,7 @@ public class LocalPlayer {
     this.profile = client.getSelectedProfile();
   }
 
+  /** @return returns true if it is turn of localplayer instance */
   public boolean isTurn() {
     return turn;
   }
@@ -66,18 +70,51 @@ public class LocalPlayer {
     return rack;
   }
 
-  /** @return Returns personal score */
-  /* public int getScore() {
-      return score;
-    }
-  */
   /**
-   * TODO Ehrlich gesagt keine Ahnung was diese Methode macht
+   * Toggles isSelected state of one tile of rack
    *
-   * @param position Requires postion in rack
+   * @param position Requires position in rack
    */
   public void selectTile(int position) {
     rack.getField(position).setSelected(!rack.isSelected(position));
+  }
+
+  public void setBagSize(int bagSize) {
+    this.bagSize = bagSize;
+  }
+
+  public void exchange() {
+
+    if(!turn){
+      client.showPopUp("....");
+      return;
+    }
+
+    ArrayList<Tile> tmp = new ArrayList<>();
+    int counter = 0;
+    for (int i = 0; i < 7; i++) {
+      if (rack.getTile(i) != null && rack.getField(i).isSelected()) {
+        counter++;
+      }
+    }
+    if (counter > bagSize) {
+      controller.createSystemMessage(
+          "You selected "
+              + counter
+              + " Tiles, but only "
+              + bagSize
+              + " Tiles are still in the bag. Please reduce number of selected Tiles");
+      return;
+    }
+    for (int i = 0; i < 7; i++) {
+      if (rack.getTile(i) != null && rack.getField(i).isSelected()) {
+        tmp.add(rack.getTile(i));
+        rack.remove(i);
+      }
+    }
+    Tile[] tiles = new Tile[tmp.size()];
+    tiles = tmp.toArray(tiles);
+    client.getNetClient().exchangeTiles(tiles);
   }
 
   /**

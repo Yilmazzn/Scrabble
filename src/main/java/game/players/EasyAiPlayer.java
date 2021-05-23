@@ -123,7 +123,7 @@ public class EasyAiPlayer extends AiPlayer {
       random = game.getBagSize();
     }
     for (int i = 0; i < random; i++) {
-      exchange(getTilesFromPlayer().get(i));
+      //exchange(getTilesFromPlayer().get(i));
     }
 
     // Just finally submit everything and the rest is done

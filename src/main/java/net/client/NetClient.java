@@ -128,7 +128,7 @@ public class NetClient {
    *
    * @param tileScores Requires tileScores
    * @param tileDistributions requires tileDistribution
-   * @param dictionary requires dictionary File
+   * @param dictionary requires dictionary path
    */
   public void sendGameSettings(int[] tileScores, int[] tileDistributions, String dictionary) {
     connection.sendGameSettings(tileScores, tileDistributions, dictionary);
@@ -148,8 +148,8 @@ public class NetClient {
    *
    * @author ygarip
    */
-  public void startGame(File file) {
-    this.connection.startGame(file);
+  public void startGame() {
+    this.connection.startGame();
   }
 
   /**
@@ -226,7 +226,8 @@ public class NetClient {
   }
 
   /**
-   * @param oldTiles requires the tiles to exchange the tiles with the bag
+   * Method for initiating ExchangeTileMessage
+   *
    * @author vkaczmar a method to request the bag amount
    */
   public void exchangeTiles(Tile[] oldTiles) {
@@ -346,6 +347,7 @@ public class NetClient {
    */
   public void setCoPlayerScores(int[] scores) {
     this.coPlayerScores = scores;
+    gameViewController.updateScoreboard(coPlayers, scores);
   }
 
   /** @return Returns coPlayerScores as Array */

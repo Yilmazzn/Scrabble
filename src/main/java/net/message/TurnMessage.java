@@ -9,17 +9,19 @@ public class TurnMessage extends Message {
   private final boolean turn;
   private final boolean[] turns;
   private final int bagSize;
+  private final int[] points;
 
   /**
    * Constructor for Creating TurnMessage
    *
    * @param turn Requires the boolean value for turn
    */
-  public TurnMessage(boolean turn, boolean[] turns, int bagSize) {
+  public TurnMessage(boolean turn, boolean[] turns, int bagSize, int[] points) {
     super(MessageType.TURN);
     this.turn = turn;
     this.turns = turns;
     this.bagSize = bagSize;
+    this.points = points;
   }
 
   /** @return returns the boolean value of turn */
@@ -35,5 +37,9 @@ public class TurnMessage extends Message {
   /** @return returns amount of tiles in game bag */
   public int getBagSize() {
     return bagSize;
+  }
+
+  public int[] getPoints() {
+    return points;
   }
 }

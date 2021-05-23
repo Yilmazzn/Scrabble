@@ -351,12 +351,7 @@ public class CreateGameController {
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
 
-    client
-        .getNetClient()
-        .startGame(
-            new File(
-                System.getProperty("user.dir")
-                    + "/src/main/resources/data/Collins Scrabble Words (2019) with definitions.txt"));
+    client.getNetClient().startGame();
     controller.setModel(client);
     int[] scores = new int[profiles.length];
     controller.updateScoreboard(profiles, scores);

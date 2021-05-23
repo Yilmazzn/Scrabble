@@ -158,7 +158,6 @@ public class ServerProtocol extends Thread {
             server.sendToAll(prm);
             break;
           case STARTGAME:
-            server.createDictionary(((StartGameMessage) m).getFile());
             server.sendToAll(m);
             server.startGame();
             break;
@@ -166,7 +165,6 @@ public class ServerProtocol extends Thread {
             server.sendToAll(m);
             break;
           case SUBMITMOVE:
-            // TODO something is fishy
             player.submit();
             break;
           case UPDATEPOINTS:
