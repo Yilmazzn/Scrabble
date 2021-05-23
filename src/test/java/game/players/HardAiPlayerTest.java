@@ -2,14 +2,18 @@ package game.players;
 
 import game.Dictionary;
 import game.Game;
+import game.components.Board;
 import game.components.Tile;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 import java.util.List;
 
-class HardAiPlayerTest {
+/**
+ * @yuzun Test class of my Hard AI extends the class HardAiPlayer overrides methods and just adds
+ *     simple valuable System.out.prints
+ */
+class HardAiPlayerTest extends HardAiPlayer {
 
   private final int[] tileScores = {
     1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
@@ -18,15 +22,14 @@ class HardAiPlayerTest {
     9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
   };
   private final Dictionary dictionary = new Dictionary();
-  private Game game;
 
   @Test
   void playGameTest() { // Play till end
     // set game bag
     List<Player> players = new LinkedList<>();
-    players.add(new HardAiPlayer());
-    players.add(new HardAiPlayer());
-    players.add(new HardAiPlayer());
+    players.add(new HardAiPlayerTest());
+    players.add(new HardAiPlayerTest());
+    players.add(new HardAiPlayerTest());
 
     LinkedList<Tile> gameBag = new LinkedList<>();
     for (int i = 0; i < tileDistributions.length; i++) {
@@ -41,6 +44,42 @@ class HardAiPlayerTest {
     new Game(players, gameBag, dictionary).nextRound();
   }
 
-  @AfterEach
-  void tearDown() {}
+  @Override
+  public void think(Board gameBoard, Dictionary dictionary) {
+    long startTime = System.currentTimeMillis();
+    System.out.println("Before AI Move: ");
+    printRack();
+    printBoard(gameBoard);
+    System.out.println("Start calculating...");
+
+    super.thinkInternal(
+        gameBoard, dictionary); // NOT A THREAD since JUNIT does not work well with it
+
+    printRack();
+    printBoard(gameBoard);
+    System.out.println(
+        "Finished calculating after " + (System.currentTimeMillis() - startTime) + "ms");
+    System.out.println();
+  }
+
+  @Override
+  public void addScore(int score) {
+    super.addScore(score);
+    System.out.println("--> scored " + score + " points");
+    System.out.println();
+  }
+
+  private void printBoard(Board board) {
+    for (int i = 0; i < Board.BOARD_SIZE; i++) {
+      for (int j = 0; j < Board.BOARD_SIZE; j++) {
+        System.out.print(board.getTile(i, j) == null ? "-" : board.getTile(i, j).getLetter());
+      }
+      System.out.println();
+    }
+  }
+
+  private void printRack() {
+    rack.forEach(tile -> System.out.print(tile.getLetter()));
+    System.out.println();
+  }
 }

@@ -80,8 +80,9 @@ public class Game {
     // increment round number
     roundNum++;
     // TODO Remove
-    if (roundNum > 1) {
+    if (roundNum + 1 > 2) {
       System.out.println("GAME END \t\t | Limited in Game.java");
+      return;
     }
     System.out.println("Round Number: " + (roundNum + 1));
 
@@ -101,7 +102,6 @@ public class Game {
       AiPlayer ai = (AiPlayer) playerInTurn;
 
       // Start think method in thread as to not block any functionalities of server
-      // new Thread(() -> ai.think(board, dictionary)).start(); TODO
       ai.think(board, dictionary);
     }
   }
@@ -167,7 +167,7 @@ public class Game {
 
       // if not thrown error by now then board state valid
       int score = evaluateScore();
-      System.out.println("SCORE: " + score);
+      playerInTurn.addScore(score);
       List<Tile> tileRefill = new LinkedList<>();
       for (int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++) {
         tileRefill.add(bag.pop());

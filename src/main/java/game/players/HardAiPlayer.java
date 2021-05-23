@@ -8,7 +8,6 @@ import game.components.Tile;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -22,7 +21,6 @@ public class HardAiPlayer extends AiPlayer {
       root; // Root of Word tree built by dictionary (see below) if multiple hard bots exist, only
   // // once created !
   // Only used for hard ai, I dont know what Nico will use :)
-  private final List<BoardField> placements = new LinkedList<>(); // placements in turn
   private final List<String> possibleWords = new ArrayList<>(); // possible words in turn
 
   private List<Placement> bestPlacements = new ArrayList<>(); // best placement
@@ -42,61 +40,61 @@ public class HardAiPlayer extends AiPlayer {
       root = buildTree(game.getDictionary()); // Build word tree
     }
   }
+  /**
+   * Main method which is triggered by the game instance All computations from start of round till
+   * end need to be done in here! START COMPUTATION in THREAD as to not block any functionalities of
+   * server
+   */
+  @Override
+  public void think(Board gameBoard, Dictionary dictionary) {
+    new Thread(() -> thinkInternal(gameBoard, dictionary));
+  }
 
   /**
    * Main method which is triggered by the game instance All computations from start of round till
    * end need to be done in here!
    */
-  @Override
-  public void think(Board gameBoard, Dictionary dictionary) {
+  public void thinkInternal(Board gameBoard, Dictionary dictionary) {
     Board board = new Board(gameBoard); // Deep copy of game board
-    placements.clear();
+    bestPlacements.clear();
     possibleWords.clear();
     startTime = System.currentTimeMillis(); // Init start time
 
-    System.out.println("Before AI Move");
-    printRack();
-    printBoard(gameBoard);
-
-    System.out.println("Start calculating....");
     // fill placements with best computed solution
     if (game.getRoundNumber() == 1) { // First round --> think different since no anchors
       computeFirstRound(board); // fills placements with best computed solution
     } else {
       compute(board);
     }
-    System.out.println(
-        "Finished calculating after " + (System.currentTimeMillis() - startTime) + "ms");
 
-    // play placements (with a little time in between to simulate single placements)
-    for (Placement placement : bestPlacements) {
-      placeTile(placement.getTile(), placement.getRow(), placement.getColumn());
-      rack.remove(placement.getTile());
-      try {
-        Thread.sleep(1); // TODO INCREASE
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+    // if placement could be found --> execute it
+    if (bestPlacements.size() > 0) {
+
+      // play placements (with a little time in between to simulate single placements)
+      for (Placement placement : bestPlacements) {
+        placeTile(placement.getTile(), placement.getRow(), placement.getColumn());
+        rack.remove(placement.getTile());
+        try {
+          Thread.sleep(0); // TODO INCREASE
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
+
+    } else { // if placement could not be found --> randomly exchange tiles
+      List<Tile> tilesToExchange = new ArrayList<>();
+      for (int i = 0; i < game.getBagSize(); i++) {
+        rack.forEach(
+            tile -> {
+              if (Math.random() > 0.5) { // 50 % chance to be exchanged
+                tilesToExchange.add(tile);
+              }
+            });
+      }
+      exchange(tilesToExchange);
     }
 
-    System.out.println("After AI Move: ");
-    printRack();
-    printBoard(gameBoard);
-  }
-
-  /** TODO REMOVE */
-  private void printBoard(Board board) {
-    for (int i = 0; i < Board.BOARD_SIZE; i++) {
-      for (int j = 0; j < Board.BOARD_SIZE; j++) {
-        System.out.print(board.getTile(i, j) == null ? "-" : board.getTile(i, j).getLetter());
-      }
-      System.out.println();
-    }
-  }
-
-  private void printRack() {
-    rack.forEach(tile -> System.out.print(tile.getLetter()));
-    System.out.println();
+    submit();
   }
 
   /** Reset board */
@@ -145,8 +143,9 @@ public class HardAiPlayer extends AiPlayer {
   private void computeFirstRound(Board board) {
     List<Character> characters = new ArrayList<>();
     rack.forEach(tile -> characters.add(tile.getLetter())); // fill list of characters
-    calculatePossibleWords(root, characters, new ArrayList<>(), 7);
 
+    possibleWords.clear();
+    calculatePossibleWords(root, characters, new ArrayList<>(), 7);
     System.out.println("Found " + possibleWords.size() + " possible words");
 
     // sort list by length to check longest ones first
@@ -164,27 +163,30 @@ public class HardAiPlayer extends AiPlayer {
         placements.add(new Placement(tile, 7 + i, 7));
       }
 
-      int score = evaluatePlacement(board, placements);
+      int score = evaluatePlacement(board, placements); // evaluate placement
       if (maxScore < score) {
         bestPlacements = placements;
         maxScore = score;
       }
-
-      resetBoard(board, placements);
     }
-
     System.out.println("Max Score calculated to be: " + maxScore);
   }
 
-  /** @param board copy of game board */
+  /**
+   * Computes best possible placement. Reduces dimensions to one by first checking only horizontal,
+   * then vertical
+   *
+   * @param board copy of game board
+   */
   private void compute(Board board) {}
 
   /**
-   * Recursive Method
+   * Recursive Method, checks which words are possible
    *
    * @param node Node at which we start
-   * @param characters characters representing tiles on hand
-   * @param path list of nodes already visited
+   * @param characters characters representing tiles on hand (which can be used to complete the
+   *     word)
+   * @param path list of characters already visited
    * @param depth Max characters which can be attached
    * @return list of words possible with given prefix and RACK
    */
@@ -213,16 +215,24 @@ public class HardAiPlayer extends AiPlayer {
     }
   }
 
+  /** Returns a tile with given letter */
   private Tile getTile(char letter) {
     for (Tile tile : rack) {
       if (tile.getLetter() == letter) {
         return tile;
       }
     }
-    return null; // should never be reached since only called with values known to be in hand
+    return null; // should never be reached since method only called with values known to be in hand
   }
 
-  /** return score after placements after simulating placement on copy of board */
+  /**
+   * Simulates placements on copy of board, evaluates score, resets board back to state prior to
+   * placements
+   *
+   * @param board board object
+   * @param placements placements to be simulated and scored
+   * @return score of placements
+   */
   private int evaluatePlacement(Board board, List<Placement> placements) {
     List<BoardField> boardPlacements = new ArrayList<>();
     placements.forEach(
@@ -230,7 +240,9 @@ public class HardAiPlayer extends AiPlayer {
           board.placeTile(placement.getTile(), placement.getRow(), placement.getColumn());
           boardPlacements.add(board.getField(placement.getRow(), placement.getColumn()));
         });
-    return board.evaluateScore(boardPlacements);
+    int score = board.evaluateScore(boardPlacements);
+    resetBoard(board, placements);
+    return score;
   }
 
   /** A tree built by the bot at the start of game (PREFIX-/SUFFIX-TREE) */
