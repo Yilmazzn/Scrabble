@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -75,10 +78,12 @@ public class ServerProtocol extends Thread {
   /** Sends to all others */
   public void sendTurnMessage(boolean turn) {
     boolean[] turns = new boolean[server.getPlayers().size()];
+    int[] scores = new int[server.getPlayers().size()];
     for (int i = 0; i < turns.length; i++) {
       turns[i] = server.getPlayers().get(i).isTurn();
+      scores[i] = server.getPlayers().get(i).getScore();
     }
-    server.sendToAll(new TurnMessage(turn, turns, server.getGame().getBagSize()));
+    server.sendToAll(new TurnMessage(turn, turns, server.getGame().getBagSize(), scores));
   }
 
   /** the run method of ServerProtocol to handle the incoming messages of the server */
@@ -179,17 +184,15 @@ public class ServerProtocol extends Thread {
             break;
           case EXCHANGETILES:
             ExchangeTileMessage etm = (ExchangeTileMessage) m;
-            Tile[] newTiles = new Tile[etm.getOldTiles().length];
-            if (server.getAmountOverValue(etm.getOldTiles().length)) {
-              for (int i = 0; i < etm.getOldTiles().length; i++) {
-                newTiles[i] = server.getTile();
-              }
-              etm.setNewTiles(newTiles);
-              server.addTiles(etm.getOldTiles());
-            } else {
-              etm.setError("Requested tile amount exceeds the amount of tiles in bag!");
+            Tile[] oldTiles = ((ExchangeTileMessage) m).getOldTiles();
+            ArrayList<Tile> tiles = new ArrayList<>();
+
+            for (int i = 0; i < oldTiles.length; i++) {
+              tiles.add(oldTiles[i]);
             }
-            sendToClient(etm);
+
+            player.exchange(tiles);
+
             break;
           case ADDAI:
             // Check if server has space for a player

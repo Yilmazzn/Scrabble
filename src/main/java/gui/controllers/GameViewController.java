@@ -462,6 +462,7 @@ public class GameViewController implements Initializable {
             player.selectTile(position);
             updateBottomTile(letter, value, position);
             event.consume();
+            System.out.println("here in mouseclick");
           }
         });
 
