@@ -66,7 +66,11 @@ public abstract class Player implements Serializable { // todo maybe delete seri
     }
   }
 
-  /** Exchange tiles. Game calls addTilesToRack method and adds tiles on its own */
+  /**
+   * Exchange tiles. Game calls addTilesToRack method and adds tiles on its own
+   *
+   * @param tiles tiles to be exchanged
+   */
   public void exchange(Collection<Tile> tiles) {
     if (turn) {
       game.exchange(tiles);
