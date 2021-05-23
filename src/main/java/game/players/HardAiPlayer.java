@@ -19,14 +19,10 @@ public class HardAiPlayer extends AiPlayer {
 
   private static Node
       root; // Root of Word tree built by dictionary (see below) if multiple hard bots exist, only
-  // // once created !
+            // once created!
   // Only used for hard ai, I dont know what Nico will use :)
-  private final List<String> possibleWords = new ArrayList<>(); // possible words in turn
-
+  private final List<String> possibleWords = new ArrayList<>(); // possible words in turn 1
   private List<Placement> bestPlacements = new ArrayList<>(); // best placement
-
-  private long startTime; // Start time of think method (used to track time it took)
-  // once created !
 
   public HardAiPlayer() {
     super(DIFFICULTY.HARD);
@@ -58,7 +54,6 @@ public class HardAiPlayer extends AiPlayer {
     Board board = new Board(gameBoard); // Deep copy of game board
     bestPlacements.clear();
     possibleWords.clear();
-    startTime = System.currentTimeMillis(); // Init start time
 
     // fill placements with best computed solution
     if (game.getRoundNumber() == 1) { // First round --> think different since no anchors
@@ -178,14 +173,49 @@ public class HardAiPlayer extends AiPlayer {
    *
    * @param board copy of game board
    */
-  private void compute(Board board) {}
+  private void compute(Board board) {
+
+    // ==== COLLECT PLACEMENTS
+    List<List<Placement>> allPossiblePlacements = new ArrayList<>();
+
+    // Traverse through every row
+    for (int row = 0; row < Board.BOARD_SIZE; row++) {
+      int col = 0;
+      while (col < Board.BOARD_SIZE
+          && !board.isEmpty(row, col)) { // traverse columns till field not empty
+        col++;
+      }
+      if (col >= Board.BOARD_SIZE) {
+        continue;
+      }
+
+      // Build prefix
+      List<Character> word = new ArrayList<>(); // Represents the word on board
+      while (col < Board.BOARD_SIZE && !board.isEmpty(row, col)) { // fill 'word'
+        word.add(board.getTile(row, col++).getLetter());
+      }
+
+      // Check what is maximum amount of tiles which can be placed after (Till out of bounds
+      int spaceRemaining = Board.BOARD_SIZE - col - 1;
+
+      // Check no placement before, only after
+      Node startNode = root.traverseTo(word); // CANNOT BE NULL since word must have existed
+      Node helper = startNode;
+
+      // Check what is maximum amount of tiles which can be placed after
+      // Check for no placement before but after
+      List<Character> rackLetters = new ArrayList<>();
+      rack.forEach(tile -> rackLetters.add(tile.getLetter()));
+      calculatePossibleWords(startNode, rackLetters, word, col);
+    }
+  }
 
   /**
    * Recursive Method, checks which words are possible
    *
    * @param node Node at which we start
    * @param characters characters representing tiles on hand (which can be used to complete the
-   *     word)
+   *     word), if filled with # then that means hand can be played here
    * @param path list of characters already visited
    * @param depth Max characters which can be attached
    * @return list of words possible with given prefix and RACK
@@ -205,7 +235,7 @@ public class HardAiPlayer extends AiPlayer {
 
     for (int i = 0; i < characters.size(); i++) {
       Node child = node.getChild(characters.get(i));
-      if (child != null) { // If child exists --> calculate of it
+      if (child != null) { // If child exists --> calculate possible word of it
         char c = characters.remove(i); // remove to "Simulate"
         path.add(c);
         calculatePossibleWords(child, characters, path, depth - 1);
@@ -245,7 +275,10 @@ public class HardAiPlayer extends AiPlayer {
     return score;
   }
 
-  /** A tree built by the bot at the start of game (PREFIX-/SUFFIX-TREE) */
+  /**
+   * A tree built by the bot at the start of game (PREFIX-/SUFFIX-TREE) Only used here for this bot,
+   * I dont know what Nico will use :)
+   */
   private class Node {
     private final char letter; // Letter the node represents
     private final List<Node> children; // Children nodes
@@ -274,6 +307,22 @@ public class HardAiPlayer extends AiPlayer {
         }
       }
       return null;
+    }
+
+    /** Traverse to given prefix. Recursive */
+    public Node traverseTo(List<Character> characters) {
+      if (characters.size() == 0) {
+        return this;
+      }
+      char letter = characters.get(0);
+      Node child = getChild(letter);
+      if (child == null) {
+        return null;
+      }
+      characters.remove(0); // remove from prefix
+      Node toReturn = child.traverseTo(characters); // search recursively
+      characters.add(0, letter); // put it back at first as to preserve list
+      return toReturn;
     }
 
     /** returns children */

@@ -6,7 +6,6 @@ import game.components.Tile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -21,16 +20,15 @@ public abstract class Player implements Serializable { // todo maybe delete seri
   private final ArrayList<String> foundWords = new ArrayList<>();
   protected Game game;
   private boolean turn;
-  /**
-   * Implementation of Tiles from Player still is  needed TODO
-   */
+  /** Implementation of Tiles from Player still is needed TODO */
   private ArrayList<Tile> rack;
+
   private int score;
 
   public Player(PlayerProfile profile, boolean human) {
     this.profile = profile;
     this.human = human;
-   rack = new ArrayList<>();
+    rack = new ArrayList<>();
   }
 
   public Player(boolean human) {
@@ -69,9 +67,9 @@ public abstract class Player implements Serializable { // todo maybe delete seri
   }
 
   /** Exchange tiles. Game calls addTilesToRack method and adds tiles on its own */
-  public void exchange(Tile... tiles) {
+  public void exchange(Collection<Tile> tiles) {
     if (turn) {
-      game.exchange(Arrays.asList(tiles));
+      game.exchange(tiles);
     }
   }
 
