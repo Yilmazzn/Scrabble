@@ -4,6 +4,8 @@ import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
+import net.message.ChatMessage;
+import net.message.TurnMessage;
 
 import java.time.LocalDate;
 import java.util.*;

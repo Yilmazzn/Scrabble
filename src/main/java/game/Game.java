@@ -8,6 +8,7 @@ import game.players.AiPlayer;
 import game.players.Player;
 import game.players.RemotePlayer;
 import net.message.ChatMessage;
+import net.message.Message;
 
 import java.util.*;
 
