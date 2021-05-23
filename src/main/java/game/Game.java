@@ -6,6 +6,8 @@ import game.components.BoardField;
 import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
+import game.players.RemotePlayer;
+import net.message.ChatMessage;
 
 import java.util.*;
 
@@ -80,9 +82,8 @@ public class Game {
     // increment round number
     roundNum++;
     // TODO Remove
-    if (roundNum + 1 > 5) {
-      System.out.println("GAME END \t\t | Limited in Game.java");
-      return;
+    if (roundNum > 10) {
+      System.out.println("GAME END\t\t| limited to 10 rounds");
     }
     System.out.println("Round Number: " + (roundNum + 1));
 
@@ -100,8 +101,6 @@ public class Game {
     // If player is Ai, then trigger it to think
     if (!playerInTurn.isHuman()) { // player is not human
       AiPlayer ai = (AiPlayer) playerInTurn;
-
-      // Start think method in thread as to not block any functionalities of server
       ai.think(board, dictionary);
     }
   }
@@ -163,13 +162,11 @@ public class Game {
   /** TODO change some things maybe... */
   public void submit() {
     try { // Try checking board which throws BoardException if any checks fail
-      if (placementsInTurn.size() > 0) {
-        board.check(placementsInTurn, dictionary);
-      }
+      board.check(placementsInTurn, dictionary);
 
       // if not thrown error by now then board state valid
       int score = evaluateScore();
-      playerInTurn.addScore(score);
+      System.out.println("SCORE: " + score);
       List<Tile> tileRefill = new LinkedList<>();
       for (int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++) {
         tileRefill.add(bag.pop());
@@ -187,10 +184,158 @@ public class Game {
 
   /***
    * Evaluates the score of the play in the last turn. Iterates over placements in last turn and only ever starts evaluating if placement is to the most top/left placement of all placements in last turn of the specific word it is forming
+   * @author yuzun
    * @return score of play in last turn
    */
   public int evaluateScore() {
-    return board.evaluateScore(placementsInTurn);
+
+    int totalScore = 0;
+
+    // Iterate over placements of last turn
+    for (BoardField bf : placementsInTurn) {
+
+      // check to the left if other placement exists there (would be evaluated in that spec.
+      // iteration)
+      BoardField helper = board.getField(bf.getRow(), bf.getColumn() - 1); // left of placement
+      boolean leftmostPlacement = true; // is true if only placement to the left
+
+      boolean formsWordHorizontal =
+          (bf.getColumn() - 1 >= 0 && !board.isEmpty(bf.getRow(), bf.getColumn() - 1))
+              || (bf.getColumn() + 1 < Board.BOARD_SIZE
+                  && !board.isEmpty(
+                      bf.getRow(),
+                      bf.getColumn() + 1)); // true if left or right of placement exists tile
+
+      // traverse to left till empty or out of bounds (if forms word horitonal)
+      while (helper.getColumn() >= 0 && !helper.isEmpty() && formsWordHorizontal) {
+        if (placementsInTurn.contains(helper)) {
+          leftmostPlacement = false;
+          break;
+        }
+        helper = board.getField(helper.getRow(), helper.getColumn() - 1);
+      }
+
+      // check to the top if other placement this turn exists there (would be evaluated in that
+      // spec. iteration)
+      helper = board.getField(bf.getRow() - 1, bf.getColumn()); // above placement
+      boolean topmostPlacement = true; // is true if top of placement in formed word
+
+      boolean formsWordVertical =
+          (bf.getRow() - 1 >= 0 && !board.isEmpty(bf.getRow() - 1, bf.getColumn()))
+              || (bf.getRow() + 1 < Board.BOARD_SIZE
+                  && !board.isEmpty(
+                      bf.getRow() + 1,
+                      bf.getColumn())); // true if above or below of placement exists tile
+
+      // traverse up till empty or out of bounds (if forms word veritcal)
+      while (helper.getRow() >= 0 && !helper.isEmpty() && formsWordVertical) {
+        if (placementsInTurn.contains(helper)) {
+          topmostPlacement = false;
+          break;
+        }
+        helper = board.getField(helper.getRow() - 1, helper.getColumn());
+      }
+
+      // if leftmost placement & to the left/right tiles exist--> evaluate horizontal
+      if (leftmostPlacement && formsWordHorizontal) {
+        int wordScore = 0;
+        int wordMult = 1;
+
+        // traverse to the left
+        helper = bf;
+        while (helper.getColumn() - 1 >= 0
+            && !board.isEmpty(helper.getRow(), helper.getColumn() - 1)) {
+          helper = board.getField(helper.getRow(), helper.getColumn() - 1);
+        }
+
+        // traverse to the right
+        while (helper.getColumn() < Board.BOARD_SIZE && !helper.isEmpty()) {
+
+          int letterScore = helper.getTile().getScore();
+          int letterMult = 1;
+
+          // check if tile was placed last turn
+          if (!placementsInTurn.contains(helper)) { // tile was not placed last turn
+            wordScore += letterScore;
+          } else { // tile was placed last turn
+
+            // check field type and evaluate multipliers
+            switch (helper.getType()) {
+              case STAR:
+              case DWS:
+                wordMult *= 2;
+                break;
+              case TWS:
+                wordMult *= 3;
+                break;
+              case DLS:
+                letterMult *= 2;
+                break;
+              case TLS:
+                letterMult *= 3;
+                break;
+            }
+            wordScore += letterScore * letterMult;
+          }
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last column
+            break;
+          }
+          helper = board.getField(helper.getRow(), helper.getColumn() + 1);
+        }
+        totalScore += wordScore * wordMult;
+      }
+
+      // if topmost placement & tiles exist above or below --> evaluate vertical
+      if (topmostPlacement && formsWordVertical) {
+        int wordScore = 0;
+        int wordMult = 1;
+
+        // traverse up
+        helper = bf;
+        while (helper.getRow() - 1 >= 0
+            && !board.isEmpty(helper.getRow() - 1, helper.getColumn())) {
+          helper = board.getField(helper.getRow() - 1, helper.getColumn());
+        }
+
+        // traverse down
+        while (helper.getRow() < Board.BOARD_SIZE && !helper.isEmpty()) {
+
+          int letterScore = helper.getTile().getScore();
+          int letterMult = 1;
+
+          // check if tile was placed last turn
+          if (!placementsInTurn.contains(helper)) { // tile was not placed last turn
+            wordScore += letterScore;
+          } else { // tile was placed last turn
+
+            // check field type and evaluate multipliers
+            switch (helper.getType()) {
+              case STAR:
+              case DWS:
+                wordMult *= 2;
+                break;
+              case TWS:
+                wordMult *= 3;
+                break;
+              case DLS:
+                letterMult *= 2;
+                break;
+              case TLS:
+                letterMult *= 3;
+                break;
+            }
+            wordScore += letterScore * letterMult;
+          }
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last row
+            break;
+          }
+          helper = board.getField(helper.getRow() + 1, helper.getColumn());
+        }
+
+        totalScore += wordScore * wordMult;
+      }
+    }
+    return totalScore;
   }
 
   public int getBagSize() {
@@ -207,5 +352,18 @@ public class Game {
 
   public int getRoundNumber() {
     return roundNum + 1;
+  }
+
+  /**
+   * Creates System message This method is only used by the AI to flex with possible placements,
+   * processing time, etc. ;)
+   */
+  public void notify(String message) {
+    for (Player player : players) {
+      if (player.isHuman()) {
+        RemotePlayer remotePlayer = (RemotePlayer) player;
+        remotePlayer.getConnection().sendToClient(new ChatMessage(message, null));
+      }
+    }
   }
 }
