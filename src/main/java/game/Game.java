@@ -80,7 +80,7 @@ public class Game {
     // increment round number
     roundNum++;
     // TODO Remove
-    if (roundNum + 1 > 1) {
+    if (roundNum + 1 > 2) {
       System.out.println("GAME END \t\t | Limited in Game.java");
       return;
     }

@@ -94,15 +94,12 @@ public class LexiconTree {
         StringBuilder builder = new StringBuilder();
         path.forEach(builder::append);
         possibleWords.add(builder.toString());
-        System.out.print(builder.toString() + "(" + possibleWords.size() + ") ");
       }
 
       if (pattern.size() == 0) { // if full add to possible words
         StringBuilder builder = new StringBuilder();
         path.forEach(builder::append);
         possibleWords.add(builder.toString());
-        System.out.print(builder.toString() + " ");
-        System.out.print(builder.toString() + "(" + possibleWords.size() + ") ");
         return;
       }
 

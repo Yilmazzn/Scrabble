@@ -152,20 +152,102 @@ public class HardAiPlayer extends AiPlayer {
           continue;
         }
 
-        // space to left
-        int spaceLeft = 0;
-        while (col - spaceLeft >= 0 && board.isEmpty(row, col - spaceLeft)) {
-          spaceLeft++;
+        // Count left starting point from where we would start trying to place tiles
+        int leftStartingPoint = col;
+        int counter = rack.size();
+        while (leftStartingPoint > 0 && counter > 0) {
+          if (!board.isEmpty(row, leftStartingPoint)) {
+            counter--;
+          }
+          leftStartingPoint--;
         }
 
-        // skip till empty field again since words have been
+        // Build patterns & compute
+        for (int i = leftStartingPoint; i <= col; i++) { // i places left
+          String pattern = "";
+          for (int j = i; j < Board.BOARD_SIZE; j++) {
+            pattern += !board.isEmpty(row, j) ? board.getTile(row, j).getLetter() : '#';
+          }
+          Set<String> possibleWords = tree.calculatePossibleWords(pattern, rack); // COMPUTE
+
+          // Calculate placements from word
+          for (String word : possibleWords) {
+            List<Placement> placements = new ArrayList<>();
+            for (int j = 0; j < word.length(); j++) {
+              if (board.isEmpty(row, i + j)) { // if empty place tile
+                placements.add(new Placement(getTile(word.charAt(j)), row, i + j));
+              }
+            }
+            possiblePlacements.add(placements);
+          }
+        }
+
+        // skip till empty field again
         while (col < Board.BOARD_SIZE && !board.isEmpty(row, col)) {
           col++;
         }
       }
     }
 
-    System.out.println(possiblePlacements.size() + " possible Placements found");
+    // Traverse through every column
+    for (int col = 0; col < Board.BOARD_SIZE; col++) {
+      int row = 0;
+      while (row < Board.BOARD_SIZE) {
+        if (board.isEmpty(row, col)) { // skip if empty
+          row++;
+          continue;
+        }
+
+        // Calculate top starting point from where we try to build our words
+        int topStartingPoint = row;
+        int counter = rack.size();
+        while (topStartingPoint > 0 && counter > 0) {
+          if (!board.isEmpty(topStartingPoint, col)) {
+            counter--;
+          }
+          topStartingPoint--;
+        }
+
+        // Build patterns and compute
+        for (int i = topStartingPoint; i <= row; i++) {
+          String pattern = "";
+          for (int j = i; j < Board.BOARD_SIZE; j++) {
+            pattern += !board.isEmpty(j, col) ? board.getTile(j, col).getLetter() : '#';
+          }
+          Set<String> possibleWords = tree.calculatePossibleWords(pattern, rack); // COMPUTE
+
+          // Calculate placements from word
+          for (String word : possibleWords) {
+            List<Placement> placements = new ArrayList<>();
+            for (int j = 0; j < word.length(); j++) {
+              if (board.isEmpty(i + j, col)) { // if empty place tile from hand
+                placements.add(new Placement(getTile(word.charAt(j)), i + j, col));
+              }
+            }
+            possiblePlacements.add(placements);
+          }
+        }
+
+        // skip till empty field again
+        while (row < Board.BOARD_SIZE && !board.isEmpty(row, col)) {
+          row++;
+        }
+      }
+    }
+    System.out.println("-->" + possiblePlacements.size() + " possible Placements found");
+
+    // Try out placements and get best one
+    int maxScore = 0;
+    for (List<Placement> placements : possiblePlacements) {
+      if (placements.size() == 0) {
+        continue;
+      }
+      int score = evaluatePlacement(board, placements);
+      if (maxScore < score) {
+        maxScore = score;
+        bestPlacements = placements;
+      }
+    }
   }
 
   /** Returns a tile with given letter */
@@ -187,6 +269,12 @@ public class HardAiPlayer extends AiPlayer {
    * @return score of placements (-1 if board was in an invalid state)
    */
   private int evaluatePlacement(Board board, List<Placement> placements) {
+    System.out.print("Placement: ");
+    placements.forEach(
+        p ->
+            System.out.print(
+                p.getTile().getLetter() + ", " + p.getRow() + ", " + p.getColumn() + " ;;; "));
+    System.out.println();
     List<BoardField> boardPlacements = new ArrayList<>();
     placements.forEach(
         placement -> {
