@@ -77,5 +77,12 @@ public abstract class AiPlayer extends Player {
   }
 
   @Override
-  public void rejectSubmission(String reason) {}
+  public void rejectSubmission(String reason) {
+    System.out.println("CRITICAL ERROR");
+  }
+
+  /** Flex on 'em with stats */
+  public void flex(String message) {
+    game.notify(message);
+  }
 }

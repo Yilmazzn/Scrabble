@@ -6,6 +6,8 @@ import game.components.BoardField;
 import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
+import game.players.RemotePlayer;
+import net.message.ChatMessage;
 
 import java.util.*;
 
@@ -350,5 +352,18 @@ public class Game {
 
   public int getRoundNumber() {
     return roundNum + 1;
+  }
+
+  /**
+   * Creates System message This method is only used by the AI to flex with possible placements,
+   * processing time, etc. ;)
+   */
+  public void notify(String message) {
+    for (Player player : players) {
+      if (player.isHuman()) {
+        RemotePlayer remotePlayer = (RemotePlayer) player;
+        remotePlayer.getConnection().sendToClient(new ChatMessage(message, null));
+      }
+    }
   }
 }
