@@ -296,8 +296,6 @@ public class Board implements Serializable {
         }
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
-        } else {
-          System.out.println("Word " + word + " was recognized");
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
@@ -320,8 +318,6 @@ public class Board implements Serializable {
         }
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
-        } else {
-          System.out.println("Word " + word + " was recognized");
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
