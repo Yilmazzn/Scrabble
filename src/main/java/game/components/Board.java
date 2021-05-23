@@ -354,7 +354,7 @@ public class Board implements Serializable {
       }
       // traverse to left till empty or out of bounds (if forms word horitonal and is not most left
       // field already)
-      while (helper.getColumn() >= 0
+      while (helper.getColumn() != 0
           && !helper.isEmpty()
           && formsWordHorizontal
           && bf.getColumn() != 0) {
@@ -381,7 +381,7 @@ public class Board implements Serializable {
       }
 
       // traverse up till empty or out of bounds (if forms word veritcal)
-      while (helper.getRow() >= 0 && !helper.isEmpty() && formsWordVertical && bf.getRow() != 0) {
+      while (helper.getRow() != 0 && !helper.isEmpty() && formsWordVertical && bf.getRow() != 0) {
         if (placementsInTurn.contains(helper)) {
           topmostPlacement = false;
           break;
@@ -402,7 +402,9 @@ public class Board implements Serializable {
         }
 
         // traverse to the right
-        while (helper.getColumn() < Board.BOARD_SIZE && !helper.isEmpty()) {
+        while (helper.getColumn() < Board.BOARD_SIZE
+            && !helper.isEmpty()
+            && helper.getColumn() != Board.BOARD_SIZE - 1) {
 
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;
@@ -450,7 +452,9 @@ public class Board implements Serializable {
         }
 
         // traverse down
-        while (helper.getRow() < Board.BOARD_SIZE && !helper.isEmpty()) {
+        while (helper.getRow() < Board.BOARD_SIZE
+            && !helper.isEmpty()
+            && helper.getRow() != Board.BOARD_SIZE - 1) {
 
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;

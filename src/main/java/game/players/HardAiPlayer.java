@@ -269,12 +269,6 @@ public class HardAiPlayer extends AiPlayer {
    * @return score of placements (-1 if board was in an invalid state)
    */
   private int evaluatePlacement(Board board, List<Placement> placements) {
-    System.out.print("Placement: ");
-    placements.forEach(
-        p ->
-            System.out.print(
-                p.getTile().getLetter() + ", " + p.getRow() + ", " + p.getColumn() + " ;;; "));
-    System.out.println();
     List<BoardField> boardPlacements = new ArrayList<>();
     placements.forEach(
         placement -> {
@@ -284,6 +278,7 @@ public class HardAiPlayer extends AiPlayer {
     try {
       board.check(boardPlacements, game.getDictionary());
     } catch (BoardException be) {
+      resetBoard(board, placements);
       return -1;
     }
     int score = board.evaluateScore(boardPlacements);
