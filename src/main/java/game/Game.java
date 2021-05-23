@@ -163,7 +163,9 @@ public class Game {
   /** TODO change some things maybe... */
   public void submit() {
     try { // Try checking board which throws BoardException if any checks fail
-      board.check(placementsInTurn, dictionary);
+      if (placementsInTurn.size() > 0) {
+        board.check(placementsInTurn, dictionary);
+      }
 
       // if not thrown error by now then board state valid
       int score = evaluateScore();

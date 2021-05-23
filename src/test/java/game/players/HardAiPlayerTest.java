@@ -6,12 +6,13 @@ import game.components.Board;
 import game.components.Tile;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @yuzun Test class of my Hard AI extends the class HardAiPlayer overrides methods and just adds
- *     simple valuable System.out.prints
+ * @author yuzun Test class of my Hard AI extends the class HardAiPlayer overrides methods and just
+ *     adds simple valuable System.out.prints
  */
 class HardAiPlayerTest extends HardAiPlayer {
 
@@ -67,6 +68,14 @@ class HardAiPlayerTest extends HardAiPlayer {
     super.addScore(score);
     System.out.println("--> scored " + score + " points");
     System.out.println();
+  }
+
+  @Override
+  public void exchange(Collection<Tile> tiles) {
+    System.out.print(super.getProfile().getName() + " wants to exchange Tiles: ");
+    tiles.forEach(tile -> System.out.print(tile.getLetter() + " "));
+    System.out.println();
+    super.exchange(tiles);
   }
 
   private void printBoard(Board board) {

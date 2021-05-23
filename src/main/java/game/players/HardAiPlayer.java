@@ -3,10 +3,14 @@ package game.players;
 import game.Dictionary;
 import game.Game;
 import game.components.Board;
+import game.components.BoardException;
 import game.components.BoardField;
 import game.components.Tile;
+import game.players.aiplayers.LexiconTree;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author yuzun Hard AI Player actor, interacting with game
@@ -15,12 +19,11 @@ import java.util.*;
  */
 public class HardAiPlayer extends AiPlayer {
 
-  private static Node
-      root; // Root of Word tree built by dictionary (see below) if multiple hard bots exist, only
-  // once created!
-  // Only used for hard ai, I dont know what Nico will use :)
-  private final List<String> possibleWords = new ArrayList<>(); // possible words in turn 1
-  private List<Placement> bestPlacements = new ArrayList<>(); // best placement
+  private static LexiconTree tree;
+  // Root of Word Directed-Acyclic Word Graph!
+  // if multiple hard bots exist, only once created!
+  // Only used for hard ai up till now , I dont know what Nico will use :)
+  private List<Placement> bestPlacements; // best placement
 
   public HardAiPlayer() {
     super(DIFFICULTY.HARD);
@@ -30,8 +33,8 @@ public class HardAiPlayer extends AiPlayer {
   @Override
   public void joinGame(Game game) {
     super.joinGame(game); // assign game to this player
-    if (root == null) { // create only first time
-      buildTree(game.getDictionary()); // Build word tree
+    if (tree == null) { // create only first time
+      tree = new LexiconTree(game.getDictionary()); // Build word tree
     }
   }
   /**
@@ -50,8 +53,7 @@ public class HardAiPlayer extends AiPlayer {
    */
   public void thinkInternal(Board gameBoard, Dictionary dictionary) {
     Board board = new Board(gameBoard); // Deep copy of game board
-    bestPlacements.clear();
-    possibleWords.clear();
+    bestPlacements = new ArrayList<>();
 
     // fill placements with best computed solution
     if (game.getRoundNumber() == 1) { // First round --> think different since no anchors
@@ -76,17 +78,19 @@ public class HardAiPlayer extends AiPlayer {
 
     } else { // if placement could not be found --> randomly exchange tiles
       List<Tile> tilesToExchange = new ArrayList<>();
-      for (int i = 0; i < game.getBagSize(); i++) {
-        rack.forEach(
-            tile -> {
-              if (Math.random() > 0.5) { // 50 % chance to be exchanged
-                tilesToExchange.add(tile);
-              }
-            });
+      for (int i = 0; i < Math.min(game.getBagSize(), rack.size()); i++) {
+        if (rack.get(i).getLetter() == '#') { // Exchange any joker tiles
+          tilesToExchange.add(rack.get(i));
+        } else if (Math.random() < 0.5) { // 50 % chance to be exchanged
+          tilesToExchange.add(rack.get(i));
+        }
       }
-      exchange(tilesToExchange);
+      if (tilesToExchange.size() != 0) {
+        exchange(tilesToExchange); // exchange
+      } else {
+        submit(); // pass
+      }
     }
-
     submit();
   }
 
@@ -97,48 +101,17 @@ public class HardAiPlayer extends AiPlayer {
   }
 
   /**
-   * Builds a word tree & Reduces its complexity identifying duplicate subtrees (MUUUCH SMALLER)
-   * Runtime: n words in Dictionary, k is max amount of letters in a word, 26 characters in alphabet
-   * --> O(n * k * 26)
-   */
-  private void buildTree(Dictionary dictionary) {
-    String[] words = dictionary.getWordsAsArray();
-    root = new Node(false); // Empty character literal for root
-
-    // BUILD TREE
-    for (String word : words) {
-
-      Node helper = root; // traverses over nodes
-
-      // iterate over every character of word
-      for (int i = 0; i < word.length(); i++) {
-        char c = word.charAt(i);
-        Node child = helper.getChild(c);
-        if (child == null) { // if no child --> create one
-          helper.add(c, i == word.length() - 1);
-        }
-        helper = helper.getChild(c);
-      }
-    }
-
-    // TODO REMOVE DUPLICATE SUBTREES --> Saving a lot of space
-  }
-
-  /**
    * Called if first round. Tries to build word with tiles on hand
    *
    * @param board copy of game board
    */
   private void computeFirstRound(Board board) {
-    possibleWords.clear();
-
-    LinkedList<Character> characters = new LinkedList<>();
-    rack.forEach(tile -> characters.add(tile.getLetter())); // fill list of characters
-    LinkedList<Character> pattern = new LinkedList<>();
-    for (int i = 0; i < characters.size(); i++) {
-      pattern.add('#');
+    String wordPattern = "";
+    for (int i = 0; i < rack.size(); i++) {
+      wordPattern += '#';
     }
-    root.calculatePossibleWords(pattern, new LinkedList<>(), characters);
+    Set<String> possibleWords = tree.calculatePossibleWords(wordPattern, rack);
+    System.out.println();
     System.out.println(
         super.getProfile().getName() + " found " + possibleWords.size() + " possible words");
 
@@ -169,73 +142,30 @@ public class HardAiPlayer extends AiPlayer {
    * @param board copy of game board
    */
   private void compute(Board board) {
-
-    // ==== COLLECT PLACEMENTS
-    List<List<Placement>> allPossiblePlacements = new ArrayList<>();
-
+    List<List<Placement>> possiblePlacements = new ArrayList<>();
     // Traverse through every row
     for (int row = 0; row < Board.BOARD_SIZE; row++) {
       int col = 0;
-      while (col < Board.BOARD_SIZE
-          && !board.isEmpty(row, col)) { // traverse columns till field not empty
-        col++;
-      }
-      if (col >= Board.BOARD_SIZE) {
-        continue;
-      }
+      while (col < Board.BOARD_SIZE) {
+        if (board.isEmpty(row, col)) { // skip if empty
+          col++;
+          continue;
+        }
 
-      // Build prefix
-      List<Character> word = new ArrayList<>(); // Represents the word on board
-      while (col < Board.BOARD_SIZE && !board.isEmpty(row, col)) { // fill 'word'
-        word.add(board.getTile(row, col++).getLetter());
-      }
+        // space to left
+        int spaceLeft = 0;
+        while (col - spaceLeft >= 0 && board.isEmpty(row, col - spaceLeft)) {
+          spaceLeft++;
+        }
 
-      // Check what is maximum amount of tiles which can be placed after (Till out of bounds
-      int spaceRemaining = Board.BOARD_SIZE - col - 1;
-
-      // Check no placement before, only after
-      Node startNode = root.traverseTo(word); // CANNOT BE NULL since word must have existed
-      Node helper = startNode;
-
-      // Check what is maximum amount of tiles which can be placed after
-      // Check for no placement before but after
-      List<Character> rackLetters = new ArrayList<>();
-      rack.forEach(tile -> rackLetters.add(tile.getLetter()));
-      calculatePossibleWords(startNode, rackLetters, word, col);
-    }
-  }
-
-  /**
-   * Recursive Method, checks which words are possible
-   *
-   * @param node Node at which we start
-   * @param characters characters representing tiles on hand (which can be used to complete the
-   *     word)
-   * @param path list of characters already visited
-   * @param depth Max characters which can be attached
-   */
-  private void calculatePossibleWords(
-      Node node, List<Character> characters, List<Character> path, int depth) {
-    if (depth <= 0) {
-      return;
-    }
-    // if marked as end --> add to possible words
-    if (node.isEnd()) {
-      StringBuilder builder = new StringBuilder();
-      path.forEach(builder::append);
-      possibleWords.add(builder.toString());
-    }
-
-    for (int i = 0; i < characters.size(); i++) {
-      Node child = node.getChild(characters.get(i));
-      if (child != null) { // If child exists --> calculate possible word of it
-        char c = characters.remove(i); // remove to "Simulate"
-        path.add(c);
-        calculatePossibleWords(child, characters, path, depth - 1);
-        path.remove(path.size() - 1);
-        characters.add(c);
+        // skip till empty field again since words have been
+        while (col < Board.BOARD_SIZE && !board.isEmpty(row, col)) {
+          col++;
+        }
       }
     }
+
+    System.out.println(possiblePlacements.size() + " possible Placements found");
   }
 
   /** Returns a tile with given letter */
@@ -254,7 +184,7 @@ public class HardAiPlayer extends AiPlayer {
    *
    * @param board board object
    * @param placements placements to be simulated and scored
-   * @return score of placements
+   * @return score of placements (-1 if board was in an invalid state)
    */
   private int evaluatePlacement(Board board, List<Placement> placements) {
     List<BoardField> boardPlacements = new ArrayList<>();
@@ -263,96 +193,14 @@ public class HardAiPlayer extends AiPlayer {
           board.placeTile(placement.getTile(), placement.getRow(), placement.getColumn());
           boardPlacements.add(board.getField(placement.getRow(), placement.getColumn()));
         });
+    try {
+      board.check(boardPlacements, game.getDictionary());
+    } catch (BoardException be) {
+      return -1;
+    }
     int score = board.evaluateScore(boardPlacements);
     resetBoard(board, placements);
     return score;
-  }
-
-  /**
-   * A tree built by the bot at the start of game (PREFIX-/SUFFIX-TREE) Only used here for this bot,
-   * I dont know what Nico will use :)
-   */
-  private class Node {
-    private final Map<Character, Node> children; // Children nodes
-    private final boolean end; // true if word (can) end here
-
-    Node(boolean end) {
-      children = new HashMap<>();
-      this.end = end;
-    }
-
-    /** Adds new node with given letter to children */
-    public void add(char letter, boolean end) {
-      children.put(letter, new Node(end));
-    }
-
-    public Node getChild(char letter) {
-      return children.get(letter);
-    }
-
-    /** Traverse to given prefix. Recursive */
-    public Node traverseTo(List<Character> characters) {
-      if (characters.size() == 0) {
-        return this;
-      }
-      char letter = characters.get(0);
-      Node child = children.get(letter);
-      if (child == null) {
-        return null;
-      }
-      characters.remove(0); // remove from prefix
-      Node toReturn = child.traverseTo(characters); // search recursively
-      characters.add(0, letter); // put it back at first as to preserve list
-      return toReturn;
-    }
-
-    /** true if word (can) end here */
-    public boolean isEnd() {
-      return end;
-    }
-
-    /** PATTERN: "HE##0' */
-    private void calculatePossibleWords(
-        LinkedList<Character> pattern,
-        LinkedList<Character> path,
-        LinkedList<Character> characters) {
-      if (pattern.size() == 0) { // if full add to possible words
-        StringBuilder builder = new StringBuilder();
-        path.forEach(builder::append);
-        possibleWords.add(builder.toString());
-        return;
-      }
-
-      if (end) { // if end node --> add
-        StringBuilder builder = new StringBuilder();
-        path.forEach(builder::append);
-        possibleWords.add(builder.toString());
-      }
-
-      char letter = pattern.removeFirst(); // next letter trying to fill
-      if (letter != '#') { // if already placed
-        path.addLast(letter);
-        Node child =
-            children.get(letter); // Not null since it must have been defined in the dictionary
-        child.calculatePossibleWords(pattern, path, characters);
-        path.removeLast();
-
-      } else { // if to be placed try everything out
-
-        for (int i = 0; i < characters.size(); i++) { // try out for every child
-          Node child = children.get(characters.get(i));
-          if (child != null) {
-            char c = characters.get(i);
-            path.addLast(c);
-            characters.remove(i);
-            child.calculatePossibleWords(pattern, path, characters);
-            characters.add(c);
-            path.removeLast();
-          }
-        }
-      }
-      pattern.addFirst(letter);
-    }
   }
 
   /** Class for single placement */
