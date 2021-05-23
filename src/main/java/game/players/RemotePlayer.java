@@ -35,6 +35,14 @@ public class RemotePlayer extends Player {
     this.host = host;
   }
 
+  @Override
+  public void setTurn(boolean turn){
+    super.setTurn(turn);
+    if(turn){
+      connection.sendTurnMessage(turn);
+    }
+  }
+
   /**
    * Sends board to set remote player's to the latest game board state
    *
@@ -75,19 +83,6 @@ public class RemotePlayer extends Player {
   /** @param profile Requires PlayerProfile */
   public void setPlayerProfile(PlayerProfile profile) {
     super.setPlayerProfile(profile);
-  }
-
-  /**
-   * Sets turn for RemotePlayer
-   *
-   * @param turn Requires if it is players turn or not
-   */
-  @Override
-  public void setTurn(boolean turn) {
-    super.setTurn(turn);
-    if (turn) {
-      connection.sendTurnMessage(turn);
-    }
   }
 
   /** Quit from game. Player is sent all relevant information */

@@ -83,8 +83,22 @@ public abstract class AiPlayer extends Player {
     System.out.println("CRITICAL ERROR");
   }
 
+  @Override
+  public void setTurn(boolean turn){
+    super.setTurn(turn);
+    if(turn){
+      boolean[] turns = new boolean[game.getPlayers().size()];
+      int[] scores = new int[game.getPlayers().size()];
+      for(int i = 0; i < turns.length; i++){
+        turns[i] = game.getPlayers().get(i).isTurn();
+        scores[i] = game.getPlayers().get(i).getScore();
+      }
+      game.notify(new TurnMessage(false, turns, game.getBagSize(), scores));
+    }
+  }
+
   /** Flex on 'em with stats */
   public void flex(String message) {
-    game.notify(message);
+    game.notify(new ChatMessage(message, null));
   }
 }
