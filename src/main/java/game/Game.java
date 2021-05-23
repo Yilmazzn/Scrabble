@@ -80,8 +80,8 @@ public class Game {
     // increment round number
     roundNum++;
     // TODO Remove
-    if (roundNum > 10) {
-      System.out.println("GAME END\t\t| limited to 10 rounds");
+    if (roundNum > 1) {
+      System.out.println("GAME END \t\t | Limited in Game.java");
     }
     System.out.println("Round Number: " + (roundNum + 1));
 
@@ -101,7 +101,8 @@ public class Game {
       AiPlayer ai = (AiPlayer) playerInTurn;
 
       // Start think method in thread as to not block any functionalities of server
-      new Thread(() -> ai.think(board, dictionary)).start();
+      // new Thread(() -> ai.think(board, dictionary)).start(); TODO
+      ai.think(board, dictionary);
     }
   }
 
