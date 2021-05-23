@@ -6,9 +6,7 @@ import game.components.Board;
 import game.components.BoardField;
 import game.components.Tile;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author yuzun Hard AI Player actor, interacting with game
@@ -19,9 +17,10 @@ public class HardAiPlayer extends AiPlayer {
 
   private static Node
       root; // Root of Word tree built by dictionary (see below) if multiple hard bots exist, only
-            // once created!
+  // once created!
   // Only used for hard ai, I dont know what Nico will use :)
   private final List<String> possibleWords = new ArrayList<>(); // possible words in turn 1
+  private List<List<Placement>> possiblePlacements;
   private List<Placement> bestPlacements = new ArrayList<>(); // best placement
 
   public HardAiPlayer() {
@@ -33,7 +32,7 @@ public class HardAiPlayer extends AiPlayer {
   public void joinGame(Game game) {
     super.joinGame(game); // assign game to this player
     if (root == null) { // create only first time
-      root = buildTree(game.getDictionary()); // Build word tree
+      buildTree(game.getDictionary()); // Build word tree
     }
   }
   /**
@@ -105,9 +104,9 @@ public class HardAiPlayer extends AiPlayer {
    * Runtime: n words in Dictionary, k is max amount of letters in a word, 26 characters in alphabet
    * --> O(n * k * 26)
    */
-  private Node buildTree(Dictionary dictionary) {
+  private void buildTree(Dictionary dictionary) {
     String[] words = dictionary.getWordsAsArray();
-    Node root = new Node(Character.MIN_VALUE, false); // Empty character literal for root
+    root = new Node(false); // Empty character literal for root
 
     // BUILD TREE
     for (String word : words) {
@@ -119,15 +118,13 @@ public class HardAiPlayer extends AiPlayer {
         char c = word.charAt(i);
         Node child = helper.getChild(c);
         if (child == null) { // if no child --> create one
-          child = new Node(c, i == word.length() - 1);
-          helper.add(child);
+          helper.add(c, i == word.length() - 1);
         }
-        helper = child;
+        helper = helper.getChild(c);
       }
     }
 
-    // TODO DUPLICATE SUBTREES
-    return root;
+    // TODO REMOVE DUPLICATE SUBTREES --> Saving a lot of space
   }
 
   /**
@@ -140,7 +137,10 @@ public class HardAiPlayer extends AiPlayer {
     rack.forEach(tile -> characters.add(tile.getLetter())); // fill list of characters
 
     possibleWords.clear();
+    // root.calculatePossibleWords(pattern, path, rack);
     calculatePossibleWords(root, characters, new ArrayList<>(), 7);
+    // root.calculatePossibleWords(Arrays.asList('#', '#', '#', '#', '#', '#', '#'), new
+    // ArrayList<>(), characters);
     System.out.println("Found " + possibleWords.size() + " possible words");
 
     // sort list by length to check longest ones first
@@ -215,7 +215,7 @@ public class HardAiPlayer extends AiPlayer {
    *
    * @param node Node at which we start
    * @param characters characters representing tiles on hand (which can be used to complete the
-   *     word), if filled with # then that means hand can be played here
+   *     word)
    * @param path list of characters already visited
    * @param depth Max characters which can be attached
    * @return list of words possible with given prefix and RACK
@@ -225,7 +225,6 @@ public class HardAiPlayer extends AiPlayer {
     if (depth <= 0) {
       return;
     }
-
     // if marked as end --> add to possible words
     if (node.isEnd()) {
       StringBuilder builder = new StringBuilder();
@@ -280,33 +279,21 @@ public class HardAiPlayer extends AiPlayer {
    * I dont know what Nico will use :)
    */
   private class Node {
-    private final char letter; // Letter the node represents
-    private final List<Node> children; // Children nodes
+    private final Map<Character, Node> children; // Children nodes
     private final boolean end; // true if word (can) end here
 
-    Node(char letter, boolean end) {
-      children = new ArrayList<>();
-      this.letter = letter;
+    Node(boolean end) {
+      children = new HashMap<>();
       this.end = end;
     }
 
-    public char getLetter() {
-      return letter;
-    }
-
     /** Adds new node with given letter to children */
-    public void add(Node n) {
-      children.add(n);
+    public void add(char letter, boolean end) {
+      children.put(letter, new Node(end));
     }
 
-    /** returns child which contains given letter (null if none) */
     public Node getChild(char letter) {
-      for (Node childNode : children) {
-        if (childNode.getLetter() == letter) {
-          return childNode;
-        }
-      }
-      return null;
+      return children.get(letter);
     }
 
     /** Traverse to given prefix. Recursive */
@@ -315,7 +302,7 @@ public class HardAiPlayer extends AiPlayer {
         return this;
       }
       char letter = characters.get(0);
-      Node child = getChild(letter);
+      Node child = children.get(letter);
       if (child == null) {
         return null;
       }
@@ -325,14 +312,45 @@ public class HardAiPlayer extends AiPlayer {
       return toReturn;
     }
 
-    /** returns children */
-    public List<Node> getChildren() {
-      return children;
-    }
-
     /** true if word (can) end here */
     public boolean isEnd() {
       return end;
+    }
+
+    /** PATTERN: "HE##0' */
+    private void calculatePossibleWords(
+        List<Character> pattern, List<Character> path, List<Character> characters) {
+      if (pattern.size() == 0) { // if full add to possible words
+        StringBuilder builder = new StringBuilder();
+        path.forEach(c -> builder.append(c));
+        possibleWords.add(builder.toString());
+        return;
+      }
+
+      if (end) { // if end node --> add
+        StringBuilder builder = new StringBuilder();
+        path.forEach(c -> builder.append(c));
+        possibleWords.add(builder.toString());
+      }
+
+      char letter = pattern.get(0); // next letter trying to fill
+      if (letter != '#') { // if already placed
+
+      } else { // if to be placed try everything out
+        for (int i = 0; i < characters.size(); i++) { // try out for every child
+          Node child = children.get(characters.get(i));
+          if (child != null) {
+            char c = characters.get(i);
+            pattern.remove(0);
+            path.add(c);
+            characters.remove(i);
+            child.calculatePossibleWords(pattern, path, characters);
+            pattern.add(0, c);
+            path.remove(0);
+            characters.add(c);
+          }
+        }
+      }
     }
   }
 
