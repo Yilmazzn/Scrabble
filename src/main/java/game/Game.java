@@ -173,6 +173,7 @@ public class Game {
         tileRefill.add(bag.pop());
       }
       playerInTurn.addTilesToRack(tileRefill);
+      playerInTurn.addScore(score);
 
       nextRound();
     } catch (BoardException e) {

@@ -301,7 +301,6 @@ public class GameViewController implements Initializable {
 
   /** Shuffles the tiles on the rack */
   public void shuffle() {
-    System.out.println("Shuffle");
     player.getRack().shuffleRack();
     updateRack();
   }

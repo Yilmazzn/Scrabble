@@ -76,6 +76,10 @@ public class Rack implements Serializable {
 
   /** Shuffles the tiles on the rack */
   public void shuffleRack(){
+    for(RackField field : fields){
+     field.setSelected(false);
+    }
+
     RackField tmp;
     int rand;
     Random r = new Random();

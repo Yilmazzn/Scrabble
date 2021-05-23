@@ -257,7 +257,9 @@ public class NetClient {
    * @param profiles Requires PlayerProfiles array
    */
   public void setLobbyState(PlayerProfile[] profiles, int[] scores) {
-    if (isHost() && !server.gameIsRunning()) { // player is host and game is not running
+    this.coPlayers = profiles;
+    this.coPlayerScores = scores;
+    if (isHost() && !server.gameIsRunning()) { // player is host and game is not run
       createGameController.fillLobby(profiles);
     } else { // player is not host
       gameViewController.updateScoreboard(profiles, scores);

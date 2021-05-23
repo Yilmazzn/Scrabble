@@ -157,16 +157,30 @@ public class Client extends Application {
   public void start(Stage primaryStage) throws Exception {
     this.primaryStage = primaryStage;
 
-    // load profiles
-    this.playerProfiles = XmlHandler.loadProfiles();
-    if (playerProfiles.size() > 0) {
-      selectedProfile = playerProfiles.get(0);
-    }
-
     primaryStage.setTitle("Scrabble 13");
     showMainMenu();
     primaryStage.setMinHeight(700);
     primaryStage.setMinWidth(1000);
+
     primaryStage.show();
+    // load profiles
+    this.playerProfiles = XmlHandler.loadProfiles();
+    if (playerProfiles.size() > 0) {
+      selectedProfile = playerProfiles.get(0);
+    }else{    // NO profiles created yet (First time)
+      TextInputDialog dialog = new TextInputDialog("Mustermann");
+      dialog.setTitle("Create your first profile!");
+      dialog.setHeaderText(null);
+      dialog.setContentText("Please enter your name:");
+
+      // Traditional way to get the response value.
+      Optional<String> result;
+      do{
+        result = dialog.showAndWait();
+      }while(!result.isPresent());
+      playerProfiles.add(new PlayerProfile(result.get(), 0, 0, 0, 0, LocalDate.now(), LocalDate.now()));
+      selectedProfile = playerProfiles.get(0);
+      savePlayerProfiles();
+    }
   }
 }
