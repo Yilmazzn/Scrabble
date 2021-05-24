@@ -12,7 +12,7 @@ import net.server.ServerProtocol;
 import java.util.Collection;
 
 /**
- * @author yuzun
+ * @author vkazmar | ygarip
  *     <p>Remote player instance, which is controlled by ServerProtocol and sends messages back
  */
 public class RemotePlayer extends Player {
@@ -36,9 +36,9 @@ public class RemotePlayer extends Player {
   }
 
   @Override
-  public void setTurn(boolean turn){
+  public void setTurn(boolean turn) {
     super.setTurn(turn);
-    if(turn){
+    if (turn) {
       connection.sendTurnMessage(turn);
     }
   }
@@ -114,5 +114,13 @@ public class RemotePlayer extends Player {
     connection.sendToClient(
         new SubmitMoveMessage(
             game.getBoard())); // Send Board state With 'validities' of every and each field
+  }
+
+  /**
+   * Ends game if - Overtime exceeded - roundsSinceLastScore >= 6 --> Players can end game - bagSize
+   * == 0 --> Players can end game
+   */
+  public void endGame() {
+    game.end();
   }
 }

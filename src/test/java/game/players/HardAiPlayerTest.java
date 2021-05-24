@@ -87,6 +87,17 @@ class HardAiPlayerTest extends HardAiPlayer {
     }
   }
 
+  @Override
+  public void addFoundWords(Collection<String> words) {
+    super.addFoundWords(words);
+    if (words.size() == 0) {
+      return;
+    }
+    System.out.print("Found words: ");
+    words.forEach(word -> System.out.print(word + " "));
+    System.out.println();
+  }
+
   private void printRack() {
     rack.forEach(tile -> System.out.print(tile.getLetter()));
     System.out.println();

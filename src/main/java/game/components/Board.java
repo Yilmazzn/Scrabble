@@ -3,18 +3,21 @@ package game.components;
 import game.Dictionary;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 /**
  * @author yuzun The board is the main object in the game of scrabble This class handles all
- *     interactions with the board itself -- Integrated Board Validity Check --
+ *     interactions with the board itself -- Integrated Board Validity Check || Score evaluation --
+ *     Saves founds already found
  */
 public class Board implements Serializable {
 
   public static final int BOARD_SIZE = 15; // width and height of board
   private final BoardField[][] fields; // 2D array to represent the board fields
+  private List<String> foundWords = new ArrayList<>();
 
   /** Initializes an empty board */
   public Board() {
@@ -279,6 +282,7 @@ public class Board implements Serializable {
     }
 
     // Check: Valid words are formed (Dictionary
+    List<String> newFoundWords = new ArrayList<>(); // Words found by this check
     // Check horizontal
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE - 1; j++) {
@@ -296,6 +300,8 @@ public class Board implements Serializable {
         }
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
+        } else {
+          newFoundWords.add(word);
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
@@ -318,12 +324,15 @@ public class Board implements Serializable {
         }
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
+        } else {
+          newFoundWords.add(word);
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
     }
 
     // if reached here an no exception thrown --> valid
+    foundWords = newFoundWords; // updated list of found words
   }
   /**
    * Evaluates the score of the play in the last turn (Efficient). Iterates over placements in last
@@ -496,5 +505,10 @@ public class Board implements Serializable {
       totalScore += 50;
     }
     return totalScore;
+  }
+
+  /** @return found words up till now (filled in check) */
+  public List<String> getFoundWords() {
+    return foundWords;
   }
 }

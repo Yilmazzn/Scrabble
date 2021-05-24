@@ -112,7 +112,7 @@ public abstract class Player implements Serializable { // todo maybe delete seri
   }
 
   /** Get list of found words */
-  public Collection<String> getFoundWords() {
+  public ArrayList<String> getFoundWords() {
     return foundWords;
   }
 

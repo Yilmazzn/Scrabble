@@ -7,10 +7,12 @@ import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
 import game.players.RemotePlayer;
-import net.message.ChatMessage;
 import net.message.Message;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author yuzun
@@ -22,11 +24,9 @@ public class Game {
       players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
   // second last player, ...]
   private final boolean running; // true if game is running
-  private final List<String> wordsFound =
-      new ArrayList<>(); // a list of words found up to this point
   private final Board board; // Game Board
   private final LinkedList<Tile> bag; // bag of tiles in the game
-  private final int roundsSinceLastScore = 0; // last n amount of rounds without points
+  private int roundsSinceLastScore = 0; // last n amount of rounds without points
   private final Dictionary
       dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
   private Board
@@ -36,6 +36,7 @@ public class Game {
   private List<BoardField> placementsInTurn =
       new LinkedList<>(); // Placements on the board in the last turn
   private Scoreboard scoreboard; // Scoreboard containing game statistics
+  private int amountFoundWords = 0; // counts number of found words
 
   /**
    * A game instance is created by the server, when the host decided to start the game A game
@@ -82,11 +83,12 @@ public class Game {
 
     // increment round number
     roundNum++;
-    // TODO Remove
-    if (roundNum > 10) {
-      System.out.println("GAME END\t\t| limited to 10 rounds");
-    }
     System.out.println("Round Number: " + (roundNum + 1));
+
+    // Check if game is endable
+    if (roundsSinceLastScore >= 6 || bag.size() == 0) {
+      // TODO SEND ENDABLE MESSAGE
+    }
 
     // Save last valid board state
     this.lastValidBoard = new Board(board); // deep copy
@@ -96,7 +98,6 @@ public class Game {
     players.get(Math.abs(roundNum - 1) % players.size()).setTurn(false);
     playerInTurn = players.get(roundNum % players.size());
     playerInTurn.setTurn(true);
-
 
     placementsInTurn = new LinkedList<>();
 
@@ -151,13 +152,37 @@ public class Game {
   }
 
   /**
-   * Ends game (can also be called by incomin EXCEEDED_TIME_MESSAGE or HOST_DISCONNECT_MESSAGE) If
-   * ended abruptly, then because of a user running out of time --> removing pending placements from
-   * the board Else just end normally and show every human player scoreboard
+   * @author ygarip Ends game (can also be called by incoming EXCEEDED_TIME_MESSAGE or
+   *     HOST_DISCONNECT_MESSAGE) If ended abruptly, then because of a user running out of time -->
+   *     removing pending placements from the board Else just end normally and show every human
+   *     player scoreboard. No checks here
    */
   public void end() {
     // Remove placements in this turn
     placementsInTurn.forEach(bf -> bf.setTile(null));
+
+    // Gather stats
+    // Score list & Winner
+    int[] scores = new int[players.size()];
+    int highestScore = 0;
+    int winnerIdx = 0;
+    for (int i = 0; i < scores.length; i++) {
+      scores[i] = players.get(i).getScore();
+      if (highestScore < scores[i]) {
+        highestScore = scores[i];
+        winnerIdx = i;
+      }
+    }
+
+    // Found words list 2D Array
+    String[][] foundWords = new String[players.size()][];
+    for (int i = 0; i < foundWords.length; i++) {
+      List<String> words = players.get(i).getFoundWords();
+      foundWords[i] = new String[words.size()];
+      for (int j = 0; j < foundWords.length; j++) {
+        foundWords[i][j] = words.get(i);
+      }
+    }
 
     // TODO Update Scoreboard and .....
   }
@@ -167,8 +192,17 @@ public class Game {
     try { // Try checking board which throws BoardException if any checks fail
       board.check(placementsInTurn, dictionary);
 
+      // add new found words to player
+      List<String> foundWords =
+          board.getFoundWords().subList(amountFoundWords, board.getFoundWords().size());
+      playerInTurn.addFoundWords(foundWords);
+      amountFoundWords = board.getFoundWords().size();
+
       // if not thrown error by now then board state valid
       int score = evaluateScore();
+      if (score == 0) {
+        roundsSinceLastScore++;
+      }
       System.out.println("SCORE: " + score);
       List<Tile> tileRefill = new LinkedList<>();
       for (int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++) {
@@ -224,7 +258,7 @@ public class Game {
     }
   }
 
-  public List<Player> getPlayers(){
+  public List<Player> getPlayers() {
     return players;
   }
 }
