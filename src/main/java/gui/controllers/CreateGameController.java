@@ -19,6 +19,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
@@ -230,11 +231,6 @@ public class CreateGameController {
         });
   }
 
-  /** Creates system message in chat */
-  public void createSystemMessage(String message) {
-    System.out.println("SYSTEM: " + message);
-  }
-
   /** Creates a Box/Label when player sends a message Necessary to fill the ChatField */
   public void sendMessage() {
     HBox box = new HBox();
@@ -295,6 +291,32 @@ public class CreateGameController {
     label.setPadding(new Insets(2, 10, 2, 2));
     label.getStylesheets().add("stylesheets/chatstyle.css");
     label.getStyleClass().add("textBubbleFlipped");
+
+    box.getChildren().add(label);
+    chat.setSpacing(20);
+    chat.getChildren().add(box);
+    chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
+  }
+
+  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField*/
+  public void createSystemMessage(String message) {
+    HBox box = new HBox();
+    box.setPrefHeight(Region.USE_COMPUTED_SIZE);
+    box.setPrefWidth(Region.USE_COMPUTED_SIZE);
+    box.setAlignment(Pos.BOTTOM_CENTER);
+
+    Text text = new Text(message);
+    text.setFont(Font.font("Chalkboard", 14));
+    text.setFill(Color.DARKGREY);
+    TextFlow flowTemp = new TextFlow(text);
+    flowTemp.setTextAlignment(TextAlignment.CENTER);
+
+    Label label = new Label(null, flowTemp);
+    label.setWrapText(true);
+    label.setPrefWidth(chat.getPrefWidth()*0.8);
+    label.setPadding(new Insets(1, 2, 1, 2));
+    label.getStylesheets().add("stylesheets/chatstyle.css");
+    label.getStyleClass().add("textBubbleSystem");
 
     box.getChildren().add(label);
     chat.setSpacing(20);

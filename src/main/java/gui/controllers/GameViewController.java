@@ -22,6 +22,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
@@ -87,6 +88,7 @@ public class GameViewController implements Initializable {
     updateChat();
     updateTime(600000L);
     showAgreements(!client.getNetClient().isHost()); // show agreements if not host
+    createSystemMessage("Dies ist ein seeeeeehr laaaaaaaanger Test!");
   }
 
   /**
@@ -332,7 +334,6 @@ public class GameViewController implements Initializable {
 
     TextFlow flowTemp = new TextFlow(name, new Text(System.lineSeparator()), message);
 
-    // Label text = new Label("User \n" + textArea.getText());
     Label text = new Label(null, flowTemp);
     text.setWrapText(true);
     text.setPadding(new Insets(2, 10, 2, 2));
@@ -340,7 +341,6 @@ public class GameViewController implements Initializable {
     text.getStyleClass().add("textBubble");
 
     box.getChildren().add(text);
-    chat.setAlignment(Pos.BOTTOM_RIGHT);
     chat.setSpacing(20);
     chat.getChildren().add(box);
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
@@ -378,9 +378,30 @@ public class GameViewController implements Initializable {
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
+  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField*/
   public void createSystemMessage(String message) {
-    // TODO SYSTEM MESSAGE
-    System.out.println("SYSTEM MESSAGE: " + message);
+    HBox box = new HBox();
+    box.setPrefHeight(Region.USE_COMPUTED_SIZE);
+    box.setPrefWidth(Region.USE_COMPUTED_SIZE);
+    box.setAlignment(Pos.BOTTOM_CENTER);
+
+    Text text = new Text(message);
+    text.setFont(Font.font("Chalkboard", 14));
+    text.setFill(Color.DARKGREY);
+    TextFlow flowTemp = new TextFlow(text);
+    flowTemp.setTextAlignment(TextAlignment.CENTER);
+
+    Label label = new Label(null, flowTemp);
+    label.setWrapText(true);
+    label.setPrefWidth(chat.getPrefWidth()*0.8);
+    label.setPadding(new Insets(1, 2, 1, 2));
+    label.getStylesheets().add("stylesheets/chatstyle.css");
+    label.getStyleClass().add("textBubbleSystem");
+
+    box.getChildren().add(label);
+    chat.setSpacing(20);
+    chat.getChildren().add(box);
+    chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
   /**
