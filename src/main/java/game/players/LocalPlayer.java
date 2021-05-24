@@ -10,7 +10,7 @@ import gui.components.Rack;
 import gui.controllers.GameViewController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -85,9 +85,17 @@ public class LocalPlayer {
 
   public void exchange() {
 
-    if(!turn){
-      client.showPopUp("....");
+    if (!turn) {
+      controller.createSystemMessage("Wait for your turn!");
       return;
+    }
+
+    // Put placements on board back to rack!
+    for (Iterator<BoardField> iterator = placements.iterator(); iterator.hasNext(); ) {
+      BoardField field = iterator.next();
+      rack.add(field.getTile());
+      client.getNetClient().placeTile(null, field.getRow(), field.getColumn());
+      iterator.remove();
     }
 
     ArrayList<Tile> tmp = new ArrayList<>();
@@ -142,6 +150,7 @@ public class LocalPlayer {
       return;
     }
     if (board.isEmpty(row, col)) {
+      rack.getField(position).setSelected(false);
       placements.add(board.getField(row, col));
       board.placeTile(rack.getField(position).getTile(), row, col);
       client.getNetClient().placeTile(rack.getField(position).getTile(), row, col);
