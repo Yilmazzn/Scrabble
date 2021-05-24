@@ -10,8 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -227,9 +225,17 @@ public class ServerProtocol extends Thread {
                     "You were kicked out of the lobby!\n\nThe host doesn't like you anymore!");
 
             // Send message to kicked player
-            RemotePlayer rp1 =
-                (RemotePlayer) server.getPlayers().get(((KickPlayerMessage) m).getIndex());
-            rp1.getConnection().sendToClient(dm);
+
+            Player rp1 =
+               server.getPlayers().get(((KickPlayerMessage) m).getIndex());
+            if(rp1.isHuman()){
+              RemotePlayer p1 = (RemotePlayer) rp1;
+              p1.getConnection().sendToClient(dm);
+            }
+            else{
+              AiPlayer p1 = (AiPlayer) rp1;
+              p1.quit();
+            }
 
             // remove from server
             server.removePlayer(rp1); // Remove Player from server
