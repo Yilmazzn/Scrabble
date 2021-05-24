@@ -10,7 +10,6 @@ import gui.controllers.GameViewController;
 import gui.controllers.JoinGameController;
 import net.server.Server;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
