@@ -305,7 +305,7 @@ public class Board implements Serializable {
         }
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
-        } else {
+        } else if (save) {
           allNewFoundWords.add(word);
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
@@ -329,7 +329,7 @@ public class Board implements Serializable {
         }
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
-        } else {
+        } else if (save) {
           allNewFoundWords.add(word);
         }
         j = k; // sets j to the field after the word (out of bounds or empty)

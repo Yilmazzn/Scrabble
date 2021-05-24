@@ -81,7 +81,12 @@ public class ServerProtocol extends Thread {
       turns[i] = server.getPlayers().get(i).isTurn();
       scores[i] = server.getPlayers().get(i).getScore();
     }
-    server.sendToAll(new TurnMessage(turn, turns, server.getGame().getBagSize(), scores));
+    for (int i = 0; i < turns.length; i++) {
+      if (server.getPlayers().get(i).isHuman()) {
+        Message m = new TurnMessage(turns[i], turns, server.getGame().getBagSize(), scores);
+        ((RemotePlayer) server.getPlayers().get(i)).getConnection().sendToClient(m);
+      }
+    }
   }
 
   /** the run method of ServerProtocol to handle the incoming messages of the server */
@@ -226,13 +231,11 @@ public class ServerProtocol extends Thread {
 
             // Send message to kicked player
 
-            Player rp1 =
-               server.getPlayers().get(((KickPlayerMessage) m).getIndex());
-            if(rp1.isHuman()){
+            Player rp1 = server.getPlayers().get(((KickPlayerMessage) m).getIndex());
+            if (rp1.isHuman()) {
               RemotePlayer p1 = (RemotePlayer) rp1;
               p1.getConnection().sendToClient(dm);
-            }
-            else{
+            } else {
               AiPlayer p1 = (AiPlayer) rp1;
               p1.quit();
             }

@@ -10,7 +10,6 @@ import gui.controllers.GameViewController;
 import gui.controllers.JoinGameController;
 import net.server.Server;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -421,7 +420,7 @@ public class NetClient {
    * @param turns array of turn state (to be able to show whose turn it is)
    */
   public void setTurns(boolean turn, boolean[] turns) {
-    client.getLocalPlayer().setTurn(turn); // set turn of local player -> true
+    client.getLocalPlayer().setTurn(turn); // set turn of local player
     gameViewController.updateTurns(turns); // show whose turn it is
   }
 
