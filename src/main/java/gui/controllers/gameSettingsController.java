@@ -220,7 +220,7 @@ public class gameSettingsController {
     loader.setLocation(this.getClass().getResource("/views/createGame.fxml"));
     Parent createGame = loader.load();
     CreateGameController controller = loader.getController();
-
+    System.out.println("Back to Create Game");
     controller.setModel(client);
     controller.setDictionaryPath(dictionaryID);
     controller.setValues(values);
