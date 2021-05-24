@@ -33,8 +33,8 @@ public class gameSettingsController {
   int jokerID; // represents the amount of jokers in the game
   String dictionaryID; // current dictionary
 
-  String[] values; // array storing values of letters
-  String[] distributions; // array storing distribution of letters
+  private int[] values; // array storing values of letters
+  private int[] distributions; // array storing distribution of letters
 
   public void setModel(Client client, CreateGameController createController) {
     this.client = client;
