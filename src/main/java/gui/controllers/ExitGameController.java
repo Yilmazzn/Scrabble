@@ -24,7 +24,9 @@ public class ExitGameController {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     System.out.println("You've successfully logged out!");
     window.close();
-    client.getNetClient().disconnect();
+    if(client.getNetClient() != null && client.getNetClient().isHost()){
+      client.getNetClient().disconnect();
+    }
     Platform.exit();
     System.exit(0);
   }

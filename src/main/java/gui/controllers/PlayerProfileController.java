@@ -105,6 +105,7 @@ public class PlayerProfileController {
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     ExitGameController controller = loader.getController();
+    controller.setModel(client);
 
     Scene exitGameScene = new Scene(exitGameView);
     Stage window = new Stage();
