@@ -276,7 +276,9 @@ public class NetClient {
       if (isHost() && !server.gameIsRunning()) {
         createGameController.createSystemMessage(message);
       } else {
-        gameViewController.createSystemMessage(message);
+        if (gameViewController != null) {
+          gameViewController.createSystemMessage(message);
+        }
       }
     }
   }

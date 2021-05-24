@@ -119,7 +119,6 @@ public class ServerProtocol extends Thread {
           case DISCONNECT:
             profile = ((DisconnectMessage) m).getProfile();
             server.removePlayer(player); // Remove Player from server
-            System.out.println("Server removed: " + profile.getName());
             if (player.isHost()) {
               server.sendToAll(
                   new DisconnectMessage(
@@ -127,14 +126,14 @@ public class ServerProtocol extends Thread {
                       "The server is closed.\n\nThe Host sadly doesn't want to play any longer"));
               server.stopServer();
             } else { // take player out of player list and send new ConnectMessage with all player
-
-              server.sendToAll(
-                  new ChatMessage(profile.getName() + " left", null)); // send system Message to all
+              player.quit(); // quit
 
               // profiles connected
               cm = new ConnectMessage(null);
               cm.setProfiles(server.getPlayerProfilesArray());
               server.sendToAll(cm);
+
+              server.getGame().nextRound(); // next round
             }
             disconnect();
             break;

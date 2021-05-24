@@ -28,9 +28,9 @@ public class Game {
   private final boolean running; // true if game is running
   private final Board board; // Game Board
   private final LinkedList<Tile> bag; // bag of tiles in the game
-  private int roundsSinceLastScore = 0; // last n amount of rounds without points
   private final Dictionary
       dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
+  private int roundsSinceLastScore = 0; // last n amount of rounds without points
   private Board
       lastValidBoard; // Game Board which was last accepted as valid to reset after invalid player
   private int roundNum = -1; // amount of total rounds since start
@@ -241,9 +241,19 @@ public class Game {
     }
   }
 
+  /**
+   * Resets board to last valid state and puts tiles into game bag Use only if player suddenly quit
+   */
+  public void resetBoard() {
+    placementsInTurn.forEach(
+        field -> {
+          bag.add(field.getTile()); // put back to bag
+          removeTile(field.getRow(), field.getColumn()); // remove
+        });
+  }
+
   /***
    * Evaluates the score of the play in the last turn. Iterates over placements in last turn and only ever starts evaluating if placement is to the most top/left placement of all placements in last turn of the specific word it is forming
-   * @author yuzun
    * @return score of play in last turn
    */
   public int evaluateScore() {
