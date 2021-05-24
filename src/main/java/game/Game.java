@@ -38,7 +38,6 @@ public class Game {
   private List<BoardField> placementsInTurn =
       new LinkedList<>(); // Placements on the board in the last turn
   private Scoreboard scoreboard; // Scoreboard containing game statistics
-  private int amountFoundWords = 0; // counts number of found words
 
   /**
    * A game instance is created by the server, when the host decided to start the game A game
@@ -204,10 +203,8 @@ public class Game {
       }
 
       // add new found words to player
-      List<String> foundWords =
-          board.getFoundWords().subList(amountFoundWords, board.getFoundWords().size());
+      List<String> foundWords = board.getFoundWords();
       playerInTurn.addFoundWords(foundWords);
-      amountFoundWords = board.getFoundWords().size();
 
       // if not thrown error by now then board state valid
       int score = evaluateScore();
