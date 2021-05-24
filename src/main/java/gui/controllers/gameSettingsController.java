@@ -51,6 +51,9 @@ public class gameSettingsController {
     }
     initData();
     joker.setText(Integer.toString(distributions[26]));
+
+    dictionary.setText(createController.getDictionaryPath());
+
   }
 
   public void initData() { // initializes fields in gui
