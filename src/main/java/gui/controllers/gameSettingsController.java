@@ -27,11 +27,11 @@ public class gameSettingsController {
 
   private Client client;
   private CreateGameController createController;
-  char letterID; // represents the current letter chosen
-  int valueID; // represents the current value of chosen letter
-  int distributionID; // represents the current distribution of chosen letter
-  int jokerID; // represents the amount of jokers in the game
-  String dictionaryID; // current dictionary
+  private char letterID; // represents the current letter chosen
+  private int valueID; // represents the current value of chosen letter
+  private int distributionID; // represents the current distribution of chosen letter
+  private int jokerID; // represents the amount of jokers in the game
+  private String dictionaryID; // current dictionary
 
   private int[] values; // array storing values of letters
   private int[] distributions; // array storing distribution of letters
