@@ -170,6 +170,7 @@ public class GameViewController implements Initializable {
     agreements.setVisible(show);
   }
 
+  
   /**
    * Sets bag size
    *

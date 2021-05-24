@@ -25,7 +25,6 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 
 public class CreateGameController {
@@ -322,6 +321,17 @@ public class CreateGameController {
     chat.setSpacing(20);
     chat.getChildren().add(box);
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
+  }
+  /** Methods for kicking a particular player */
+  public void kickPlayerTwo(){
+    playerTwo.setText("");
+    //TODO kick player from game
+  }
+  public void kickPlayerThree(){
+    playerTwo.setText("");
+  }
+  public void kickPlayerFour(){
+    playerTwo.setText("");
   }
 
   /**
