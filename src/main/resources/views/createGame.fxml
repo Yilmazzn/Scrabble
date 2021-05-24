@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.CreateGameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.CreateGameController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Create Game " textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -84,6 +84,9 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding>
+                           <HBox.margin>
+                              <Insets left="70.0" />
+                           </HBox.margin>
                         </Label>
                         <Label fx:id="host" prefHeight="35.0" prefWidth="58.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Host">
                            <font>
@@ -97,6 +100,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
                      <children>
+                        <Button fx:id="kickTwo" mnemonicParsing="false" onMouseClicked="#kickPlayerTwo" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Kick">
+                           <font>
+                              <Font name="Chalkboard" size="18.0" />
+                           </font>
+                        </Button>
                         <Label fx:id="playerTwo" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
                            <padding>
                               <Insets left="10.0" />
@@ -111,6 +119,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
                      <children>
+                        <Button fx:id="kickThree" mnemonicParsing="false" onMouseClicked="#kickPlayerThree" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Kick">
+                           <font>
+                              <Font name="Chalkboard" size="18.0" />
+                           </font>
+                        </Button>
                         <Label fx:id="playerThree" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
                            <padding>
                               <Insets left="10.0" />
@@ -125,6 +138,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="15.0">
                      <children>
+                        <Button fx:id="kickFour" mnemonicParsing="false" onMouseClicked="#kickPlayerFour" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Kick">
+                           <font>
+                              <Font name="Chalkboard" size="18.0" />
+                           </font>
+                        </Button>
                         <Label fx:id="playerFour" prefHeight="55.0" prefWidth="205.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css">
                            <padding>
                               <Insets left="10.0" />

@@ -25,7 +25,6 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 
 public class CreateGameController {
@@ -39,6 +38,9 @@ public class CreateGameController {
   @FXML private Label readyTwo;
   @FXML private Label readyThree;
   @FXML private Label readyFour;
+  @FXML private Button kickTwo;
+  @FXML private Button kickThree;
+  @FXML private Button kickFour;
   @FXML private Label host;
   @FXML private TextArea textArea;
   @FXML private ScrollPane scrollPane;
@@ -52,13 +54,11 @@ public class CreateGameController {
   private Client client;
   PlayerProfile[] profiles; // manage profiles with arrayList
 
-  private String[] values = {
-    "1", "3", "3", "2", "1", "4", "2", "4", "1", "8", "5", "1", "3", "1", "1", "3", "10", "1", "1",
-    "1", "1", "4", "4", "8", "4", "10"
+  private int[] tileValues = {
+    1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
   }; // array storing values of letters
-  private String[] distributions = {
-    "9", "2", "2", "4", "12", "2", "3", "2", "9", "1", "1", "4", "2", "6", "8", "2", "1", "6", "4",
-    "6", "4", "2", "2", "1", "2", "1", "2"
+  private int[] tileDistributions = {
+    9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
   }; // array storing distribution of letters
   private String dictionaryPath;
 
@@ -96,18 +96,26 @@ public class CreateGameController {
     dictionaryPath = path;
   }
 
+  /** */
+  public String getDictionaryPath() {
+    return dictionaryPath;
+  }
+
   /**
    * Sets tile values
    *
    * @param values Requires values to be set
    */
-  public void setValues(String[] values) {
-    this.values = values;
+  public void setValues(int[] values) {
+    for(int i = 0; i < values.length; i++){
+      this.tileValues[i] = values[i];
+    }
+    System.out.println("setValues used");
   }
 
   /** @return Returns tile Values */
-  public String[] getValues() {
-    return values;
+  public int[] getValues() {
+    return tileValues;
   }
 
   /**
@@ -115,13 +123,16 @@ public class CreateGameController {
    *
    * @param distributions Requires tile distributions
    */
-  public void setDistributions(String[] distributions) {
-    this.distributions = distributions;
+  public void setDistributions(int[] distributions){
+    for(int i=0;i<tileDistributions.length;i++){
+      this.tileDistributions[i]=distributions[i];
+    }
+    System.out.println("setDistributions used");
   }
 
   /** @return Returns tile distributions */
-  public String[] getDistributions() {
-    return distributions;
+  public int[] getDistributions() {
+    return tileDistributions;
   }
 
   /**
@@ -133,6 +144,7 @@ public class CreateGameController {
     this.profiles = profiles;
     Label[] areas = {playerOne, playerTwo, playerThree, playerFour};
     Label[] readyLabels = {readyTwo, readyThree, readyFour};
+    Button[] kickButtons = {kickTwo, kickThree, kickFour};
 
     for (int i = 0; i < 4; i++) {
       areas[i].setText((i < profiles.length) ? profiles[i].getName() : "");
@@ -140,6 +152,7 @@ public class CreateGameController {
 
     for (int i = 0; i < 3; i++) {
       readyLabels[i].setVisible(i < profiles.length - 1);
+      kickButtons[i].setVisible(i < profiles.length - 1);
     }
   }
 
@@ -298,7 +311,7 @@ public class CreateGameController {
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
-  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField*/
+  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField */
   public void createSystemMessage(String message) {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -313,7 +326,7 @@ public class CreateGameController {
 
     Label label = new Label(null, flowTemp);
     label.setWrapText(true);
-    label.setPrefWidth(chat.getPrefWidth()*0.8);
+    label.setPrefWidth(chat.getPrefWidth() * 0.8);
     label.setPadding(new Insets(1, 2, 1, 2));
     label.getStylesheets().add("stylesheets/chatstyle.css");
     label.getStyleClass().add("textBubbleSystem");
@@ -322,6 +335,20 @@ public class CreateGameController {
     chat.setSpacing(20);
     chat.getChildren().add(box);
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
+  }
+  /** Methods for kicking a particular player */
+  public void kickPlayerTwo() {
+    client.getNetClient().kickPlayer(1);
+  }
+
+  public void kickPlayerThree() {
+    client.getNetClient().kickPlayer(2);
+    ;
+  }
+
+  public void kickPlayerFour() {
+    client.getNetClient().kickPlayer(3);
+    ;
   }
 
   /**

@@ -27,90 +27,105 @@ public class gameSettingsController {
 
   private Client client;
   private CreateGameController createController;
-  char letterID; // represents the current letter chosen
-  int valueID; // represents the current value of chosen letter
-  int distributionID; // represents the current distribution of chosen letter
-  int jokerID; // represents the amount of jokers in the game
-  String dictionaryID; // current dictionary
+  private char letterID; // represents the current letter chosen
+  private int valueID; // represents the current value of chosen letter
+  private int distributionID; // represents the current distribution of chosen letter
+  private int jokerID; // represents the amount of jokers in the game
+  private String dictionaryID; // current dictionary
 
-  String[] values; // array storing values of letters
-  String[] distributions; // array storing distribution of letters
+  private int[] values; // array storing values of letters
+  private int[] distributions; // array storing distribution of letters
 
   public void setModel(Client client, CreateGameController createController) {
     this.client = client;
     this.createController = createController;
-    this.values = createController.getValues();
-    this.distributions = createController.getDistributions();
-  }
 
-  /** Applies the Settings and closes the GameSettingView trough the CreateGameController */
-  public void apply() {
-    //TODO Apply Changes
-    createController.closeSettings();
-  }
-
-  /** Closes the GameSettings Screen through the CreateGameController */
-  public void cancel(){
-    createController.closeSettings();
-  }
-  /** opens a FileChooser to choose the fxml File which is supposed to be the dictionary */
-  /** if File is not a txt File or nothing has been selected, then show Error Message */
-  public void selectDictionary(MouseEvent mouseEvent) throws IOException {
-    FileChooser fc = new FileChooser();
-    File selectedFile = fc.showOpenDialog(null);
-      if((selectedFile != null) && selectedFile.getName().matches("/*.*.txt")){
-        dictionary.setText(selectedFile.getPath());
-        dictionaryID = dictionary.getText();
-        System.out.println("Dictionary has been uploaded successfully!");
-      }
-      else{
-        openDictionaryError();
-        }
-  }
-
-  public String getValue(char a) { // getter method for value of letter
-    int valueLetter = Character.getNumericValue(a);
-    if ((valueLetter >= 97) && (valueLetter <= 122)) { // no caps
-      return values[valueLetter - 97];
+    values = new int [createController.getValues().length];
+    for(int i = 0; i < createController.getValues().length; i++){
+        values[i] = createController.getValues()[i];
     }
-    if ((valueLetter >= 65) && (valueLetter <= 90)) { // caps
-      return values[valueLetter - 65];
-    } else return null;
-  }
 
-  public String getDistribution(char a) { // getter method for distribution of letter
-    int distributionLetter = Character.getNumericValue(a);
-    if ((distributionLetter >= 97) && (distributionLetter <= 122)) { // no caps
-      return values[distributionLetter - 97];
+    distributions = new int [createController.getDistributions().length];
+    for(int i = 0; i < createController.getDistributions().length; i++){
+      distributions[i] = createController.getDistributions()[i];
     }
-    if ((distributionLetter >= 65) && (distributionLetter <= 90)) { // caps
-      return values[distributionLetter - 65];
-    } else return null;
-  }
-
-  public void decreaseJoker() {
-    int jokers = Integer.parseInt(distributions[26]);
-    jokers--;
-    joker.setText(Integer.toString(jokers));
-    distributions[26] = Integer.toString(jokers);
-  }
-
-  public void increaseJoker() {
-    int jokers = Integer.parseInt(distributions[26]);
-    jokers++;
-    joker.setText(Integer.toString(jokers));
-    distributions[26] = Integer.toString(jokers);
+    initData();
+    joker.setText(Integer.toString(distributions[26]));
   }
 
   public void initData() { // initializes fields in gui
     for (int i = 65; i <= 90; i++) {
       char test = (char) i;
       if (String.valueOf(test).equals(letter.getText())) {
-        value.setText(values[i - 65]);
-        distribution.setText(distributions[i - 65]);
+        value.setText(Integer.toString(this.values[i - 65]));
+        distribution.setText(Integer.toString(this.distributions[i - 65]));
         break;
       }
     }
+  }
+  /** Applies the Settings and closes the GameSettingView through the CreateGameController */
+  public void apply() {
+      System.out.println("APPLY");
+    createController.closeSettings();
+    createController.setValues(values);
+    createController.setDistributions(distributions);
+    client
+        .getNetClient()
+        .sendGameSettings(values, distributions, createController.getDictionaryPath());
+  }
+
+  /** Closes the GameSettings Screen through the CreateGameController */
+  public void cancel() {
+      System.out.println("Cancel_Button");
+      createController.closeSettings();
+  }
+
+  /** opens a FileChooser to choose the fxml File which is supposed to be the dictionary */
+  /** if File is not a txt File or nothing has been selected, then show Error Message */
+  public void selectDictionary(MouseEvent mouseEvent) throws IOException {
+    FileChooser fc = new FileChooser();
+    File selectedFile = fc.showOpenDialog(null);
+    if ((selectedFile != null) && selectedFile.getName().matches("/*.*.txt")) {
+      dictionary.setText(selectedFile.getPath());
+      dictionaryID = dictionary.getText();
+      System.out.println("Dictionary has been uploaded successfully!");
+    } else {
+      openDictionaryError();
+    }
+  }
+
+  public int getValue(char a) { // getter method for value of letter
+    int valueLetter = Character.getNumericValue(a);
+    if ((valueLetter >= 97) && (valueLetter <= 122)) { // no caps
+      return values[valueLetter - 97];
+    }
+    if ((valueLetter >= 65) && (valueLetter <= 90)) { // caps
+      return values[valueLetter - 65];
+    } else return 0;
+  }
+
+  public int getDistribution(char a) { // getter method for distribution of letter
+    int distributionLetter = Character.getNumericValue(a);
+    if ((distributionLetter >= 97) && (distributionLetter <= 122)) { // no caps
+      return values[distributionLetter - 97];
+    }
+    if ((distributionLetter >= 65) && (distributionLetter <= 90)) { // caps
+      return values[distributionLetter - 65];
+    } else return 0;
+  }
+
+  public void decreaseJoker() {
+    int jokers = distributions[26];
+    jokers--;
+    joker.setText(Integer.toString(jokers));
+    distributions[26] = jokers;
+  }
+
+  public void increaseJoker() {
+    int jokers = distributions[26];
+    jokers++;
+    joker.setText(Integer.toString(jokers));
+    distributions[26] = jokers;
   }
 
   public void increaseLetter() { // to swap to next letter
@@ -132,56 +147,59 @@ public class gameSettingsController {
   }
 
   public void increaseValue() { // to increase selected letter above
+    letterID = letter.getText().charAt(0);
     valueID = Integer.parseInt(value.getText());
-    if (valueID >= 0) {
+    if (valueID > 0) {
       valueID++;
-      values[letterID - 65] = Integer.toString(valueID);
+      this.values[letterID - 65] = valueID;
       initData();
     }
   }
 
   public void decreaseValue() { // to decrease selected letter above
+    letterID = letter.getText().charAt(0);
     valueID = Integer.parseInt(value.getText());
     if (valueID > 0) {
       valueID--;
-      values[letterID - 65] = Integer.toString(valueID);
+      this.values[letterID - 65] = valueID;
     }
     initData();
   }
 
   public void increaseDistribution() { // to increase distribution of selected letter above
+    letterID = letter.getText().charAt(0);
     distributionID = Integer.parseInt(distribution.getText());
     if (distributionID >= 0) {
       distributionID++;
-      distributions[letterID - 65] = Integer.toString(distributionID);
+      this.distributions[letterID - 65] = distributionID;
     }
     initData();
   }
 
   public void decreaseDistribution() { // to decrease distribution of selected letter above
+    letterID = letter.getText().charAt(0);
     distributionID = Integer.parseInt(distribution.getText());
     if (distributionID > 0) {
       distributionID--;
-      distributions[letterID - 65] = Integer.toString(distributionID);
+      this.distributions[letterID - 65] = distributionID;
     }
     initData();
   }
 
   public void openDictionaryError() throws IOException {
-      FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(this.getClass().getResource("/views/dictionaryError.fxml"));
-      Parent errorMessage = loader.load();
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/dictionaryError.fxml"));
+    Parent errorMessage = loader.load();
 
-      Scene exitGameScene = new Scene(errorMessage);
-      Stage window = new Stage();
-      window.initModality(Modality.APPLICATION_MODAL);
-      window.setTitle("Exit Game");
-      window.setScene(exitGameScene);
-      window.setWidth(200);
-      window.setHeight(200);
-      window.showAndWait();
+    Scene exitGameScene = new Scene(errorMessage);
+    Stage window = new Stage();
+    window.initModality(Modality.APPLICATION_MODAL);
+    window.setTitle("Exit Game");
+    window.setScene(exitGameScene);
+    window.setWidth(200);
+    window.setHeight(200);
+    window.showAndWait();
   }
-
 
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -202,7 +220,7 @@ public class gameSettingsController {
     loader.setLocation(this.getClass().getResource("/views/createGame.fxml"));
     Parent createGame = loader.load();
     CreateGameController controller = loader.getController();
-
+    System.out.println("Back to Create Game");
     controller.setModel(client);
     controller.setDictionaryPath(dictionaryID);
     controller.setValues(values);
