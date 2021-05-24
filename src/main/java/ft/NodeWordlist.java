@@ -2,17 +2,19 @@ package ft;
 
 /** @author vkaczmar Class for data in BST */
 public class NodeWordlist {
-  private String data;
+  private final String data;
+  private final String meaning;
   private NodeWordlist left, right;
 
   /**
    * @author vkaczmar Constructor for creation of Node, data and both children get values.
    * @param data String value with data to save.
    */
-  public NodeWordlist(String data) {
+  public NodeWordlist(String data, String meaning) {
     this.data = data;
     left = null;
     right = null;
+    this.meaning = meaning;
   }
 
   /**
@@ -53,5 +55,9 @@ public class NodeWordlist {
    */
   public void setRight(NodeWordlist right) {
     this.right = right;
+  }
+
+  public String getMeaning() {
+    return meaning;
   }
 }

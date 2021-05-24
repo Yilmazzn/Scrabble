@@ -17,8 +17,8 @@ public class Board implements Serializable {
 
   public static final int BOARD_SIZE = 15; // width and height of board
   private final BoardField[][] fields; // 2D array to represent the board fields
-  private final int amountWordsFound = 0; // track words found number --> used to get only new words
-  private List<String> newFoundWords = new ArrayList<>();
+  private final List<String> allFoundWords = new ArrayList<>(); // all found words
+  private List<String> newFoundWords = new ArrayList<>(); // new found words since last check
 
   /** Initializes an empty board */
   public Board() {
@@ -283,7 +283,7 @@ public class Board implements Serializable {
     }
 
     // Check: Valid words are formed (Dictionary
-    List<String> newFoundWords = new ArrayList<>(); // Words found by this check
+    List<String> allNewFoundWords = new ArrayList<>(); // all found words
     int countWordsFound = 0; // count and only add if > amount already found
     // Check horizontal
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -303,10 +303,7 @@ public class Board implements Serializable {
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
         } else {
-          countWordsFound++;
-          if (countWordsFound > amountWordsFound) {
-            newFoundWords.add(word);
-          }
+          allNewFoundWords.add(word);
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
@@ -330,17 +327,19 @@ public class Board implements Serializable {
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
         } else {
-          countWordsFound++;
-          if (countWordsFound > amountWordsFound) {
-            newFoundWords.add(word);
-          }
+          allNewFoundWords.add(word);
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
     }
 
-    // if reached here an no exception thrown --> valid
-    this.newFoundWords = newFoundWords; // updated list of found words
+    // if reached here an no exception thrown --> valid !
+
+    // get difference between all new found words and all found words --> new found words
+    this.allFoundWords.forEach(
+        w -> allNewFoundWords.remove(w)); // remove old found words from whole list
+    this.newFoundWords = allNewFoundWords; // list of newfound words
+    this.newFoundWords.forEach(w -> allFoundWords.add(w)); // add new found list to whole list
   }
   /**
    * Evaluates the score of the play in the last turn (Efficient). Iterates over placements in last

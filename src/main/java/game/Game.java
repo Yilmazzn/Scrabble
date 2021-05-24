@@ -216,9 +216,8 @@ public class Game {
       if (score > 0) { // if words found
         String message = playerInTurn.getProfile().getName() + " found: ";
         for (String word : foundWords) {
-          message += word + ", ";
+          message += "\n- " + word + ": " + dictionary.getMeaning(word);
         }
-        message = message.substring(0, message.length() - 2); // Cut away last ", "
         message += "\n --> scored " + score + " points!";
         notify(new ChatMessage(message, null));
       } else { // Passed

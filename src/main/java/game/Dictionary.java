@@ -12,8 +12,10 @@ import java.util.Iterator;
  */
 public class Dictionary {
   private BufferedReader br;
-  private ArrayList<String> uneditedLines, words;
-  private NodeWordlist root;
+  private final ArrayList<String> uneditedLines;
+  private final ArrayList<String> words;
+  private final ArrayList<String> meanings;
+  private final NodeWordlist root;
 
   /** Default Dictionary when called without specifying a path (dictionary is given in resources) */
   public Dictionary() {
@@ -23,18 +25,18 @@ public class Dictionary {
     InputStream in = getClass().getResourceAsStream(defaultDictionaryPath);
     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
     String line;
-    try{
-      while((line = reader.readLine()) != null){
+    try {
+      while ((line = reader.readLine()) != null) {
         uneditedLines.add(line);
       }
-    }catch(Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
 
     words = new ArrayList<>();
+    meanings = new ArrayList<>();
     getWords();
-    root = createBSTFromArrayList(words, 0, words.size() - 1);
-
+    root = createBSTFromArrayList(words, meanings, 0, words.size() - 1);
   }
 
   /**
@@ -52,8 +54,9 @@ public class Dictionary {
     uneditedLines = new ArrayList<>();
     getUneditedLines();
     words = new ArrayList<>();
+    meanings = new ArrayList<>();
     getWords();
-    root = createBSTFromArrayList(words, 0, words.size() - 1);
+    root = createBSTFromArrayList(words, meanings, 0, words.size() - 1);
   }
 
   /**
@@ -63,14 +66,15 @@ public class Dictionary {
    * @param end end index
    * @return returns root of BST
    */
-  private NodeWordlist createBSTFromArrayList(ArrayList<String> words, int start, int end) {
+  private NodeWordlist createBSTFromArrayList(
+      ArrayList<String> words, ArrayList<String> meanings, int start, int end) {
     if (start > end) {
       return null;
     }
     int middle = (start + end) / 2;
-    NodeWordlist node = new NodeWordlist(words.get(middle));
-    node.setLeft(createBSTFromArrayList(words, start, middle - 1));
-    node.setRight(createBSTFromArrayList(words, middle + 1, end));
+    NodeWordlist node = new NodeWordlist(words.get(middle), meanings.get(middle));
+    node.setLeft(createBSTFromArrayList(words, meanings, start, middle - 1));
+    node.setRight(createBSTFromArrayList(words, meanings, middle + 1, end));
     return node;
   }
 
@@ -99,8 +103,10 @@ public class Dictionary {
     String[] splitLine;
     Iterator<String> it = uneditedLines.iterator();
     while (it.hasNext()) {
-      splitLine = it.next().split("\\s");
+      String word = it.next();
+      splitLine = word.split("\\s");
       words.add(splitLine[0]);
+      meanings.add(word.substring(word.indexOf(" ") + 1));
     }
   }
 
@@ -153,5 +159,25 @@ public class Dictionary {
       sb.append(s);
     }
     return sb.toString();
+  }
+
+  /** @return meaning of word */
+  public String getMeaning(String word) {
+    NodeWordlist node = getNode(root, word);
+    return node.getMeaning();
+  }
+
+  public NodeWordlist getNode(NodeWordlist node, String word) {
+    if (node == null) {
+      return null;
+    } else if (node.getData().compareTo(word.toUpperCase()) == 0) {
+      return node;
+    } else if (node.getData().compareTo(word.toUpperCase()) > 0) {
+      return getNode(node.getLeft(), word);
+    } else if (node.getData().compareTo(word.toUpperCase()) < 0) {
+      return getNode(node.getRight(), word);
+    } else {
+      return null;
+    }
   }
 }

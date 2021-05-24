@@ -54,7 +54,6 @@ public class HardAiPlayer extends AiPlayer {
   public void thinkInternal(Board gameBoard, Dictionary dictionary) {
     Board board = new Board(gameBoard); // Deep copy of game board
     bestPlacements = new ArrayList<>();
-    long startTime = System.currentTimeMillis(); // Track time it took for processing
 
     // fill placements with best computed solution
     // Check if there are already placements on baord (check by roundnum doesnt work since
@@ -74,8 +73,6 @@ public class HardAiPlayer extends AiPlayer {
     } else {
       compute(board);
     }
-
-    flex(super.getProfile().getName() + " took " + (System.currentTimeMillis() - startTime) + "ms");
 
     // if placement could be found --> execute it
     if (bestPlacements.size() > 0) {
@@ -121,12 +118,12 @@ public class HardAiPlayer extends AiPlayer {
    * @param board copy of game board
    */
   private void computeFirstRound(Board board) {
+    long startTime = System.currentTimeMillis();
     String wordPattern = "";
     for (int i = 0; i < rack.size(); i++) {
       wordPattern += '#';
     }
     Set<String> possibleWords = tree.calculatePossibleWords(wordPattern, rack);
-    flex(super.getProfile().getName() + " computed " + possibleWords.size() + " possible words");
 
     // For every possible word try placing and evaluate
     int maxScore = 0;
@@ -145,6 +142,14 @@ public class HardAiPlayer extends AiPlayer {
         maxScore = score;
       }
     }
+
+    flex(
+        super.getProfile().getName()
+            + " computed "
+            + possibleWords.size()
+            + " possible words in "
+            + (System.currentTimeMillis() - startTime)
+            + "ms");
   }
 
   /**
@@ -154,6 +159,7 @@ public class HardAiPlayer extends AiPlayer {
    * @param board copy of game board
    */
   private void compute(Board board) {
+    long startTime = System.currentTimeMillis(); // track time
     List<List<Placement>> possiblePlacements = new ArrayList<>();
     // Traverse through every row
     for (int row = 0; row < Board.BOARD_SIZE; row++) {
@@ -268,7 +274,9 @@ public class HardAiPlayer extends AiPlayer {
             + possiblePlacements.size()
             + " possible words and calculated best one out of "
             + count
-            + " valid placements");
+            + " valid placements in "
+            + (System.currentTimeMillis() - startTime)
+            + "ms");
   }
 
   /** Returns a tile with given letter */
