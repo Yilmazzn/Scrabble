@@ -274,7 +274,6 @@ public class ServerProtocol extends Thread {
             } else {
               player.removeTile(((PlaceTileMessage) m).getRow(), ((PlaceTileMessage) m).getCol());
             }
-            server.sendToOthers(this, m);
             break;
           default:
             break;

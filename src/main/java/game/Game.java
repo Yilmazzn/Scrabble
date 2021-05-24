@@ -7,7 +7,9 @@ import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
 import game.players.RemotePlayer;
+import net.message.ChatMessage;
 import net.message.Message;
+import net.message.PlaceTileMessage;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -36,7 +38,6 @@ public class Game {
   private List<BoardField> placementsInTurn =
       new LinkedList<>(); // Placements on the board in the last turn
   private Scoreboard scoreboard; // Scoreboard containing game statistics
-  private int amountFoundWords = 0; // counts number of found words
 
   /**
    * A game instance is created by the server, when the host decided to start the game A game
@@ -126,6 +127,11 @@ public class Game {
 
     bag.addAll(tilesFromPlayer);
     playerInTurn.addTilesToRack(tilesFromBag);
+
+    // Notify other about this event
+    String message = playerInTurn.getProfile().getName() + " exchanged tiles!";
+    notify(new ChatMessage(message, null));
+
     nextRound();
   }
 
@@ -137,6 +143,7 @@ public class Game {
     if (board.isEmpty(row, col)) {
       board.placeTile(tile, row, col);
       placementsInTurn.add(board.getField(row, col));
+      notify(new PlaceTileMessage(tile, row, col));
     }
   }
 
@@ -148,6 +155,7 @@ public class Game {
     if (!board.isEmpty(row, col)) {
       board.placeTile(null, row, col);
       placementsInTurn.remove(board.getField(row, col));
+      notify(new PlaceTileMessage(null, row, col));
     }
   }
 
@@ -190,20 +198,34 @@ public class Game {
   /** TODO change some things maybe... */
   public void submit() {
     try { // Try checking board which throws BoardException if any checks fail
-      board.check(placementsInTurn, dictionary);
+      if (placementsInTurn.size() != 0) {
+        board.check(placementsInTurn, dictionary); // dont check if no placements
+      }
 
       // add new found words to player
-      List<String> foundWords =
-          board.getFoundWords().subList(amountFoundWords, board.getFoundWords().size());
+      List<String> foundWords = board.getFoundWords();
       playerInTurn.addFoundWords(foundWords);
-      amountFoundWords = board.getFoundWords().size();
 
       // if not thrown error by now then board state valid
       int score = evaluateScore();
       if (score == 0) {
         roundsSinceLastScore++;
       }
-      System.out.println("SCORE: " + score);
+
+      // Notify which words were found & Score
+      if (score > 0) { // if words found
+        String message = playerInTurn.getProfile().getName() + " found: ";
+        for (String word : foundWords) {
+          message += word + ", ";
+        }
+        message = message.substring(0, message.length() - 2); // Cut away last ", "
+        message += "\n --> scored " + score + " points!";
+        notify(new ChatMessage(message, null));
+      } else { // Passed
+        String message = playerInTurn.getProfile().getName() + " passed";
+        notify(new ChatMessage(message, null));
+      }
+
       List<Tile> tileRefill = new LinkedList<>();
       for (int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++) {
         tileRefill.add(bag.pop());

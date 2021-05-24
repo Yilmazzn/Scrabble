@@ -17,7 +17,8 @@ public class Board implements Serializable {
 
   public static final int BOARD_SIZE = 15; // width and height of board
   private final BoardField[][] fields; // 2D array to represent the board fields
-  private List<String> foundWords = new ArrayList<>();
+  private final int amountWordsFound = 0; // track words found number --> used to get only new words
+  private List<String> newFoundWords = new ArrayList<>();
 
   /** Initializes an empty board */
   public Board() {
@@ -283,6 +284,7 @@ public class Board implements Serializable {
 
     // Check: Valid words are formed (Dictionary
     List<String> newFoundWords = new ArrayList<>(); // Words found by this check
+    int countWordsFound = 0; // count and only add if > amount already found
     // Check horizontal
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE - 1; j++) {
@@ -301,7 +303,10 @@ public class Board implements Serializable {
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
         } else {
-          newFoundWords.add(word);
+          countWordsFound++;
+          if (countWordsFound > amountWordsFound) {
+            newFoundWords.add(word);
+          }
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
@@ -325,14 +330,17 @@ public class Board implements Serializable {
         if (!dictionary.wordExists(word)) {
           throw new BoardException("Word " + word + " was not recognized");
         } else {
-          newFoundWords.add(word);
+          countWordsFound++;
+          if (countWordsFound > amountWordsFound) {
+            newFoundWords.add(word);
+          }
         }
         j = k; // sets j to the field after the word (out of bounds or empty)
       }
     }
 
     // if reached here an no exception thrown --> valid
-    foundWords = newFoundWords; // updated list of found words
+    this.newFoundWords = newFoundWords; // updated list of found words
   }
   /**
    * Evaluates the score of the play in the last turn (Efficient). Iterates over placements in last
@@ -509,6 +517,6 @@ public class Board implements Serializable {
 
   /** @return found words up till now (filled in check) */
   public List<String> getFoundWords() {
-    return foundWords;
+    return newFoundWords;
   }
 }
