@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -17,6 +18,7 @@ import java.io.IOException;
 public class PlayerLobbyController {
 
   @FXML private Label username;
+  @FXML private ImageView profileImage;
 
   private Client client;
 
@@ -25,10 +27,13 @@ public class PlayerLobbyController {
    *
    * @param client Requires client to be set
    */
-  public void setModel(Client client){
+  public void setModel(Client client) {
     this.client = client;
-    if(client.getSelectedProfile() != null){
+    if (client.getSelectedProfile() != null) {
       username.setText(client.getSelectedProfile().getName());
+      if (client.getSelectedProfile().getImage() != null) {
+        profileImage.setImage(client.getSelectedProfile().getImage());
+      }
     }
   }
 
