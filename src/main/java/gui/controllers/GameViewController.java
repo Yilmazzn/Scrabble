@@ -17,6 +17,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -51,6 +53,10 @@ public class GameViewController implements Initializable {
   @FXML private Label turn2;
   @FXML private Label turn3;
   @FXML private Label turn4;
+  @FXML private ImageView image1;
+  @FXML private ImageView image2;
+  @FXML private ImageView image3;
+  @FXML private ImageView image4;
   @FXML private Label time;
   @FXML private TextArea textArea;
   @FXML private ScrollPane scrollPane;
@@ -60,6 +66,9 @@ public class GameViewController implements Initializable {
   @FXML private Button dictionary;
   @FXML private CheckBox ready;
   @FXML private VBox agreements;
+
+  private final Image defaultImage =
+      new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
 
   private Client client;
   private LocalPlayer player;
@@ -109,16 +118,21 @@ public class GameViewController implements Initializable {
   public void updateScoreboard(PlayerProfile[] profiles, int[] scores) {
     Label[] playerLabels = {player1, player2, player3, player4};
     Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
+    ImageView[] images = {image1, image2, image3, image4};
 
-    System.out.println("Profiles received: " + profiles.length);
-    System.out.println("Scores received: " + scores.length);
     for (int i = 0; i < profiles.length; i++) {
       playerLabels[i].setText(profiles[i].getName());
       pointsLabels[i].setText(Integer.toString(scores[i]));
+      if (profiles[i].getImage() != null) {
+        images[i].setImage(profiles[i].getImage());
+      } else {
+        images[i].setImage(defaultImage);
+      }
     }
     for (int i = profiles.length; i < 4; i++) {
       playerLabels[i].setText("---");
       pointsLabels[i].setText("-");
+      images[i].setImage(defaultImage);
     }
   }
 
@@ -170,7 +184,6 @@ public class GameViewController implements Initializable {
     agreements.setVisible(show);
   }
 
-  
   /**
    * Sets bag size
    *
@@ -379,7 +392,7 @@ public class GameViewController implements Initializable {
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
-  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField*/
+  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField */
   public void createSystemMessage(String message) {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -394,7 +407,7 @@ public class GameViewController implements Initializable {
 
     Label label = new Label(null, flowTemp);
     label.setWrapText(true);
-    label.setPrefWidth(chat.getPrefWidth()*0.8);
+    label.setPrefWidth(chat.getPrefWidth() * 0.8);
     label.setPadding(new Insets(1, 2, 1, 2));
     label.getStylesheets().add("stylesheets/chatstyle.css");
     label.getStyleClass().add("textBubbleSystem");

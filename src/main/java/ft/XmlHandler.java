@@ -1,6 +1,7 @@
 package ft;
 
 import client.PlayerProfile;
+import javafx.scene.image.Image;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -8,13 +9,14 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,7 +35,8 @@ public class XmlHandler {
    */
   private static final String sep = System.getProperty("file.separator");
 
-  public static final String XML_PATH = System.getProperty("user.dir") + sep + "res" + sep + "profiles.xml";
+  public static final String XML_PATH =
+      System.getProperty("user.dir") + sep + "res" + sep + "profiles.xml";
 
   public static Document xmlDoc;
 
@@ -44,18 +47,20 @@ public class XmlHandler {
       try {
         // Make sure the XML file exists
         File resDir = new File(System.getProperty("user.dir") + sep + "res");
-        if(!resDir.exists()){
-          if(!resDir.mkdir()){  // Create directory
+        if (!resDir.exists()) {
+          if (!resDir.mkdir()) { // Create directory
             System.out.println("Directory 'res' could not be created.");
           }
         }
         File xmlFile = new File(XML_PATH);
-        if(!xmlFile.exists()){
-          if(!xmlFile.createNewFile()){  // Create new file
+        if (!xmlFile.exists()) {
+          if (!xmlFile.createNewFile()) { // Create new file
             System.out.println("File 'profiles.xml' could not be created.");
-          }else{
+          } else {
             FileWriter writer = new FileWriter(xmlFile);
-            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n<PlayerProfiles></PlayerProfiles>"); // Write new XML
+            writer.write(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                    + "\n<PlayerProfiles></PlayerProfiles>"); // Write new XML
             writer.flush();
             writer.close();
           }
@@ -116,6 +121,13 @@ public class XmlHandler {
               Integer.parseInt(lastLoggedStr[1]),
               Integer.parseInt(lastLoggedStr[0]));
 
+      String imageUrl = player.getChildText("image");
+      Image image = null;
+      if (imageUrl != null && imageUrl != "") {
+        if (Files.exists(Paths.get(imageUrl.substring(6)))) {
+          image = new Image(imageUrl);
+        }
+      }
       nPlayer =
           new PlayerProfile(
               player.getChildText("name"),
@@ -124,7 +136,9 @@ public class XmlHandler {
               Integer.parseInt(player.getChildText("losses")),
               Integer.parseInt(player.getChildText("totalScore")),
               creation,
-              lastLogged);
+              lastLogged,
+              image);
+
       return nPlayer;
     } catch (Exception exp) {
       System.out.println(exp);
@@ -168,6 +182,14 @@ public class XmlHandler {
     Element lastLogged = new Element("lastLogged");
     lastLogged.addContent(nPlayer.getCreation());
 
+    Element image64 = new Element("image");
+    String base64Image = "";
+    if (nPlayer.getImage() != null) {
+      Image image = nPlayer.getImage();
+      base64Image = image.getUrl();
+    }
+    image64.addContent(base64Image);
+
     // add all the content, also the content that will follow
     newPlayer.addContent(name);
     newPlayer.addContent(highscore);
@@ -176,6 +198,7 @@ public class XmlHandler {
     newPlayer.addContent(totalScore);
     newPlayer.addContent(creationDate);
     newPlayer.addContent(lastLogged);
+    newPlayer.addContent(image64);
 
     return newPlayer;
   }
