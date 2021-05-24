@@ -265,12 +265,12 @@ public class NetClient {
     }
   }
 
-  public void updateChat(PlayerProfile user, String message) {
+  public void updateChat(String user, String message) {
     if (user != null) { // not received from system
       if (isHost() && !server.gameIsRunning()) { // user is host --> sees CreateGameScene
-        createGameController.getMessage(user.getName(), message);
+        createGameController.getMessage(user, message);
       } else { // user is not host --> sees GameView
-        gameViewController.getMessage(user.getName(), message);
+        gameViewController.getMessage(user, message);
       }
     } else {
       if (isHost() && !server.gameIsRunning()) {

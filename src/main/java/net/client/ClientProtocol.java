@@ -6,7 +6,6 @@ import game.components.Tile;
 import javafx.application.Platform;
 import net.message.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -86,7 +85,8 @@ public class ClientProtocol extends Thread {
   public void sendChatMessage(String chatMessage) {
     try {
       if (!clientSocket.isClosed()) {
-        this.out.writeObject(new ChatMessage(chatMessage, client.getClient().getSelectedProfile()));
+        this.out.writeObject(
+            new ChatMessage(chatMessage, client.getClient().getSelectedProfile().getName()));
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -314,11 +314,11 @@ public class ClientProtocol extends Thread {
             break;
           case CHATMESSAGE:
             // TODO add methode
-            PlayerProfile user = ((ChatMessage) m).getProfile();
+            String username = ((ChatMessage) m).getUsername();
             String message = ((ChatMessage) m).getMsg();
             Platform.runLater(
                 () -> {
-                  client.updateChat(user, message);
+                  client.updateChat(username, message);
                 });
             break;
           case PLAYERREADY:

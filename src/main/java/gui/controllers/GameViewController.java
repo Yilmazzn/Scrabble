@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
@@ -65,6 +66,9 @@ public class GameViewController implements Initializable {
   @FXML private Button dictionary;
   @FXML private CheckBox ready;
   @FXML private VBox agreements;
+
+  private final Image defaultImage =
+      new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
 
   private Client client;
   private LocalPlayer player;
@@ -121,11 +125,14 @@ public class GameViewController implements Initializable {
       pointsLabels[i].setText(Integer.toString(scores[i]));
       if (profiles[i].getImage() != null) {
         images[i].setImage(profiles[i].getImage());
+      } else {
+        images[i].setImage(defaultImage);
       }
     }
     for (int i = profiles.length; i < 4; i++) {
       playerLabels[i].setText("---");
       pointsLabels[i].setText("-");
+      images[i].setImage(defaultImage);
     }
   }
 
