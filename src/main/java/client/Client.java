@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.client.NetClient;
@@ -174,6 +175,8 @@ public class Client extends Application {
     showMainMenu();
     primaryStage.setMinHeight(700);
     primaryStage.setMinWidth(1000);
+    Image logo = new Image(this.getClass().getResource("/pictures/ProgramLogo.png").toString());
+    primaryStage.getIcons().add(logo);
 
     primaryStage.show();
     // load profiles
