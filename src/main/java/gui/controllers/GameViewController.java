@@ -230,24 +230,24 @@ public class GameViewController implements Initializable {
 
   /** @author vihofman for statistic functionality */
   public void playerOne() throws IOException {
-    openStatistics(player.getProfiles()[0]);
+    openStatistics(client.getNetClient().getCoPlayers()[0]);
   }
 
   public void playerTwo() throws IOException {
     if (player.getProfiles().length >= 2) {
-      openStatistics(player.getProfiles()[1]);
+      openStatistics(client.getNetClient().getCoPlayers()[1]);
     }
   }
 
   public void playerThree() throws IOException {
     if (player.getProfiles().length >= 3) {
-      openStatistics(player.getProfiles()[2]);
+      openStatistics(client.getNetClient().getCoPlayers()[2]);
     }
   }
 
   public void playerFour() throws IOException {
     if (player.getProfiles().length >= 4) {
-      openStatistics(player.getProfiles()[3]);
+      openStatistics(client.getNetClient().getCoPlayers()[3]);
     }
   }
 
