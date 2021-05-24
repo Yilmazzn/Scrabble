@@ -199,7 +199,7 @@ public class Game {
   public void submit() {
     try { // Try checking board which throws BoardException if any checks fail
       if (placementsInTurn.size() != 0) {
-        board.check(placementsInTurn, dictionary); // dont check if no placements
+        board.check(placementsInTurn, dictionary, true); // dont check if no placements
       }
 
       // add new found words to player

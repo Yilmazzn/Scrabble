@@ -148,9 +148,12 @@ public class Board implements Serializable {
    *
    * @param placements placements in the last turn
    * @param dictionary Dictionary the game is based on
+   * @param save if true, found words lists will be updated (important as to not call it with bots
+   *     since iterating thousands of times)
    * @throws BoardException if board state is invalid with message as to why Board was invalid
    */
-  public void check(List<BoardField> placements, Dictionary dictionary) throws BoardException {
+  public void check(List<BoardField> placements, Dictionary dictionary, boolean save)
+      throws BoardException {
 
     // Every field is valid default
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -336,10 +339,12 @@ public class Board implements Serializable {
     // if reached here an no exception thrown --> valid !
 
     // get difference between all new found words and all found words --> new found words
-    this.allFoundWords.forEach(
-        w -> allNewFoundWords.remove(w)); // remove old found words from whole list
-    this.newFoundWords = allNewFoundWords; // list of newfound words
-    this.newFoundWords.forEach(w -> allFoundWords.add(w)); // add new found list to whole list
+    if (save) {
+      this.allFoundWords.forEach(
+          w -> allNewFoundWords.remove(w)); // remove old found words from whole list
+      this.newFoundWords = allNewFoundWords; // list of newfound words
+      this.newFoundWords.forEach(w -> allFoundWords.add(w)); // add new found list to whole list
+    }
   }
   /**
    * Evaluates the score of the play in the last turn (Efficient). Iterates over placements in last

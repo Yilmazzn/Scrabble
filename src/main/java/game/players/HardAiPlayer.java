@@ -305,7 +305,7 @@ public class HardAiPlayer extends AiPlayer {
           boardPlacements.add(board.getField(placement.getRow(), placement.getColumn()));
         });
     try {
-      board.check(boardPlacements, game.getDictionary());
+      board.check(boardPlacements, game.getDictionary(), false);
     } catch (BoardException be) {
       resetBoard(board, placements);
       return -1;
