@@ -38,6 +38,9 @@ public class CreateGameController {
   @FXML private Label readyTwo;
   @FXML private Label readyThree;
   @FXML private Label readyFour;
+  @FXML private Button kickTwo;
+  @FXML private Button kickThree;
+  @FXML private Button kickFour;
   @FXML private Label host;
   @FXML private TextArea textArea;
   @FXML private ScrollPane scrollPane;
