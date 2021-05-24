@@ -10,8 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -268,7 +266,6 @@ public class ServerProtocol extends Thread {
             } else {
               player.removeTile(((PlaceTileMessage) m).getRow(), ((PlaceTileMessage) m).getCol());
             }
-            server.sendToOthers(this, m);
             break;
           default:
             break;

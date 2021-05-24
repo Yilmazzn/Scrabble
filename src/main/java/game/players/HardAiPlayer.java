@@ -44,7 +44,7 @@ public class HardAiPlayer extends AiPlayer {
    */
   @Override
   public void think(Board gameBoard, Dictionary dictionary) {
-    new Thread(() -> thinkInternal(gameBoard, dictionary));
+    new Thread(() -> thinkInternal(gameBoard, dictionary)).start();
   }
 
   /**
@@ -57,7 +57,19 @@ public class HardAiPlayer extends AiPlayer {
     long startTime = System.currentTimeMillis(); // Track time it took for processing
 
     // fill placements with best computed solution
-    if (game.getRoundNumber() == 1) { // First round --> think different since no anchors
+    // Check if there are already placements on baord (check by roundnum doesnt work since
+    //  first roun can be passed too
+    boolean priorPlacements = false;
+    for (int i = 0; i < Board.BOARD_SIZE; i++) {
+      for (int j = 0; j < Board.BOARD_SIZE; j++) {
+        if (!board.isEmpty(i, j)) {
+          priorPlacements = true;
+          break;
+        }
+      }
+    }
+
+    if (!priorPlacements) { //
       computeFirstRound(board); // fills placements with best computed solution
     } else {
       compute(board);
@@ -114,7 +126,7 @@ public class HardAiPlayer extends AiPlayer {
       wordPattern += '#';
     }
     Set<String> possibleWords = tree.calculatePossibleWords(wordPattern, rack);
-    flex(super.getProfile().getName() + " found " + possibleWords.size() + " possible words");
+    flex(super.getProfile().getName() + " computed " + possibleWords.size() + " possible words");
 
     // For every possible word try placing and evaluate
     int maxScore = 0;
@@ -234,7 +246,6 @@ public class HardAiPlayer extends AiPlayer {
         }
       }
     }
-    flex(super.getProfile().getName() + " found " + possiblePlacements.size() + " possible words");
     // Try out placements and get best one
     int maxScore = 0;
     int count = 0; // valid placements
@@ -251,7 +262,13 @@ public class HardAiPlayer extends AiPlayer {
         bestPlacements = placements;
       }
     }
-    flex(super.getProfile().getName() + " computed best out of " + count + " valid placements");
+    flex(
+        super.getProfile().getName()
+            + " computed "
+            + possiblePlacements.size()
+            + " possible words and calculated best one out of "
+            + count
+            + " valid placements");
   }
 
   /** Returns a tile with given letter */
