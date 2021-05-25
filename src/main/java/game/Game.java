@@ -7,9 +7,7 @@ import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
 import game.players.RemotePlayer;
-import net.message.ChatMessage;
-import net.message.Message;
-import net.message.PlaceTileMessage;
+import net.message.*;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -163,21 +161,9 @@ public class Game {
    *     removing pending placements from the board Else just end normally and show every human
    *     player scoreboard. No checks here
    */
-  public void end() {
-    // Remove placements in this turn
-    placementsInTurn.forEach(bf -> bf.setTile(null));
-
-    // Gather stats
-    // Score list & Winner
-    int[] scores = new int[players.size()];
-    int highestScore = 0;
-    int winnerIdx = 0;
-    for (int i = 0; i < scores.length; i++) {
-      scores[i] = players.get(i).getScore();
-      if (highestScore < scores[i]) {
-        highestScore = scores[i];
-        winnerIdx = i;
-      }
+  public void end(int type) {
+    for (Player player : players) {
+      player.setTurn(false);
     }
 
     // Found words list 2D Array
@@ -185,8 +171,8 @@ public class Game {
     for (int i = 0; i < foundWords.length; i++) {
       List<String> words = players.get(i).getFoundWords();
       foundWords[i] = new String[words.size()];
-      for (int j = 0; j < foundWords.length; j++) {
-        foundWords[i][j] = words.get(i);
+      for (int j = 0; j < foundWords[i].length; j++) {
+        foundWords[i][j] = words.get(j);
       }
     }
 
@@ -195,6 +181,7 @@ public class Game {
 
   /** TODO change some things maybe... */
   public void submit() {
+
     try { // Try checking board which throws BoardException if any checks fail
       if (placementsInTurn.size() != 0) {
         board.check(placementsInTurn, dictionary, true); // dont check if no placements

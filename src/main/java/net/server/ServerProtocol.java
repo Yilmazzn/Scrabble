@@ -213,9 +213,11 @@ public class ServerProtocol extends Thread {
                     aiPlayer.getProfile().getName() + " joined our Round. *Beep-Boop*", null);
 
             server.addPlayer(aiPlayer);
+
             ConnectMessage cm1 = new ConnectMessage(null);
             cm1.setProfiles(server.getPlayerProfilesArray());
             server.sendToAll(cm1);
+            server.sendToAll(c1);
             break;
           case KICKPLAYER:
             DisconnectMessage dm =
