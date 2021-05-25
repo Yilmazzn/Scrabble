@@ -251,19 +251,19 @@ public class GameViewController implements Initializable {
   }
 
   public void playerTwo() throws IOException {
-    if (player.getProfiles().length >= 2) {
+    if (client.getNetClient().getCoPlayers().length >= 2) {
       openStatistics(client.getNetClient().getCoPlayers()[1]);
     }
   }
 
   public void playerThree() throws IOException {
-    if (player.getProfiles().length >= 3) {
+    if (client.getNetClient().getCoPlayers().length >= 3) {
       openStatistics(client.getNetClient().getCoPlayers()[2]);
     }
   }
 
   public void playerFour() throws IOException {
-    if (player.getProfiles().length >= 4) {
+    if (client.getNetClient().getCoPlayers().length >= 4) {
       openStatistics(client.getNetClient().getCoPlayers()[3]);
     }
   }

@@ -284,6 +284,7 @@ public class NetClient {
   }
 
   public void updateGameSettings(int[] scores, int[] distributions, String dictionaryContent) {
+    System.out.println("NetClient: in updateGameSettings");
     if (scores != null) {
       String content = "";
       for (int i = 0; i < scores.length; i++) {
