@@ -424,7 +424,9 @@ public class Board implements Serializable {
         }
 
         // traverse to the right
-        while (helper.getColumn() < Board.BOARD_SIZE && !helper.isEmpty()) {
+        while (helper.getColumn() < Board.BOARD_SIZE
+            && !helper.isEmpty()
+            && helper.getColumn() != Board.BOARD_SIZE - 1) {
 
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;
@@ -472,7 +474,9 @@ public class Board implements Serializable {
         }
 
         // traverse down
-        while (helper.getRow() < Board.BOARD_SIZE && !helper.isEmpty()) {
+        while (helper.getRow() < Board.BOARD_SIZE
+            && !helper.isEmpty()
+            && helper.getRow() != Board.BOARD_SIZE - 1) {
 
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;
