@@ -2,6 +2,7 @@
 target
 classes
 out
+res
 
 #IDE/Project data
 *.iml
