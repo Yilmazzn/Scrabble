@@ -37,10 +37,8 @@ public class BoardTest {
     board.placeTile(new Tile('T', 0), 6, 4);
     placements.add(board.getField(6, 4));
 
-    board.check(placements, dictionary); // passes if no error thrown
-    // Exception boardException = Assertions.assertThrows(BoardException.class, () ->
-    // board.check(placements, dictionary));
-    // Assertions.assertEquals("boardException.getMessage()", boardException.getMessage());
+    board.check(placements, dictionary, true); // passes if no error thrown
+    Assertions.assertEquals(board.getFoundWords().get(0), "TRAIN");
   }
 
   @Test
@@ -50,7 +48,8 @@ public class BoardTest {
     placements.add(board.getField(5, 9));
 
     Exception boardException =
-        Assertions.assertThrows(BoardException.class, () -> board.check(placements, dictionary));
+        Assertions.assertThrows(
+            BoardException.class, () -> board.check(placements, dictionary, false));
     Assertions.assertEquals("Star Field is not covered", boardException.getMessage());
   }
 
@@ -64,7 +63,8 @@ public class BoardTest {
     placements.add(board.getField(0, 0));
 
     Exception boardException =
-        Assertions.assertThrows(BoardException.class, () -> board.check(placements, dictionary));
+        Assertions.assertThrows(
+            BoardException.class, () -> board.check(placements, dictionary, false));
     Assertions.assertEquals("Placements cannot stand alone", boardException.getMessage());
   }
 
@@ -80,7 +80,8 @@ public class BoardTest {
     placements.add(board.getField(0, 1));
 
     Exception boardException =
-        Assertions.assertThrows(BoardException.class, () -> board.check(placements, dictionary));
+        Assertions.assertThrows(
+            BoardException.class, () -> board.check(placements, dictionary, false));
     Assertions.assertEquals(
         "Placements must join together with tiles on board", boardException.getMessage());
   }
@@ -101,7 +102,8 @@ public class BoardTest {
     placements.add(board.getField(1, 4));
 
     Exception boardException =
-        Assertions.assertThrows(BoardException.class, () -> board.check(placements, dictionary));
+        Assertions.assertThrows(
+            BoardException.class, () -> board.check(placements, dictionary, false));
     Assertions.assertEquals(
         "Placements must join together with tiles on board", boardException.getMessage());
   }
@@ -119,7 +121,8 @@ public class BoardTest {
     placements.add(board.getField(9, 12));
 
     Exception boardException =
-        Assertions.assertThrows(BoardException.class, () -> board.check(placements, dictionary));
+        Assertions.assertThrows(
+            BoardException.class, () -> board.check(placements, dictionary, false));
     Assertions.assertEquals(
         "Placements can only be in a single line or column", boardException.getMessage());
   }
@@ -134,7 +137,8 @@ public class BoardTest {
     placements.add(board.getField(6, 4));
 
     Exception boardException =
-        Assertions.assertThrows(BoardException.class, () -> board.check(placements, dictionary));
+        Assertions.assertThrows(
+            BoardException.class, () -> board.check(placements, dictionary, false));
     Assertions.assertEquals("Word QRAIN was not recognized", boardException.getMessage());
   }
 

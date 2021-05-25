@@ -16,7 +16,7 @@ public class Tile implements Serializable {
   public Tile(char letter, int score) {
     this.letter = letter;
     this.score = score;
-    this.joker = letter == ' ';
+    this.joker = letter == '#';
   }
 
   /** Returns the letter this tile represents */

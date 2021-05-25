@@ -81,7 +81,12 @@ public class ServerProtocol extends Thread {
       turns[i] = server.getPlayers().get(i).isTurn();
       scores[i] = server.getPlayers().get(i).getScore();
     }
-    server.sendToAll(new TurnMessage(turn, turns, server.getGame().getBagSize(), scores));
+    for (int i = 0; i < turns.length; i++) {
+      if (server.getPlayers().get(i).isHuman()) {
+        Message m = new TurnMessage(turns[i], turns, server.getGame().getBagSize(), scores);
+        ((RemotePlayer) server.getPlayers().get(i)).getConnection().sendToClient(m);
+      }
+    }
   }
 
   /** the run method of ServerProtocol to handle the incoming messages of the server */
@@ -114,7 +119,6 @@ public class ServerProtocol extends Thread {
           case DISCONNECT:
             profile = ((DisconnectMessage) m).getProfile();
             server.removePlayer(player); // Remove Player from server
-            System.out.println("Server removed: " + profile.getName());
             if (player.isHost()) {
               server.sendToAll(
                   new DisconnectMessage(
@@ -122,14 +126,14 @@ public class ServerProtocol extends Thread {
                       "The server is closed.\n\nThe Host sadly doesn't want to play any longer"));
               server.stopServer();
             } else { // take player out of player list and send new ConnectMessage with all player
-
-              server.sendToAll(
-                  new ChatMessage(profile.getName() + " left", null)); // send system Message to all
+              player.quit(); // quit
 
               // profiles connected
               cm = new ConnectMessage(null);
               cm.setProfiles(server.getPlayerProfilesArray());
               server.sendToAll(cm);
+
+              server.getGame().nextRound(); // next round
             }
             disconnect();
             break;
@@ -219,13 +223,11 @@ public class ServerProtocol extends Thread {
 
             // Send message to kicked player
 
-            Player rp1 =
-               server.getPlayers().get(((KickPlayerMessage) m).getIndex());
-            if(rp1.isHuman()){
+            Player rp1 = server.getPlayers().get(((KickPlayerMessage) m).getIndex());
+            if (rp1.isHuman()) {
               RemotePlayer p1 = (RemotePlayer) rp1;
               p1.getConnection().sendToClient(dm);
-            }
-            else{
+            } else {
               AiPlayer p1 = (AiPlayer) rp1;
               p1.quit();
             }
@@ -267,7 +269,6 @@ public class ServerProtocol extends Thread {
             } else {
               player.removeTile(((PlaceTileMessage) m).getRow(), ((PlaceTileMessage) m).getCol());
             }
-            server.sendToOthers(this, m);
             break;
           default:
             break;

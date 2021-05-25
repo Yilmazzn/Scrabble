@@ -88,7 +88,8 @@ public class RemotePlayer extends Player {
   /** Quit from game. Player is sent all relevant information */
   @Override
   public void quit() {
-    // TODO SEND QUIT MESSAGE
+    game.resetBoard();
+    game.notify(new ChatMessage(getProfile().getName() + " left", null)); // notify others
   }
 
   /** Add tile to player's rack */

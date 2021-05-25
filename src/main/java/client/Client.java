@@ -12,7 +12,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.client.NetClient;
@@ -89,12 +91,13 @@ public class Client extends Application {
     return localPlayer;
   }
 
-  public LocalPlayer getLocalPlayer(){
+  public LocalPlayer getLocalPlayer() {
     return localPlayer;
   }
 
   /**
    * Method for creating a custom Popup for different Use Cases
+   *
    * @author yuzun
    * @param message Requires Message to be displayed
    */
@@ -107,14 +110,25 @@ public class Client extends Application {
 
   /**
    * Method for creating a custom Popup for different Use Cases
+   *
    * @author yuzun
    * @param message Requires Message to be displayed
    */
   public void showError(String message) {
     Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
     alert.setHeaderText(null);
-    alert.setTitle("Information");
+    alert.setTitle("Error");
     alert.showAndWait();
+  }
+
+  /**
+   * Show dialog
+   *
+   * @return input (null string if cancelled)
+   */
+  public String showDialog(Dialog dialog) {
+    Optional<String> result = dialog.showAndWait();
+    return result.isPresent() ? result.get() : null;
   }
 
   /** @return Returns primaryStage (MainMenu) of program */
@@ -145,8 +159,8 @@ public class Client extends Application {
               netClient.disconnect();
             }
 
-            if(localPlayer != null){
-              localPlayer.setTurn(false);   // stop countdown
+            if (localPlayer != null) {
+              localPlayer.setTurn(false); // stop countdown
             }
           }
         });
@@ -161,13 +175,15 @@ public class Client extends Application {
     showMainMenu();
     primaryStage.setMinHeight(700);
     primaryStage.setMinWidth(1000);
+    Image logo = new Image(this.getClass().getResource("/pictures/ProgramLogo.png").toString());
+    primaryStage.getIcons().add(logo);
 
     primaryStage.show();
     // load profiles
     this.playerProfiles = XmlHandler.loadProfiles();
     if (playerProfiles.size() > 0) {
       selectedProfile = playerProfiles.get(0);
-    }else{    // NO profiles created yet (First time)
+    } else { // NO profiles created yet (First time)
       TextInputDialog dialog = new TextInputDialog("Mustermann");
       dialog.setTitle("Create your first profile!");
       dialog.setHeaderText(null);
@@ -175,10 +191,11 @@ public class Client extends Application {
 
       // Traditional way to get the response value.
       Optional<String> result;
-      do{
+      do {
         result = dialog.showAndWait();
-      }while(!result.isPresent());
-      playerProfiles.add(new PlayerProfile(result.get(), 0, 0, 0, 0, LocalDate.now(), LocalDate.now()));
+      } while (!result.isPresent());
+      playerProfiles.add(
+          new PlayerProfile(result.get(), 0, 0, 0, 0, LocalDate.now(), LocalDate.now()));
       selectedProfile = playerProfiles.get(0);
       savePlayerProfiles();
     }

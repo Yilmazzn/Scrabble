@@ -8,12 +8,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -30,6 +35,8 @@ public class PlayerProfileController {
   @FXML private Label playerWins;
   @FXML private Label playerLosses;
   @FXML private Label playerScrabblerSince;
+  @FXML private ImageView profileImage;
+  @FXML private Button changeImageButton;
 
   private Client client;
   private List<PlayerProfile> profiles;
@@ -59,6 +66,11 @@ public class PlayerProfileController {
     playerWins.setText(String.valueOf(profiles.get(selectedIdx).getWins()));
     playerLosses.setText(String.valueOf(profiles.get(selectedIdx).getLosses()));
     playerScrabblerSince.setText(profiles.get(selectedIdx).getCreation());
+    if (profiles.get(selectedIdx).getImage() != null) {
+      profileImage.setImage(profiles.get(selectedIdx).getImage());
+    } else {
+      profileImage.setImage(new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png")));
+    }
   }
 
   /**
@@ -105,6 +117,7 @@ public class PlayerProfileController {
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     ExitGameController controller = loader.getController();
+    controller.setModel(client);
 
     Scene exitGameScene = new Scene(exitGameView);
     Stage window = new Stage();
@@ -121,7 +134,7 @@ public class PlayerProfileController {
     selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
     client.setSelectedProfile(profiles.get(selectedIdx));
     showPlayer();
-    //TODO Fehler bei der Auswahl: springt nicht zum Ende
+    // TODO Fehler bei der Auswahl: springt nicht zum Ende
   }
 
   /** Shows the next playerProfile in the list. Jumps from the end to the beginning */
@@ -167,4 +180,22 @@ public class PlayerProfileController {
     }
   }
 
+  @FXML
+  public void changeImage() {
+    FileChooser chooser = new FileChooser();
+    // Extention filter
+    FileChooser.ExtensionFilter extentionFilter =
+        new FileChooser.ExtensionFilter("Image files (*.png, *.jpg, *jpeg)", "*.png;*.jpg;*.jpeg");
+    chooser.getExtensionFilters().add(extentionFilter);
+    File file = new File(System.getProperty("user.dir"));
+    chooser.setInitialDirectory(file);
+
+    File chosenFile = chooser.showOpenDialog(null);
+    String path;
+    if (chosenFile != null) {
+      profiles.get(selectedIdx).setImage(new Image(chosenFile.toURI().toString()));
+    }
+    client.savePlayerProfiles();
+    showPlayer();
+  }
 }

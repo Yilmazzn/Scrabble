@@ -8,9 +8,10 @@ import game.components.BoardField;
 import game.components.Tile;
 import gui.components.Rack;
 import gui.controllers.GameViewController;
+import javafx.scene.control.ChoiceDialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -85,9 +86,17 @@ public class LocalPlayer {
 
   public void exchange() {
 
-    if(!turn){
-      client.showPopUp("....");
+    if (!turn) {
+      controller.createSystemMessage("Wait for your turn!");
       return;
+    }
+
+    // Put placements on board back to rack!
+    for (Iterator<BoardField> iterator = placements.iterator(); iterator.hasNext(); ) {
+      BoardField field = iterator.next();
+      rack.add(field.getTile());
+      client.getNetClient().placeTile(null, field.getRow(), field.getColumn());
+      iterator.remove();
     }
 
     ArrayList<Tile> tmp = new ArrayList<>();
@@ -139,9 +148,27 @@ public class LocalPlayer {
    */
   public void placeTile(int position, int row, int col) {
     if (!turn) {
+      controller.createSystemMessage("Wait for your turn!");
       return;
     }
     if (board.isEmpty(row, col)) {
+      if (rack.getTile(position).isJoker()) { // Joker -> Change letter
+        // BUild CHoice DIalog
+        List<String> choices = new ArrayList<>();
+        for (char c = 'A'; c <= 'Z'; c++) {
+          choices.add(Character.toString(c));
+        }
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("A", choices);
+        dialog.setTitle("Joker Tile");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Choose your letter:");
+        String choice = client.showDialog(dialog);
+        if (choice == null) { // Cancel --> do nothing
+          return;
+        }
+        rack.getTile(position).setLetter(choice.charAt(0));
+      }
+      rack.getField(position).setSelected(false);
       placements.add(board.getField(row, col));
       board.placeTile(rack.getField(position).getTile(), row, col);
       client.getNetClient().placeTile(rack.getField(position).getTile(), row, col);
@@ -160,6 +187,9 @@ public class LocalPlayer {
       return;
     }
     if (placements.contains(board.getField(row, col))) {
+      if (board.getTile(row, col).isJoker()) { // if it was a joker --> back to being a joker
+        board.getTile(row, col).setLetter('#');
+      }
       addTilesToRack(board.getTile(row, col));
       client.getNetClient().placeTile(null, row, col);
       board.getField(row, col).setTile(null);

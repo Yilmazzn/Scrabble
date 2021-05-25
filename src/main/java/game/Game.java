@@ -7,7 +7,9 @@ import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
 import game.players.RemotePlayer;
+import net.message.ChatMessage;
 import net.message.Message;
+import net.message.PlaceTileMessage;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,9 +28,9 @@ public class Game {
   private final boolean running; // true if game is running
   private final Board board; // Game Board
   private final LinkedList<Tile> bag; // bag of tiles in the game
-  private int roundsSinceLastScore = 0; // last n amount of rounds without points
   private final Dictionary
       dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
+  private int roundsSinceLastScore = 0; // last n amount of rounds without points
   private Board
       lastValidBoard; // Game Board which was last accepted as valid to reset after invalid player
   private int roundNum = -1; // amount of total rounds since start
@@ -36,7 +38,6 @@ public class Game {
   private List<BoardField> placementsInTurn =
       new LinkedList<>(); // Placements on the board in the last turn
   private Scoreboard scoreboard; // Scoreboard containing game statistics
-  private int amountFoundWords = 0; // counts number of found words
 
   /**
    * A game instance is created by the server, when the host decided to start the game A game
@@ -126,6 +127,11 @@ public class Game {
 
     bag.addAll(tilesFromPlayer);
     playerInTurn.addTilesToRack(tilesFromBag);
+
+    // Notify other about this event
+    String message = playerInTurn.getProfile().getName() + " exchanged tiles!";
+    notify(new ChatMessage(message, null));
+
     nextRound();
   }
 
@@ -137,6 +143,7 @@ public class Game {
     if (board.isEmpty(row, col)) {
       board.placeTile(tile, row, col);
       placementsInTurn.add(board.getField(row, col));
+      notify(new PlaceTileMessage(tile, row, col));
     }
   }
 
@@ -148,6 +155,7 @@ public class Game {
     if (!board.isEmpty(row, col)) {
       board.placeTile(null, row, col);
       placementsInTurn.remove(board.getField(row, col));
+      notify(new PlaceTileMessage(null, row, col));
     }
   }
 
@@ -190,20 +198,33 @@ public class Game {
   /** TODO change some things maybe... */
   public void submit() {
     try { // Try checking board which throws BoardException if any checks fail
-      board.check(placementsInTurn, dictionary);
+      if (placementsInTurn.size() != 0) {
+        board.check(placementsInTurn, dictionary, true); // dont check if no placements
+      }
 
       // add new found words to player
-      List<String> foundWords =
-          board.getFoundWords().subList(amountFoundWords, board.getFoundWords().size());
+      List<String> foundWords = board.getFoundWords();
       playerInTurn.addFoundWords(foundWords);
-      amountFoundWords = board.getFoundWords().size();
 
       // if not thrown error by now then board state valid
       int score = evaluateScore();
       if (score == 0) {
         roundsSinceLastScore++;
       }
-      System.out.println("SCORE: " + score);
+
+      // Notify which words were found & Score
+      if (score > 0) { // if words found
+        String message = playerInTurn.getProfile().getName() + " found: ";
+        for (String word : foundWords) {
+          message += "\n- " + word + ": " + dictionary.getMeaning(word);
+        }
+        message += "\n --> scored " + score + " points!";
+        notify(new ChatMessage(message, null));
+      } else { // Passed
+        String message = playerInTurn.getProfile().getName() + " passed";
+        notify(new ChatMessage(message, null));
+      }
+
       List<Tile> tileRefill = new LinkedList<>();
       for (int i = 0; i < Math.min(placementsInTurn.size(), bag.size()); i++) {
         tileRefill.add(bag.pop());
@@ -220,9 +241,19 @@ public class Game {
     }
   }
 
+  /**
+   * Resets board to last valid state and puts tiles into game bag Use only if player suddenly quit
+   */
+  public void resetBoard() {
+    placementsInTurn.forEach(
+        field -> {
+          bag.add(field.getTile()); // put back to bag
+          removeTile(field.getRow(), field.getColumn()); // remove
+        });
+  }
+
   /***
    * Evaluates the score of the play in the last turn. Iterates over placements in last turn and only ever starts evaluating if placement is to the most top/left placement of all placements in last turn of the specific word it is forming
-   * @author yuzun
    * @return score of play in last turn
    */
   public int evaluateScore() {

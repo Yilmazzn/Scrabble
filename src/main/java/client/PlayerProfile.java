@@ -1,5 +1,12 @@
 package client;
 
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -7,8 +14,8 @@ import java.time.format.DateTimeFormatter;
 public class PlayerProfile implements Serializable {
 
   /**
-   * @author nsiebler This class creates a new Player instance with all the values that are saved in the
-   *     xml file later
+   * @author nsiebler This class creates a new Player instance with all the values that are saved in
+   *     the xml file later
    */
   private String name;
 
@@ -20,7 +27,29 @@ public class PlayerProfile implements Serializable {
   /** This functionality will be implemented by this week */
   private LocalDate lastLogged;
 
+  private transient Image image; // Image
+
   // Icon will be added, just have to clear which format will be excepted
+
+  public PlayerProfile(
+      String name,
+      int highscore,
+      int wins,
+      int looses,
+      int totalScore,
+      LocalDate creation,
+      LocalDate lastLogged,
+      Image image) {
+    super();
+    this.name = name;
+    this.highscore = highscore;
+    this.wins = wins;
+    this.losses = looses;
+    this.totalScore = totalScore;
+    this.creation = creation;
+    this.lastLogged = lastLogged;
+    this.image = image;
+  }
 
   public PlayerProfile(
       String name,
@@ -38,6 +67,7 @@ public class PlayerProfile implements Serializable {
     this.totalScore = totalScore;
     this.creation = creation;
     this.lastLogged = lastLogged;
+    this.image = null;
   }
 
   /**
@@ -103,5 +133,23 @@ public class PlayerProfile implements Serializable {
 
   public void setTotalScore(int totalScore) {
     this.totalScore = totalScore;
+  }
+
+  public Image getImage() {
+    return image;
+  }
+
+  public void setImage(Image image) {
+    this.image = image;
+  }
+
+  private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+    s.defaultReadObject();
+    image = SwingFXUtils.toFXImage(ImageIO.read(s), null);
+  }
+
+  private void writeObject(ObjectOutputStream s) throws IOException {
+    s.defaultWriteObject();
+    ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", s);
   }
 }
