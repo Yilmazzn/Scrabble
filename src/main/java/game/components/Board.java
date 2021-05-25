@@ -370,6 +370,7 @@ public class Board implements Serializable {
                       bf.getRow(),
                       bf.getColumn() + 1)); // true if left or right of placement exists tile
 
+      // todo sus
       if (bf.getColumn() != 0) { // if not most left --> check to the left
         helper = this.getField(bf.getRow(), bf.getColumn() - 1);
       }
@@ -389,7 +390,6 @@ public class Board implements Serializable {
       // check to the top if other placement this turn exists there (would be evaluated in that
       // spec. iteration)
       boolean topmostPlacement = true; // is true if top of placement in formed word
-
       boolean formsWordVertical =
           (bf.getRow() - 1 >= 0 && !this.isEmpty(bf.getRow() - 1, bf.getColumn()))
               || (bf.getRow() + 1 < Board.BOARD_SIZE
@@ -397,6 +397,7 @@ public class Board implements Serializable {
                       bf.getRow() + 1,
                       bf.getColumn())); // true if above or below of placement exists tile
 
+      // TODO sus
       if (bf.getRow() != 0) {
         helper = this.getField(bf.getRow() - 1, bf.getColumn()); // above placement
       }
@@ -423,9 +424,7 @@ public class Board implements Serializable {
         }
 
         // traverse to the right
-        while (helper.getColumn() < Board.BOARD_SIZE
-            && !helper.isEmpty()
-            && helper.getColumn() != Board.BOARD_SIZE - 1) {
+        while (helper.getColumn() < Board.BOARD_SIZE && !helper.isEmpty()) {
 
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;
@@ -452,9 +451,6 @@ public class Board implements Serializable {
                 break;
             }
             wordScore += letterScore * letterMult;
-          }
-          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last column
-            break;
           }
           helper = this.getField(helper.getRow(), helper.getColumn() + 1);
         }
@@ -473,9 +469,7 @@ public class Board implements Serializable {
         }
 
         // traverse down
-        while (helper.getRow() < Board.BOARD_SIZE
-            && !helper.isEmpty()
-            && helper.getRow() != Board.BOARD_SIZE - 1) {
+        while (helper.getRow() < Board.BOARD_SIZE && !helper.isEmpty()) {
 
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;
@@ -503,13 +497,10 @@ public class Board implements Serializable {
             }
             wordScore += letterScore * letterMult;
           }
-          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last row
-            break;
-          }
           helper = this.getField(helper.getRow() + 1, helper.getColumn());
         }
 
-        totalScore += wordScore * wordMult;
+        totalScore += (wordScore * wordMult);
       }
     }
 
