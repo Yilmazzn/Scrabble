@@ -110,9 +110,15 @@ public class LocalPlayer {
       controller.createSystemMessage(
           "You selected "
               + counter
-              + " Tiles, but only "
+              + (counter == 1 ? "Tile" : "Tiles")
+              + ", but only "
               + bagSize
-              + " Tiles are still in the bag. Please reduce number of selected Tiles");
+              + (bagSize == 1 ? " Tile is" : " Tiles are")
+              + " still in the bag. Please reduce number of selected Tiles");
+      return;
+    }
+    if (bagSize == 0) {
+      controller.createSystemMessage("There are no Tiles remaining in the bag.");
       return;
     }
     for (int i = 0; i < 7; i++) {
