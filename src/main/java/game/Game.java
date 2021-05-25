@@ -166,6 +166,11 @@ public class Game {
       player.setTurn(false);
     }
 
+    int winnerScore = 0;
+    for(Player p : players){
+      winnerScore = Math.max(winnerScore, p.getScore());
+    }
+
     // Found words list 2D Array
     String[][] foundWords = new String[players.size()][];
     for (int i = 0; i < foundWords.length; i++) {
