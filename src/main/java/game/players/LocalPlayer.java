@@ -110,7 +110,7 @@ public class LocalPlayer {
       controller.createSystemMessage(
           "You selected "
               + counter
-              + (counter == 1 ? "Tile" : "Tiles")
+              + (counter == 1 ? " Tile" : " Tiles")
               + ", but only "
               + bagSize
               + (bagSize == 1 ? " Tile is" : " Tiles are")

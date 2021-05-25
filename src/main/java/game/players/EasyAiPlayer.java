@@ -42,7 +42,7 @@ public class EasyAiPlayer extends AiPlayer {
    */
   @Override
   public void think(Board gameBoard, Dictionary dictionary) {
-    new Thread(() -> thinkInternal(gameBoard, dictionary));
+    new Thread(() -> thinkInternal(gameBoard, dictionary)).start();
   }
 
   /**
@@ -278,6 +278,7 @@ public class EasyAiPlayer extends AiPlayer {
     }
     int score = board.evaluateScore(boardPlacements);
     resetBoard(board, placements);
+    System.out.println("EASYAIPLAYER: SCORE: " + score);
     return score;
   }
 
