@@ -284,24 +284,29 @@ public class NetClient {
   }
 
   public void updateGameSettings(int[] scores, int[] distributions, String dictionaryContent) {
-    System.out.println("NetClient: in updateGameSettings");
-    if (scores != null) {
-      String content = "";
-      for (int i = 0; i < scores.length; i++) {
-        content += ((char) (i + 'A')) + "\t" + scores[i] + "\n";
-      }
-      client.showPopUp(content);
-    }
-    if (distributions != null) {
-      String content = "";
-      for (int i = 0; i < distributions.length; i++) {
-        content += ((char) (i + 'A')) + "\t" + scores[i] + "\n";
-      }
-      client.showPopUp(content);
-    }
-    if (dictionaryContent != null) {
-      client.showPopUp(dictionaryContent);
-    }
+    Platform.runLater(
+        () -> {
+          System.out.println("NetClient: in updateGameSettings");
+          if (scores != null) {
+            String content = "";
+            for (int i = 0; i < scores.length - 1; i++) {
+              content += ((char) (i + 'A')) + "\t" + scores[i] + "\n";
+            }
+            content += "#\t" + scores[26] + "\n";
+            client.showPopUp(content);
+          }
+          if (distributions != null) {
+            String content = "";
+            for (int i = 0; i < distributions.length - 1; i++) {
+              content += ((char) (i + 'A')) + "\t" + distributions[i] + "\n";
+            }
+            content += "#\t" + distributions[26] + "\n";
+            client.showPopUp(content);
+          }
+          if (dictionaryContent != null) {
+            client.showPopUpDictionary(dictionaryContent);
+          }
+        });
   }
 
   /**
