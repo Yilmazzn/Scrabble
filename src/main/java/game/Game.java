@@ -85,12 +85,10 @@ public class Game {
     // increment round number
     roundNum++;
     System.out.println("Round Number: " + (roundNum + 1));
-
-    // Check if game is endable
-    if (roundsSinceLastScore >= 6 || bag.size() == 0) {
-      // TODO SEND ENDABLE MESSAGE
+    // TODO no Tiles in rack has to be added
+    if (roundsSinceLastScore >= 6) { // six turns without anyone scoring points
+      notify(new EndableGameMessage());
     }
-
     // Save last valid board state
     this.lastValidBoard = new Board(board); // deep copy
 
@@ -192,7 +190,7 @@ public class Game {
       }
     }
 
-    // TODO Update Scoreboard and .....
+    notify(new EndGameMessage(type, winnerScore, foundWords));
   }
 
   /** TODO change some things maybe... */
@@ -210,6 +208,8 @@ public class Game {
       int score = evaluateScore();
       if (score == 0) {
         roundsSinceLastScore++;
+      } else {
+        roundsSinceLastScore = 0;
       }
 
       // Notify which words were found & Score
@@ -289,6 +289,7 @@ public class Game {
     }
   }
 
+  /** @return Returns list of players */
   public List<Player> getPlayers() {
     return players;
   }

@@ -27,5 +27,6 @@ public enum MessageType {
   REQUESTDICTIONARY,
   PLACETILE,
   TURN,
-  ERROR
+  ERROR,
+  ENDGAME
 }

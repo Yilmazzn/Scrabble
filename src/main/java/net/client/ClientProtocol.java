@@ -273,6 +273,16 @@ public class ClientProtocol extends Thread {
     }
   }
 
+  public void sendEndMessage(int type) {
+    try {
+      if (!clientSocket.isClosed()) {
+        this.out.writeObject(new EndGameMessage(type));
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Overwritten run method from Thread. Accepts and works through incoming messages from the server
    */
@@ -395,6 +405,25 @@ public class ClientProtocol extends Thread {
                 () -> {
                   client.placeIncomingTile(ptm.getTile(), ptm.getRow(), ptm.getCol());
                 });
+            break;
+          case ENDGAME:
+            // TODO evaluate if you are winner, show founds words
+            EndGameMessage egm = (EndGameMessage) m;
+            String tmp;
+            if (egm.getType() == 0) {
+              tmp = "The game ended, because the bag is empty and at least one player has no Tiles left in his rack.";
+            } else {
+              tmp = "The game ended, because at least one player used up more than 10 minutes of playtime.";
+            }
+            Platform.runLater(() -> {
+              client.updateChat(null, tmp);
+              // TODO Change to Result View
+            });
+            System.out.println("ClientProtocol: " + tmp);
+            break;
+          case ENDABLE:
+            System.out.println("ClientProtocol: In Endable");
+            // TODO Change Visibility of Endable Button to true
             break;
           default:
             break;

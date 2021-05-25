@@ -32,7 +32,7 @@ public abstract class Player implements Serializable { // todo maybe delete seri
   }
 
   public Player(boolean human) {
-    this.profile = null; // TODO REMOVE
+    this.profile = null;
     this.human = human;
   }
 

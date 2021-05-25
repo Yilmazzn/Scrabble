@@ -54,6 +54,14 @@ public class Rack implements Serializable {
     return fields[col].isEmpty();
   }
 
+  public boolean isEmpty() {
+    boolean result = true;
+    for (RackField rf : fields) {
+      result = result && rf.isEmpty();
+    }
+    return result;
+  }
+
   /**
    * Returns the tile at given column
    *

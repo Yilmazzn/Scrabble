@@ -116,12 +116,4 @@ public class RemotePlayer extends Player {
         new SubmitMoveMessage(
             game.getBoard())); // Send Board state With 'validities' of every and each field
   }
-
-  /**
-   * Ends game if - Overtime exceeded - roundsSinceLastScore >= 6 --> Players can end game - bagSize
-   * == 0 --> Players can end game
-   */
-  public void endGame() {
-    game.end();
-  }
 }

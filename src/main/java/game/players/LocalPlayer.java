@@ -220,6 +220,10 @@ public class LocalPlayer {
       overtimeWatch = new OvertimeWatch(controller, overtime);
       overtimeWatch.start();
     }
+
+    if (bagSize == 0 && rack.isEmpty()) { //player has empty Rack and no tiles remaining in bag
+      client.getNetClient().sendEndMessage(0);
+    }
   }
 
   public void sendMessage(String message) {

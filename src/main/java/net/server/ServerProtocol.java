@@ -208,6 +208,9 @@ public class ServerProtocol extends Thread {
             } else {
               aiPlayer = new EasyAiPlayer();
             }
+            ChatMessage c1 =
+                new ChatMessage(
+                    aiPlayer.getProfile().getName() + " joined our Round. *Beep-Boop*", null);
 
             server.addPlayer(aiPlayer);
             ConnectMessage cm1 = new ConnectMessage(null);
@@ -215,7 +218,6 @@ public class ServerProtocol extends Thread {
             server.sendToAll(cm1);
             break;
           case KICKPLAYER:
-
             DisconnectMessage dm =
                 new DisconnectMessage(
                     null,
@@ -270,6 +272,10 @@ public class ServerProtocol extends Thread {
               player.removeTile(((PlaceTileMessage) m).getRow(), ((PlaceTileMessage) m).getCol());
             }
             break;
+          case ENDABLE:
+            break;
+          case ENDGAME:
+            server.getGame().end(((EndGameMessage) m).getType());
           default:
             break;
         }

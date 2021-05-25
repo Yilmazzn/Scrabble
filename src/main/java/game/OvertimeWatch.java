@@ -39,7 +39,7 @@ public class OvertimeWatch extends Thread {
         overtime = overtime - 500;
       }
       if (running) { // overtime exceeded and turn still true
-        // TODO player.sendMesEXCEEDEDEDED
+        gameViewController.getClient().getNetClient().sendEndMessage(2);
       }
     } catch (InterruptedException e) {
       gameViewController.showPopup(e.getMessage());

@@ -426,7 +426,20 @@ public class NetClient {
     gameViewController.updateTurns(turns); // show whose turn it is
   }
 
+  /**
+   * changes bag size to given int value
+   *
+   * @param bagSize Requires value to set to
+   */
   public void setBagSize(int bagSize) {
     gameViewController.setBagSize(bagSize);
+  }
+
+  /**
+   * Send End Message (type 0 bag empty, type 2 overtime exceeded)
+   * @param type Requires the EndGameMessage int type
+   */
+  public void sendEndMessage(int type) {
+    connection.sendEndMessage(type);
   }
 }

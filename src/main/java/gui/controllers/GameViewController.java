@@ -100,6 +100,10 @@ public class GameViewController implements Initializable {
     createSystemMessage("Dies ist ein seeeeeehr laaaaaaaanger Test!");
   }
 
+  public Client getClient() {
+    return client;
+  }
+
   /**
    * Update the graphics of the board with instances of PlayerProfiles/Board. Called after each move
    */
