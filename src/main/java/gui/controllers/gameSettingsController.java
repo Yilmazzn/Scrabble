@@ -72,6 +72,7 @@ public class gameSettingsController {
     createController.closeSettings();
     createController.setValues(values);
     createController.setDistributions(distributions);
+    createController.setDictionaryPath(this.dictionary.getText());
     client
         .getNetClient()
         .sendGameSettings(values, distributions, createController.getDictionaryPath());
@@ -87,13 +88,19 @@ public class gameSettingsController {
   /** if File is not a txt File or nothing has been selected, then show Error Message */
   public void selectDictionary(MouseEvent mouseEvent) throws IOException {
     FileChooser fc = new FileChooser();
+    // Filter .txt files
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Dict TXT files (*.txt)", "*.txt");
+    fc.getExtensionFilters().add(extFilter);
+    fc.setInitialDirectory(new File(System.getProperty("user.dir")).exists() ? new File(System.getProperty("user.dir")) : null);
     File selectedFile = fc.showOpenDialog(null);
-    if ((selectedFile != null) && selectedFile.getName().matches("/*.*.txt")) {
-      dictionary.setText(selectedFile.getPath());
-      dictionaryID = dictionary.getText();
-      System.out.println("Dictionary has been uploaded successfully!");
-    } else {
-      openDictionaryError();
+    if(selectedFile != null){
+      if (selectedFile.getName().matches("/*.*.txt")) {
+        dictionary.setText(selectedFile.getPath());
+        dictionaryID = dictionary.getText();
+        System.out.println("Dictionary has been uploaded successfully!");
+      }else{
+        openDictionaryError();
+      }
     }
   }
 

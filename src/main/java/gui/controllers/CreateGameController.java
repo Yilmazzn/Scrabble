@@ -135,6 +135,7 @@ public class CreateGameController {
     return tileDistributions;
   }
 
+
   /**
    * Fills lobby with current client' profiles
    *

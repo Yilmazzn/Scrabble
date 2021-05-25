@@ -211,13 +211,6 @@ public class ServerProtocol extends Thread {
             server.sendToAll(cm1);
             break;
           case KICKPLAYER:
-            System.out.println(
-                "Host kicked: "
-                    + server
-                        .getPlayers()
-                        .get(((KickPlayerMessage) m).getIndex())
-                        .getProfile()
-                        .getName());
 
             DisconnectMessage dm =
                 new DisconnectMessage(
