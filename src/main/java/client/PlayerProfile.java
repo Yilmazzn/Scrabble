@@ -27,7 +27,9 @@ public class PlayerProfile implements Serializable {
   /** This functionality will be implemented by this week */
   private LocalDate lastLogged;
 
-  private transient Image image; // Image
+  // default image
+  private transient Image image =
+      new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
 
   // Icon will be added, just have to clear which format will be excepted
 
@@ -48,7 +50,9 @@ public class PlayerProfile implements Serializable {
     this.totalScore = totalScore;
     this.creation = creation;
     this.lastLogged = lastLogged;
-    this.image = image;
+    if (image != null) {
+      this.image = image;
+    }
   }
 
   public PlayerProfile(
@@ -67,7 +71,6 @@ public class PlayerProfile implements Serializable {
     this.totalScore = totalScore;
     this.creation = creation;
     this.lastLogged = lastLogged;
-    this.image = null;
   }
 
   /**
