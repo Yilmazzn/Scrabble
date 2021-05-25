@@ -10,10 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -106,6 +103,23 @@ public class Client extends Application {
     alert.setHeaderText(null);
     alert.setTitle("Information");
     alert.showAndWait();
+  }
+
+  public void showPopUpDictionary(String message){
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Dictionary", ButtonType.OK);
+    alert.setHeaderText(null);
+    alert.setTitle("Information");
+
+    TextArea textArea = new TextArea(message);
+    textArea.setEditable(false);
+    textArea.setWrapText(true);
+
+    textArea.setMaxWidth(Double.MAX_VALUE);
+    textArea.setMaxHeight(Double.MAX_VALUE);
+    alert.getDialogPane().setExpandableContent(textArea);
+
+    alert.showAndWait();
+
   }
 
   /**

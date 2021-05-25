@@ -8,6 +8,7 @@ import game.components.Tile;
 import gui.controllers.CreateGameController;
 import gui.controllers.GameViewController;
 import gui.controllers.JoinGameController;
+import javafx.application.Platform;
 import net.server.Server;
 
 import java.io.IOException;

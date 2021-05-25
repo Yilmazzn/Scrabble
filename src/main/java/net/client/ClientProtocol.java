@@ -417,6 +417,7 @@ public class ClientProtocol extends Thread {
             }
             Platform.runLater(() -> {
               client.updateChat(null, tmp);
+
               // TODO Change to Result View
             });
             System.out.println("ClientProtocol: " + tmp);
