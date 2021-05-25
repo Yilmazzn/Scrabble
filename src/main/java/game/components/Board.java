@@ -452,6 +452,9 @@ public class Board implements Serializable {
             }
             wordScore += letterScore * letterMult;
           }
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last column
+            break;
+          }
           helper = this.getField(helper.getRow(), helper.getColumn() + 1);
         }
         totalScore += wordScore * wordMult;
@@ -496,6 +499,9 @@ public class Board implements Serializable {
                 break;
             }
             wordScore += letterScore * letterMult;
+          }
+          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last row
+            break;
           }
           helper = this.getField(helper.getRow() + 1, helper.getColumn());
         }
