@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.util.Duration?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.TutorialController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.TutorialController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Tutorial " textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -36,7 +36,7 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="image1" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../pictures/ProfileIcon.png" />
                                     </image>
@@ -69,7 +69,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" onMouseClicked="#bot" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="image2" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../pictures/ProfileIcon.png" />
                                     </image>
