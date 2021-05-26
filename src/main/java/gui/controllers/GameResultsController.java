@@ -58,8 +58,8 @@ public class GameResultsController {
 
   public void setModel(Client client) {
     this.client = client;
+    this.client.getNetClient().setGameResultsController(this);
     updateChat();
-    //updateScoreboard();
   }
 
   /** Updates Scoreboard, called from NetClient if changes are made */
@@ -67,6 +67,20 @@ public class GameResultsController {
     Label[] playerLabels = {player1, player2, player3, player4};
     Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
     ImageView[] images = {image1, image2, image3, image4};
+
+  // Sort Array from highest score to lowest
+    for(int i = 0; i < profiles.length; i++) {
+      for(int j = 0; j < profiles.length - 1; j++) {
+        if (scores[j] < scores[j + 1]) {
+          PlayerProfile tmpProf = profiles[j];
+          int tmpScore = scores[j];
+          profiles[j] = profiles[j + 1];
+          profiles[j + 1] = tmpProf;
+          scores[j] = scores[j + 1];
+          scores[j + 1] = tmpScore;
+        }
+      }
+    }
 
     for (int i = 0; i < profiles.length; i++) {
       playerLabels[i].setText(profiles[i].getName());

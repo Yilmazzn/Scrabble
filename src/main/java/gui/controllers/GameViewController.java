@@ -82,7 +82,7 @@ public class GameViewController implements Initializable {
     tip.setShowDelay(Duration.seconds(0.1));
     bag.setTooltip(tip);
     agreements.managedProperty().bind(agreements.visibleProperty());
-    //finishGame.setVisible(false);
+    finishGame.setVisible(false);
     finishGame.managedProperty().bind(finishGame.visibleProperty());
   }
 
@@ -190,6 +190,10 @@ public class GameViewController implements Initializable {
   /** Shows and hides the agreement pane*/
   public void showAgreements(boolean show) {
     agreements.setVisible(show);
+  }
+
+  public void showEndButton(){
+    finishGame.setVisible(true);
   }
 
   /**
@@ -319,7 +323,10 @@ public class GameViewController implements Initializable {
     if (alert.getResult() != ButtonType.YES) { // if not yes then leave method
       return;
     }
-    client.getNetClient().disconnect();
+    client.getNetClient().sendEndMessage(1);
+  }
+
+  public void changeToResultView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameResults.fxml"));
     Parent gameResults = loader.load();
@@ -328,7 +335,7 @@ public class GameViewController implements Initializable {
     controller.loadChat(chat);
 
     Scene gameResultScene = new Scene(gameResults);
-    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    Stage window = client.getStage();
     window.setScene(gameResultScene);
     window.show();
   }
