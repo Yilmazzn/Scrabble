@@ -134,7 +134,7 @@ public class AgreementsController {
   public void startGame() throws IOException {
     if (true) { // TODO check if host has clicked create Game
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
+      loader.setLocation(this.getClass().getResource("/views/gameViewNew.fxml"));
       Parent playerLobbyView = loader.load();
       GameViewController controller = loader.getController();
       controller.setModel(client);

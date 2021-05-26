@@ -97,7 +97,6 @@ public class GameViewController implements Initializable {
     updateChat();
     updateTime(600000L);
     showAgreements(!client.getNetClient().isHost()); // show agreements if not host
-    createSystemMessage("Dies ist ein seeeeeehr laaaaaaaanger Test!");
   }
 
   public Client getClient() {
@@ -299,19 +298,6 @@ public class GameViewController implements Initializable {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(profileControllerScene);
     window.show();
-  }
-  /** @author vihofman for opening settings */
-  public void openSettings(MouseEvent mouseEvent) throws IOException {
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/settings.fxml"));
-    Parent settings = loader.load();
-    SettingsController controller = loader.getController();
-
-    Scene profileControllerScene = new Scene(settings);
-    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-    window.setScene(profileControllerScene);
-    window.show();
-    // TODO go back to current game after opening settings
   }
 
   public void tiles() {

@@ -35,11 +35,6 @@
                 <Font name="Chalkboard" size="18.0" />
             </font>
         </Button>
-        <Button layoutX="990.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#openSettings" prefHeight="35.0" prefWidth="140.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Settings" textAlignment="CENTER" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
-            <font>
-                <Font name="Chalkboard" size="18.0" />
-            </font>
-        </Button>
         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
             <left>
                 <VBox alignment="CENTER_LEFT" prefHeight="520.0" prefWidth="300.0" BorderPane.alignment="CENTER_LEFT">

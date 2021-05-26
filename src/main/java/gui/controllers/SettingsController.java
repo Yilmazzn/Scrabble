@@ -13,12 +13,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 /** @author vihofman Controller for the Settings */
 public class SettingsController {
-  // setup for settings
+
   @FXML private CheckBox soundOn;
   @FXML private CheckBox soundOff;
-  @FXML private CheckBox animationsOn;
-  @FXML private CheckBox animationsOff;
   private Client client;
+
 
   /**
    * Sets client in SettingsController
@@ -29,29 +28,20 @@ public class SettingsController {
     this.client = client;
   }
   // settings logic with setter methods
+
+  /** Enable the gameSound within the game*/
   public void enableSound() {
     soundOff.setSelected(false);
   }
 
+  /** Disable the gameSound within the game*/
   public void disableSound() {
     soundOn.setSelected(false);
-  }
-
-  public void enableAnimations() {
-    animationsOff.setSelected(false);
-  }
-
-  public void disableAnimations() {
-    animationsOn.setSelected(false);
   }
 
   // Getter methods for settings
   public boolean getSound() {
     return soundOn.isSelected();
-  }
-
-  public boolean getAnimations() {
-    return animationsOn.isSelected();
   }
 
   public void exitGame() throws IOException {
@@ -74,7 +64,6 @@ public class SettingsController {
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
     controller.setModel(client);
-    // controller.InitData();
 
     Scene playerLobbyScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
