@@ -320,7 +320,7 @@ public class GameViewController implements Initializable {
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameResults.fxml"));
     Parent gameResults = loader.load();
-    gameResultsController controller = loader.getController();
+    GameResultsController controller = loader.getController();
     controller.setModel(client);
 
     Scene gameResultScene = new Scene(gameResults);

@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 
 /** @author vihofman Controller for the Game Settings */
-public class gameSettingsController {
+public class GameSettingsController {
 
   @FXML private TextField letter;
   @FXML private TextField value;

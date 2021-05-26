@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 /** @author vihofman Controller for the Game Results */
-public class gameResultsController {
+public class GameResultsController {
   private Client client;
   public PlayerProfile player;
 

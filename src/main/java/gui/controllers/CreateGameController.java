@@ -169,7 +169,7 @@ public class CreateGameController {
     gameSettingsPane.getChildren().add(loader.load());
     createGamePane.setVisible(false);
     gameSettingsPane.setVisible(true);
-    gameSettingsController controller = loader.getController();
+    GameSettingsController controller = loader.getController();
 
     controller.setModel(client, this);
 

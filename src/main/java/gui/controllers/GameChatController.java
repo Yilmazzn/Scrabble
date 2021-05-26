@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /** @author vihofman Controller for the Game Chat */
-public class gameChatController {
+public class GameChatController {
   @FXML private TextField inputMessage;
   @FXML private TextArea messageDisplay;
   @FXML private Button sendButton;
