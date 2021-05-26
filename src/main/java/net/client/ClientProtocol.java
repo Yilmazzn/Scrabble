@@ -417,14 +417,13 @@ public class ClientProtocol extends Thread {
             }
             Platform.runLater(() -> {
               client.updateChat(null, tmp);
-
-              // TODO Change to Result View
+              client.changeToResultView();
             });
             System.out.println("ClientProtocol: " + tmp);
             break;
           case ENDABLE:
             System.out.println("ClientProtocol: In Endable");
-            // TODO Change Visibility of Endable Button to true
+            client.enableEndGameButton();
             break;
           default:
             break;

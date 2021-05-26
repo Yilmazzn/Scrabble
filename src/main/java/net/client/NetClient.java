@@ -31,6 +31,7 @@ public class NetClient {
   private CreateGameController createGameController; // controls GUI
   private GameViewController gameViewController; // controls GUI Game
   private JoinGameController joinGameController;
+  private GameResultsController gameResultsController;
 
   private PlayerProfile[] coPlayers; // players in lobby (with local player himself)
   private int[] coPlayerScores; // scores of players in lobby
@@ -270,8 +271,10 @@ public class NetClient {
     if (user != null) { // not received from system
       if (isHost() && !server.gameIsRunning() && gameResultsController == null) { // user is host --> sees CreateGameScene
         createGameController.getMessage(user, message);
-      } else { // user is not host --> sees GameView
-        gameViewController.getMessage(user, message);
+      } else if (gameResultsController != null) {             // user is not host --> sees GameView
+          gameResultsController.getMessage(user, message);
+      } else {
+          gameViewController.getMessage(user, message);
       }
     } else {
       if (isHost() && !server.gameIsRunning()) {
@@ -444,9 +447,27 @@ public class NetClient {
 
   /**
    * Send End Message (type 0 bag empty, type 2 overtime exceeded)
+   *
    * @param type Requires the EndGameMessage int type
    */
   public void sendEndMessage(int type) {
     connection.sendEndMessage(type);
+  }
+
+  public void enableEndGameButton() {
+    gameViewController.showEndButton();
+  }
+
+  public void changeToResultView() {
+    try {
+      gameViewController.changeToResultView();
+      gameResultsController.updateScoreboard(coPlayers, coPlayerScores);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void setGameResultsController(GameResultsController gameResultsController) {
+    this.gameResultsController = gameResultsController;
   }
 }
