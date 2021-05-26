@@ -398,7 +398,7 @@ public class CreateGameController {
   public void startGameView(MouseEvent mouseEvent) throws IOException {
     System.out.println("createGame");
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameViewNew.fxml"));
+    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
 

@@ -34,7 +34,7 @@ public class WelcomeViewController {
    */
   public void help(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameViewNew.fxml"));
+    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent root = loader.load();
     // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
     GameViewController controller = loader.getController();
