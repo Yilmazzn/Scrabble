@@ -6,6 +6,7 @@ import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
 import gui.controllers.CreateGameController;
+import gui.controllers.GameResultsController;
 import gui.controllers.GameViewController;
 import gui.controllers.JoinGameController;
 import javafx.application.Platform;
@@ -282,6 +283,9 @@ public class NetClient {
       } else {
         if (gameViewController != null) {
           gameViewController.createSystemMessage(message);
+        }
+        if(gameResultsController != null){ //todo
+          gameResultsController.createSystemMessage(message);
         }
       }
     }
