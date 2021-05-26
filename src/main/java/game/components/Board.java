@@ -361,36 +361,30 @@ public class Board implements Serializable {
       BoardField helper = bf;
 
       // check to the left if other placement exists there (would be evaluated in that spec.
-      // iteration)
-      boolean leftmostPlacement = true; // is true if only placement to the left
+      // iteration
       boolean formsWordHorizontal =
           (bf.getColumn() - 1 >= 0 && !this.isEmpty(bf.getRow(), bf.getColumn() - 1))
               || (bf.getColumn() + 1 < Board.BOARD_SIZE
                   && !this.isEmpty(
                       bf.getRow(),
-                      bf.getColumn() + 1)); // true if left or right of placement exists tile
+                      bf.getColumn() + 1)); // true if left or right of placement exists
 
-      // todo sus
-      if (bf.getColumn() != 0) { // if not most left --> check to the left
-        helper = this.getField(bf.getRow(), bf.getColumn() - 1);
+      boolean leftmostPlacement = true; // is true if only placement to the left
+      //traverse left
+      while(helper.getColumn() > 0 && !helper.isEmpty() && formsWordHorizontal){
+        helper = this.getField(helper.getRow(), helper.getColumn() - 1);
       }
-
-      // traverse to left till empty or out of bounds (if forms word horitonal and is not most left
-      // field already)
-      while (helper.getColumn() != 0
-          && !helper.isEmpty()
-          && formsWordHorizontal
-          && bf.getColumn() != 0) {
-        if (placementsInTurn.contains(helper)) {
+      // traverse back to our placement
+      while(helper != bf){
+        if(placementsInTurn.contains(helper)){
           leftmostPlacement = false;
           break;
         }
-        helper = this.getField(helper.getRow(), helper.getColumn() - 1);
+        helper = this.getField(helper.getRow(), helper.getColumn() + 1);
       }
 
       // check to the top if other placement this turn exists there (would be evaluated in that
       // spec. iteration)
-      boolean topmostPlacement = true; // is true if top of placement in formed word
       boolean formsWordVertical =
           (bf.getRow() - 1 >= 0 && !this.isEmpty(bf.getRow() - 1, bf.getColumn()))
               || (bf.getRow() + 1 < Board.BOARD_SIZE
@@ -411,9 +405,6 @@ public class Board implements Serializable {
         }
         helper = this.getField(helper.getRow() + 1, helper.getColumn());
       }
-
-      System.out.println("Topmost placement: " + topmostPlacement);
-      System.out.println("FormsWord vertical: " + formsWordVertical);
 
       // if leftmost placement & to the left/right tiles exist--> evaluate horizontal
       if (leftmostPlacement && formsWordHorizontal) {
