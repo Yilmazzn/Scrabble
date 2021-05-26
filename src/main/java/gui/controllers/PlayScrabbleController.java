@@ -45,6 +45,24 @@ public class PlayScrabbleController {
   }
 
   /**
+   * Method to start playing the Tutorial
+   * @param mouseEvent to detect the current stage
+   * @throws IOException
+   */
+  public void playTutorial(MouseEvent mouseEvent) throws IOException {
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/tutorial.fxml"));
+    Parent tutorial = loader.load();
+    TutorialController controller = loader.getController();
+    controller.setModel(client);
+
+    Scene tutorialScene = new Scene(tutorial);
+    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    window.setScene(tutorialScene);
+    window.show();
+  }
+
+  /**
    * Method to get to the CreateGame Screen
    *
    * @param mouseEvent to detect the current Stage
@@ -81,11 +99,6 @@ public class PlayScrabbleController {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(joinGameScene);
     window.show();
-  }
-
-  /** Starts the TutorialMode */
-  public void playTutorial() {
-    System.out.println("PlayTutorial");
   }
 
   /**
