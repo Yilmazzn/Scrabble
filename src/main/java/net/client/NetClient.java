@@ -55,15 +55,6 @@ public class NetClient {
     }
   }
 
-  /**
-   * @author vkaczmar method call, when "Create Game" is clicked. Happens only once, only the host
-   *     calls this method
-   */
-  // TODO change ClientTestClass to the class, that starts everything
-  public static void createGame(ClientTestClass ctc) {
-    ctc.startServer();
-  }
-
   /** Creates and starts server */
   public void createServer() {
     server = new Server();

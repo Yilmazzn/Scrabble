@@ -356,11 +356,9 @@ public class Board implements Serializable {
    */
   public int evaluateScore(List<BoardField> placementsInTurn) {
     int totalScore = 0;
-    System.out.println("EVAL");
     // Iterate over placements of last turn
     for (BoardField bf : placementsInTurn) {
       BoardField helper = bf;
-      System.out.println(bf.getTile().getLetter() + " at " + bf.getRow() + "x" + bf.getColumn());
 
       // check to the left if other placement exists there (would be evaluated in that spec.
       // iteration)
@@ -389,8 +387,6 @@ public class Board implements Serializable {
         }
         helper = this.getField(helper.getRow(), helper.getColumn() - 1);
       }
-      System.out.println("Leftmost placement: " + leftmostPlacement);
-      System.out.println("FormsWord horizontal: " + formsWordHorizontal);
 
       // check to the top if other placement this turn exists there (would be evaluated in that
       // spec. iteration)
@@ -401,18 +397,19 @@ public class Board implements Serializable {
                   && !this.isEmpty(
                       bf.getRow() + 1,
                       bf.getColumn())); // true if above or below of placement exists tile
-
-      // TODO sus
-      if (bf.getRow() != 0) {
-        helper = this.getField(bf.getRow() - 1, bf.getColumn()); // above placement
+      boolean topmostPlacement = true; // is true if top of placement in formed word
+      helper = bf;
+      // traverse up
+      while(helper.getRow() > 0 && !helper.isEmpty() && formsWordVertical){
+        helper = this.getField(helper.getRow() - 1, helper.getColumn());
       }
-      // traverse up till empty or out of bounds (if forms word vertical)
-      while (helper.getRow() != 0 && !helper.isEmpty() && formsWordVertical && bf.getRow() != 0) {
-        if (placementsInTurn.contains(helper)) {
+      // traverse back to our placement
+      while(helper != bf){
+        if(placementsInTurn.contains(helper)){
           topmostPlacement = false;
           break;
         }
-        helper = this.getField(helper.getRow() - 1, helper.getColumn());
+        helper = this.getField(helper.getRow() + 1, helper.getColumn());
       }
 
       System.out.println("Topmost placement: " + topmostPlacement);
@@ -420,7 +417,6 @@ public class Board implements Serializable {
 
       // if leftmost placement & to the left/right tiles exist--> evaluate horizontal
       if (leftmostPlacement && formsWordHorizontal) {
-        System.out.println("Evaluate to the right!!!");
         int wordScore = 0;
         int wordMult = 1;
 
@@ -430,22 +426,18 @@ public class Board implements Serializable {
             && !this.isEmpty(helper.getRow(), helper.getColumn() - 1)) {
           helper = this.getField(helper.getRow(), helper.getColumn() - 1);
         }
-        System.out.println("Traversed to the left: " + helper.getTile().getLetter() + " " + helper.getRow() + "x" + helper.getColumn());
 
         // traverse to the right
         while (helper.getColumn() < Board.BOARD_SIZE
             && !helper.isEmpty()
             && helper.getColumn() != Board.BOARD_SIZE - 1) {
-          System.out.println("Traversing over: " + helper.getTile().getLetter() + " " + helper.getRow() + "x" + helper.getColumn());
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;
 
           // check if tile was placed last turn
           if (!placementsInTurn.contains(helper)) { // tile was not placed last turn
-            System.out.println("not placed this turn");
             wordScore += letterScore;
           } else { // tile was placed last turn
-            System.out.println("placed this turn");
             // check field type and evaluate multipliers
             switch (helper.getType()) {
               case STAR:
@@ -462,10 +454,7 @@ public class Board implements Serializable {
                 letterMult *= 3;
                 break;
             }
-            System.out.println("LetterScore: " + letterScore);
-            System.out.println("LetterMult: " + letterMult);
             wordScore += (letterScore * letterMult);
-            System.out.println("New WordScore: " + wordScore);
           }
           if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last column
             break;
@@ -473,34 +462,28 @@ public class Board implements Serializable {
           helper = this.getField(helper.getRow(), helper.getColumn() + 1);
         }
         totalScore += (wordScore * wordMult);
-        System.out.println("New Total Score after horizontal eval: " + totalScore);
       }
 
       // if topmost placement & tiles exist above or below --> evaluate vertical
       if (topmostPlacement && formsWordVertical) {
         int wordScore = 0;
         int wordMult = 1;
-        System.out.println("Evaluate down!!!");
         // traverse up
         helper = bf;
         while (helper.getRow() - 1 >= 0 && !this.isEmpty(helper.getRow() - 1, helper.getColumn())) {
           helper = this.getField(helper.getRow() - 1, helper.getColumn());
         }
-        System.out.println("Traversed up: " + helper.getTile().getLetter() + " " + helper.getRow() + "x" + helper.getColumn());
         // traverse down
         while (helper.getRow() < Board.BOARD_SIZE
             && !helper.isEmpty()
             && helper.getRow() != Board.BOARD_SIZE - 1) {
-          System.out.println("Traversing over: " + helper.getTile().getLetter() + " " + helper.getRow() + "x" + helper.getColumn());
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;
 
           // check if tile was placed last turn
           if (!placementsInTurn.contains(helper)) { // tile was not placed last turn
-            System.out.println("not placed this turn");
             wordScore += letterScore;
           } else { // tile was placed last turn
-            System.out.println("placed this turn");
             // check field type and evaluate multipliers
             switch (helper.getType()) {
               case STAR:
@@ -517,25 +500,21 @@ public class Board implements Serializable {
                 letterMult *= 3;
                 break;
             }
-            System.out.println("LetterScore: " + letterScore);
-            System.out.println("LetterMult: " + letterMult);
             wordScore += (letterScore * letterMult);
-            System.out.println("New WordScore: " + wordScore);
           }
           if (helper.getRow() >= Board.BOARD_SIZE - 1) { // break if last row
             break;
           }
           helper = this.getField(helper.getRow() + 1, helper.getColumn());
+          helper = this.getField(helper.getRow() + 1, helper.getColumn());
         }
         totalScore += (wordScore * wordMult);
-        System.out.println("New Total Score after vertical eval: " + totalScore);
       }
     }
 
     if (placementsInTurn.size() == 7) { // if all tiles from rack were placed --> BONUS
       totalScore += 50;
     }
-    System.out.println("--> Total Score = " + totalScore);
     return totalScore;
   }
 
