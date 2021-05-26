@@ -452,14 +452,15 @@ public class Board implements Serializable {
                 letterMult *= 3;
                 break;
             }
-            wordScore += letterScore * letterMult;
+            wordScore += (letterScore * letterMult);
           }
           if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last column
             break;
           }
           helper = this.getField(helper.getRow(), helper.getColumn() + 1);
         }
-        totalScore += wordScore * wordMult;
+        totalScore += (wordScore * wordMult);
+        System.out.println("IMPORTANT1: " + totalScore);
       }
 
       // if topmost placement & tiles exist above or below --> evaluate vertical
@@ -502,21 +503,23 @@ public class Board implements Serializable {
                 letterMult *= 3;
                 break;
             }
-            wordScore += letterScore * letterMult;
+            wordScore += (letterScore * letterMult);
           }
+          // TODO Warum column? Column war bereits beim ersten
           if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last row
             break;
           }
           helper = this.getField(helper.getRow() + 1, helper.getColumn());
         }
-
         totalScore += (wordScore * wordMult);
+        System.out.println("IMPORTANT2: " + totalScore);
       }
     }
 
     if (placementsInTurn.size() == 7) { // if all tiles from rack were placed --> BONUS
       totalScore += 50;
     }
+    System.out.println("IMPORTANT3: " + totalScore);
     return totalScore;
   }
 
