@@ -14,7 +14,17 @@ public class Sound {
   private static final String sep = System.getProperty("file.separator");
 
   private static final String datadir =
-      System.getProperty("user.dir") + sep + "src/main/resources/sounds/";
+      System.getProperty("user.dir")
+          + sep
+          + "src"
+          + sep
+          + "main"
+          + sep
+          + "resources"
+          + sep
+          + "sounds"
+          + sep;
+
   /**
    * This variable contains the soundPath. The regarding sound file name will be added to the path
    * and than the sound will be played
@@ -29,8 +39,9 @@ public class Sound {
   static MediaPlayer mediaPlayer;
 
   public static void main(String[] args) {
-
+    playMusic(titleMusic);
   }
+
   // Mute function
   public static void mute() {
     muteStatus = true;
@@ -63,19 +74,17 @@ public class Sound {
         String path = datadir + fileName;
         Media media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+        Thread.sleep(50);
         if (fileName.equals(titleMusic)) {
           mediaPlayer.setAutoPlay(true);
           mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         } else {
           mediaPlayer.setAutoPlay(true);
           // make a thread to dispose the mediaplayer afterwards
-          try
-          {
-            Thread.sleep(550);
+          try {
+            Thread.sleep((long) mediaPlayer.getTotalDuration().toMillis());
             mediaPlayer.dispose();
-          }
-          catch(InterruptedException ex)
-          {
+          } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
           }
         }
