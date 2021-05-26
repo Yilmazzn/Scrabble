@@ -82,7 +82,7 @@ public class GameViewController implements Initializable {
     tip.setShowDelay(Duration.seconds(0.1));
     bag.setTooltip(tip);
     agreements.managedProperty().bind(agreements.visibleProperty());
-    finishGame.setVisible(false);
+    //finishGame.setVisible(false);
     finishGame.managedProperty().bind(finishGame.visibleProperty());
   }
 
@@ -102,6 +102,7 @@ public class GameViewController implements Initializable {
     showAgreements(!client.getNetClient().isHost()); // show agreements if not host
   }
 
+  /** Getter method to get the client*/
   public Client getClient() {
     return client;
   }
@@ -186,6 +187,7 @@ public class GameViewController implements Initializable {
     }
   }
 
+  /** Shows and hides the agreement pane*/
   public void showAgreements(boolean show) {
     agreements.setVisible(show);
   }
@@ -303,6 +305,7 @@ public class GameViewController implements Initializable {
     window.show();
   }
 
+  /** Finishes the game and redirects the players to the ResultView*/
   public void finishGame(MouseEvent mouseEvent) throws IOException {
     Alert alert =
             new Alert(
@@ -322,6 +325,7 @@ public class GameViewController implements Initializable {
     Parent gameResults = loader.load();
     GameResultsController controller = loader.getController();
     controller.setModel(client);
+    controller.loadChat(chat);
 
     Scene gameResultScene = new Scene(gameResults);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

@@ -101,7 +101,7 @@
                                 </Label>
                                 <Label fx:id="playerName" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <font>
-                                        <Font size="20.0" />
+                                        <Font name="Chalkboard" size="24.0" />
                                     </font>
                                     <GridPane.margin>
                                         <Insets left="15.0" />

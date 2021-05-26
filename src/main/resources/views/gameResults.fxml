@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GameResultsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GameResultsController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Game Results" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -21,7 +23,7 @@
             </font>
         </Label>
         <Label layoutX="278.0" layoutY="331.0" prefHeight="100.0" style="-fx-background-color: #fdf8da;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-        <Button mnemonicParsing="false" onMouseClicked="#backToPlayerLobby" prefHeight="35.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="&lt;Back To Player Lobby" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+        <Button mnemonicParsing="false" onMouseClicked="#backToPlayerLobby" prefHeight="35.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Back To Player Lobby" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
             <font>
                 <Font name="Chalkboard" size="18.0" />
             </font>
@@ -37,7 +39,15 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" onMouseClicked="#playerOne" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" text="1.">
+                           <font>
+                              <Font name="Chalkboard" size="48.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Label>
+                                <ImageView fx:id="image1" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../pictures/ProfileIcon.png" />
                                     </image>
@@ -47,12 +57,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="300.0" spacing="3.0">
                                     <children>
-                                        <Label text="You are the Winner">
+                                        <Label fx:id="player1" text="Player 1">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="113">
+                                        <Label fx:id="pointsPlayer1" text="113">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -69,7 +79,15 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" onMouseClicked="#playerTwo" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                        <Label maxWidth="-Infinity" minHeight="-Infinity" prefWidth="50.0" text="2.">
+                           <font>
+                              <Font name="Chalkboard" size="48.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Label>
+                                <ImageView fx:id="image2" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../pictures/ProfileIcon.png" />
                                     </image>
@@ -79,12 +97,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 2">
+                                        <Label fx:id="player2" text="Player 2">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="72">
+                                        <Label fx:id="pointsPlayer2" text="72">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -101,7 +119,15 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" onMouseClicked="#playerThree" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                        <Label maxWidth="-Infinity" minHeight="-Infinity" prefWidth="50.0" text="3.">
+                           <font>
+                              <Font name="Chalkboard" size="48.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Label>
+                                <ImageView fx:id="image3" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../pictures/ProfileIcon.png" />
                                     </image>
@@ -111,12 +137,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 3">
+                                        <Label fx:id="player3" text="Player 3">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="60">
+                                        <Label fx:id="pointsPlayer3" text="60">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -133,7 +159,15 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" onMouseClicked="#playerFour" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                        <Label maxWidth="-Infinity" minHeight="-Infinity" prefWidth="50.0" text="4.">
+                           <font>
+                              <Font name="Chalkboard" size="48.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Label>
+                                <ImageView fx:id="image4" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../pictures/ProfileIcon.png" />
                                     </image>
@@ -143,12 +177,12 @@
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="146.0" spacing="3.0">
                                     <children>
-                                        <Label text="Player 4">
+                                        <Label fx:id="player4" text="Player 4">
                                             <font>
                                                 <Font name="Chalkboard" size="24.0" />
                                             </font>
                                         </Label>
-                                        <Label text="58">
+                                        <Label fx:id="pointsPlayer4" text="58">
                                             <font>
                                                 <Font name="Chalkboard" size="18.0" />
                                             </font>
@@ -166,26 +200,45 @@
                     </children>
                 </VBox>
             </left>
-            <right>
-                <VBox alignment="BOTTOM_CENTER" prefHeight="520.0" prefWidth="346.0" BorderPane.alignment="CENTER">
-                    <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#openChat" prefHeight="15.0" prefWidth="120.0" style="-fx-background-color: #edece1;" text="Chat">
-                            <VBox.margin>
-                                <Insets bottom="40.0" right="30.0" />
-                            </VBox.margin>
-                            <font>
-                                <Font name="Chalkboard" size="18.0" />
-                            </font>
-                            <effect>
-                                <DropShadow blurType="GAUSSIAN" height="10.0" radius="4.5" width="10.0" />
-                            </effect>
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
+         <right>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="350.0" minHeight="350.0" style="-fx-background-color: fbf8da; -fx-background: FBF8DA; -fx-background-radius: 15; -fx-border-radius: 15;" vbarPolicy="NEVER" vvalue="1.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <content>
+                        <VBox fx:id="chat" alignment="BOTTOM_RIGHT" maxWidth="300.0" prefWidth="300.0">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
+                     <children>
+                        <TextArea fx:id="textArea" minHeight="35.0" prefHeight="35.0" prefWidth="280.0" promptText="Text Message" style="-fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: transparent;" wrapText="true">
+                           <font>
+                              <Font name="Chalkboard" size="14.0" />
+                           </font>
+                        </TextArea>
+                        <Button alignment="CENTER" maxHeight="20.0" maxWidth="25.0" minHeight="20.0" minWidth="25.0" mnemonicParsing="false" onMouseClicked="#sendMessage" prefHeight="20.0" prefWidth="25.0" style="-fx-border-radius: 7; -fx-background-radius: 7; -fx-background-color: #9AB6FF;" styleClass="arrow">
+                           <stylesheets>
+                              <URL value="@../stylesheets/buttonstyle.css" />
+                              <URL value="@../stylesheets/chatstyle.css" />
+                           </stylesheets>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
-                    </children>
-                </VBox>
-            </right>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="30.0" right="30.0" />
+               </padding>
+            </VBox>
+         </right>
         </BorderPane>
         <BorderPane prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
     </children>
