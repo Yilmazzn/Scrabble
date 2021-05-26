@@ -275,6 +275,11 @@
                 </GridPane>
             </center>
         </BorderPane>
+      <Button fx:id="finishGame" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#finishGame" prefHeight="40.0" prefWidth="260.0" style="-fx-background-color: #e85050; -fx-border-color: white; -fx-border-width: 0;" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="Wanna finish the game?" textFill="#edece1" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="115.0">
+         <font>
+            <Font name="Chalkboard" size="18.0" />
+         </font>
+      </Button>
         <BorderPane prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <left>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="353.0" spacing="30.0" BorderPane.alignment="CENTER">

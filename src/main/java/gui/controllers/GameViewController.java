@@ -66,6 +66,7 @@ public class GameViewController implements Initializable {
   @FXML private Button dictionary;
   @FXML private CheckBox ready;
   @FXML private VBox agreements;
+  @FXML private Button finishGame;
 
   private final Image defaultImage =
       new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
@@ -81,6 +82,8 @@ public class GameViewController implements Initializable {
     tip.setShowDelay(Duration.seconds(0.1));
     bag.setTooltip(tip);
     agreements.managedProperty().bind(agreements.visibleProperty());
+    finishGame.setVisible(false);
+    finishGame.managedProperty().bind(finishGame.visibleProperty());
   }
 
   /**
@@ -297,6 +300,32 @@ public class GameViewController implements Initializable {
     Scene profileControllerScene = new Scene(playerLobbyView);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(profileControllerScene);
+    window.show();
+  }
+
+  public void finishGame(MouseEvent mouseEvent) throws IOException {
+    Alert alert =
+            new Alert(
+                    Alert.AlertType.CONFIRMATION,
+                    "Are you sure you want to finish the game?\n",
+                    ButtonType.YES,
+                    ButtonType.CANCEL);
+    alert.setHeaderText(null);
+    alert.showAndWait();
+
+    if (alert.getResult() != ButtonType.YES) { // if not yes then leave method
+      return;
+    }
+    client.getNetClient().disconnect();
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(this.getClass().getResource("/views/gameResults.fxml"));
+    Parent gameResults = loader.load();
+    gameResultsController controller = loader.getController();
+    controller.setModel(client);
+
+    Scene gameResultScene = new Scene(gameResults);
+    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+    window.setScene(gameResultScene);
     window.show();
   }
 
