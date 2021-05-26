@@ -505,8 +505,7 @@ public class Board implements Serializable {
             }
             wordScore += (letterScore * letterMult);
           }
-          // TODO Warum column? Column war bereits beim ersten
-          if (helper.getColumn() >= Board.BOARD_SIZE - 1) { // break if last row
+          if (helper.getRow() >= Board.BOARD_SIZE - 1) { // break if last row
             break;
           }
           helper = this.getField(helper.getRow() + 1, helper.getColumn());
