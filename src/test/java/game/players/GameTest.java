@@ -63,6 +63,7 @@ class GameTest {
     place(o, 7, 11);
 
     Assertions.assertEquals(30, board.evaluateScore(placements));
+    placements.clear();
   }
 
   /*
