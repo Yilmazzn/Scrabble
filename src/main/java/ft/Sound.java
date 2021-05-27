@@ -76,11 +76,13 @@ public class Sound {
         if (fileName.equals(titleMusic)) {
           Media media2 = new Media(new File(path).toURI().toString());
           mediaPlayer2 = new MediaPlayer(media2);
+          mediaPlayer2.setVolume(0.2);
           mediaPlayer2.setAutoPlay(true);
           mediaPlayer2.setCycleCount(MediaPlayer.INDEFINITE);
         } else {
           Media media = new Media(new File(path).toURI().toString());
           mediaPlayer = new MediaPlayer(media);
+          mediaPlayer.setVolume(0.2);
           mediaPlayer.setAutoPlay(true);
         }
       } catch (Exception e) {
