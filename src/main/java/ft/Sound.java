@@ -1,9 +1,7 @@
 package ft;
 
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
+import javafx.scene.media.*;
 import java.io.File;
 
 public class Sound {
@@ -37,24 +35,28 @@ public class Sound {
   public static String rightWord = "RightWord.mp3";
   public static String tileSet = "TileSet.mp3";
   public static String titleMusic = "TitleMusic.mp3";
+  public static String finishSound = "FinishSound.mp3";
   public static boolean muteStatus = false;
   static MediaPlayer mediaPlayer;
+  static MediaPlayer mediaPlayer2;
+
+  public static void main(String[] args) {
+    playMusic(titleMusic);
+  }
 
   // Mute function
   public static void mute() {
     muteStatus = true;
-    if (mediaPlayer != null && mediaPlayer.isAutoPlay()) {
-      mediaPlayer.stop();
-      mediaPlayer.dispose();
+    if (mediaPlayer.isAutoPlay()) {
+      mediaPlayer2.stop();
+      mediaPlayer2.dispose();
     }
   }
 
   // Unmute function
   public static void unmute() {
     muteStatus = false;
-    if (mediaPlayer != null) {
-      mediaPlayer.play();
-    }
+    playMusic(titleMusic);
   }
 
   /**
@@ -70,21 +72,16 @@ public class Sound {
         // is needed for initialization
         final JFXPanel fxPanel = new JFXPanel();
         String path = datadir + fileName;
-        Media media = new Media(new File(path).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
         Thread.sleep(50);
         if (fileName.equals(titleMusic)) {
-          mediaPlayer.setAutoPlay(true);
-          mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+          Media media2 = new Media(new File(path).toURI().toString());
+          mediaPlayer2 = new MediaPlayer(media2);
+          mediaPlayer2.setAutoPlay(true);
+          mediaPlayer2.setCycleCount(MediaPlayer.INDEFINITE);
         } else {
+          Media media = new Media(new File(path).toURI().toString());
+          mediaPlayer = new MediaPlayer(media);
           mediaPlayer.setAutoPlay(true);
-          // make a thread to dispose the mediaplayer afterwards
-          try {
-            Thread.sleep((long) mediaPlayer.getTotalDuration().toMillis());
-            mediaPlayer.dispose();
-          } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-          }
         }
       } catch (Exception e) {
         e.printStackTrace();
@@ -92,12 +89,9 @@ public class Sound {
     }
   }
 
-  public static void changeTitleMusicStatus() {
-    if (mediaPlayer != null && mediaPlayer.isAutoPlay()) {
-      mediaPlayer.stop();
-    } else if (mediaPlayer != null) {
-      mediaPlayer.dispose();
-      playMusic(titleMusic);
+  public static void muteTitleMusic() {
+    if (mediaPlayer2.isAutoPlay()) {
+      mediaPlayer2.dispose();
     }
   }
 }

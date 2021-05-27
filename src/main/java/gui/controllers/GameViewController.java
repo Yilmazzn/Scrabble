@@ -2,6 +2,7 @@ package gui.controllers;
 
 import client.Client;
 import client.PlayerProfile;
+import ft.Sound;
 import game.components.BoardField;
 import game.components.Tile;
 import game.players.LocalPlayer;
@@ -102,7 +103,7 @@ public class GameViewController implements Initializable {
     showAgreements(!client.getNetClient().isHost()); // show agreements if not host
   }
 
-  /** Getter method to get the client*/
+  /** Getter method to get the client */
   public Client getClient() {
     return client;
   }
@@ -187,12 +188,12 @@ public class GameViewController implements Initializable {
     }
   }
 
-  /** Shows and hides the agreement pane*/
+  /** Shows and hides the agreement pane */
   public void showAgreements(boolean show) {
     agreements.setVisible(show);
   }
 
-  public void showEndButton(){
+  public void showEndButton() {
     finishGame.setVisible(true);
   }
 
@@ -231,6 +232,7 @@ public class GameViewController implements Initializable {
   /** @author vihofman for statistics */
   public void openStatistics(PlayerProfile profile) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
     Parent openStatistics = loader.load();
     StatisticsController controller = loader.getController();
@@ -283,7 +285,7 @@ public class GameViewController implements Initializable {
    * @throws IOException
    */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
-
+    Sound.playMusic(Sound.tileSet);
     Alert alert =
         new Alert(
             Alert.AlertType.CONFIRMATION,
@@ -298,6 +300,7 @@ public class GameViewController implements Initializable {
     }
     client.getNetClient().disconnect();
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.titleMusic);
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
@@ -309,18 +312,20 @@ public class GameViewController implements Initializable {
     window.show();
   }
 
-  /** Finishes the game and redirects the players to the ResultView*/
+  /** Finishes the game and redirects the players to the ResultView */
   public void finishGame(MouseEvent mouseEvent) throws IOException {
+
     Alert alert =
-            new Alert(
-                    Alert.AlertType.CONFIRMATION,
-                    "Are you sure you want to finish the game?\n",
-                    ButtonType.YES,
-                    ButtonType.CANCEL);
+        new Alert(
+            Alert.AlertType.CONFIRMATION,
+            "Are you sure you want to finish the game?\n",
+            ButtonType.YES,
+            ButtonType.CANCEL);
     alert.setHeaderText(null);
     alert.showAndWait();
 
     if (alert.getResult() != ButtonType.YES) { // if not yes then leave method
+      Sound.playMusic(Sound.finishSound);
       return;
     }
     client.getNetClient().sendEndMessage(1);
@@ -328,6 +333,7 @@ public class GameViewController implements Initializable {
 
   public void changeToResultView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.finishSound);
     loader.setLocation(this.getClass().getResource("/views/gameResults.fxml"));
     Parent gameResults = loader.load();
     GameResultsController controller = loader.getController();
@@ -347,12 +353,14 @@ public class GameViewController implements Initializable {
 
   /** Shuffles the tiles on the rack */
   public void shuffle() {
+    Sound.playMusic(Sound.tileSet);
     player.getRack().shuffleRack();
     updateRack();
   }
 
   @FXML
   public void submit() {
+    Sound.playMusic(Sound.tileSet);
     player.submit();
   }
 

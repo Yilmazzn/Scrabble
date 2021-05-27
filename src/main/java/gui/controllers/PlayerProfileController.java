@@ -2,6 +2,7 @@ package gui.controllers;
 
 import client.Client;
 import client.PlayerProfile;
+import ft.Sound;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -81,6 +82,7 @@ public class PlayerProfileController {
    */
   public void backToLogin(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
@@ -95,6 +97,7 @@ public class PlayerProfileController {
   /** Shows prompt to edit the name of the currently selected profile */
   public void editProfile() {
     TextInputDialog td = new TextInputDialog();
+    Sound.playMusic(Sound.tileSet);
     td.setTitle("Edit Profile");
     td.setHeaderText("Enter new name of profile");
     td.setContentText("Name: ");
@@ -114,6 +117,7 @@ public class PlayerProfileController {
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     ExitGameController controller = loader.getController();
@@ -131,6 +135,7 @@ public class PlayerProfileController {
 
   /** Shows the previous playerProfile in the list. Jumps from the beginning to the end */
   public void previousPlayer() {
+    Sound.playMusic(Sound.tileSet);
     selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
     client.setSelectedProfile(profiles.get(selectedIdx));
     showPlayer();
@@ -139,6 +144,7 @@ public class PlayerProfileController {
 
   /** Shows the next playerProfile in the list. Jumps from the end to the beginning */
   public void nextPlayer() {
+    Sound.playMusic(Sound.tileSet);
     selectedIdx = (selectedIdx + 1) % profiles.size();
     client.setSelectedProfile(profiles.get(selectedIdx));
     showPlayer();
@@ -147,7 +153,6 @@ public class PlayerProfileController {
   /** Shows prompt for the name of the new profile and creates the profile */
   public void createNewProfile() {
     System.out.println("CreateNewProfile");
-
     TextInputDialog td = new TextInputDialog();
     td.setTitle("Create New Profile");
     td.setHeaderText("Enter name of new profile");
@@ -160,11 +165,13 @@ public class PlayerProfileController {
           showPlayer();
           client.setSelectedProfile(profiles.get(selectedIdx));
           client.savePlayerProfiles();
+          Sound.playMusic(Sound.playerCreated);
         });
   }
 
   /** Deletes the selected profile. Last one cannot be deleted */
   public void deleteProfile() {
+    Sound.playMusic(Sound.tileSet);
     if (profiles.size() <= 1) {
       Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setTitle("Minimum Profile");
@@ -183,6 +190,7 @@ public class PlayerProfileController {
   @FXML
   public void changeImage() {
     FileChooser chooser = new FileChooser();
+    Sound.playMusic(Sound.tileSet);
     // Extention filter
     FileChooser.ExtensionFilter extentionFilter =
         new FileChooser.ExtensionFilter("Image files (*.png, *.jpg, *jpeg)", "*.png;*.jpg;*.jpeg");

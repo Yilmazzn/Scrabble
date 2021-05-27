@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import ft.Sound;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -45,6 +46,7 @@ public class PlayerLobbyController {
    */
   public void playScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
     Parent playScrabbleView = loader.load();
     PlayScrabbleController controller = loader.getController();
@@ -64,6 +66,7 @@ public class PlayerLobbyController {
    */
   public void settings(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/settings.fxml"));
     Parent settings = loader.load();
     SettingsController controller = loader.getController();
@@ -83,6 +86,7 @@ public class PlayerLobbyController {
    */
   public void backToLogin(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/welcomeView.fxml"));
     Parent welcomeView = loader.load();
     WelcomeViewController controller = loader.getController();
@@ -101,6 +105,7 @@ public class PlayerLobbyController {
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     ExitGameController controller = loader.getController();
@@ -124,6 +129,7 @@ public class PlayerLobbyController {
    */
   public void changeToProfileView(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playerProfileView.fxml"));
     Parent profileControllerView = loader.load();
     PlayerProfileController controller = loader.getController();

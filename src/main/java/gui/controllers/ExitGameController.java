@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import ft.Sound;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +22,7 @@ public class ExitGameController {
 
   /** Closes all windows and ends the game */
   public void exitGame(MouseEvent mouseEvent) {
+    Sound.playMusic(Sound.tileSet);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     System.out.println("You've successfully logged out!");
     window.close();
@@ -33,6 +35,7 @@ public class ExitGameController {
 
   /** Application will be continued only the exit window is closed */
   public void cancelExit(MouseEvent mouseEvent) {
+    Sound.playMusic(Sound.tileSet);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.close();
   }

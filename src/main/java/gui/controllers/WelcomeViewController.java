@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import ft.Sound;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -34,6 +35,7 @@ public class WelcomeViewController {
    */
   public void help(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent root = loader.load();
     // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
@@ -52,6 +54,7 @@ public class WelcomeViewController {
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     ExitGameController controller = loader.getController();
@@ -75,6 +78,7 @@ public class WelcomeViewController {
    */
   public void continueToLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent lobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();

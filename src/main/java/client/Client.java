@@ -1,5 +1,6 @@
 package client;
 
+import ft.Sound;
 import ft.XmlHandler;
 import game.players.LocalPlayer;
 import gui.controllers.GameViewController;
@@ -162,6 +163,10 @@ public class Client extends Application {
     // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
     WelcomeViewController controller = loader.getController();
     controller.setModel(this);
+    /**
+     * sound from tile Set is not playing
+     */
+    Sound.playMusic(Sound.titleMusic);
     primaryStage.setScene(new Scene(root));
 
     primaryStage.setOnCloseRequest(

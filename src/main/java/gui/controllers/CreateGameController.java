@@ -2,6 +2,7 @@ package gui.controllers;
 
 import client.Client;
 import client.PlayerProfile;
+import ft.Sound;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -107,7 +108,7 @@ public class CreateGameController {
    * @param values Requires values to be set
    */
   public void setValues(int[] values) {
-    for(int i = 0; i < values.length; i++){
+    for (int i = 0; i < values.length; i++) {
       this.tileValues[i] = values[i];
     }
     System.out.println("setValues used");
@@ -123,9 +124,9 @@ public class CreateGameController {
    *
    * @param distributions Requires tile distributions
    */
-  public void setDistributions(int[] distributions){
-    for(int i=0;i<tileDistributions.length;i++){
-      this.tileDistributions[i]=distributions[i];
+  public void setDistributions(int[] distributions) {
+    for (int i = 0; i < tileDistributions.length; i++) {
+      this.tileDistributions[i] = distributions[i];
     }
     System.out.println("setDistributions used");
   }
@@ -134,7 +135,6 @@ public class CreateGameController {
   public int[] getDistributions() {
     return tileDistributions;
   }
-
 
   /**
    * Fills lobby with current client' profiles
@@ -164,6 +164,7 @@ public class CreateGameController {
    */
   public void openGameSettings(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/gameSettings.fxml"));
     // Parent gameSettings = loader.load();
     gameSettingsPane.getChildren().add(loader.load());
@@ -181,6 +182,7 @@ public class CreateGameController {
 
   /** Closes the GameSettings */
   public void closeSettings() {
+    Sound.playMusic(Sound.tileSet);
     createGamePane.setVisible(true);
     gameSettingsPane.setVisible(false);
   }
@@ -212,6 +214,7 @@ public class CreateGameController {
    * @throws IOException
    */
   public void addAiPlayer() throws IOException { // add AI player to the GUI
+    Sound.playMusic(Sound.tileSet);
     Alert alert =
         new Alert(
             Alert.AlertType.CONFIRMATION,
@@ -339,15 +342,18 @@ public class CreateGameController {
   }
   /** Methods for kicking a particular player */
   public void kickPlayerTwo() {
+    Sound.playMusic(Sound.tileSet);
     client.getNetClient().kickPlayer(1);
   }
 
   public void kickPlayerThree() {
+    Sound.playMusic(Sound.tileSet);
     client.getNetClient().kickPlayer(2);
     ;
   }
 
   public void kickPlayerFour() {
+    Sound.playMusic(Sound.tileSet);
     client.getNetClient().kickPlayer(3);
     ;
   }
@@ -358,6 +364,7 @@ public class CreateGameController {
    */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
     // disonnect player from server (server shuts down because client was host)
+    Sound.playMusic(Sound.tileSet);
     client.getNetClient().disconnect();
 
     FXMLLoader loader = new FXMLLoader();
@@ -375,6 +382,7 @@ public class CreateGameController {
   /** Method to open the exit Screen in a new window */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     ExitGameController controller = loader.getController();
@@ -398,10 +406,11 @@ public class CreateGameController {
   public void startGameView(MouseEvent mouseEvent) throws IOException {
     System.out.println("createGame");
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
-
+    Sound.muteTitleMusic();
     client.getNetClient().startGame();
     controller.setModel(client);
     int[] scores = new int[profiles.length];

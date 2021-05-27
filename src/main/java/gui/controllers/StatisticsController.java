@@ -2,6 +2,7 @@ package gui.controllers;
 
 import client.Client;
 import client.PlayerProfile;
+import ft.Sound;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
@@ -50,6 +51,7 @@ public class StatisticsController {
   }
 
     public void closeStatistics(MouseEvent mouseEvent) { // close the statistics
+        Sound.playMusic(Sound.tileSet);
         Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         window.close();
     }

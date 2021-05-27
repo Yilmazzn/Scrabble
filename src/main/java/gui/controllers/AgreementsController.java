@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import ft.Sound;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -46,6 +47,7 @@ public class AgreementsController {
 
   public void openChat() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
     Parent gameChat = loader.load();
     Scene gameChatScene = new Scene(gameChat);
@@ -66,6 +68,7 @@ public class AgreementsController {
 
   public void openStatistics() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
     Parent openStatistics = loader.load();
     Scene openStatisticsScene = new Scene(openStatistics);
@@ -106,6 +109,7 @@ public class AgreementsController {
 
   public void openSettings(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/settings.fxml"));
     Parent settings = loader.load();
     SettingsController controller = loader.getController();
@@ -120,6 +124,7 @@ public class AgreementsController {
 
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
@@ -134,6 +139,7 @@ public class AgreementsController {
   public void startGame() throws IOException {
     if (true) { // TODO check if host has clicked create Game
       FXMLLoader loader = new FXMLLoader();
+      Sound.playMusic(Sound.tileSet);
       loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
       Parent playerLobbyView = loader.load();
       GameViewController controller = loader.getController();

@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import ft.Sound;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,7 +20,6 @@ public class SettingsController {
   @FXML private CheckBox soundOff;
   private Client client;
 
-
   /**
    * Sets client in SettingsController
    *
@@ -30,14 +30,17 @@ public class SettingsController {
   }
   // settings logic with setter methods
 
-  /** Enable the gameSound within the game*/
+  /** Enable the gameSound within the game */
   public void enableSound() {
+    Sound.unmute();
     soundOff.setSelected(false);
+    Sound.playMusic(Sound.tileSet);
   }
 
-  /** Disable the gameSound within the game*/
+  /** Disable the gameSound within the game */
   public void disableSound() {
     soundOn.setSelected(false);
+    Sound.mute();
   }
 
   // Getter methods for settings
@@ -46,8 +49,11 @@ public class SettingsController {
   }
 
   public void exitGame() throws IOException {
+
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
+    Sound.playMusic(Sound.tileSet);
     Parent exitGameView = loader.load();
     Scene exitGameScene = new Scene(exitGameView);
     Stage window = new Stage();
@@ -61,6 +67,7 @@ public class SettingsController {
 
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();

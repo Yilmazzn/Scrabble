@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import ft.Sound;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -33,6 +34,7 @@ public class PlayScrabbleController {
    */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
@@ -51,6 +53,7 @@ public class PlayScrabbleController {
    */
   public void playTutorial(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/tutorial.fxml"));
     Parent tutorial = loader.load();
     TutorialController controller = loader.getController();
@@ -70,6 +73,7 @@ public class PlayScrabbleController {
    */
   public void createGame(MouseEvent mouseEvent) throws IOException {
     System.out.println("createGame");
+    Sound.playMusic(Sound.tileSet);
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/createGame.fxml"));
     Parent createGameView = loader.load();
@@ -89,6 +93,7 @@ public class PlayScrabbleController {
    */
   public void joinGame(MouseEvent mouseEvent) throws IOException {
     System.out.println("JoinGame");
+    Sound.playMusic(Sound.tileSet);
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/joinGameView.fxml"));
     Parent joinGameView = loader.load();
@@ -108,6 +113,7 @@ public class PlayScrabbleController {
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     ExitGameController controller = loader.getController();

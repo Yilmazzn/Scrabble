@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import ft.Sound;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,7 +74,7 @@ public class JoinGameController {
   /** Triggered when 'Join' clicked */
   @FXML
   public void gameView() {
-
+    Sound.playMusic(Sound.tileSet);
     if (ipField.getText().matches("[0-9.]+")) {
       client.getNetClient().setIp(ipField.getText().trim());
       client.getNetClient().setJoinGameController(this);
@@ -88,6 +89,7 @@ public class JoinGameController {
   /** Triggered when message CONNECT received */
   public void loadGameView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();
@@ -107,6 +109,7 @@ public class JoinGameController {
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     ExitGameController controller = loader.getController();
@@ -129,6 +132,7 @@ public class JoinGameController {
    */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
     Parent playScrabbleView = loader.load();
     PlayScrabbleController controller = loader.getController();

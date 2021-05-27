@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import ft.Sound;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -40,20 +41,19 @@ public class GameSettingsController {
     this.client = client;
     this.createController = createController;
 
-    values = new int [createController.getValues().length];
-    for(int i = 0; i < createController.getValues().length; i++){
-        values[i] = createController.getValues()[i];
+    values = new int[createController.getValues().length];
+    for (int i = 0; i < createController.getValues().length; i++) {
+      values[i] = createController.getValues()[i];
     }
 
-    distributions = new int [createController.getDistributions().length];
-    for(int i = 0; i < createController.getDistributions().length; i++){
+    distributions = new int[createController.getDistributions().length];
+    for (int i = 0; i < createController.getDistributions().length; i++) {
       distributions[i] = createController.getDistributions()[i];
     }
     initData();
     joker.setText(Integer.toString(distributions[26]));
 
     dictionary.setText(createController.getDictionaryPath());
-
   }
 
   public void initData() { // initializes fields in gui
@@ -68,7 +68,8 @@ public class GameSettingsController {
   }
   /** Applies the Settings and closes the GameSettingView through the CreateGameController */
   public void apply() {
-      System.out.println("APPLY");
+    Sound.playMusic(Sound.tileSet);
+    System.out.println("APPLY");
     createController.closeSettings();
     createController.setValues(values);
     createController.setDistributions(distributions);
@@ -80,8 +81,9 @@ public class GameSettingsController {
 
   /** Closes the GameSettings Screen through the CreateGameController */
   public void cancel() {
-      System.out.println("Cancel_Button");
-      createController.closeSettings();
+    Sound.playMusic(Sound.tileSet);
+    System.out.println("Cancel_Button");
+    createController.closeSettings();
   }
 
   /** opens a FileChooser to choose the fxml File which is supposed to be the dictionary */
@@ -89,16 +91,21 @@ public class GameSettingsController {
   public void selectDictionary(MouseEvent mouseEvent) throws IOException {
     FileChooser fc = new FileChooser();
     // Filter .txt files
-    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Dict TXT files (*.txt)", "*.txt");
+    Sound.playMusic(Sound.tileSet);
+    FileChooser.ExtensionFilter extFilter =
+        new FileChooser.ExtensionFilter("Dict TXT files (*.txt)", "*.txt");
     fc.getExtensionFilters().add(extFilter);
-    fc.setInitialDirectory(new File(System.getProperty("user.dir")).exists() ? new File(System.getProperty("user.dir")) : null);
+    fc.setInitialDirectory(
+        new File(System.getProperty("user.dir")).exists()
+            ? new File(System.getProperty("user.dir"))
+            : null);
     File selectedFile = fc.showOpenDialog(null);
-    if(selectedFile != null){
+    if (selectedFile != null) {
       if (selectedFile.getName().matches("/*.*.txt")) {
         dictionary.setText(selectedFile.getPath());
         dictionaryID = dictionary.getText();
         System.out.println("Dictionary has been uploaded successfully!");
-      }else{
+      } else {
         openDictionaryError();
       }
     }
@@ -125,6 +132,7 @@ public class GameSettingsController {
   }
 
   public void decreaseJoker() {
+    Sound.playMusic(Sound.tileSet);
     int jokers = distributions[26];
     jokers--;
     joker.setText(Integer.toString(jokers));
@@ -132,6 +140,7 @@ public class GameSettingsController {
   }
 
   public void increaseJoker() {
+    Sound.playMusic(Sound.tileSet);
     int jokers = distributions[26];
     jokers++;
     joker.setText(Integer.toString(jokers));
@@ -139,6 +148,7 @@ public class GameSettingsController {
   }
 
   public void increaseLetter() { // to swap to next letter
+    Sound.playMusic(Sound.tileSet);
     letterID = letter.getText().charAt(0);
     if (letterID <= 89) {
       letterID++;
@@ -148,6 +158,7 @@ public class GameSettingsController {
   }
 
   public void decreaseLetter() { // to swap to letter before
+    Sound.playMusic(Sound.tileSet);
     letterID = letter.getText().charAt(0);
     if (letterID >= 66) {
       letterID--;
@@ -157,6 +168,7 @@ public class GameSettingsController {
   }
 
   public void increaseValue() { // to increase selected letter above
+    Sound.playMusic(Sound.tileSet);
     letterID = letter.getText().charAt(0);
     valueID = Integer.parseInt(value.getText());
     if (valueID > 0) {
@@ -167,6 +179,7 @@ public class GameSettingsController {
   }
 
   public void decreaseValue() { // to decrease selected letter above
+    Sound.playMusic(Sound.tileSet);
     letterID = letter.getText().charAt(0);
     valueID = Integer.parseInt(value.getText());
     if (valueID > 0) {
@@ -177,6 +190,7 @@ public class GameSettingsController {
   }
 
   public void increaseDistribution() { // to increase distribution of selected letter above
+    Sound.playMusic(Sound.tileSet);
     letterID = letter.getText().charAt(0);
     distributionID = Integer.parseInt(distribution.getText());
     if (distributionID >= 0) {
@@ -187,6 +201,7 @@ public class GameSettingsController {
   }
 
   public void decreaseDistribution() { // to decrease distribution of selected letter above
+    Sound.playMusic(Sound.tileSet);
     letterID = letter.getText().charAt(0);
     distributionID = Integer.parseInt(distribution.getText());
     if (distributionID > 0) {
@@ -198,6 +213,7 @@ public class GameSettingsController {
 
   public void openDictionaryError() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/dictionaryError.fxml"));
     Parent errorMessage = loader.load();
 
@@ -213,6 +229,7 @@ public class GameSettingsController {
 
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     Scene exitGameScene = new Scene(exitGameView);

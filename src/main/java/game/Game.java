@@ -1,5 +1,6 @@
 package game;
 
+import ft.Sound;
 import game.components.Board;
 import game.components.BoardException;
 import game.components.BoardField;
@@ -136,7 +137,9 @@ public class Game {
    * of placements this turn. Checks new board state.
    */
   public void placeTile(Tile tile, int row, int col) {
+
     if (board.isEmpty(row, col)) {
+      if (playerInTurn.isHuman()){ Sound.playMusic(Sound.tileSet);}
       board.placeTile(tile, row, col);
       placementsInTurn.add(board.getField(row, col));
       notify(new PlaceTileMessage(tile, row, col));
@@ -210,6 +213,7 @@ public class Game {
 
       // Notify which words were found & Score
       if (score > 0) { // if words found
+        if (playerInTurn.isHuman()) {Sound.playMusic(Sound.rightWord);}
         String message = playerInTurn.getProfile().getName() + " found: ";
         for (String word : foundWords) {
           message += "\n- " + word + ": " + dictionary.getMeaning(word);

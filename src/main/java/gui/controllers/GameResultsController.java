@@ -2,6 +2,7 @@ package gui.controllers;
 
 import client.Client;
 import client.PlayerProfile;
+import ft.Sound;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -211,6 +212,7 @@ public class GameResultsController {
 
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/exitGame.fxml"));
     Parent exitGameView = loader.load();
     ExitGameController controller = loader.getController();
@@ -229,9 +231,11 @@ public class GameResultsController {
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     client.getNetClient().disconnect();
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playerLobbyView.fxml"));
     Parent playerLobbyView = loader.load();
     PlayerLobbyController controller = loader.getController();
+    Sound.playMusic(Sound.titleMusic);
     controller.setModel(client);
 
     Scene profileControllerScene = new Scene(playerLobbyView);
@@ -262,6 +266,7 @@ public class GameResultsController {
 
   public void openStatistics() throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
     Parent openStatistics = loader.load();
     Scene openStatisticsScene = new Scene(openStatistics);
