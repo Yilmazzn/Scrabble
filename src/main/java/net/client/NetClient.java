@@ -13,6 +13,8 @@ import javafx.application.Platform;
 import net.server.Server;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * a client class to create a client and connect with the server
@@ -20,23 +22,20 @@ import java.io.IOException;
  * @author vkaczmar
  */
 public class NetClient {
+  private final Client client;
+  private final int turnIdx = 0; // player whose turn it is
   private ClientProtocol connection;
   private String ipAdr;
-
   private Dictionary dictionary;
   private PlayerProfile profile;
   private boolean isAIActive;
-  private final Client client;
   private Server server;
-
   private CreateGameController createGameController; // controls GUI
   private GameViewController gameViewController; // controls GUI Game
   private JoinGameController joinGameController;
   private GameResultsController gameResultsController;
-
   private PlayerProfile[] coPlayers; // players in lobby (with local player himself)
   private int[] coPlayerScores; // scores of players in lobby
-  private final int turnIdx = 0; // player whose turn it is
 
   /**
    * Constructor to create a NetClient with client
@@ -68,10 +67,18 @@ public class NetClient {
    */
   public void connect() {
     try {
+      new Socket(Server.getLocalHostIp4Address(), Server.PORT)
+          .close(); // check if server is even running...(somehow faster to throw exception this
+      // way, otherwise we try to connect for ~30s)
       this.connection = new ClientProtocol(this.ipAdr, this);
       this.connection.start();
     } catch (IOException ioe) {
-      client.showPopUp("Could not establish connection!");
+      try {
+        client.showPopUp(
+            "Could not establish connection to a server on " + Server.getLocalHostIp4Address());
+      } catch (UnknownHostException uhe) {
+        client.showError(uhe.getMessage());
+      }
     }
     System.out.println(
         "Netclient " + this.getPlayerProfile().getName() + " is connected |NetClient");
@@ -82,6 +89,11 @@ public class NetClient {
     return connection;
   }
 
+  /** @return Returns up of NetClient */
+  public String getIp() {
+    return ipAdr;
+  }
+
   /**
    * method to set the ip
    *
@@ -89,11 +101,6 @@ public class NetClient {
    */
   public void setIp(String ip) {
     this.ipAdr = ip;
-  }
-
-  /** @return Returns up of NetClient */
-  public String getIp() {
-    return ipAdr;
   }
 
   /** @return Returns server */
@@ -261,12 +268,14 @@ public class NetClient {
 
   public void updateChat(String user, String message) {
     if (user != null) { // not received from system
-      if (isHost() && !server.gameIsRunning() && gameResultsController == null) { // user is host --> sees CreateGameScene
+      if (isHost()
+          && !server.gameIsRunning()
+          && gameResultsController == null) { // user is host --> sees CreateGameScene
         createGameController.getMessage(user, message);
-      } else if (gameResultsController != null) {             // user is not host --> sees GameView
-          gameResultsController.getMessage(user, message);
+      } else if (gameResultsController != null) { // user is not host --> sees GameView
+        gameResultsController.getMessage(user, message);
       } else {
-          gameViewController.getMessage(user, message);
+        gameViewController.getMessage(user, message);
       }
     } else {
       if (isHost() && !server.gameIsRunning()) {
@@ -275,7 +284,7 @@ public class NetClient {
         if (gameViewController != null) {
           gameViewController.createSystemMessage(message);
         }
-        if(gameResultsController != null){ //todo
+        if (gameResultsController != null) { // todo
           gameResultsController.createSystemMessage(message);
         }
       }
@@ -347,6 +356,11 @@ public class NetClient {
     return coPlayers;
   }
 
+  /** @return Returns coPlayerScores as Array */
+  public int[] getCoPlayerScores() {
+    return coPlayerScores;
+  }
+
   /**
    * Sets coPlayerScores
    *
@@ -355,11 +369,6 @@ public class NetClient {
   public void setCoPlayerScores(int[] scores) {
     this.coPlayerScores = scores;
     gameViewController.updateScoreboard(coPlayers, scores);
-  }
-
-  /** @return Returns coPlayerScores as Array */
-  public int[] getCoPlayerScores() {
-    return coPlayerScores;
   }
 
   /**

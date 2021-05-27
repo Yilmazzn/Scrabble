@@ -9,7 +9,6 @@ import game.players.RemotePlayer;
 import net.message.Message;
 import net.message.RefuseConnectionMessage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
@@ -24,7 +23,7 @@ import java.util.List;
 public class Server extends Thread {
   private ServerSocket serverSocket;
   private boolean running;
-  private static final int port = 12975;
+  public static final int PORT = 12975;
   private static String serverIp;
   private final List<Player> players = new LinkedList<>();
   private Game game;
@@ -164,8 +163,8 @@ public class Server extends Thread {
   public void listen() {
     running = true;
     try {
-      serverSocket = new ServerSocket(Server.port);
-      System.out.println("Server running on " + serverIp + ":" + port);
+      serverSocket = new ServerSocket(Server.PORT);
+      System.out.println("Server running on " + serverIp + ":" + PORT);
       while (running) {
         Socket clientSocket = serverSocket.accept();
         ServerProtocol clientThread = new ServerProtocol(clientSocket, this);
