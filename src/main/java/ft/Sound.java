@@ -1,7 +1,9 @@
 package ft;
 
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.media.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import java.io.File;
 
 public class Sound {
@@ -37,10 +39,6 @@ public class Sound {
   public static String titleMusic = "TitleMusic.mp3";
   public static boolean muteStatus = false;
   static MediaPlayer mediaPlayer;
-
-  public static void main(String[] args) {
-    playMusic(titleMusic);
-  }
 
   // Mute function
   public static void mute() {

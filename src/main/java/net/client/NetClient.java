@@ -13,8 +13,6 @@ import javafx.application.Platform;
 import net.server.Server;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  * a client class to create a client and connect with the server
@@ -67,18 +65,10 @@ public class NetClient {
    */
   public void connect() {
     try {
-      new Socket(Server.getLocalHostIp4Address(), Server.PORT)
-          .close(); // check if server is even running...(somehow faster to throw exception this
-      // way, otherwise we try to connect for ~30s)
       this.connection = new ClientProtocol(this.ipAdr, this);
       this.connection.start();
     } catch (IOException ioe) {
-      try {
-        client.showPopUp(
-            "Could not establish connection to a server on " + Server.getLocalHostIp4Address());
-      } catch (UnknownHostException uhe) {
-        client.showError(uhe.getMessage());
-      }
+      client.showPopUp("Could not establish connection to a server on " + this.ipAdr);
     }
     System.out.println(
         "Netclient " + this.getPlayerProfile().getName() + " is connected |NetClient");

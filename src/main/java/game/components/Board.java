@@ -370,13 +370,13 @@ public class Board implements Serializable {
                       bf.getColumn() + 1)); // true if left or right of placement exists
 
       boolean leftmostPlacement = true; // is true if only placement to the left
-      //traverse left
-      while(helper.getColumn() > 0 && !helper.isEmpty() && formsWordHorizontal){
+      // traverse left
+      while (helper.getColumn() > 0 && !helper.isEmpty() && formsWordHorizontal) {
         helper = this.getField(helper.getRow(), helper.getColumn() - 1);
       }
       // traverse back to our placement
-      while(helper != bf){
-        if(placementsInTurn.contains(helper)){
+      while (helper != bf) {
+        if (placementsInTurn.contains(helper)) {
           leftmostPlacement = false;
           break;
         }
@@ -394,12 +394,12 @@ public class Board implements Serializable {
       boolean topmostPlacement = true; // is true if top of placement in formed word
       helper = bf;
       // traverse up
-      while(helper.getRow() > 0 && !helper.isEmpty() && formsWordVertical){
+      while (helper.getRow() > 0 && !helper.isEmpty() && formsWordVertical) {
         helper = this.getField(helper.getRow() - 1, helper.getColumn());
       }
       // traverse back to our placement
-      while(helper != bf){
-        if(placementsInTurn.contains(helper)){
+      while (helper != bf) {
+        if (placementsInTurn.contains(helper)) {
           topmostPlacement = false;
           break;
         }
@@ -496,7 +496,6 @@ public class Board implements Serializable {
           if (helper.getRow() >= Board.BOARD_SIZE - 1) { // break if last row
             break;
           }
-          helper = this.getField(helper.getRow() + 1, helper.getColumn());
           helper = this.getField(helper.getRow() + 1, helper.getColumn());
         }
         totalScore += (wordScore * wordMult);

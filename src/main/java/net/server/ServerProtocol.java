@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class ServerProtocol extends Thread {
   private final Socket socket;
-  private ObjectInputStream in;
-  private ObjectOutputStream out;
+  private final ObjectInputStream in;
+  private final ObjectOutputStream out;
   private final Server server;
   private String clientName;
   private boolean running = true;
@@ -34,15 +34,11 @@ public class ServerProtocol extends Thread {
    * @param client the client which is connected to the server
    * @param server the server which is providing the game
    */
-  public ServerProtocol(Socket client, Server server) {
+  public ServerProtocol(Socket client, Server server) throws IOException {
     this.socket = client;
     this.server = server;
-    try {
-      out = new ObjectOutputStream(socket.getOutputStream());
-      in = new ObjectInputStream(socket.getInputStream());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    out = new ObjectOutputStream(socket.getOutputStream());
+    in = new ObjectInputStream(socket.getInputStream());
   }
 
   /** a method to disconnect the client from the server */
