@@ -129,7 +129,9 @@ public class ServerProtocol extends Thread {
               cm.setProfiles(server.getPlayerProfilesArray());
               server.sendToAll(cm);
 
-              server.getGame().nextRound(); // next round
+              if (player.isTurn()) {
+                server.getGame().nextRound(); // next round
+              }
             }
             disconnect();
             break;

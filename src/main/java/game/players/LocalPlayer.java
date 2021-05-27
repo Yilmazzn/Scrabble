@@ -38,6 +38,7 @@ public class LocalPlayer {
   private boolean turn = true;
   private int overtime = 600000;
   private int bagSize;
+  private boolean beginning = false;
 
   /**
    * Sets basic attributes of class, for testing it creates 5 tiles in personal rack
@@ -62,6 +63,9 @@ public class LocalPlayer {
    * @param tile Tile to add to rack (GUI)
    */
   public void addTilesToRack(Tile tile) {
+    if (!beginning) {
+      beginning = true;
+    }
     rack.add(tile);
     controller.updateRack();
   }
@@ -221,7 +225,7 @@ public class LocalPlayer {
       overtimeWatch.start();
     }
 
-    if (bagSize == 0 && rack.isEmpty()) { //player has empty Rack and no tiles remaining in bag
+    if (bagSize == 0 && rack.isEmpty() && beginning) { //player has empty Rack and no tiles remaining in bag
       client.getNetClient().sendEndMessage(0);
     }
   }

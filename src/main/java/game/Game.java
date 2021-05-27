@@ -185,9 +185,11 @@ public class Game {
     }
 
     for (Player p : players) {
-      ((RemotePlayer) p)
-          .getConnection()
-          .sendToClient(new EndGameMessage(type, p.getScore() == winnerScore, p.getScore(), foundWords));
+      if (p.isHuman()) {
+        ((RemotePlayer) p)
+                .getConnection()
+                .sendToClient(new EndGameMessage(type, p.getScore() == winnerScore, p.getScore(), foundWords));
+      }
     }
   }
 

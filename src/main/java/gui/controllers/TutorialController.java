@@ -67,6 +67,13 @@ public class TutorialController {
   private final Image defaultImage =
       new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
 
+  private int[] tileScores = {
+          1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
+  };
+  private int[] tileDistributions = {
+          9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
+  };
+
   /**
    * This array consists of all the advice given by the tutorial. The content of the indices will be
    * printed out onto the instructions label.
@@ -142,12 +149,13 @@ public class TutorialController {
 
   /** Learns how to place tiles */
   public void loadStageOne() {
+    showErrorMessage(false);
     // give player tiles HELLO
-    rack.add(new Tile('L', 3));
-    rack.add(new Tile('L', 3));
-    rack.add(new Tile('O', 4));
-    gameBoard.placeTile(new Tile('H', 1), 6, 7);
-    gameBoard.placeTile(new Tile('E', 1), 7, 7);
+    rack.add(new Tile('L', tileScores['L' - 65]));
+    rack.add(new Tile('L', tileScores['L' - 65]));
+    rack.add(new Tile('O', tileScores['O' - 65]));
+    gameBoard.placeTile(new Tile('H', tileScores['H' - 65]), 6, 7);
+    gameBoard.placeTile(new Tile('E', tileScores['E' - 65]), 7, 7);
     instructions.setText(steps[0]);
 
     updateBoard();
@@ -155,28 +163,37 @@ public class TutorialController {
   }
 
   public void loadStageTwo() {
+    showErrorMessage(false);
     if (!stageTwoUnlocked) {
       showErrorMessage(true);
       return;
     }
     counter++;
-    updateScoreboard(1, 10); // 1 für player 2 für bot
-    updateScoreboard(2, 9);
+    updateScoreboard(1, 16); // 1 für player 2 für bot
+    updateScoreboard(2, 5);
 
     for (int i = 0; i < rack.RACK_SIZE; i++) {
       rack.remove(i);
     }
-    rack.add(new Tile('#', 1));
-    rack.add(new Tile('I', 3));
-    rack.add(new Tile('E', 4));
-    rack.add(new Tile('D', 2));
-    rack.add(new Tile('N', 3));
-    rack.add(new Tile('S', 1));
+    rack.add(new Tile('#', 0));
+    rack.add(new Tile('I', tileScores['I' - 65]));
+    rack.add(new Tile('E', tileScores['E' - 65]));
+    rack.add(new Tile('D', tileScores['D' - 65]));
+    rack.add(new Tile('N', tileScores['N' - 65]));
+    rack.add(new Tile('S', tileScores['S' - 65]));
 
-    gameBoard.placeTile(new Tile('D', 1), 7, 6);
-    gameBoard.placeTile(new Tile('A', 1), 7, 8);
-    gameBoard.placeTile(new Tile('R', 1), 7, 9);
+    gameBoard.placeTile(new Tile('D', tileScores['D' - 65]), 7, 6);
+    gameBoard.placeTile(new Tile('A', tileScores['A' - 65]), 7, 8);
+    gameBoard.placeTile(new Tile('R', tileScores['R' - 65]), 7, 9);
 
+    placements.clear();
+    placements.add(gameBoard.getField(7, 6));
+    try {
+      gameBoard.check(placements, dictionary, true);
+    } catch (BoardException e) {
+      e.printStackTrace();
+    }
+    placements.clear();
 
     instructions.setText(steps[1]);
     stepOverview.setText(counter + 1 + "/5");
@@ -186,13 +203,14 @@ public class TutorialController {
   }
 
   public void loadStageThree() {
+    showErrorMessage(false);
     if (!stageThreeUnlocked) {
       showErrorMessage(true);
       return;
     }
     counter++;
-    updateScoreboard(1, 10); // 1 für player 2 für bot
-    updateScoreboard(2, 9);
+    updateScoreboard(1, 25); // 1 für player 2 für bot
+    updateScoreboard(2, 13);
 
     for (int i = 0; i < rack.RACK_SIZE; i++) {
       rack.remove(i);
@@ -207,6 +225,15 @@ public class TutorialController {
     gameBoard.placeTile(new Tile('O', 1), 12, 11);
     gameBoard.placeTile(new Tile('W', 1), 12, 12);
 
+    placements.clear();
+    placements.add(gameBoard.getField(12, 10));
+    try {
+      gameBoard.check(placements, dictionary, true);
+    } catch (BoardException e) {
+      e.printStackTrace();
+    }
+    placements.clear();
+
     instructions.setText(steps[2]);
     stepOverview.setText(counter + 1 + "/5");
 
@@ -215,13 +242,15 @@ public class TutorialController {
   }
 
   public void loadStageFour() {
+    showErrorMessage(false);
     if (!stageFourUnlocked) {
       showErrorMessage(true);
       return;
     }
     counter++;
-    updateScoreboard(1, 10); // 1 für player 2 für bot
-    updateScoreboard(2, 2);
+    // TODO work out right score
+    updateScoreboard(1, 0); // 1 für player 2 für bot
+    updateScoreboard(2, 0);
 
     for (int i = 0; i < rack.RACK_SIZE; i++) {
       rack.remove(i);
@@ -305,6 +334,7 @@ public class TutorialController {
         } else if (gameBoard.getFoundWords().get(0).equals("HELLO")) {
           stageTwoUnlocked = true;
           loadStageTwo();
+          return;
         } else {
           client.showPopUp("Please try again...");
         }
@@ -320,6 +350,7 @@ public class TutorialController {
         } else if (gameBoard.getFoundWords().get(0).equals("FRIENDS")) {
           stageThreeUnlocked = true;
           loadStageThree();
+          return;
         } else {
           client.showPopUp("Please try again...");
         }
@@ -335,6 +366,7 @@ public class TutorialController {
         } else if (gameBoard.getFoundWords().get(0).equals("NOODLE")) {
           stageFourUnlocked = true;
           loadStageFour();
+          return;
         } else {
           client.showPopUp("Please try again...");
         }
@@ -749,7 +781,20 @@ public class TutorialController {
 
   /** Shuffles the tiles on the rack */
   public void shuffle() {
-    rack.shuffleRack();
+    if (counter == 2) {
+      for (int i = 0; i < 7; i++) {
+        if (!rack.isEmpty(i)) {
+          rack.remove(i);
+        }
+      }
+      rack.add(new Tile('O', tileScores['O' - 65]));
+      rack.add(new Tile('O', tileScores['O' - 65]));
+      rack.add(new Tile('D', tileScores['D' - 65]));
+      rack.add(new Tile('L', tileScores['L' - 65]));
+      rack.add(new Tile('E', tileScores['E' - 65]));
+    } else {
+      rack.shuffleRack();
+    }
     updateRack();
   }
 

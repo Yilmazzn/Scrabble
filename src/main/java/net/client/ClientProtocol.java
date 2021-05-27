@@ -426,15 +426,13 @@ public class ClientProtocol extends Thread {
             PlayerProfile tmp2 = client.getPlayerProfile();
             tmp2.setHighscore(Math.max(tmp2.getHighscore(), egm.getScore()));
             tmp2.setLastLogged(LocalDate.now());
-            tmp2.setTotalScore(Math.max(tmp2.getHighscore() + egm.getScore(), Integer.MAX_VALUE));
+            tmp2.setTotalScore(Math.min(tmp2.getHighscore() + egm.getScore(), Integer.MAX_VALUE));
             if (egm.getWinner()) {
               tmp2.setWins(tmp2.getWins() + 1);
             } else {
               tmp2.setLosses(tmp2.getLosses() + 1);
             }
-
-            // TODO doesn't work problem might be, that two instances want to conenct to this
-            // XmlHandler.saveXML(Arrays.asList(client.getCoPlayers()));
+            client.getClient().savePlayerProfiles();
 
             Platform.runLater(
                 () -> {
