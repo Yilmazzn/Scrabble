@@ -1,13 +1,11 @@
 package gui.controllers;
 
 import client.Client;
-import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.BoardException;
 import game.components.BoardField;
 import game.components.Tile;
-import game.players.LocalPlayer;
 import gui.components.Rack;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -49,6 +47,8 @@ public class TutorialController {
   @FXML private ImageView image1;
   @FXML private ImageView image2;
   @FXML private GridPane tiles;
+  @FXML private Label errorMessage;
+  @FXML private Label endTutorial;
 
   private Client client;
   private int counter = 0;
@@ -76,9 +76,33 @@ public class TutorialController {
         + "\n"
         + "You can place tiles either vertically or horizontally, always joining the cluster of tiles already placed."
         + "\n"
-        + "When a correct word has been placed, you score points based on the letter value."
+        + "When a correct word has been placed, click submit and earn points."
         + "\n"
-        + "Additionally, the board colors increase your score."
+        + "Start by placing 'HELLO' over the star icon in the middle."
+        + "\n"
+        + "To make a move, click and drag & drop the tile from your rack onto the board."
+        + "\n"
+        + "To undo a placement, simply click onto the tile.",
+    "If a blank tile (joker) is played the player has to define for what letter the blank tile stands for and it remains "
+        + "\n"
+        + "to stand for this letter throughout the game. The blank tile scores zero points."
+        + "\n"
+        + "Now please try to place 'FRIENDS' using the joker as the letter F and using the already placed R.",
+    "If you need some creativity boost, click the Shuffle-Button to rearrange the order of tiles in your rack."
+        + "\n"
+        + "Once you have placed the word you can surely fit in, click submit. "
+        + "\n"
+        + "Tip: It's the No 1 food students eat",
+    "Within the chat you can see if your word was valid."
+        + "\n"
+        + "If it was not, please reconsider your move by clicking onto the tiles you want to remove."
+        + "\n"
+        + "If you want to exchange your tiles randomly with the once left in the bag, click the Exchange-Button and your turn ends."
+        + "\n"
+        + "If you can not find a valid word, remove the tiles you have placed within this round and click the Submit-Button to pass your turn."
+        + "\n"
+        + "From here on please press 'Next step'",
+    "Additionally, the board colors increase your score."
         + "\n"
         + "Light Blue: doubles letter value"
         + "\n"
@@ -88,27 +112,7 @@ public class TutorialController {
         + "\n"
         + "Red: triples the word value"
         + "\n"
-        + "Words covering the center are doubled in value.",
-    "If a blank tile (joker) is played the player has to define for what letter the blank tile stands for and it remains "
-        + "\n"
-        + "to stand for this letter throughout the game. The blank tile scores zero points.",
-    "Start by placing your first word over the star icon in the middle."
-        + "\n"
-        + "To make a move, click and drag & drop the tile from your rack onto the board."
-        + "\n"
-        + "To undo a placement, simply click onto the tile you want to put back to your rack.",
-    "If you need some creativity boost, click the Shuffle-Button to rearrange the order of tiles in your rack.",
-    "Once you have placed your word, click submit."
-        + "\n"
-        + "Within the chat you will see if your word was valid."
-        + "\n"
-        + "If it was not, please reconsider your move by clicking onto the tiles you want to remove."
-        + "\n"
-        + "If you want to exchange your tiles randomly with the once left in the bag, click the Exchange-Button and your turn ends."
-        + "\n"
-        + "If you can not find a valid word, remove the tiles you have placed within this round and click the Submit-Button to pass your turn."
-        + "\n"
-        + "Now wait for the Bot's turn.",
+        + "Words crossing the middle tile are doubled in value",
     "The green circle next to the Players on the left hand side indicates whose turn it is currently."
         + "\n"
         + "In the chat you can see what the other players have done during their turn."
@@ -120,7 +124,6 @@ public class TutorialController {
         + "The game finishes as well, if all the tiles from a players rack and the bag have been removed or "
         + "\n"
         + "within 6 rounds nothing has been placed and one of the players decides to leave."
-        + "\n"
   };
 
   /**
@@ -133,17 +136,18 @@ public class TutorialController {
     gameBoard = new Board();
     rack = new Rack();
     showTutorialWelcome(true);
+    showErrorMessage(false);
+    showEndTutorial(false);
   }
 
   /** Learns how to place tiles */
   public void loadStageOne() {
-    // Give player tiles "HELLO"
-    rack.add(new Tile('H', 2));
+    // give player tiles HELLO
     rack.add(new Tile('L', 3));
-    rack.add(new Tile('E', 1));
     rack.add(new Tile('L', 3));
     rack.add(new Tile('O', 4));
-    // Prompt him to place HELLO
+    gameBoard.placeTile(new Tile('H', 1), 6, 7);
+    gameBoard.placeTile(new Tile('E', 1), 7, 7);
     instructions.setText(steps[0]);
 
     updateBoard();
@@ -152,31 +156,193 @@ public class TutorialController {
 
   public void loadStageTwo() {
     if (!stageTwoUnlocked) {
-      // popup error
+      showErrorMessage(true);
       return;
     }
     counter++;
     updateScoreboard(1, 10); // 1 für player 2 für bot
+    updateScoreboard(2, 9);
 
     for (int i = 0; i < rack.RACK_SIZE; i++) {
       rack.remove(i);
     }
-    rack.add(new Tile('R', 2));
-    rack.add(new Tile('F', 3));
     rack.add(new Tile('#', 1));
     rack.add(new Tile('I', 3));
     rack.add(new Tile('E', 4));
     rack.add(new Tile('D', 2));
     rack.add(new Tile('N', 3));
-    updateRack();
+    rack.add(new Tile('S', 1));
 
-    gameBoard.placeTile(new Tile('D', 1), 1, 1);
-    updateBoard();
+    gameBoard.placeTile(new Tile('D', 1), 7, 6);
+    gameBoard.placeTile(new Tile('A', 1), 7, 8);
+    gameBoard.placeTile(new Tile('R', 1), 7, 9);
+
 
     instructions.setText(steps[1]);
+    stepOverview.setText(counter + 1 + "/5");
+
+    updateBoard();
+    updateRack();
   }
 
-  public void loadStageThree() {}
+  public void loadStageThree() {
+    if (!stageThreeUnlocked) {
+      showErrorMessage(true);
+      return;
+    }
+    counter++;
+    updateScoreboard(1, 10); // 1 für player 2 für bot
+    updateScoreboard(2, 9);
+
+    for (int i = 0; i < rack.RACK_SIZE; i++) {
+      rack.remove(i);
+    }
+    rack.add(new Tile('O', 1));
+    rack.add(new Tile('D', 4));
+    rack.add(new Tile('L', 2));
+    rack.add(new Tile('O', 1));
+    rack.add(new Tile('E', 1));
+
+    gameBoard.placeTile(new Tile('H', 1), 12, 10);
+    gameBoard.placeTile(new Tile('O', 1), 12, 11);
+    gameBoard.placeTile(new Tile('W', 1), 12, 12);
+
+    instructions.setText(steps[2]);
+    stepOverview.setText(counter + 1 + "/5");
+
+    updateBoard();
+    updateRack();
+  }
+
+  public void loadStageFour() {
+    if (!stageFourUnlocked) {
+      showErrorMessage(true);
+      return;
+    }
+    counter++;
+    updateScoreboard(1, 10); // 1 für player 2 für bot
+    updateScoreboard(2, 2);
+
+    for (int i = 0; i < rack.RACK_SIZE; i++) {
+      rack.remove(i);
+    }
+    rack.add(new Tile('I', 1));
+    rack.add(new Tile('C', 4));
+    rack.add(new Tile('E', 2));
+
+    gameBoard.placeTile(new Tile('I', 1), 6, 10);
+    gameBoard.placeTile(new Tile('R', 1), 6, 11);
+    gameBoard.placeTile(new Tile('E', 1), 6, 12);
+
+    instructions.setText(steps[3]);
+    stepOverview.setText(counter + 1 + "/5");
+
+    updateBoard();
+    updateRack();
+  }
+
+  /**
+   * method for getting to the next tutorial step
+   *
+   * @param mouseEvent
+   * @throws IOException
+   */
+  public void nextStep(MouseEvent mouseEvent) throws IOException {
+    if (counter < 3) {
+      if ((stageTwoUnlocked && counter == 0)
+          || (stageThreeUnlocked && counter == 1)
+          || (stageFourUnlocked && counter == 2)) {
+        counter++;
+        showErrorMessage(false);
+        instructions.setText(steps[counter]);
+        stepOverview.setText(counter + 1 + "/5");
+      } else {
+        showErrorMessage(true);
+      }
+    }
+    if (counter
+        == 3) { // from here only information on the instructions are shown, no more tasks to
+                // complete
+      instructions.setText(steps[counter]);
+      stepOverview.setText(counter + 1 + "/5");
+      counter++;
+    }
+    if (counter == 4) {
+      instructions.setText(steps[counter]);
+      stepOverview.setText(counter + 1 + "/5");
+      counter++;
+    }
+    if (counter == 5) {
+      instructions.setText(steps[counter]);
+      stepOverview.setText(counter + 1 + "/5");
+      showEndTutorial(true);
+    } else {
+      showErrorMessage(true);
+    }
+  }
+
+  /**
+   * method for getting to the previous tutorial step
+   *
+   * @param mouseEvent
+   * @throws IOException
+   */
+  public void previousStep(MouseEvent mouseEvent) throws IOException {
+    if (counter > 0) {
+      counter--;
+      instructions.setText(steps[counter]);
+      stepOverview.setText(counter + 1 + "/5");
+    }
+  }
+
+  /** method for allowing to submit and load the next stage with new tasks */
+  public void submit() {
+    if (counter == 0) { // Stage 1
+      try {
+        gameBoard.check(placements, dictionary, true);
+        if (gameBoard.getFoundWords().size() == 0) {
+          client.showPopUp("Try to place a word first!");
+        } else if (gameBoard.getFoundWords().get(0).equals("HELLO")) {
+          stageTwoUnlocked = true;
+          loadStageTwo();
+        } else {
+          client.showPopUp("Please try again...");
+        }
+      } catch (BoardException be) {
+        client.showPopUp(be.getMessage());
+      }
+    }
+    if (counter == 1) { // Stage 2
+      try {
+        gameBoard.check(placements, dictionary, true);
+        if (gameBoard.getFoundWords().size() == 0) {
+          client.showPopUp("Try to place a word first!");
+        } else if (gameBoard.getFoundWords().get(0).equals("FRIENDS")) {
+          stageThreeUnlocked = true;
+          loadStageThree();
+        } else {
+          client.showPopUp("Please try again...");
+        }
+      } catch (BoardException be) {
+        client.showPopUp(be.getMessage());
+      }
+    }
+    if (counter == 2) { // Stage 3
+      try {
+        gameBoard.check(placements, dictionary, true);
+        if (gameBoard.getFoundWords().size() == 0) {
+          client.showPopUp("Try to place a word first!");
+        } else if (gameBoard.getFoundWords().get(0).equals("NOODLE")) {
+          stageFourUnlocked = true;
+          loadStageFour();
+        } else {
+          client.showPopUp("Please try again...");
+        }
+      } catch (BoardException be) {
+        client.showPopUp(be.getMessage());
+      }
+    }
+  }
 
   /**
    * Update the graphics of the board with instances of PlayerProfiles/Board. Called after each move
@@ -529,39 +695,33 @@ public class TutorialController {
     tutorialWelcome.setVisible(show);
   }
 
+  /**
+   * method for showing that steps have not been completed while trying to click submit or next step
+   * button
+   *
+   * @param show
+   */
+  public void showErrorMessage(boolean show) {
+    errorMessage.setVisible(show);
+  }
+
+  /**
+   * method for indicating the tutorial is finished and allowing the player to finish it and
+   * navigate back to play scrabble
+   *
+   * @param show
+   */
+  public void showEndTutorial(boolean show) {
+    endTutorial.setVisible(show);
+  }
+
   /** method for initializing the starting interface */
   public void initialize() {
 
     instructions.setText(steps[0]);
     tutorialWelcome.managedProperty().bind(tutorialWelcome.visibleProperty());
-  }
-
-  /**
-   * method for getting to the next tutorial step
-   *
-   * @param mouseEvent
-   * @throws IOException
-   */
-  public void nextStep(MouseEvent mouseEvent) throws IOException {
-    if (counter < 4) {
-      counter++;
-      instructions.setText(steps[counter]);
-      stepOverview.setText(counter + 1 + "/5");
-    }
-  }
-
-  /**
-   * method for getting to the previous tutorial step
-   *
-   * @param mouseEvent
-   * @throws IOException
-   */
-  public void previousStep(MouseEvent mouseEvent) throws IOException {
-    if (counter > 0) {
-      counter--;
-      instructions.setText(steps[counter]);
-      stepOverview.setText(counter + 1 + "/5");
-    }
+    endTutorial.managedProperty().bind(errorMessage.visibleProperty());
+    errorMessage.managedProperty().bind(errorMessage.visibleProperty());
   }
 
   /**
@@ -595,27 +755,6 @@ public class TutorialController {
 
   public void tiles() {}
 
-  public void submit() {
-    if (counter == 0) { // Stage 1
-      try {
-        gameBoard.check(placements, dictionary, true);
-        if (gameBoard.getFoundWords().size() == 0) {
-          client.showPopUp("Try to place a word first!");
-        } else if (gameBoard.getFoundWords().get(0).equals("HELLO")) {
-          stageTwoUnlocked = true;
-          loadStageTwo();
-        } else {
-          client.showPopUp("Please try again...");
-        }
-      } catch (BoardException be) {
-        client.showPopUp(be.getMessage());
-      }
-    }
-    if (counter == 1) { // Stage 2
-      System.out.println("Hier");
-    }
-  }
-  // TODO end tutorial button
   public void start(MouseEvent mouseEvent) throws IOException {
     showTutorialWelcome(false);
     loadStageOne();

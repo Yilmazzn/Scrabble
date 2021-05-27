@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.util.Duration?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.TutorialController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.TutorialController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Tutorial " textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -34,6 +34,28 @@
             <left>
                 <VBox alignment="CENTER_LEFT" prefHeight="520.0" prefWidth="300.0" BorderPane.alignment="CENTER_LEFT">
                     <children>
+                  <Label fx:id="endTutorial" onMouseClicked="#backToPlayScrabble" prefHeight="46.0" prefWidth="114.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="End Tutorial" textFill="#d71010" wrapText="true">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="100.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="errorMessage" prefHeight="103.0" prefWidth="256.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" text="Please complete the Tutorial step you are currently on to continue further." textFill="#bf1818" wrapText="true">
+                     <font>
+                        <Font name="Chalkboard" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </Label>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <ImageView fx:id="image1" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
@@ -106,7 +128,7 @@
             <right>
                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="instructions" prefHeight="432.0" prefWidth="300.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" wrapText="true">
+                  <Label fx:id="instructions" prefHeight="459.0" prefWidth="300.0" styleClass="tileBottom" stylesheets="@../stylesheets/labelstyle.css" wrapText="true">
                      <font>
                         <Font name="Chalkboard" size="14.0" />
                      </font>
