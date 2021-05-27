@@ -167,7 +167,7 @@ public class Game {
     }
 
     int winnerScore = 0;
-    for(Player p : players){
+    for (Player p : players) {
       winnerScore = Math.max(winnerScore, p.getScore());
     }
 
@@ -181,7 +181,11 @@ public class Game {
       }
     }
 
-    notify(new EndGameMessage(type, winnerScore, foundWords));
+    for (Player p : players) {
+      ((RemotePlayer) p)
+          .getConnection()
+          .sendToClient(new EndGameMessage(type, p.getScore() == winnerScore, p.getScore(), foundWords));
+    }
   }
 
   /** TODO change some things maybe... */

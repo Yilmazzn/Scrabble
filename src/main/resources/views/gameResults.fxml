@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GameResultsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GameResultsController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0" style="-fx-background-color: #fdf8da;" text="Game Results" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -39,7 +32,7 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" onMouseClicked="#playerOne" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" text="1.">
+                        <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" text="1." textFill="#d4af37">
                            <font>
                               <Font name="Chalkboard" size="48.0" />
                            </font>
@@ -79,7 +72,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" onMouseClicked="#playerTwo" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                        <Label maxWidth="-Infinity" minHeight="-Infinity" prefWidth="50.0" text="2.">
+                        <Label maxWidth="-Infinity" minHeight="-Infinity" prefWidth="50.0" text="2." textFill="SILVER">
                            <font>
                               <Font name="Chalkboard" size="48.0" />
                            </font>
@@ -119,7 +112,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" onMouseClicked="#playerThree" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                        <Label maxWidth="-Infinity" minHeight="-Infinity" prefWidth="50.0" text="3.">
+                        <Label maxWidth="-Infinity" minHeight="-Infinity" prefWidth="50.0" text="3." textFill="#b87333">
                            <font>
                               <Font name="Chalkboard" size="48.0" />
                            </font>

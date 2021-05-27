@@ -288,10 +288,9 @@ public class NetClient {
           System.out.println("NetClient: in updateGameSettings");
           if (scores != null) {
             String content = "";
-            for (int i = 0; i < scores.length - 1; i++) {
+            for (int i = 0; i < scores.length; i++) {
               content += ((char) (i + 'A')) + "\t" + scores[i] + "\n";
             }
-            content += "#\t" + scores[26] + "\n";
             client.showPopUp(content);
           }
           if (distributions != null) {

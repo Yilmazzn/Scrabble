@@ -1,6 +1,7 @@
 package net.client;
 
 import client.PlayerProfile;
+import ft.XmlHandler;
 import game.components.Board;
 import game.components.Tile;
 import javafx.application.Platform;
@@ -10,6 +11,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /** @author vkaczmar Handles all interactions from the server to the client */
 public class ClientProtocol extends Thread {
@@ -407,22 +411,38 @@ public class ClientProtocol extends Thread {
                 });
             break;
           case ENDGAME:
-            // TODO evaluate if you are winner, show founds words
             EndGameMessage egm = (EndGameMessage) m;
             String tmp;
             if (egm.getType() == 0) {
-              tmp = "The game ended, because the bag is empty and at least one player has no Tiles left in his rack.";
+              tmp =
+                  "The game ended, because the bag is empty and at least one player has no Tiles left in his rack.";
+            } else if (egm.getType() == 1) {
+              tmp = "The game ended, because at least one player clicked on end game";
             } else {
-              tmp = "The game ended, because at least one player used up more than 10 minutes of playtime.";
+              tmp =
+                  "The game ended, because at least one player used up more than 10 minutes of playtime.";
             }
-            Platform.runLater(() -> {
-              client.updateChat(null, tmp);
-              client.changeToResultView();
-            });
-            System.out.println("ClientProtocol: " + tmp);
+
+            PlayerProfile tmp2 = client.getPlayerProfile();
+            tmp2.setHighscore(Math.max(tmp2.getHighscore(), egm.getScore()));
+            tmp2.setLastLogged(LocalDate.now());
+            tmp2.setTotalScore(Math.max(tmp2.getHighscore() + egm.getScore(), Integer.MAX_VALUE));
+            if (egm.getWinner()) {
+              tmp2.setWins(tmp2.getWins() + 1);
+            } else {
+              tmp2.setLosses(tmp2.getLosses() + 1);
+            }
+
+            // TODO doesn't work problem might be, that two instances want to conenct to this
+            // XmlHandler.saveXML(Arrays.asList(client.getCoPlayers()));
+
+            Platform.runLater(
+                () -> {
+                  client.updateChat(null, tmp);
+                  client.changeToResultView();
+                });
             break;
           case ENDABLE:
-            System.out.println("ClientProtocol: In Endable");
             client.enableEndGameButton();
             break;
           default:

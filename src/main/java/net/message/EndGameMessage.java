@@ -7,8 +7,9 @@ package net.message;
  */
 public class EndGameMessage extends Message {
   private int type;
-  private int winnerScore;
+  private boolean winner;
   private String[][] foundWords;
+  private int score;
 
   /**
    * Constructor for creating EndGameMessage
@@ -24,13 +25,14 @@ public class EndGameMessage extends Message {
    * Constructor for creating EndGameMessage
    *
    * @param type Requires type to be send
-   * @param winnerScore Requires winnerScore to be send
+   * @param winner Requires if player is winner
    * @param foundWords Requires all foundWords in 2D-String array
    */
-  public EndGameMessage(int type, int winnerScore, String[][] foundWords) {
+  public EndGameMessage(int type, boolean winner, int score, String[][] foundWords) {
     super(MessageType.ENDGAME);
     this.type = type;
-    this.winnerScore = winnerScore;
+    this.winner = winner;
+    this.score = score;
     this.foundWords = foundWords;
   }
 
@@ -40,12 +42,17 @@ public class EndGameMessage extends Message {
   }
 
   /** @return Returns winnerScore */
-  public int getWinnerScore() {
-    return winnerScore;
+  public boolean getWinner() {
+    return winner;
   }
 
   /** @return returns foundWords */
   public String[][] getFoundWords() {
     return this.foundWords;
+  }
+
+  /** @return Returns score of player */
+  public int getScore() {
+    return score;
   }
 }
