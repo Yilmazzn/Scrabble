@@ -239,8 +239,8 @@ public class TutorialController {
     }
     counter++;
     // TODO work out right score
-    updateScoreboard(1, 0); // 1 für player 2 für bot
-    updateScoreboard(2, 0);
+    updateScoreboard(1, 39); // 1 für player 2 für bot
+    updateScoreboard(2, 17);
 
     for (int i = 0; i < rack.RACK_SIZE; i++) {
       rack.remove(i);
@@ -288,21 +288,31 @@ public class TutorialController {
         showErrorMessage(true);
       }
     }
-    if (counter
-        == 3) { // from here only information on the instructions are shown, no more tasks to
-      // complete
+    if (counter == 3) { // from here only information on the instructions are shown, no more tasks to complete
+      showErrorMessage(false);
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
       counter++;
+      return;
     }
     if (counter == 4) {
+      showErrorMessage(false);
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
       counter++;
+      return;
     }
     if (counter == 5) {
+      showErrorMessage(false);
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
+      counter++;
+      return;
+    }
+    if(counter == 6) {
+      instructions.setText(steps[counter]);
+      stepOverview.setText(counter + 1 + "/7");
+      showErrorMessage(false);
       showEndTutorial(true);
     } else {
       showErrorMessage(true);
@@ -317,6 +327,7 @@ public class TutorialController {
    */
   public void previousStep(MouseEvent mouseEvent) throws IOException {
     if (counter > 0) {
+      showErrorMessage(false);
       counter--;
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
