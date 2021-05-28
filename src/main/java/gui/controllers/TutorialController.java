@@ -58,20 +58,16 @@ public class TutorialController {
   private Dictionary dictionary = new Dictionary();
   private Board gameBoard;
 
-  private boolean stageOneUnlocked = true,
-      stageTwoUnlocked,
-      stageThreeUnlocked,
-      stageFourUnlocked,
-      stageFiveUnlocked;
+  private boolean stageOneUnlocked = true, stageTwoUnlocked, stageThreeUnlocked, stageFourUnlocked;
 
   private final Image defaultImage =
       new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
 
   private int[] tileScores = {
-          1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
+    1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
   };
   private int[] tileDistributions = {
-          9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
+    9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
   };
 
   /**
@@ -91,7 +87,6 @@ public class TutorialController {
         + "\n"
         + "To undo a placement, simply click onto the tile.",
     "If a blank tile (joker) is played the player has to define for what letter the blank tile stands for and it remains "
-        + "\n"
         + "to stand for this letter throughout the game. The blank tile scores zero points."
         + "\n"
         + "Now please try to place 'FRIENDS' using the joker as the letter F and using the already placed R.",
@@ -100,16 +95,12 @@ public class TutorialController {
         + "Once you have placed the word you can surely fit in, click submit. "
         + "\n"
         + "Tip: It's the No 1 food students eat",
-    "Within the chat you can see if your word was valid."
-        + "\n"
-        + "If it was not, please reconsider your move by clicking onto the tiles you want to remove."
-        + "\n"
-        + "If you want to exchange your tiles randomly with the once left in the bag, click the Exchange-Button and your turn ends."
+    "If you want to exchange your tiles randomly with the ones left in the bag, click the Exchange-Button and your turn ends."
         + "\n"
         + "If you can not find a valid word, remove the tiles you have placed within this round and click the Submit-Button to pass your turn."
         + "\n"
         + "From here on please press 'Next step'",
-    "Additionally, the board colors increase your score."
+    "Not only tiles have different values, but the board colors also increase your score."
         + "\n"
         + "Light Blue: doubles letter value"
         + "\n"
@@ -120,11 +111,10 @@ public class TutorialController {
         + "Red: triples the word value"
         + "\n"
         + "Words crossing the middle tile are doubled in value",
-    "The green circle next to the Players on the left hand side indicates whose turn it is currently."
-        + "\n"
-        + "In the chat you can see what the other players have done during their turn."
-        + "\n"
-        + "The timer in the top left corner indicates the amount of time left for you to finish you turn."
+    "Premium squares apply only when newly placed tiles cover them. Any subsequent plays do not count those premium squares."
+        + "If a player covers both letter and word premium squares with a single word, the letter premium(s) is/are calculated first, followed by the word premium(s)."
+        + "If seven tiles have been laid on the board in one turn after all of the words formed have been scored, 50 bonus points are added. (Bingo or Bonus)",
+    "The timer in the top left corner indicates the amount of time left for you to finish you turn."
         + "\n"
         + "Every turn can last up to 10 minutes, if exceeded the game ends."
         + "\n"
@@ -196,7 +186,7 @@ public class TutorialController {
     placements.clear();
 
     instructions.setText(steps[1]);
-    stepOverview.setText(counter + 1 + "/5");
+    stepOverview.setText(counter + 1 + "/7");
 
     updateBoard();
     updateRack();
@@ -215,15 +205,15 @@ public class TutorialController {
     for (int i = 0; i < rack.RACK_SIZE; i++) {
       rack.remove(i);
     }
-    rack.add(new Tile('O', 1));
-    rack.add(new Tile('D', 4));
-    rack.add(new Tile('L', 2));
-    rack.add(new Tile('O', 1));
-    rack.add(new Tile('E', 1));
+    rack.add(new Tile('O', tileScores['O' - 65]));
+    rack.add(new Tile('D', tileScores['D' - 65]));
+    rack.add(new Tile('L', tileScores['L' - 65]));
+    rack.add(new Tile('O', tileScores['O' - 65]));
+    rack.add(new Tile('E', tileScores['E' - 65]));
 
-    gameBoard.placeTile(new Tile('H', 1), 12, 10);
-    gameBoard.placeTile(new Tile('O', 1), 12, 11);
-    gameBoard.placeTile(new Tile('W', 1), 12, 12);
+    gameBoard.placeTile(new Tile('H', tileScores['H' - 65]), 12, 10);
+    gameBoard.placeTile(new Tile('O', tileScores['O' - 65]), 12, 11);
+    gameBoard.placeTile(new Tile('W', tileScores['W' - 65]), 12, 12);
 
     placements.clear();
     placements.add(gameBoard.getField(12, 10));
@@ -235,7 +225,7 @@ public class TutorialController {
     placements.clear();
 
     instructions.setText(steps[2]);
-    stepOverview.setText(counter + 1 + "/5");
+    stepOverview.setText(counter + 1 + "/7");
 
     updateBoard();
     updateRack();
@@ -255,16 +245,25 @@ public class TutorialController {
     for (int i = 0; i < rack.RACK_SIZE; i++) {
       rack.remove(i);
     }
-    rack.add(new Tile('I', 1));
-    rack.add(new Tile('C', 4));
-    rack.add(new Tile('E', 2));
+    rack.add(new Tile('I', tileScores['I' - 65]));
+    rack.add(new Tile('C', tileScores['C' - 65]));
+    rack.add(new Tile('E', tileScores['E' - 65]));
 
-    gameBoard.placeTile(new Tile('I', 1), 6, 10);
-    gameBoard.placeTile(new Tile('R', 1), 6, 11);
-    gameBoard.placeTile(new Tile('E', 1), 6, 12);
+    gameBoard.placeTile(new Tile('I', tileScores['I' - 65]), 6, 10);
+    gameBoard.placeTile(new Tile('R', tileScores['R' - 65]), 6, 11);
+    gameBoard.placeTile(new Tile('E', tileScores['E' - 65]), 6, 12);
+
+    placements.clear();
+    placements.add(gameBoard.getField(12, 10));
+    try {
+      gameBoard.check(placements, dictionary, true);
+    } catch (BoardException e) {
+      e.printStackTrace();
+    }
+    placements.clear();
 
     instructions.setText(steps[3]);
-    stepOverview.setText(counter + 1 + "/5");
+    stepOverview.setText(counter + 1 + "/7");
 
     updateBoard();
     updateRack();
@@ -284,26 +283,26 @@ public class TutorialController {
         counter++;
         showErrorMessage(false);
         instructions.setText(steps[counter]);
-        stepOverview.setText(counter + 1 + "/5");
+        stepOverview.setText(counter + 1 + "/7");
       } else {
         showErrorMessage(true);
       }
     }
     if (counter
         == 3) { // from here only information on the instructions are shown, no more tasks to
-                // complete
+      // complete
       instructions.setText(steps[counter]);
-      stepOverview.setText(counter + 1 + "/5");
+      stepOverview.setText(counter + 1 + "/7");
       counter++;
     }
     if (counter == 4) {
       instructions.setText(steps[counter]);
-      stepOverview.setText(counter + 1 + "/5");
+      stepOverview.setText(counter + 1 + "/7");
       counter++;
     }
     if (counter == 5) {
       instructions.setText(steps[counter]);
-      stepOverview.setText(counter + 1 + "/5");
+      stepOverview.setText(counter + 1 + "/7");
       showEndTutorial(true);
     } else {
       showErrorMessage(true);
@@ -320,7 +319,7 @@ public class TutorialController {
     if (counter > 0) {
       counter--;
       instructions.setText(steps[counter]);
-      stepOverview.setText(counter + 1 + "/5");
+      stepOverview.setText(counter + 1 + "/7");
     }
   }
 
@@ -798,7 +797,18 @@ public class TutorialController {
     updateRack();
   }
 
-  public void tiles() {}
+  public void tiles() {
+    if (counter == 3) {
+      for (int i = 0; i < 7; i++) {
+        if (!rack.isEmpty(i)) {
+          rack.remove(i);
+        }
+      }
+      rack.add(new Tile('T', tileScores['T' - 65]));
+      rack.add(new Tile('A', tileScores['A' - 65]));
+      updateRack();
+    }
+    }
 
   public void start(MouseEvent mouseEvent) throws IOException {
     showTutorialWelcome(false);
