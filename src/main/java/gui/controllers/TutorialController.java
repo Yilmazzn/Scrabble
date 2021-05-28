@@ -87,21 +87,33 @@ public class TutorialController {
         + "\n"
         + "To undo a placement, simply click onto the tile.",
     "If a blank tile (joker) is played the player has to define for what letter the blank tile stands for and it remains "
-        + "to stand for this letter throughout the game. The blank tile scores zero points."
+        + "to stand for this letter throughout the game. "
+        + "\n"
+        + "\n"
+        + "The blank tile scores zero points."
+        + "\n"
         + "\n"
         + "Now please try to place 'FRIENDS' using the joker as the letter F and using the already placed R.",
-    "If you need some creativity boost, click the Shuffle-Button to rearrange the order of tiles in your rack."
+    "To get some creativity boost, please click the Shuffle-Button to rearrange the order of tiles in your rack."
         + "\n"
-        + "Once you have placed the word you can surely fit in, click submit. "
+        + "\n"
+        + "Now place your word please. "
+        + "\n"
         + "\n"
         + "Tip: It's the No 1 food students eat",
-    "If you want to exchange your tiles randomly with the ones left in the bag, click the Exchange-Button and your turn ends."
+    "If you want to exchange your tiles randomly with the ones left in the bag, click the tiles you want to exchange and press the Exchange-Button."
         + "\n"
-        + "If you can not find a valid word, remove the tiles you have placed within this round and click the Submit-Button to pass your turn."
+        + "\n"
+        + "Please select all the tiles and press Exchange. New letters are added to your rack, NICE! Now your turn ends."
+        + "\n"
+        + "\n"
+        + "If you can not find a valid word, click the Submit-Button to pass your turn."
+        + "\n"
         + "\n"
         + "From here on please press 'Next step'",
     "Not only tiles have different values, but the board colors also increase your score."
         + "\n"
+            + "\n"
         + "Light Blue: doubles letter value"
         + "\n"
         + "Dark Blue: triples letter value"
@@ -110,16 +122,24 @@ public class TutorialController {
         + "\n"
         + "Red: triples the word value"
         + "\n"
+            + "\n"
         + "Words crossing the middle tile are doubled in value",
     "Premium squares apply only when newly placed tiles cover them. Any subsequent plays do not count those premium squares."
+            + "\n"
+            + "\n"
         + "If a player covers both letter and word premium squares with a single word, the letter premium(s) is/are calculated first, followed by the word premium(s)."
+            + "\n"
+            + "\n"
         + "If seven tiles have been laid on the board in one turn after all of the words formed have been scored, 50 bonus points are added. (Bingo or Bonus)",
     "The timer in the top left corner indicates the amount of time left for you to finish you turn."
         + "\n"
+            + "\n"
         + "Every turn can last up to 10 minutes, if exceeded the game ends."
         + "\n"
+            + "\n"
         + "The game finishes as well, if all the tiles from a players rack and the bag have been removed or "
         + "\n"
+            + "\n"
         + "within 6 rounds nothing has been placed and one of the players decides to leave."
   };
 
@@ -200,7 +220,7 @@ public class TutorialController {
     }
     counter++;
     updateScoreboard(1, 25); // 1 für player 2 für bot
-    updateScoreboard(2, 13);
+    updateScoreboard(2, 25);
 
     for (int i = 0; i < rack.RACK_SIZE; i++) {
       rack.remove(i);
@@ -238,9 +258,8 @@ public class TutorialController {
       return;
     }
     counter++;
-    // TODO work out right score
     updateScoreboard(1, 39); // 1 für player 2 für bot
-    updateScoreboard(2, 17);
+    updateScoreboard(2, 29);
 
     for (int i = 0; i < rack.RACK_SIZE; i++) {
       rack.remove(i);
@@ -280,8 +299,9 @@ public class TutorialController {
       if ((stageTwoUnlocked && counter == 0)
           || (stageThreeUnlocked && counter == 1)
           || (stageFourUnlocked && counter == 2)) {
-        counter++;
         showErrorMessage(false);
+        counter++;
+        System.out.println(counter);
         instructions.setText(steps[counter]);
         stepOverview.setText(counter + 1 + "/7");
       } else {
@@ -290,26 +310,27 @@ public class TutorialController {
     }
     if (counter == 3) { // from here only information on the instructions are shown, no more tasks to complete
       showErrorMessage(false);
+      counter++;
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
-      counter++;
       return;
     }
     if (counter == 4) {
       showErrorMessage(false);
+      counter++;
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
-      counter++;
       return;
     }
     if (counter == 5) {
       showErrorMessage(false);
+      counter++;
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
-      counter++;
       return;
     }
-    if(counter == 6) {
+    if(counter >= 6) {
+      System.out.println(counter);
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
       showErrorMessage(false);
@@ -815,8 +836,9 @@ public class TutorialController {
           rack.remove(i);
         }
       }
-      rack.add(new Tile('T', tileScores['T' - 65]));
-      rack.add(new Tile('A', tileScores['A' - 65]));
+      rack.add(new Tile('N', tileScores['N' - 65]));
+      rack.add(new Tile('I', tileScores['I' - 65]));
+      rack.add(new Tile('C', tileScores['C' - 65]));
       updateRack();
     }
     }
