@@ -26,6 +26,10 @@ class GameTest {
   Tile e;
   Tile n;
   Tile p;
+  Tile g;
+  Tile t;
+  Tile a;
+  Tile s;
   Board board = new Board();
   List<BoardField> placements = new ArrayList<>();
 
@@ -43,6 +47,10 @@ class GameTest {
     e = new Tile('E', 1);
     n = new Tile('N', 1);
     p = new Tile('P', 3);
+    g = new Tile('G', 2);
+    t = new Tile('T',1);
+    a = new Tile('a',1);
+    s = new Tile('s',1);
   }
 
   @Test
@@ -66,49 +74,62 @@ class GameTest {
     placements.clear();
   }
 
-  /*
-    @Test
-    @DisplayName("Placing 'WORLD' (Placements: WRLD)")
-    void evaluateScoreTest2() {
-      // second word
-      g.placeTile(w, 6, 11);
-      g.placeTile(o, 7, 11);
-      g.placeTile(r, 8, 11);
-      g.placeTile(l, 9, 11);
-      g.placeTile(d, 10, 11);
-
-      Assertions.assertEquals(12, g.evaluateScore());
-      g.nextRound();
-    }
+  @Test
+  @DisplayName("Placing 'ING' (Placements: HELLOING)")
+  void evaluateScoreTest2() {
+    // second word
+    place(i, 7, 12);
+    place(n, 7, 13);
+    place(g, 7, 14);
+    Assertions.assertEquals(24, board.evaluateScore(placements));
+    placements.clear();
+  }
 
     @Test
+    @DisplayName("Placing 'ELMETED' (Placements: HELMETED)")
     void evaluateScoreTest3() {
       // third word
-      g.placeTile(m, 10, 9);
-      g.placeTile(i, 10, 10);
-      g.placeTile(d, 10, 11);
-      g.placeTile(d, 10, 12);
-      g.placeTile(l, 10, 13);
-      g.placeTile(e, 10, 14);
-
-      Assertions.assertEquals(26, g.evaluateScore());
-      g.nextRound();
+      place(e, 8, 7);
+      place(l, 9, 7);
+      place(m, 10, 7);
+      place(e, 11, 7);
+      place(t, 12, 7);
+      place(e, 13, 7);
+      place(d, 14, 7);
+      Assertions.assertEquals(63, board.evaluateScore(placements));
+      placements.clear();
     }
 
     @Test
+    @DisplayName("Placing 'AT' (Placements: EAT)")
     void evaluateScoreTest4() {
-      // 4th words
-      g.placeTile(o, 6, 12);
-      g.placeTile(w, 6, 13);
+      place(a, 11, 8);
+      place(t, 11, 9);
 
-      g.placeTile(p, 7, 14);
-      g.placeTile(e, 8, 14);
-      g.placeTile(n, 9, 14);
-
-      Assertions.assertEquals(30, g.evaluateScore());
-      g.nextRound();
+      Assertions.assertEquals(3, board.evaluateScore(placements));
+      placements.clear();
     }
-  */
+
+  @Test
+  @DisplayName("Placing 'AT' (Placements: EAT)")
+  void evaluateScoreTest5() {
+    place(o, 8, 9);
+    place(w, 9, 9);
+
+    Assertions.assertEquals(14, board.evaluateScore(placements));
+    placements.clear();
+  }
+
+  @Test
+  @DisplayName("Placing 'OESS' (Placements: LOESS)")
+  void evaluateScoreTest6() {
+    place(o, 8, 9);
+    place(e, 9, 9);
+    place(s, 10, 9);
+    place(s, 11, 9);
+    Assertions.assertEquals(21, board.evaluateScore(placements));
+    placements.clear();
+  }
   private void place(Tile tile, int row, int col) {
     board.placeTile(tile, row, col);
     placements.add(board.getField(row, col));
