@@ -68,6 +68,7 @@ public class GameViewController implements Initializable {
   @FXML private CheckBox ready;
   @FXML private VBox agreements;
   @FXML private Button finishGame;
+  @FXML private Button submitButton;
 
   private final Image defaultImage =
       new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
@@ -142,6 +143,7 @@ public class GameViewController implements Initializable {
       pointsLabels[i].setText("-");
       images[i].setImage(defaultImage);
     }
+    submitButton.setText("Pass");
   }
 
   /** Updates Rack, called after each move the LocalPlayer makes */
@@ -714,6 +716,15 @@ public class GameViewController implements Initializable {
     System.out.println("Place Tile | GameViewController | " + row + ", " + col);
     player.getBoard().placeTile(tile, row, col);
     updateBoard();
+    if (player.isTurn()) {
+      if (tile != null) {
+        submitButton.setText("Submit");
+      } else {
+        if (player.getPlacements().size() == 0) {
+          submitButton.setText("Pass");
+        }
+      }
+    }
   }
 
   public void clickOnField(int row, int col) {}
