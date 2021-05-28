@@ -11,27 +11,13 @@ public class Sound {
    *     method to mute all sounds The state of the mute variable is saved in a XML Document and
    *     read out of it in order to save preferences
    */
-  private static final String sep = System.getProperty("file.separator");
-
-  private static final String datadir =
-      System.getProperty("user.dir")
-          + sep
-          + "src"
-          + sep
-          + "main"
-          + sep
-          + "resources"
-          + sep
-          + "sounds"
-          + sep;
 
   /**
    * This variable contains the soundPath. The regarding sound file name will be added to the path
    * and than the sound will be played
    */
-  public static final String soundPath = datadir;
-
   public static String playerCreated = "PlayerCreated.mp3";
+
   public static String rightWord = "RightWord.mp3";
   public static String tileSet = "TileSet.mp3";
   public static String titleMusic = "TitleMusic.mp3";
@@ -39,10 +25,6 @@ public class Sound {
   public static boolean muteStatus = false;
   static MediaPlayer mediaPlayer;
   static MediaPlayer mediaPlayer2;
-
-  public static void main(String[] args) {
-    playMusic(titleMusic);
-  }
 
   // Mute function
   public static void mute() {
@@ -66,21 +48,34 @@ public class Sound {
 
   // change all the function into one function and save the string names of the files
   // as class Variables TO DO
-  public static void playMusic(String fileName) {
+  public static void playMusic(String audioName) {
     if (!muteStatus) {
       try {
         // is needed for initialization
         final JFXPanel fxPanel = new JFXPanel();
-        String path = datadir + fileName;
+        String sep = System.getProperty("file.separator");
+        File file =
+            new File(
+                System.getProperty("user.dir")
+                    + sep
+                    + "src"
+                    + sep
+                    + "main"
+                    + sep
+                    + "resources"
+                    + sep
+                    + "sounds"
+                    + sep
+                    + audioName);
         Thread.sleep(50);
-        if (fileName.equals(titleMusic)) {
-          Media media2 = new Media(new File(path).toURI().toString());
+        if (audioName.equals(titleMusic)) {
+          Media media2 = new Media(file.toURI().toString());
           mediaPlayer2 = new MediaPlayer(media2);
           mediaPlayer2.setVolume(0.2);
           mediaPlayer2.setAutoPlay(true);
           mediaPlayer2.setCycleCount(MediaPlayer.INDEFINITE);
         } else {
-          Media media = new Media(new File(path).toURI().toString());
+          Media media = new Media(file.toURI().toString());
           mediaPlayer = new MediaPlayer(media);
           mediaPlayer.setVolume(0.2);
           mediaPlayer.setAutoPlay(true);

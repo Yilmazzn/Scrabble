@@ -120,13 +120,10 @@ public class Client extends Application {
     alert.getDialogPane().setExpandableContent(textArea);
 
     alert.showAndWait();
-
   }
 
   /**
    * Method for creating a custom Popup for different Use Cases
-   *
-   * @author yuzun
    * @param message Requires Message to be displayed
    */
   public void showError(String message) {
