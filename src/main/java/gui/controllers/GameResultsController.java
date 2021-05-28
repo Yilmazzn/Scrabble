@@ -56,6 +56,8 @@ public class GameResultsController {
   private final Image defaultImage =
           new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
 
+  private PlayerProfile[] profiles;
+
 
   public void setModel(Client client) {
     this.client = client;
@@ -82,6 +84,8 @@ public class GameResultsController {
         }
       }
     }
+
+    this.profiles = profiles;
 
     for (int i = 0; i < profiles.length; i++) {
       playerLabels[i].setText(profiles[i].getName());
@@ -293,15 +297,15 @@ public class GameResultsController {
   }
 
   public void playerTwo() throws IOException {
-    // player = Server.getProfile(2);
-    // StatisticsController.initData(player);
-    openStatistics();
+    if(profiles.length > 1) {
+      openStatistics(profiles[1]);
+    }
   }
 
   public void playerThree() throws IOException {
-    // player = Server.getProfile(3);
-    // StatisticsController.initData(player);
-    openStatistics();
+    if (profiles.length > 2) {
+      openStatistics(profiles[2]);
+    }
   }
 
   public void playerFour() throws IOException {
