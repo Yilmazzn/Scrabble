@@ -40,9 +40,10 @@ public class Dictionary {
   }
 
   /**
+   * Constructor with parameter to the wordlist.txt file. Does everything up to the * creation of
+   * the binary search tree
+   *
    * @param absolutePath Requires the absolute Path to the wordlist itself
-   * @author vkaczmar Constructor with parameter to the wordlist.txt file. Does everything up to the
-   *     creation of the binary search tree
    */
   public Dictionary(String absolutePath) {
     File f = new File(absolutePath);
@@ -60,7 +61,8 @@ public class Dictionary {
   }
 
   /**
-   * @author vkaczmar createsBinarySearchTree
+   * CreatesBinarySearchTree
+   *
    * @param words requires ArrayList with Strings
    * @param start start index
    * @param end end index
@@ -79,8 +81,8 @@ public class Dictionary {
   }
 
   /**
-   * @author vkaczmar Private method to get all lines from the wordlist, which are neither empty nor
-   *     an introduction line. These lines get added to uneditedLines.
+   * Private method to get all lines from the wordlist, which are neither empty nor an introduction
+   * line. These lines get added to uneditedLines.
    */
   private void getUneditedLines() {
     String line;
@@ -95,10 +97,7 @@ public class Dictionary {
     }
   }
 
-  /**
-   * @author vkaczmar Private method to get words from uneditedLines. words get added to
-   *     ArrayList<String> words
-   */
+  /** Private method to get words from uneditedLines. words get added to ArrayList<String> words */
   private void getWords() {
     String[] splitLine;
     Iterator<String> it = uneditedLines.iterator();
@@ -111,7 +110,8 @@ public class Dictionary {
   }
 
   /**
-   * @author vkaczmar
+   * Checks if word exists
+   *
    * @param word requires word to be searched for
    * @return returns true, if word exists
    */
@@ -120,7 +120,8 @@ public class Dictionary {
   }
 
   /**
-   * @author vkaczmar Checks wether a certain word exists in wordlist.
+   * Checks wether a certain word exists in wordlist.
+   *
    * @param node Requires node to start searching with
    * @param word Requires word/ REGEX, in a non case sensitive way
    * @return Returns true, if word exists
@@ -139,10 +140,7 @@ public class Dictionary {
     }
   }
 
-  /**
-   * @author vkaczmar
-   * @return returns a String array of all the words
-   */
+  /** @return returns a String array of all the words */
   public String[] getWordsAsArray() {
     String[] s = new String[words.size()];
     for (int i = 0; i < words.size(); i++) {
@@ -151,7 +149,6 @@ public class Dictionary {
     return s;
   }
 
-  // TODO Might need to change 's' to 's + "\n"'
   /** @return returns the whole dictionary as one String */
   public String getDictionary() {
     StringBuffer sb = new StringBuffer();

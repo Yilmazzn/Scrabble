@@ -37,9 +37,9 @@ class GameTest {
   void setUp() throws Exception {
     // Initialize all the tiles for the test words
     h = new Tile('H', 4);
-    l = new Tile('L', 4);
+    l = new Tile('L', 1);
     o = new Tile('O', 1);
-    w = new Tile('W', 2);
+    w = new Tile('W', 4);
     r = new Tile('R', 1);
     d = new Tile('D', 2);
     m = new Tile('M', 3);
@@ -49,8 +49,8 @@ class GameTest {
     p = new Tile('P', 3);
     g = new Tile('G', 2);
     t = new Tile('T',1);
-    a = new Tile('a',1);
-    s = new Tile('s',1);
+    a = new Tile('A',1);
+    s = new Tile('S',1);
   }
 
   @Test
@@ -70,7 +70,7 @@ class GameTest {
     place(l, 7, 10);
     place(o, 7, 11);
 
-    Assertions.assertEquals(30, board.evaluateScore(placements));
+    Assertions.assertEquals(18, board.evaluateScore(placements));
     placements.clear();
   }
 
@@ -81,7 +81,7 @@ class GameTest {
     place(i, 7, 12);
     place(n, 7, 13);
     place(g, 7, 14);
-    Assertions.assertEquals(24, board.evaluateScore(placements));
+    Assertions.assertEquals(36, board.evaluateScore(placements));
     placements.clear();
   }
 
