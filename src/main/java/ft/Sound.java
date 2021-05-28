@@ -53,31 +53,18 @@ public class Sound {
       try {
         // is needed for initialization
         final JFXPanel fxPanel = new JFXPanel();
-        String sep = System.getProperty("file.separator");
-        File file =
-            new File(
-                System.getProperty("user.dir")
-                    + sep
-                    + "src"
-                    + sep
-                    + "main"
-                    + sep
-                    + "resources"
-                    + sep
-                    + "sounds"
-                    + sep
-                    + audioName);
+        String path = Sound.class.getResource("/sounds/" + audioName).toURI().toString();
         Thread.sleep(50);
         if (audioName.equals(titleMusic)) {
-          Media media2 = new Media(file.toURI().toString());
+          Media media2 = new Media(path);
           mediaPlayer2 = new MediaPlayer(media2);
-          mediaPlayer2.setVolume(0.2);
+          mediaPlayer2.setVolume(0.1);
           mediaPlayer2.setAutoPlay(true);
           mediaPlayer2.setCycleCount(MediaPlayer.INDEFINITE);
         } else {
-          Media media = new Media(file.toURI().toString());
+          Media media = new Media(path);
           mediaPlayer = new MediaPlayer(media);
-          mediaPlayer.setVolume(0.2);
+          mediaPlayer.setVolume(0.1);
           mediaPlayer.setAutoPlay(true);
         }
       } catch (Exception e) {
