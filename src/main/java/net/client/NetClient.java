@@ -302,7 +302,9 @@ public class NetClient {
             client.showPopUp(content);
           }
           if (dictionaryContent != null) {
-            client.showPopUpDictionary(dictionaryContent);
+            System.out.println(dictionaryContent);
+            // client.showPopUpDictionary(dictionaryContent);
+            // gameViewController.....
           }
         });
   }

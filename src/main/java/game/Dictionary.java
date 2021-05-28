@@ -106,7 +106,7 @@ public class Dictionary {
       String word = it.next();
       splitLine = word.split("\\s");
       words.add(splitLine[0]);
-      meanings.add(word.substring(word.indexOf(" ") + 1));
+      meanings.add(word.substring(word.indexOf("\\s+") + 1));
     }
   }
 
@@ -156,7 +156,7 @@ public class Dictionary {
   public String getDictionary() {
     StringBuffer sb = new StringBuffer();
     for (String s : uneditedLines) {
-      sb.append(s);
+      sb.append(s + "\n");
     }
     return sb.toString();
   }
