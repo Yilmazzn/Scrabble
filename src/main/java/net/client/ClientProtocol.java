@@ -309,6 +309,9 @@ public class ClientProtocol extends Thread {
                   // set Data
                   client.setLobbyState(lobbyProfiles, new int[lobbyProfiles.length]);
                 });
+            // TODO if we just remove this, the join would work, without setting everyone to not
+            // ready again. We should just start with red boxes, if someone joins, but only for the
+            // new player
             setPlayerReady(false);
             break;
           case REFUSECONNECTION:
