@@ -264,11 +264,14 @@ public class GameResultsController {
     window.show();
   }
 
-  public void openStatistics() throws IOException {
+  public void openStatistics(PlayerProfile profile) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/statistics.fxml"));
     Parent openStatistics = loader.load();
+    StatisticsController controller = loader.getController();
+    controller.setModel(profile);
+
     Scene openStatisticsScene = new Scene(openStatistics);
     Stage window = new Stage();
     window.initModality(Modality.APPLICATION_MODAL);
@@ -286,9 +289,7 @@ public class GameResultsController {
   }
 
   public void playerOne() throws IOException {
-    // player = Server.getProfile(1); // TODO is this ID correct? because does not work at all
-    // StatisticsController.initData(player);
-    openStatistics();
+    openStatistics(profiles[0]);
   }
 
   public void playerTwo() throws IOException {
@@ -304,8 +305,8 @@ public class GameResultsController {
   }
 
   public void playerFour() throws IOException {
-    // player = Server.getProfile(3);
-    // StatisticsController.initData(player);
-    openStatistics();
+    if(profiles.length > 3){
+      openStatistics(profiles[3]);
+    }
   }
 }

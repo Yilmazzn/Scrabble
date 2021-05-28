@@ -6,11 +6,15 @@ import ft.Sound;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
-import gui.controllers.CreateGameController;
-import gui.controllers.GameResultsController;
-import gui.controllers.GameViewController;
-import gui.controllers.JoinGameController;
+import gui.controllers.*;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import net.server.Server;
 
 import java.io.IOException;
@@ -302,9 +306,26 @@ public class NetClient {
             client.showPopUp(content);
           }
           if (dictionaryContent != null) {
-            System.out.println(dictionaryContent);
-            // client.showPopUpDictionary(dictionaryContent);
-            // gameViewController.....
+            FXMLLoader loader = new FXMLLoader();
+            Sound.playMusic(Sound.tileSet);
+            loader.setLocation(this.getClass().getResource("/views/dictionary.fxml"));
+            Parent dictionary = null;
+            try {
+              dictionary = loader.load();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+            DictionaryController controller = loader.getController();
+            controller.setModel(client);
+            controller.showDictionary(dictionaryContent);
+
+            Scene dictionaryScene = new Scene(dictionary);
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Dictionary");
+            window.setResizable(false);
+            window.setScene(dictionaryScene);
+            window.showAndWait();
           }
         });
   }
