@@ -23,11 +23,11 @@ class HardAiPlayerTest extends HardAiPlayer {
     9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
   };
   private final Dictionary dictionary = new Dictionary();
+  List<Player> players = new LinkedList<>();
 
   @Test
   void playGameTest() { // Play till end
     // set game bag
-    List<Player> players = new LinkedList<>();
     players.add(new HardAiPlayerTest());
     players.add(new HardAiPlayerTest());
     players.add(new HardAiPlayerTest());
@@ -47,6 +47,10 @@ class HardAiPlayerTest extends HardAiPlayer {
 
   @Override
   public void think(Board gameBoard, Dictionary dictionary) {
+    if (game.getRoundNumber() == 100) {
+      game.end(0);
+      return;
+    }
     long startTime = System.currentTimeMillis();
     System.out.println("Before AI Move: ");
     printRack();

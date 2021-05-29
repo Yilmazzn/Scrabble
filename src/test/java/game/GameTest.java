@@ -1,4 +1,4 @@
-package game.players;
+package game;
 
 import game.components.Board;
 import game.components.BoardField;
@@ -6,6 +6,7 @@ import game.components.Tile;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -96,7 +97,7 @@ class GameTest {
       place(t, 12, 7);
       place(e, 13, 7);
       place(d, 14, 7);
-      Assertions.assertEquals(63, board.evaluateScore(placements));
+      Assertions.assertEquals(95, board.evaluateScore(placements));
       placements.clear();
     }
 
@@ -111,7 +112,7 @@ class GameTest {
     }
 
   @Test
-  @DisplayName("Placing 'AT' (Placements: EAT)")
+  @DisplayName("Placing 'OW' (Placements: LOW)")
   void evaluateScoreTest5() {
     place(o, 8, 9);
     place(w, 9, 9);
@@ -121,15 +122,15 @@ class GameTest {
   }
 
   @Test
-  @DisplayName("Placing 'OESS' (Placements: LOESS)")
+  @DisplayName("Placing 'EST' (Placements: LOWEST)")
   void evaluateScoreTest6() {
-    place(o, 8, 9);
-    place(e, 9, 9);
-    place(s, 10, 9);
+    place(e, 10, 9);
     place(s, 11, 9);
-    Assertions.assertEquals(21, board.evaluateScore(placements));
+    place(t, 12, 9);
+    Assertions.assertEquals(12, board.evaluateScore(placements));
     placements.clear();
   }
+
   private void place(Tile tile, int row, int col) {
     board.placeTile(tile, row, col);
     placements.add(board.getField(row, col));

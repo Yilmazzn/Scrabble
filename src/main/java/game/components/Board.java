@@ -371,7 +371,9 @@ public class Board implements Serializable {
 
       boolean leftmostPlacement = true; // is true if only placement to the left
       // traverse left
-      while (helper.getColumn() > 0 && !helper.isEmpty() && formsWordHorizontal) {
+      while (helper.getColumn() > 0
+          && !getField(helper.getRow(), helper.getColumn() - 1).isEmpty()
+          && formsWordHorizontal) {
         helper = this.getField(helper.getRow(), helper.getColumn() - 1);
       }
       // traverse back to our placement
@@ -394,7 +396,9 @@ public class Board implements Serializable {
       boolean topmostPlacement = true; // is true if top of placement in formed word
       helper = bf;
       // traverse up
-      while (helper.getRow() > 0 && !helper.isEmpty() && formsWordVertical) {
+      while (helper.getRow() > 0
+          && !getField(helper.getRow() - 1, helper.getColumn()).isEmpty()
+          && formsWordVertical) {
         helper = this.getField(helper.getRow() - 1, helper.getColumn());
       }
       // traverse back to our placement
@@ -419,9 +423,7 @@ public class Board implements Serializable {
         }
 
         // traverse to the right
-        while (helper.getColumn() < Board.BOARD_SIZE
-            && !helper.isEmpty()
-            && helper.getColumn() != Board.BOARD_SIZE - 1) {
+        while (helper.getColumn() < Board.BOARD_SIZE && !helper.isEmpty()) {
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;
 
@@ -465,9 +467,7 @@ public class Board implements Serializable {
           helper = this.getField(helper.getRow() - 1, helper.getColumn());
         }
         // traverse down
-        while (helper.getRow() < Board.BOARD_SIZE
-            && !helper.isEmpty()
-            && helper.getRow() != Board.BOARD_SIZE - 1) {
+        while (helper.getRow() < Board.BOARD_SIZE && !helper.isEmpty()) {
           int letterScore = helper.getTile().getScore();
           int letterMult = 1;
 

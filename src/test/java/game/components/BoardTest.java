@@ -38,7 +38,6 @@ public class BoardTest {
     placements.add(board.getField(6, 4));
 
     board.check(placements, dictionary, true); // passes if no error thrown
-    Assertions.assertEquals(board.getFoundWords().get(0), "TRAIN");
   }
 
   @Test
@@ -164,5 +163,6 @@ public class BoardTest {
         }
       }
     }
+    placements.clear();
   }
 }
