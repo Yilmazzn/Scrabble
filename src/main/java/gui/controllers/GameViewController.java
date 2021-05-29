@@ -7,7 +7,6 @@ import game.components.BoardField;
 import game.components.Tile;
 import game.players.LocalPlayer;
 import gui.components.Rack;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -62,9 +61,6 @@ public class GameViewController implements Initializable {
   @FXML private TextArea textArea;
   @FXML private ScrollPane scrollPane;
   @FXML private VBox chat;
-  @FXML private Button distribution;
-  @FXML private Button values;
-  @FXML private Button dictionary;
   @FXML private CheckBox ready;
   @FXML private VBox agreements;
   @FXML private Button finishGame;
@@ -111,9 +107,9 @@ public class GameViewController implements Initializable {
 
   /**
    * Update the graphics of the board with instances of PlayerProfiles/Board. Called after each move
+   * AnchorPane as graphical container for the tiles are created
    */
   public void updateBoard() {
-    /** AnchorPane as graphical container for the tiles are created */
     board.getChildren().removeAll();
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
@@ -163,18 +159,16 @@ public class GameViewController implements Initializable {
   /** Creates a listener for the TextArea so Enter can be pressed */
   public void updateChat() {
     textArea.setOnKeyPressed(
-        new EventHandler<KeyEvent>() {
-          @Override
-          public void handle(KeyEvent keyEvent) {
-            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-              textArea.deletePreviousChar();
-              sendMessage();
-              keyEvent.consume();
-            }
-          }
-        });
+            keyEvent -> {
+              if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                textArea.deletePreviousChar();
+                sendMessage();
+                keyEvent.consume();
+              }
+            });
   }
 
+  /** Copy existing chat messages from CreateGameView to the GameView*/
   public void loadChatFromHost(VBox messages) {
     chat.getChildren().add(messages);
   }
@@ -208,27 +202,6 @@ public class GameViewController implements Initializable {
     player.setBagSize(bagSize);
     Tooltip tip = bag.getTooltip();
     tip.setText("There are " + bagSize + " tiles in the game bag");
-  }
-
-  /** @author vihofman for chat */
-  public void openChat() throws IOException {
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
-    Parent gameChat = loader.load();
-    Scene gameChatScene = new Scene(gameChat);
-    Stage window = new Stage();
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("gameChat");
-    window.setScene(gameChatScene);
-    window.setWidth(300);
-    window.setHeight(500);
-    window.show();
-    Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-    double x = bounds.getMinX() + (bounds.getWidth() - window.getWidth()) * 0.78;
-    double y = bounds.getMinY() + (bounds.getHeight() - window.getHeight()) * 0.45;
-    window.setX(x);
-    window.setY(y);
-    window.show();
   }
 
   /** @author vihofman for statistics */
@@ -284,7 +257,6 @@ public class GameViewController implements Initializable {
    * Returns to player Lobby and disconnects client
    *
    * @param mouseEvent Requires MouseEvent generated on Click
-   * @throws IOException
    */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     Sound.playMusic(Sound.tileSet);
@@ -315,7 +287,7 @@ public class GameViewController implements Initializable {
   }
 
   /** Finishes the game and redirects the players to the ResultView */
-  public void finishGame(MouseEvent mouseEvent) throws IOException {
+  public void finishGame() {
 
     Alert alert =
         new Alert(
@@ -333,6 +305,7 @@ public class GameViewController implements Initializable {
     client.getNetClient().sendEndMessage(1);
   }
 
+  /** Redirects to the ResultView */
   public void changeToResultView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.finishSound);
@@ -348,6 +321,7 @@ public class GameViewController implements Initializable {
     window.show();
   }
 
+  /** Exchange selected tiles*/
   public void tiles() {
     System.out.println("tiles");
     player.exchange();
@@ -360,6 +334,7 @@ public class GameViewController implements Initializable {
     updateRack();
   }
 
+  /** Submit moved tiles*/
   @FXML
   public void submit() {
     Sound.playMusic(Sound.tileSet);
@@ -462,7 +437,7 @@ public class GameViewController implements Initializable {
    * Method to create the Containers for the tiles on the Rack includes graphical components and
    * adds the Drag and Drop feature
    *
-   * @param letter,value,position
+   * @param letter,value,position Used letter with value and position
    * @return AnchorPane
    */
   public AnchorPane createBottomTile(char letter, int value, int position) {
@@ -485,7 +460,6 @@ public class GameViewController implements Initializable {
     AnchorPane.setBottomAnchor(label, 1.0);
     label.setAlignment(Pos.CENTER);
     label.getStylesheets().add("/stylesheets/labelstyle.css");
-    String help = "rack" + (position + 1);
     if (player.tileSelected(position)) {
       label.getStyleClass().add("tileBottomSelected");
     } else {
@@ -505,40 +479,33 @@ public class GameViewController implements Initializable {
     pane.getChildren().add(points);
 
     pane.setOnDragDetected(
-        new EventHandler<MouseEvent>() {
-          @Override
-          public void handle(MouseEvent mouseEvent) {
-            String exchange = label.getText() + points.getText();
-            Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
-            draggedTileIndex = position;
-            ClipboardContent content = new ClipboardContent();
-            content.putString(exchange);
-            db.setContent(content);
-            mouseEvent.consume();
-          }
-        });
+            mouseEvent -> {
+              String exchange = label.getText() + points.getText();
+              Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
+              draggedTileIndex = position;
+              ClipboardContent content = new ClipboardContent();
+              content.putString(exchange);
+              db.setContent(content);
+              mouseEvent.consume();
+            });
 
     pane.setOnDragDone(
-        new EventHandler<DragEvent>() {
-          public void handle(DragEvent event) {
-            /* the drag-and-drop gesture ended */
-            if (event.isDropCompleted()) {
-              draggedTileIndex = -1;
-            }
+            event -> {
+              /* the drag-and-drop gesture ended */
+              if (event.isDropCompleted()) {
+                draggedTileIndex = -1;
+              }
 
-            event.consume();
-          }
-        });
+              event.consume();
+            });
 
     pane.setOnMouseClicked(
-        new EventHandler<MouseEvent>() {
-          public void handle(MouseEvent event) {
-            player.selectTile(position);
-            updateBottomTile(letter, value, position);
-            event.consume();
-            System.out.println("here in mouseclick");
-          }
-        });
+            event -> {
+              player.selectTile(position);
+              updateBottomTile(letter, value, position);
+              event.consume();
+              System.out.println("here in mouseclick");
+            });
 
     pane.setStyle("-fx-cursor: hand");
 
@@ -549,7 +516,7 @@ public class GameViewController implements Initializable {
    * Method to create the Containers for the tiles on the Board includes graphical components and
    * adds the Drag and Drop feature
    *
-   * @param boardField
+   * @param boardField with the information about the tile
    * @return AnchorPane
    */
   public AnchorPane createTile(BoardField boardField) {
@@ -583,7 +550,7 @@ public class GameViewController implements Initializable {
     points.getStylesheets().add("/stylesheets/labelstyle.css");
     points.getStyleClass().add("digitTile");
 
-    /** Assignment of different styles of the field to the labels */
+    // Assignment of different styles of the field to the labels
     if (!boardField.isEmpty()) {
       label.getStyleClass().add("tileWithLetter");
       if (player
@@ -620,74 +587,62 @@ public class GameViewController implements Initializable {
     pane.getChildren().add(points);
 
     pane.setOnDragOver(
-        new EventHandler<DragEvent>() {
-          public void handle(DragEvent event) {
-            /* data is dragged over the target */
+            event -> {
+              /* data is dragged over the target */
 
-            /* accept it only if it is  not dragged from the same node
-             * and if it has a string data */
-            if (event.getGestureSource() != pane && event.getDragboard().hasString()) {
-              /* allow for both copying and moving, whatever user chooses */
-              event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-            }
+              /* accept it only if it is  not dragged from the same node
+               * and if it has a string data */
+              if (event.getGestureSource() != pane && event.getDragboard().hasString()) {
+                /* allow for both copying and moving, whatever user chooses */
+                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+              }
 
-            event.consume();
-          }
-        });
+              event.consume();
+            });
 
     pane.setOnDragDropped(
-        new EventHandler<DragEvent>() {
-          public void handle(DragEvent event) {
-            /* data dropped */
-            /* if there is a string data on dragboard, read it and use it */
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-            if (db.hasString()) {
-              updateTile(
-                  db.getString().charAt(0),
-                  Integer.valueOf(db.getString().substring(1)),
-                  boardField.getRow(),
-                  boardField.getColumn());
-              // label.setText(db.getString());
-              // label.getStyleClass().add("tileWithLetter");
-              success = true;
-            }
-            /* let the source know whether the string was successfully
-             * transferred and used */
-            event.setDropCompleted(success);
+            event -> {
+              /* data dropped */
+              /* if there is a string data on dragboard, read it and use it */
+              Dragboard db = event.getDragboard();
+              boolean success = false;
+              if (db.hasString()) {
+                updateTile(
+                    db.getString().charAt(0),
+                    Integer.parseInt(db.getString().substring(1)),
+                    boardField.getRow(),
+                    boardField.getColumn());
+                success = true;
+              }
+              /* let the source know whether the string was successfully
+               * transferred and used */
+              event.setDropCompleted(success);
 
-            event.consume();
-          }
-        });
+              event.consume();
+            });
 
     pane.setOnMouseClicked(
-        new EventHandler<MouseEvent>() {
-          public void handle(MouseEvent event) {
-            if (!boardField.isEmpty()) {
-              player.removePlacement(boardField.getRow(), boardField.getColumn());
-              updateBoard();
-              updateRack();
-            }
-          }
-        });
+            event -> {
+              if (!boardField.isEmpty()) {
+                player.removePlacement(boardField.getRow(), boardField.getColumn());
+                updateBoard();
+                updateRack();
+              }
+            });
 
     // Color border yellow when entered
     pane.setOnDragEntered(
-        event -> {
-          pane.setBorder(
-              new Border(
-                  new BorderStroke(
-                      Color.YELLOW,
-                      BorderStrokeStyle.SOLID,
-                      CornerRadii.EMPTY,
-                      BorderWidths.DEFAULT)));
-        });
+        event -> pane.setBorder(
+            new Border(
+                new BorderStroke(
+                    Color.YELLOW,
+                    BorderStrokeStyle.SOLID,
+                    CornerRadii.EMPTY,
+                    BorderWidths.DEFAULT))));
 
     // Remove border
     pane.setOnDragExited(
-        event -> {
-          pane.setBorder(null);
-        });
+        event -> pane.setBorder(null));
 
     return pane;
   }
@@ -727,8 +682,7 @@ public class GameViewController implements Initializable {
     }
   }
 
-  public void clickOnField(int row, int col) {}
-
+  /** Shows a Popup with a given message*/
   public void showPopup(String message) {
     client.showPopUp(message);
   }
