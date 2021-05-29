@@ -3,7 +3,7 @@ package gui.controllers;
 import client.Client;
 import client.PlayerProfile;
 import ft.Sound;
-import javafx.event.EventHandler;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -18,7 +18,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -32,8 +31,11 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-/** @author vihofman Controller for the Game Results */
+/**
+ * Controller for the Game Results.
+ *
+ * @author mnetzer
+ */
 public class GameResultsController {
   @FXML private VBox chat;
   @FXML private TextArea textArea;
@@ -54,11 +56,11 @@ public class GameResultsController {
   private Client client;
   public PlayerProfile player;
   private final Image defaultImage =
-          new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
+      new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
 
   private PlayerProfile[] profiles;
 
-
+  /** Initialize view with client and chat. */
   public void setModel(Client client) {
     this.client = client;
     this.client.getNetClient().setGameResultsController(this);
@@ -71,9 +73,9 @@ public class GameResultsController {
     Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
     ImageView[] images = {image1, image2, image3, image4};
 
-  // Sort Array from highest score to lowest
-    for(int i = 0; i < profiles.length; i++) {
-      for(int j = 0; j < profiles.length - 1; j++) {
+    // Sort Array from highest score to lowest
+    for (int i = 0; i < profiles.length; i++) {
+      for (int j = 0; j < profiles.length - 1; j++) {
         if (scores[j] < scores[j + 1]) {
           PlayerProfile tmpProf = profiles[j];
           int tmpScore = scores[j];
@@ -106,23 +108,21 @@ public class GameResultsController {
   /** Creates a listener for the TextArea so Enter can be pressed */
   public void updateChat() {
     textArea.setOnKeyPressed(
-            new EventHandler<KeyEvent>() {
-              @Override
-              public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-                  textArea.deletePreviousChar();
-                  sendMessage();
-                  keyEvent.consume();
-                }
+            keyEvent -> {
+              if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+                textArea.deletePreviousChar();
+                sendMessage();
+                keyEvent.consume();
               }
             });
   }
 
-  public void loadChat(VBox messages){
+  /** Load chat into current view. */
+  public void loadChat(VBox messages) {
     chat.getChildren().add(messages);
   }
 
-  /** Creates a Box/Label when player sends a message. Necessary to fill the ChatField */
+  /** Creates a Box/Label when player sends a message. Necessary to fill the ChatField. */
   public void sendMessage() {
     // falls leer --> nix
     if (textArea.getText().equals("")) {
@@ -159,7 +159,7 @@ public class GameResultsController {
     textArea.clear();
   }
 
-  /** Creates a Box/Label when player gets a message. Necessary to fill the ChatField */
+  /** Creates a Box/Label when player gets a message. Necessary to fill the ChatField. */
   public void getMessage(String username, String text) {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -188,7 +188,7 @@ public class GameResultsController {
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
-  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField */
+  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField. */
   public void createSystemMessage(String message) {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -214,6 +214,11 @@ public class GameResultsController {
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
+  /**
+   * Method to open the exit Screen in a new window.
+   *
+   * @throws IOException fxml path not found.
+   */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
@@ -232,6 +237,12 @@ public class GameResultsController {
     window.showAndWait();
   }
 
+  /**
+   * Method to get back to the playerLobby Screen.
+   *
+   * @param mouseEvent to detect the current Stage.
+   * @throws IOException fxml file not found.
+   */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     client.getNetClient().disconnect();
     FXMLLoader loader = new FXMLLoader();
@@ -248,26 +259,12 @@ public class GameResultsController {
     window.show();
   }
 
-  public void openChat() throws IOException {
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
-    Parent gameChat = loader.load();
-    Scene gameChatScene = new Scene(gameChat);
-    Stage window = new Stage();
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("");
-    window.setScene(gameChatScene);
-    window.setWidth(300);
-    window.setHeight(500);
-    window.show();
-    Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-    double x = bounds.getMinX() + (bounds.getWidth() - window.getWidth()) * 0.78;
-    double y = bounds.getMinY() + (bounds.getHeight() - window.getHeight()) * 0.45;
-    window.setX(x);
-    window.setY(y);
-    window.show();
-  }
-
+  /**
+   * Open statistics of a player.
+   *
+   * @param profile player profile.
+   * @throws IOException fxml file not found.
+   */
   public void openStatistics(PlayerProfile profile) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
@@ -292,24 +289,44 @@ public class GameResultsController {
     window.show();
   }
 
+  /**
+   * Open statistics of a player.
+   *
+   * @throws IOException fxml file not found.
+   */
   public void playerOne() throws IOException {
     openStatistics(profiles[0]);
   }
 
+  /**
+   * Open statistics of a player.
+   *
+   * @throws IOException fxml file not found.
+   */
   public void playerTwo() throws IOException {
-    if(profiles.length > 1) {
+    if (profiles.length > 1) {
       openStatistics(profiles[1]);
     }
   }
 
+  /**
+   * Open statistics of a player.
+   *
+   * @throws IOException fxml file not found.
+   */
   public void playerThree() throws IOException {
     if (profiles.length > 2) {
       openStatistics(profiles[2]);
     }
   }
 
+  /**
+   * Open statistics of a player.
+   *
+   * @throws IOException fxml file not found.
+   */
   public void playerFour() throws IOException {
-    if(profiles.length > 3){
+    if (profiles.length > 3) {
       openStatistics(profiles[3]);
     }
   }

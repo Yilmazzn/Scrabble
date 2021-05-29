@@ -7,12 +7,16 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-/** @author mnetzer Controller for the exitGameView */
+/**
+ * Controller for the exitGameView.
+ *
+ * @author mnetzer
+ */
 public class ExitGameController {
   private Client client;
 
   /**
-   * Sets client instance in ExitGameController
+   * Sets client instance in ExitGameController.
    *
    * @param client Requires client to be set
    */
@@ -20,20 +24,19 @@ public class ExitGameController {
     this.client = client;
   }
 
-  /** Closes all windows and ends the game */
+  /** Closes all windows and ends the game. */
   public void exitGame(MouseEvent mouseEvent) {
     Sound.playMusic(Sound.tileSet);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-    System.out.println("You've successfully logged out!");
     window.close();
-    if(client.getNetClient() != null && client.getNetClient().isHost()){
-    client.getNetClient().disconnect();
+    if (client.getNetClient() != null && client.getNetClient().isHost()) {
+      client.getNetClient().disconnect();
     }
     Platform.exit();
     System.exit(0);
   }
 
-  /** Application will be continued only the exit window is closed */
+  /** Application will be continued only the exit window is closed. */
   public void cancelExit(MouseEvent mouseEvent) {
     Sound.playMusic(Sound.tileSet);
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();

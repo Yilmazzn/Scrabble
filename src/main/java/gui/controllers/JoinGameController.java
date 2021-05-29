@@ -2,6 +2,7 @@ package gui.controllers;
 
 import client.Client;
 import ft.Sound;
+import java.io.IOException;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +19,6 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 public class JoinGameController {
   /** @author vihofman for functionality */

@@ -7,6 +7,9 @@ import game.components.BoardField;
 import game.components.Tile;
 import game.players.LocalPlayer;
 import gui.components.Rack;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,11 +19,32 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
-import javafx.scene.layout.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,11 +55,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-/** @author mnetzer Controller for the GameView */
+/**
+ * Controller for the GameView.
+ *
+ * @author mnetzer
+ */
 public class GameViewController implements Initializable {
 
   @FXML private GridPane board;
@@ -86,7 +110,7 @@ public class GameViewController implements Initializable {
   }
 
   /**
-   * Sets client instance in GameViewController, builds graphics of board, rack, chat and time
+   * Sets client instance in GameViewController, builds graphics of board, rack, chat and time.
    *
    * @param client Requires client to be set
    */
@@ -101,14 +125,14 @@ public class GameViewController implements Initializable {
     showAgreements(!client.getNetClient().isHost()); // show agreements if not host
   }
 
-  /** Getter method to get the client */
+  /** Getter method to get the client. */
   public Client getClient() {
     return client;
   }
 
   /**
-   * Update the graphics of the board with instances of PlayerProfiles/Board. Called after each move
-   * AnchorPane as graphical container for the tiles are created
+   * Update the graphics of the board with instances of PlayerProfiles/Board. Called after each
+   * move. AnchorPane as graphical container for the tiles are created.
    */
   public void updateBoard() {
     board.getChildren().removeAll();
@@ -120,7 +144,7 @@ public class GameViewController implements Initializable {
     }
   }
 
-  /** Updates Scoreboard, called from NetClient if changes are made */
+  /** Updates Scoreboard, called from NetClient if changes are made. */
   public void updateScoreboard(PlayerProfile[] profiles, int[] scores) {
     Label[] playerLabels = {player1, player2, player3, player4};
     Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
@@ -143,7 +167,7 @@ public class GameViewController implements Initializable {
     submitButton.setText("Pass");
   }
 
-  /** Updates Rack, called after each move the LocalPlayer makes */
+  /** Updates Rack, called after each move the LocalPlayer makes. */
   public void updateRack() {
     tiles.getChildren().clear();
     for (int i = 0; i < Rack.RACK_SIZE; i++) {
@@ -157,26 +181,25 @@ public class GameViewController implements Initializable {
     }
   }
 
-  /** Creates a listener for the TextArea so Enter can be pressed */
+  /** Creates a listener for the TextArea so Enter can be pressed. */
   public void updateChat() {
     textArea.setOnKeyPressed(
-            keyEvent -> {
-              if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-                textArea.deletePreviousChar();
-                sendMessage();
-                keyEvent.consume();
-              }
-            });
+        keyEvent -> {
+          if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            textArea.deletePreviousChar();
+            sendMessage();
+            keyEvent.consume();
+          }
+        });
   }
 
-  /** Copy existing chat messages from CreateGameView to the GameView*/
+  /** Copy existing chat messages from CreateGameView to the GameView. */
   public void loadChatFromHost(VBox messages) {
     chat.getChildren().add(messages);
   }
 
-  /** Update Remaining Time for the current move */
+  /** Update Remaining Time for the current move. */
   public void updateTime(long milliseconds) {
-    // TODO get time from Server
     String minutes = String.format("%02d", milliseconds / 1000 / 60);
     String seconds = String.format("%02d", (milliseconds / 1000) % 60);
     time.setText(minutes + ":" + seconds);
@@ -185,17 +208,18 @@ public class GameViewController implements Initializable {
     }
   }
 
-  /** Shows and hides the agreement pane */
+  /** Shows and hides the agreement pane. */
   public void showAgreements(boolean show) {
     agreements.setVisible(show);
   }
 
+  /** Shows the Finish game button. */
   public void showEndButton() {
     finishGame.setVisible(true);
   }
 
   /**
-   * Sets bag size
+   * Sets bag size.
    *
    * @param bagSize Requires size bag should have
    */
@@ -206,7 +230,11 @@ public class GameViewController implements Initializable {
     tip.setFont(Font.font("Chalkboard"));
   }
 
-  /** @author vihofman for statistics */
+  /**
+   * Open Statistics.
+   *
+   * @author vihofman
+   */
   public void openStatistics(PlayerProfile profile) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
@@ -256,9 +284,10 @@ public class GameViewController implements Initializable {
   }
 
   /**
-   * Returns to player Lobby and disconnects client
+   * Returns to player Lobby and disconnects client.
    *
    * @param mouseEvent Requires MouseEvent generated on Click
+   * @throws IOException fxml file could notbe loaded
    */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     Sound.playMusic(Sound.tileSet);
@@ -270,8 +299,9 @@ public class GameViewController implements Initializable {
             ButtonType.CANCEL);
     alert.setHeaderText(null);
     DialogPane dialogPane = alert.getDialogPane();
-    dialogPane.getStylesheets().add(
-            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane
+        .getStylesheets()
+        .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
     dialogPane.getStyleClass().add("dialog");
     alert.showAndWait();
 
@@ -292,7 +322,7 @@ public class GameViewController implements Initializable {
     window.show();
   }
 
-  /** Finishes the game and redirects the players to the ResultView */
+  /** Finishes the game and redirects the players to the ResultView. */
   public void finishGame() {
 
     Alert alert =
@@ -303,8 +333,9 @@ public class GameViewController implements Initializable {
             ButtonType.CANCEL);
     alert.setHeaderText(null);
     DialogPane dialogPane = alert.getDialogPane();
-    dialogPane.getStylesheets().add(
-            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane
+        .getStylesheets()
+        .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
     dialogPane.getStyleClass().add("dialog");
     alert.showAndWait();
 
@@ -315,7 +346,11 @@ public class GameViewController implements Initializable {
     client.getNetClient().sendEndMessage(1);
   }
 
-  /** Redirects to the ResultView */
+  /**
+   * Redirects to the ResultView.
+   *
+   * @throws IOException fxml file not found
+   */
   public void changeToResultView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.finishSound);
@@ -331,27 +366,26 @@ public class GameViewController implements Initializable {
     window.show();
   }
 
-  /** Exchange selected tiles*/
+  /** Exchange selected tiles. */
   public void tiles() {
-    System.out.println("tiles");
     player.exchange();
   }
 
-  /** Shuffles the tiles on the rack */
+  /** Shuffles the tiles on the rack. */
   public void shuffle() {
     Sound.playMusic(Sound.tileSet);
     player.getRack().shuffleRack();
     updateRack();
   }
 
-  /** Submit moved tiles*/
+  /** Submit moved tiles. */
   @FXML
   public void submit() {
     Sound.playMusic(Sound.tileSet);
     player.submit();
   }
 
-  /** Creates a Box/Label when player sends a message. Necessary to fill the ChatField */
+  /** Creates a Box/Label when player sends a message. Necessary to fill the ChatField. */
   public void sendMessage() {
     // falls leer --> nix
     if (textArea.getText().equals("")) {
@@ -388,7 +422,7 @@ public class GameViewController implements Initializable {
     textArea.clear();
   }
 
-  /** Creates a Box/Label when player gets a message. Necessary to fill the ChatField */
+  /** Creates a Box/Label when player gets a message. Necessary to fill the ChatField. */
   public void getMessage(String username, String text) {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -417,7 +451,7 @@ public class GameViewController implements Initializable {
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
-  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField */
+  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField. */
   public void createSystemMessage(String message) {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -445,7 +479,7 @@ public class GameViewController implements Initializable {
 
   /**
    * Method to create the Containers for the tiles on the Rack includes graphical components and
-   * adds the Drag and Drop feature
+   * adds the Drag and Drop feature.
    *
    * @param letter,value,position Used letter with value and position
    * @return AnchorPane
@@ -490,33 +524,32 @@ public class GameViewController implements Initializable {
     pane.getChildren().add(points);
 
     pane.setOnDragDetected(
-            mouseEvent -> {
-              String exchange = label.getText() + points.getText();
-              Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
-              draggedTileIndex = position;
-              ClipboardContent content = new ClipboardContent();
-              content.putString(exchange);
-              db.setContent(content);
-              mouseEvent.consume();
-            });
+        mouseEvent -> {
+          String exchange = label.getText() + points.getText();
+          Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
+          draggedTileIndex = position;
+          ClipboardContent content = new ClipboardContent();
+          content.putString(exchange);
+          db.setContent(content);
+          mouseEvent.consume();
+        });
 
     pane.setOnDragDone(
-            event -> {
-              /* the drag-and-drop gesture ended */
-              if (event.isDropCompleted()) {
-                draggedTileIndex = -1;
-              }
+        event -> {
+          /* the drag-and-drop gesture ended */
+          if (event.isDropCompleted()) {
+            draggedTileIndex = -1;
+          }
 
-              event.consume();
-            });
+          event.consume();
+        });
 
     pane.setOnMouseClicked(
-            event -> {
-              player.selectTile(position);
-              updateBottomTile(letter, value, position);
-              event.consume();
-              System.out.println("here in mouseclick");
-            });
+        event -> {
+          player.selectTile(position);
+          updateBottomTile(letter, value, position);
+          event.consume();
+        });
 
     pane.setStyle("-fx-cursor: hand");
 
@@ -525,7 +558,7 @@ public class GameViewController implements Initializable {
 
   /**
    * Method to create the Containers for the tiles on the Board includes graphical components and
-   * adds the Drag and Drop feature
+   * adds the Drag and Drop feature.
    *
    * @param boardField with the information about the tile
    * @return AnchorPane
@@ -598,62 +631,62 @@ public class GameViewController implements Initializable {
     pane.getChildren().add(points);
 
     pane.setOnDragOver(
-            event -> {
-              /* accept it only if it is  not dragged from the same node
-               * and if it has a string data */
-              if (event.getGestureSource() != pane && event.getDragboard().hasString()) {
-                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-              }
+        event -> {
+          /* accept it only if it is  not dragged from the same node
+           * and if it has a string data */
+          if (event.getGestureSource() != pane && event.getDragboard().hasString()) {
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+          }
 
-              event.consume();
-            });
+          event.consume();
+        });
 
     pane.setOnDragDropped(
-            event -> {
-              Dragboard db = event.getDragboard();
-              boolean success = false;
-              if (db.hasString()) {
-                updateTile(
-                    db.getString().charAt(0),
-                    Integer.parseInt(db.getString().substring(1)),
-                    boardField.getRow(),
-                    boardField.getColumn());
-                success = true;
-              }
-              /* let the source know whether the string was successfully
-               * transferred and used */
-              event.setDropCompleted(success);
+        event -> {
+          Dragboard db = event.getDragboard();
+          boolean success = false;
+          if (db.hasString()) {
+            updateTile(
+                db.getString().charAt(0),
+                Integer.parseInt(db.getString().substring(1)),
+                boardField.getRow(),
+                boardField.getColumn());
+            success = true;
+          }
+          /* let the source know whether the string was successfully
+           * transferred and used */
+          event.setDropCompleted(success);
 
-              event.consume();
-            });
+          event.consume();
+        });
 
     pane.setOnMouseClicked(
-            event -> {
-              if (!boardField.isEmpty()) {
-                player.removePlacement(boardField.getRow(), boardField.getColumn());
-                updateBoard();
-                updateRack();
-              }
-            });
+        event -> {
+          if (!boardField.isEmpty()) {
+            player.removePlacement(boardField.getRow(), boardField.getColumn());
+            updateBoard();
+            updateRack();
+          }
+        });
 
     // Color border yellow when entered
     pane.setOnDragEntered(
-        event -> pane.setBorder(
-            new Border(
-                new BorderStroke(
-                    Color.YELLOW,
-                    BorderStrokeStyle.SOLID,
-                    CornerRadii.EMPTY,
-                    BorderWidths.DEFAULT))));
+        event ->
+            pane.setBorder(
+                new Border(
+                    new BorderStroke(
+                        Color.YELLOW,
+                        BorderStrokeStyle.SOLID,
+                        CornerRadii.EMPTY,
+                        BorderWidths.DEFAULT))));
 
     // Remove border
-    pane.setOnDragExited(
-        event -> pane.setBorder(null));
+    pane.setOnDragExited(event -> pane.setBorder(null));
 
     return pane;
   }
 
-  /** Method to update the graphical container of a Tile on the board */
+  /** Method to update the graphical container of a Tile on the board. */
   public void updateTile(char letter, int points, int row, int col) {
     if (!player.getBoard().isEmpty(row, col)) {
 
@@ -666,15 +699,14 @@ public class GameViewController implements Initializable {
     updateRack();
   }
 
-  /** Method to update the graphical container of a Tile on the rack */
+  /** Method to update the graphical container of a Tile on the rack. */
   public void updateBottomTile(char letter, int points, int col) {
     AnchorPane pane = createBottomTile(letter, points, col);
     tiles.add(pane, col, 0);
   }
 
-  /** Method to update the graphical containers of he board after a move */
+  /** Method to update the graphical containers of he board after a move. */
   public void placeTile(Tile tile, int row, int col) {
-    System.out.println("Place Tile | GameViewController | " + row + ", " + col);
     player.getBoard().placeTile(tile, row, col);
     updateBoard();
     if (player.isTurn()) {
@@ -688,36 +720,40 @@ public class GameViewController implements Initializable {
     }
   }
 
-  /** Shows a Popup with a given message*/
+  /**
+   * Shows a Popup with a given message.
+   *
+   * @param message content of Popup
+   */
   public void showPopup(String message) {
     client.showPopUp(message);
   }
 
-  /** Requests tile distribution from server */
+  /** Requests tile distribution from server. */
   @FXML
   public void showTileDistribution() {
     client.getNetClient().requestDistributions();
   }
 
-  /** Requests tile distribution from server */
+  /** Requests tile distribution from server. */
   @FXML
   public void showTileValues() {
     client.getNetClient().requestValues();
   }
 
-  /** Requests tile distribution from server */
+  /** Requests tile distribution from server. */
   @FXML
   public void showDictionary() {
     client.getNetClient().requestDictionary();
   }
 
-  /** Triggered when checkBox 'I am ready' is selected/unselected */
+  /** Triggered when checkBox 'I am ready' is selected/unselected. */
   @FXML
   public void toggleReadyState() {
     client.getNetClient().setPlayerReady(ready.isSelected());
   }
 
-  /** Triggered by incoming TURNMESSAGE Makes turn labels (green circle) visible/invisible */
+  /** Triggered by incoming TURNMESSAGE Makes turn labels (green circle) visible/invisible. */
   @FXML
   public void updateTurns(boolean[] turns) {
     Label[] turnLabels = {turn1, turn2, turn3, turn4};

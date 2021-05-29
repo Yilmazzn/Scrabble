@@ -3,6 +3,11 @@ package gui.controllers;
 import client.Client;
 import client.PlayerProfile;
 import ft.Sound;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,18 +17,15 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
-/** @author mnetzer Controller for the playerProfileView */
+/**
+ * Controller for the playerProfileView.
+ *
+ * @author mnetzer
+ */
 public class PlayerProfileController {
 
   @FXML private Label playerNo;
@@ -35,14 +37,13 @@ public class PlayerProfileController {
   @FXML private Label playerLosses;
   @FXML private Label playerScrabblerSince;
   @FXML private ImageView profileImage;
-  @FXML private Button changeImageButton;
 
   private Client client;
   private List<PlayerProfile> profiles;
   private int selectedIdx = 0;
 
   /**
-   * Sets client in JoinGameController
+   * Sets client in JoinGameController.
    *
    * @param client Requires client to be set
    */
@@ -55,7 +56,7 @@ public class PlayerProfileController {
     }
   }
 
-  /** Update statistics according to the last selected player in the list */
+  /** Update statistics according to the last selected player in the list. */
   public void showPlayer() {
     playerNo.setText(String.valueOf(selectedIdx + 1));
     playerName.setText(profiles.get(selectedIdx).getName());
@@ -73,10 +74,10 @@ public class PlayerProfileController {
   }
 
   /**
-   * Method to get back to the playerLobby Screen
+   * Method to get back to the playerLobby Screen.
    *
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void backToLogin(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -92,7 +93,7 @@ public class PlayerProfileController {
     window.show();
   }
 
-  /** Shows prompt to edit the name of the currently selected profile */
+  /** Shows prompt to edit the name of the currently selected profile. */
   public void editProfile() {
     TextInputDialog td = new TextInputDialog();
     Sound.playMusic(Sound.tileSet);
@@ -100,8 +101,9 @@ public class PlayerProfileController {
     td.setHeaderText("Enter new name of profile");
     td.setContentText("Name: ");
     DialogPane dialogPane = td.getDialogPane();
-    dialogPane.getStylesheets().add(
-            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane
+        .getStylesheets()
+        .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
     dialogPane.getStyleClass().add("dialog");
     Optional<String> result = td.showAndWait();
     result.ifPresent(
@@ -113,9 +115,9 @@ public class PlayerProfileController {
   }
 
   /**
-   * Method to open the exit Screen in a new window
+   * Method to open the exit Screen in a new window.
    *
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -135,7 +137,7 @@ public class PlayerProfileController {
     window.showAndWait();
   }
 
-  /** Shows the previous playerProfile in the list. Jumps from the beginning to the end */
+  /** Shows the previous playerProfile in the list. Jumps from the beginning to the end. */
   public void previousPlayer() {
     Sound.playMusic(Sound.tileSet);
     selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
@@ -144,7 +146,7 @@ public class PlayerProfileController {
     // TODO Fehler bei der Auswahl: springt nicht zum Ende
   }
 
-  /** Shows the next playerProfile in the list. Jumps from the end to the beginning */
+  /** Shows the next playerProfile in the list. Jumps from the end to the beginning. */
   public void nextPlayer() {
     Sound.playMusic(Sound.tileSet);
     selectedIdx = (selectedIdx + 1) % profiles.size();
@@ -152,16 +154,16 @@ public class PlayerProfileController {
     showPlayer();
   }
 
-  /** Shows prompt for the name of the new profile and creates the profile */
+  /** Shows prompt for the name of the new profile and creates the profile. */
   public void createNewProfile() {
-    System.out.println("CreateNewProfile");
     TextInputDialog td = new TextInputDialog();
     td.setTitle("Create New Profile");
     td.setHeaderText("Enter name of new profile");
     td.setContentText("Name: ");
     DialogPane dialogPane = td.getDialogPane();
-    dialogPane.getStylesheets().add(
-            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane
+        .getStylesheets()
+        .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
     dialogPane.getStyleClass().add("dialog");
     Optional<String> result = td.showAndWait();
     result.ifPresent(
@@ -175,7 +177,7 @@ public class PlayerProfileController {
         });
   }
 
-  /** Deletes the selected profile. Last one cannot be deleted */
+  /** Deletes the selected profile. Last one cannot be deleted. */
   public void deleteProfile() {
     Sound.playMusic(Sound.tileSet);
     if (profiles.size() <= 1) {
@@ -184,8 +186,9 @@ public class PlayerProfileController {
       alert.setHeaderText(null);
       alert.setContentText("You cannot delete your last profile!");
       DialogPane dialogPane = alert.getDialogPane();
-      dialogPane.getStylesheets().add(
-              getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+      dialogPane
+          .getStylesheets()
+          .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
       dialogPane.getStyleClass().add("dialog");
       alert.showAndWait();
     } else {
@@ -197,6 +200,7 @@ public class PlayerProfileController {
     }
   }
 
+  /** Choose file to change the profile image. */
   @FXML
   public void changeImage() {
     FileChooser chooser = new FileChooser();
@@ -209,7 +213,6 @@ public class PlayerProfileController {
     chooser.setInitialDirectory(file);
 
     File chosenFile = chooser.showOpenDialog(null);
-    String path;
     if (chosenFile != null) {
       profiles.get(selectedIdx).setImage(new Image(chosenFile.toURI().toString()));
     }

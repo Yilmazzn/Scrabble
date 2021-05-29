@@ -2,6 +2,7 @@ package gui.controllers;
 
 import client.Client;
 import ft.Sound;
+import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -10,15 +11,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-/** @author mnetzer Controller for the playerScrabbleView */
+/**
+ * Controller for the playerScrabbleView.
+ *
+ * @author mnetzer
+ */
 public class PlayScrabbleController {
 
   private Client client;
 
   /**
-   * Sets client in JoinGameController
+   * Sets client in JoinGameController.
    *
    * @param client Requires client to be set
    */
@@ -27,10 +30,10 @@ public class PlayScrabbleController {
   }
 
   /**
-   * Method to get back to the playerLobby Screen
+   * Method to get back to the playerLobby Screen.
    *
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -47,14 +50,14 @@ public class PlayScrabbleController {
   }
 
   /**
-   * Method to start playing the Tutorial
+   * Method to start playing the Tutorial.
    *
    * @param mouseEvent to detect the current stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void playTutorial(MouseEvent mouseEvent) throws IOException {
-    Sound.playMusic(Sound.tileSet);
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/tutorial.fxml"));
     Parent tutorial = loader.load();
     TutorialController controller = loader.getController();
@@ -67,13 +70,12 @@ public class PlayScrabbleController {
   }
 
   /**
-   * Method to get to the CreateGame Screen
+   * Method to get to the CreateGame Screen.
    *
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void createGame(MouseEvent mouseEvent) throws IOException {
-    System.out.println("createGame");
     Sound.playMusic(Sound.tileSet);
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/createGame.fxml"));
@@ -87,13 +89,12 @@ public class PlayScrabbleController {
   }
 
   /**
-   * Method to get to the joinGame Screen
+   * Method to get to the joinGame Screen.
    *
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void joinGame(MouseEvent mouseEvent) throws IOException {
-    System.out.println("JoinGame");
     Sound.playMusic(Sound.tileSet);
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/joinGameView.fxml"));
@@ -108,9 +109,9 @@ public class PlayScrabbleController {
   }
 
   /**
-   * Method to open the exit Screen in a new window
+   * Method to open the exit Screen in a new window.
    *
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();

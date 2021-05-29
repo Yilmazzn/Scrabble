@@ -2,6 +2,7 @@ package gui.controllers;
 
 import client.Client;
 import ft.Sound;
+import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -10,47 +11,28 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-/** @author mnetzer Controller for the WelcomeView */
+/**
+ * Controller for the WelcomeView.
+ *
+ * @author mnetzer
+ */
 public class WelcomeViewController {
 
   private Client client;
 
   /**
-   * Sets client in JoinGameController
+   * Sets client in JoinGameController.
    *
    * @param client Requires client to be set
    */
-  public void setModel(Client client){
+  public void setModel(Client client) {
     this.client = client;
   }
 
   /**
-   * Start GameView without server
-   * //TODO Help View or delete
+   * Method to open the exit Screen in a new window.
    *
-   * @param mouseEvent to detect the current Stage
-   * @throws IOException
-   */
-  public void help(MouseEvent mouseEvent) throws IOException {
-    FXMLLoader loader = new FXMLLoader();
-    Sound.playMusic(Sound.tileSet);
-    loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
-    Parent root = loader.load();
-    // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
-    GameViewController controller = loader.getController();
-    controller.setModel(client);
-    Scene gameView = new Scene(root);
-    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-    window.setScene(gameView);
-    window.show();
-  }
-
-  /**
-   * Method to open the exit Screen in a new window
-   *
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -71,10 +53,10 @@ public class WelcomeViewController {
   }
 
   /**
-   * Method to get to the playerLobby Screen
+   * Method to get to the playerLobby Screen.
    *
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void continueToLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();

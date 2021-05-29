@@ -4,29 +4,33 @@ import client.Client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
+/**
+ * Controller for the Dictionary View.
+ *
+ * @author mnetzer
+ */
 public class DictionaryController {
 
   @FXML private ScrollPane scrollPane;
   @FXML private VBox vbox;
   @FXML Label page;
-  // @FXML private TextArea textArea;
   private Client client;
-  private String [] dictionaryText;
-  private int currentPage = 1, pages;
+  private String[] dictionaryText;
+  private int currentPage = 1;
+  private int pages;
   private int start = 0;
   private int end = 2000;
 
+  /** Initialize view with client. */
   public void setModel(Client client) {
     this.client = client;
     page.setText("1/1");
     vbox.heightProperty().addListener(observer -> scrollPane.setVvalue(0.0));
   }
 
+  /** Show first page of the dictionary. */
   public void showDictionary(String text) {
     dictionaryText = text.split("\n");
     pages = dictionaryText.length / 2000 + 1;
@@ -42,6 +46,7 @@ public class DictionaryController {
     page.setText(currentPage + "/" + pages);
   }
 
+  /** Show previous page of the dictionary. */
   public void previousPage() {
     currentPage--;
     start -= 2000;
@@ -64,6 +69,7 @@ public class DictionaryController {
     page.setText(currentPage + "/" + pages);
   }
 
+  /** Show next page of the dictionary */
   public void nextPage() {
     currentPage++;
     start += 2000;
@@ -75,7 +81,6 @@ public class DictionaryController {
     }
     vbox.getChildren().clear();
     vbox.getChildren().removeAll();
-
 
     for (int i = start; i < Math.min(end, dictionaryText.length); i++) {
       Label label = new Label(dictionaryText[i]);

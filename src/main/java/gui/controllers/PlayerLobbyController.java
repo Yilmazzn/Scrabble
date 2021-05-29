@@ -2,6 +2,7 @@ package gui.controllers;
 
 import client.Client;
 import ft.Sound;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,9 +14,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-/** @author mnetzer Controller for the playerLobbyView */
+/**
+ * Controller for the playerLobbyView.
+ *
+ * @author mnetzer
+ */
 public class PlayerLobbyController {
 
   @FXML private Label username;
@@ -24,7 +27,7 @@ public class PlayerLobbyController {
   private Client client;
 
   /**
-   * Sets client in JoinGameController
+   * Sets client in JoinGameController.
    *
    * @param client Requires client to be set
    */
@@ -39,10 +42,10 @@ public class PlayerLobbyController {
   }
 
   /**
-   * Method to get back to the PlayScrabble Screen
+   * Method to get back to the PlayScrabble Screen.
    *
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void playScrabble(MouseEvent mouseEvent) throws IOException {
     Sound.playMusic(Sound.tileSet);
@@ -60,10 +63,10 @@ public class PlayerLobbyController {
   }
 
   /**
-   * Method to get to the Settings Screen
+   * Method to get to the Settings Screen.
    *
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void settings(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -80,10 +83,10 @@ public class PlayerLobbyController {
   }
 
   /**
-   * Method to get back to the WelcomeView Screen
+   * Method to get back to the WelcomeView Screen.
    *
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void backToLogin(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -100,9 +103,9 @@ public class PlayerLobbyController {
   }
 
   /**
-   * Method to open the exit Screen in a new window
+   * Method to open the exit Screen in a new window.
    *
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -123,10 +126,10 @@ public class PlayerLobbyController {
   }
 
   /**
-   * Method to get to the playerProfile Screen
+   * Method to get to the playerProfile Screen.
    *
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException fxml file not found
    */
   public void changeToProfileView(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();

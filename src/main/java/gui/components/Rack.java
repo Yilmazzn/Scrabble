@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
- * Rack of a player holds the RackTiles/ Tiles, that the player can place
+ * Rack of a player holds the RackTiles/ Tiles, that the player can place.
  *
  * @author mnetzer
  */
@@ -14,7 +14,7 @@ public class Rack implements Serializable {
   public static final int RACK_SIZE = 7; // width of the rack
   private final RackField[] fields; // array to represent the rack fields
 
-  /** Initializes an empty board */
+  /** Initializes an empty board. */
   public Rack() {
     fields = new RackField[RACK_SIZE];
 
@@ -29,7 +29,7 @@ public class Rack implements Serializable {
   }
 
   /**
-   * Set given tile at given column
+   * Set given tile at given column.
    *
    * @param tile Tile to place
    * @param col Column number of rack (starting from 0)
@@ -39,7 +39,7 @@ public class Rack implements Serializable {
   }
 
   /**
-   * Returns true if field is empty
+   * Returns true if field is empty.
    *
    * @param col Column number of field on rack (starting from 0)
    * @return true, if field at given col on rack is empty
@@ -48,7 +48,7 @@ public class Rack implements Serializable {
     return fields[col].isEmpty();
   }
 
-  /** Checks is a field on the rack is empty */
+  /** Checks is a field on the rack is empty. */
   public boolean isEmpty() {
     boolean result = true;
     for (RackField rf : fields) {
@@ -58,7 +58,7 @@ public class Rack implements Serializable {
   }
 
   /**
-   * Returns the tile at given column
+   * Returns the tile at given column.
    *
    * @param col Column number of field on rack (starting from 0)
    * @return tile at given column on rack
@@ -68,7 +68,7 @@ public class Rack implements Serializable {
   }
 
   /**
-   * Returns the BoardField at given column counting from 0
+   * Returns the BoardField at given column counting from 0.
    *
    * @param col Column number of field on rack (starting from 0)
    * @return field at given column on rack
@@ -77,7 +77,7 @@ public class Rack implements Serializable {
     return fields[col];
   }
 
-  /** Shuffles the tiles on the rack */
+  /** Shuffles the tiles on the rack. */
   public void shuffleRack() {
     for (RackField field : fields) {
       field.setSelected(false);
@@ -95,7 +95,7 @@ public class Rack implements Serializable {
   }
 
   /**
-   * Returns if a tile on the rack is selected for an exchange
+   * Returns if a tile on the rack is selected for an exchange.
    *
    * @param col identifies the tile
    * @return boolean if tile is selected
@@ -105,7 +105,7 @@ public class Rack implements Serializable {
   }
 
   /**
-   * Add a tile to the next free spot on the rack
+   * Add a tile to the next free spot on the rack.
    *
    * @param tile tile that should be added
    */
@@ -119,7 +119,7 @@ public class Rack implements Serializable {
   }
 
   /**
-   * Removes a tile of the rack
+   * Removes a tile of the rack.
    *
    * @param position identifies the tile position
    */
