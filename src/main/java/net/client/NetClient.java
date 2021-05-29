@@ -2,19 +2,14 @@ package net.client;
 
 import client.Client;
 import client.PlayerProfile;
-import ft.Sound;
 import game.Dictionary;
-import game.components.Board;
 import game.components.Tile;
-import gui.controllers.*;
+import gui.controllers.CreateGameController;
+import gui.controllers.GameResultsController;
+import gui.controllers.GameViewController;
+import gui.controllers.JoinGameController;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import net.message.*;
 import net.server.Server;
 
 import java.io.IOException;
@@ -26,12 +21,9 @@ import java.io.IOException;
  */
 public class NetClient {
   private final Client client;
-  private final int turnIdx = 0; // player whose turn it is
   private ClientProtocol connection;
   private String ipAdr;
   private Dictionary dictionary;
-  private PlayerProfile profile;
-  private boolean isAIActive;
   private Server server;
   private CreateGameController createGameController; // controls GUI
   private GameViewController gameViewController; // controls GUI Game
@@ -75,8 +67,6 @@ public class NetClient {
     } catch (IOException ioe) {
       client.showPopUp("Could not establish connection to a server on " + this.ipAdr);
     }
-    System.out.println(
-        "Netclient " + this.getPlayerProfile().getName() + " is connected |NetClient");
   }
 
   /** @return Returns ClientProtocol connected to NetClient */
@@ -126,7 +116,8 @@ public class NetClient {
    * @param dictionary requires dictionary path
    */
   public void sendGameSettings(int[] tileScores, int[] tileDistributions, String dictionary) {
-    connection.sendGameSettings(tileScores, tileDistributions, dictionary);
+    connection.sendMessage(
+        new UpdateGameSettingsMessage(tileScores, tileDistributions, dictionary));
   }
 
   /**
@@ -135,7 +126,7 @@ public class NetClient {
    * @param ready Requires ready value to be sent
    */
   public void setPlayerReady(boolean ready) {
-    connection.setPlayerReady(ready);
+    connection.sendMessage(new PlayerReadyMessage(ready));
   }
 
   /**
@@ -144,7 +135,7 @@ public class NetClient {
    * @author ygarip
    */
   public void startGame() {
-    this.connection.startGame();
+    connection.sendMessage(new StartGameMessage());
   }
 
   /**
@@ -152,29 +143,12 @@ public class NetClient {
    * @param chatMessage Requires chatMessage to be sent to other players
    */
   public void sendChatMessage(String chatMessage) {
-    this.connection.sendChatMessage(chatMessage);
-  }
-
-  /**
-   * @param board represents the game board
-   * @author vkaczmar call method, when a new tile is placed
-   */
-  public void updateGameBoard(Board board) {
-    this.connection.updateGameBoard(board);
+    connection.sendMessage(new ChatMessage(chatMessage, client.getSelectedProfile().getName()));
   }
 
   /** @author ygarip checks if move is valid */
   public void submitMove() {
-    this.connection.submitMove();
-  }
-
-  /**
-   * @param currentState requires the current state of the board
-   * @param previousState requires the state from teh beginning of the turn
-   * @author vkaczmar a method to update the points of the players
-   */
-  public void updatePoints(Board currentState, Board previousState) {
-    this.connection.updatePoints(currentState, previousState);
+    connection.sendMessage(new SubmitMoveMessage());
   }
 
   /**
@@ -191,20 +165,6 @@ public class NetClient {
    */
   public void setDictionary(Dictionary dictionary) {
     this.dictionary = dictionary;
-  }
-
-  /**
-   * @param word requires the word to be tested
-   * @return returns true if word exists otherwise false
-   * @author vkaczmar a method to look up a word in dictionary and send back if it exists or not
-   */
-  public boolean wordExists(String word) {
-    return dictionary.wordExists(word);
-  }
-
-  /** @author ygarip a method to send the playerdata to the server */
-  public void sendPlayerData(int id) {
-    connection.sendPlayerData(id);
   }
 
   /**
@@ -226,15 +186,7 @@ public class NetClient {
    * @author vkaczmar a method to request the bag amount
    */
   public void exchangeTiles(Tile[] oldTiles) {
-    connection.exchangeTiles(oldTiles);
-  }
-
-  /**
-   * @return returns the boolean value of isAIActive
-   * @author vkaczmar
-   */
-  public boolean getAIActive() {
-    return isAIActive;
+    connection.sendMessage(new ExchangeTileMessage(oldTiles));
   }
 
   /**
@@ -306,26 +258,7 @@ public class NetClient {
             client.showPopUp(content);
           }
           if (dictionaryContent != null) {
-            FXMLLoader loader = new FXMLLoader();
-            Sound.playMusic(Sound.tileSet);
-            loader.setLocation(this.getClass().getResource("/views/dictionary.fxml"));
-            Parent dictionary = null;
-            try {
-              dictionary = loader.load();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-            DictionaryController controller = loader.getController();
-            controller.setModel(client);
-            controller.showDictionary(dictionaryContent);
-
-            Scene dictionaryScene = new Scene(dictionary);
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Dictionary");
-            window.setResizable(false);
-            window.setScene(dictionaryScene);
-            window.showAndWait();
+            client.showPopUpDictionary(dictionaryContent);
           }
         });
   }
@@ -336,7 +269,6 @@ public class NetClient {
    * @param joinController Requires join game Controller to be set
    */
   public void setJoinGameController(JoinGameController joinController) {
-    System.out.println("JoinGameController set");
     this.joinGameController = joinController;
   }
 
@@ -347,13 +279,11 @@ public class NetClient {
    */
   public void setGameViewController(GameViewController gameController) {
     this.gameViewController = gameController;
-    System.out.println("GameViewController used");
   }
 
   /** Load game view */
   public void loadGameView() {
     try {
-      System.out.println("JoinGameController used");
       joinGameController.loadGameView();
     } catch (Exception e) {
       e.printStackTrace();
@@ -391,7 +321,7 @@ public class NetClient {
    * @param difficult Requires difficulty, true = hard, false = easy
    */
   public void addAIPlayer(boolean difficult) {
-    connection.addAIPlayer(difficult);
+    connection.sendMessage(new AddAIMessage(difficult));
   }
 
   /**
@@ -400,26 +330,26 @@ public class NetClient {
    * @param index Requires index, which player you want to kick
    */
   public void kickPlayer(int index) {
-    connection.kickPlayer(index);
+    connection.sendMessage(new KickPlayerMessage(index));
   }
 
   /** Initiates RequestValuesMessage */
   public void requestValues() {
-    connection.requestValues();
+    connection.sendMessage(new RequestValuesMessage());
   }
 
   /** */
   public void requestDistributions() {
-    connection.requestDistributions();
+    connection.sendMessage(new RequestDistributionsMessage());
   }
 
   public void requestDictionary() {
-    connection.requestDictionary();
+    connection.sendMessage(new RequestDictionaryMessage());
   }
 
   /** send Message to */
   public void placeTile(Tile tile, int row, int col) {
-    connection.placeTile(tile, row, col);
+    connection.sendMessage(new PlaceTileMessage(tile, row, col));
   }
 
   /** Place tile on GUI */
@@ -468,7 +398,7 @@ public class NetClient {
    * @param type Requires the EndGameMessage int type
    */
   public void sendEndMessage(int type) {
-    connection.sendEndMessage(type);
+    connection.sendMessage(new EndGameMessage(type));
   }
 
   public void enableEndGameButton() {
