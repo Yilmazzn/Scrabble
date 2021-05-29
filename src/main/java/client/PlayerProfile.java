@@ -10,16 +10,15 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+/**
+ * @author nsiebler This class creates a new Player instance with all the values that are saved in
+ *     the xml file later
+ */
 public class PlayerProfile implements Serializable {
 
-  /**
-   * @author nsiebler This class creates a new Player instance with all the values that are saved in
-   *     the xml file later
-   */
   private String name;
 
-  private int highscore;
+  private int highScore;
   private int wins;
   private int losses;
   private LocalDate creation;
@@ -44,7 +43,7 @@ public class PlayerProfile implements Serializable {
       Image image) {
     super();
     this.name = name;
-    this.highscore = highscore;
+    this.highScore = highscore;
     this.wins = wins;
     this.losses = looses;
     this.totalScore = totalScore;
@@ -57,7 +56,7 @@ public class PlayerProfile implements Serializable {
 
   public PlayerProfile(
       String name,
-      int highscore,
+      int highScore,
       int wins,
       int looses,
       int totalScore,
@@ -65,7 +64,7 @@ public class PlayerProfile implements Serializable {
       LocalDate lastLogged) {
     super();
     this.name = name;
-    this.highscore = highscore;
+    this.highScore = highScore;
     this.wins = wins;
     this.losses = looses;
     this.totalScore = totalScore;
@@ -86,12 +85,12 @@ public class PlayerProfile implements Serializable {
     this.name = name;
   }
 
-  public int getHighscore() {
-    return highscore;
+  public int getHighScore() {
+    return highScore;
   }
 
-  public void setHighscore(int highscore) {
-    this.highscore = highscore;
+  public void setHighScore(int highScore) {
+    this.highScore = highScore;
   }
 
   public int getPlayedGames() {
