@@ -56,8 +56,8 @@ public class PlayScrabbleController {
    * @throws IOException fxml file not found
    */
   public void playTutorial(MouseEvent mouseEvent) throws IOException {
-    FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
+    FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/tutorial.fxml"));
     Parent tutorial = loader.load();
     TutorialController controller = loader.getController();

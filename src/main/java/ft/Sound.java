@@ -51,8 +51,6 @@ public class Sound {
   public static void playMusic(String audioName) {
     if (!muteStatus) {
       try {
-        // is needed for initialization
-        final JFXPanel fxPanel = new JFXPanel();
         String path = Sound.class.getResource("/sounds/" + audioName).toURI().toString();
         Thread.sleep(50);
         if (audioName.equals(titleMusic)) {
