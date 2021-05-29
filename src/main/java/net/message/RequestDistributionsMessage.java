@@ -1,7 +1,7 @@
 package net.message;
 
 /**
- * Message class for requesting TileDistributions
+ * Message class for requesting TileDistributions.
  *
  * @author yuzun
  */

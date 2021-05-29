@@ -1,7 +1,7 @@
 package net.message;
 
 /**
- * a message to start the game
+ * a message to start the game.
  *
  * @author ygarip
  */

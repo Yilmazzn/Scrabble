@@ -1,7 +1,7 @@
 package net.message;
 
 /**
- * Message for requesting TileValues
+ * Message for requesting TileValues.
  *
  * @author ygarip
  */
@@ -13,7 +13,7 @@ public class RequestValuesMessage extends Message {
   }
 
   /**
-   * a method to set the values
+   * a method to set the values.
    *
    * @param values Requires the int array of values
    */

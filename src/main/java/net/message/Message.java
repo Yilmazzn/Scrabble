@@ -3,7 +3,7 @@ package net.message;
 import java.io.Serializable;
 
 /**
- * a abstract message class that represents communication of server and client
+ * a abstract message class that represents communication of server and client.
  *
  * @author ygarip
  */
@@ -12,7 +12,7 @@ public abstract class Message implements Serializable {
   private MessageType mType;
 
   /**
-   * an abstract constructor for creating a new message
+   * an abstract constructor for creating a new message.
    *
    * @param type an enumtype of messageType
    */
@@ -21,9 +21,9 @@ public abstract class Message implements Serializable {
   }
 
   /**
-   * a method to get the messagetype of the message
+   * a method to get the MessageType of the message.
    *
-   * @return returns the messagetype
+   * @return returns the MessageType
    */
   public MessageType getMessageType() {
     return this.mType;

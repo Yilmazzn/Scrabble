@@ -1,7 +1,7 @@
 package net.message;
 
 /**
- * an enum class for the message types that need to be handled
+ * an enum class for the message types that need to be handled.
  *
  * @author ygarip not completed yet
  */

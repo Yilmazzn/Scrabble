@@ -2,18 +2,36 @@ package net.server;
 
 import client.PlayerProfile;
 import game.components.Tile;
-import game.players.*;
-import net.message.*;
-
+import game.players.AiPlayer;
+import game.players.EasyAiPlayer;
+import game.players.HardAiPlayer;
+import game.players.Player;
+import game.players.RemotePlayer;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import net.message.AddAIMessage;
+import net.message.ChatMessage;
+import net.message.ConnectMessage;
+import net.message.DisconnectMessage;
+import net.message.EndGameMessage;
+import net.message.ExchangeTileMessage;
+import net.message.KickPlayerMessage;
+import net.message.Message;
+import net.message.PlaceTileMessage;
+import net.message.PlayerReadyMessage;
+import net.message.RequestDictionaryMessage;
+import net.message.RequestDistributionsMessage;
+import net.message.RequestValuesMessage;
+import net.message.SendPlayerDataMessage;
+import net.message.TurnMessage;
+import net.message.UpdateGameSettingsMessage;
 
 /**
- * A ServerProtocol class to handle serverside messages
+ * A ServerProtocol class to handle serverside messages.
  *
  * @author ygarip
  */
@@ -22,14 +40,14 @@ public class ServerProtocol extends Thread {
   private final ObjectInputStream in;
   private final ObjectOutputStream out;
   private final Server server;
-  private String clientName;
+
   private boolean running = true;
 
   private RemotePlayer player; // Controlled player
 
   /**
-   * constructor for creating a new Serverprotocol and connecting the server to the clients and the
-   * input and output streams
+   * constructor for creating a new ServerProtocol and connecting the server to the clients and the
+   * input and output streams.
    *
    * @param client the client which is connected to the server
    * @param server the server which is providing the game
@@ -41,7 +59,7 @@ public class ServerProtocol extends Thread {
     in = new ObjectInputStream(socket.getInputStream());
   }
 
-  /** a method to disconnect the client from the server */
+  /** a method to disconnect the client from the server. */
   public void disconnect() {
     running = false;
     try {
@@ -52,7 +70,7 @@ public class ServerProtocol extends Thread {
   }
 
   /**
-   * a method to send a Message to the client
+   * a method to send a Message to the client.
    *
    * @param m the Message of a MessageType which should be send to the Client
    * @throws IOException exception by sending the message to the client
@@ -85,20 +103,28 @@ public class ServerProtocol extends Thread {
     }
   }
 
-  /** the run method of ServerProtocol to handle the incoming messages of the server */
+  /**
+   * Sets remote player in ServerProtocol.
+   *
+   * @param player Requires player to be set
+   */
+  public void setPlayer(RemotePlayer player) {
+    this.player = player;
+  }
+
+  /** the run method of ServerProtocol to handle the incoming messages of the server. */
   public void run() {
     try {
 
       while (running) {
         Message m = (Message) in.readObject();
-        System.out.println("Message received(Server-Side): " + m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
             PlayerProfile profile = ((ConnectMessage) m).getProfile();
             ConnectMessage cm = (ConnectMessage) m;
             player.setPlayerProfile(profile);
-            System.out.println("Server added: " + profile.getName());
 
+            System.out.println("Server added: " + player.getProfile().getName());
             if (!player.isHost()) { // if not host --> joined us message
               server.sendToAll(
                   new ChatMessage(
@@ -166,16 +192,8 @@ public class ServerProtocol extends Thread {
             server.sendToAll(m);
             server.startGame();
             break;
-          case UPDATEGAMEBOARD:
-            server.sendToAll(m);
-            break;
           case SUBMITMOVE:
             player.submit();
-            break;
-          case UPDATEPOINTS:
-            // TODO add pointUpdating method
-            // Game.evaluateScore()
-            server.sendToAll(m);
             break;
           case SENDPLAYERDATA:
             SendPlayerDataMessage spdm = (SendPlayerDataMessage) m;
@@ -234,8 +252,8 @@ public class ServerProtocol extends Thread {
               p1.quit();
             }
 
-            // remove from server
-            server.removePlayer(rp1); // Remove Player from server
+            // Remove Player from server
+            server.removePlayer(rp1);
 
             // Send system message
             server.sendToAll(
@@ -262,7 +280,6 @@ public class ServerProtocol extends Thread {
             sendToClient(rdm2);
             break;
           case PLACETILE:
-            // TODO Game logic
             if (((PlaceTileMessage) m).getTile() != null) {
               player.placeTile(
                   ((PlaceTileMessage) m).getTile(),
@@ -283,7 +300,7 @@ public class ServerProtocol extends Thread {
     } catch (IOException e) {
       running = false;
       if (socket.isClosed()) {
-        System.out.println("Socket was closed. Client:" + clientName);
+
       } else {
         try {
           socket.close();
@@ -295,14 +312,5 @@ public class ServerProtocol extends Thread {
       System.out.println(e2.getMessage());
       e2.printStackTrace();
     }
-  }
-
-  /**
-   * Sets remote player in ServerProtocol
-   *
-   * @param player Requires player to be set
-   */
-  public void setPlayer(RemotePlayer player) {
-    this.player = player;
   }
 }

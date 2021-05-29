@@ -6,17 +6,21 @@ import game.Game;
 import game.components.Tile;
 import game.players.Player;
 import game.players.RemotePlayer;
-import net.message.Message;
-import net.message.RefuseConnectionMessage;
-
 import java.io.IOException;
-import java.net.*;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import net.message.Message;
+import net.message.RefuseConnectionMessage;
 
 /**
- * a server class to setup the server
+ * a server class to setup the server.
  *
  * @author ygarip
  */
@@ -36,7 +40,7 @@ public class Server extends Thread {
   };
   private Dictionary dictionary = new Dictionary();
 
-  /** Constructor to create server, sets serverIP */
+  /** Constructor to create server, sets serverIP. */
   public Server() {
     try {
       serverIp = getLocalHostIp4Address();
@@ -45,19 +49,9 @@ public class Server extends Thread {
     }
   }
 
-  /** a method to run the server */
+  /** a method to run the server. */
   public void run() {
     this.listen();
-  }
-
-  /**
-   * a method to return the player at index i
-   *
-   * @param i Requires an integer
-   * @return returns the player at index i
-   */
-  public synchronized Player getPlayerOfID(int i) {
-    return this.players.get(i);
   }
 
   /** @return returns the playerList in an array */
@@ -88,14 +82,8 @@ public class Server extends Thread {
     return game != null;
   }
 
-  public void stopGame() {
-    // TODO send stats back
-    game = null;
-  }
-
-  // TODO test if method from StackOverflow works as well, should use it then, so we could cite the
-  // right code
   /**
+   * a method to get the IPAddress of the Local User.
    * @return Returns ip from localhost
    * @throws UnknownHostException
    * @author from
@@ -158,7 +146,7 @@ public class Server extends Thread {
   }
 
   /**
-   * starts the serverSocket and listens for incoming clients which want to connect to the server
+   * starts the serverSocket and listens for incoming clients which want to connect to the server.
    */
   public void listen() {
     running = true;
@@ -195,7 +183,7 @@ public class Server extends Thread {
   }
 
   /**
-   * method to add a player to the server's playerList
+   * method to add a player to the server's playerList.
    *
    * @param player Requires the player
    */
@@ -204,7 +192,7 @@ public class Server extends Thread {
   }
 
   /**
-   * method to remove a player from the server's playerList
+   * method to remove a player from the server's playerList.
    *
    * @param player Requires the player
    */
@@ -212,16 +200,7 @@ public class Server extends Thread {
     players.remove(player);
   }
 
-  /**
-   * a method to get the ip address of the server
-   *
-   * @return Returns serverIp
-   */
-  public static String getIpAddress() {
-    return serverIp;
-  }
-
-  /** a method for stopping the server immediately */
+  /** a method for stopping the server immediately. */
   public synchronized void stopServer() {
     running = false;
     if (!serverSocket.isClosed()) {
@@ -234,7 +213,7 @@ public class Server extends Thread {
   }
 
   /**
-   * a method for sending a message to all clients
+   * a method for sending a message to all clients.
    *
    * @param m requires the message
    */
@@ -249,7 +228,7 @@ public class Server extends Thread {
   }
 
   /**
-   * a method for sending a message to all client but not the given Player (given)
+   * a method for sending a message to all client but not the given Player.
    *
    * @param m requires the message
    */
@@ -265,7 +244,6 @@ public class Server extends Thread {
         });
   }
 
-  // TODO remove one tile from bag,increment bag
   // send this one back to the server protocol
 
   /** @return returns a Tile from the bag */
@@ -274,25 +252,7 @@ public class Server extends Thread {
   }
 
   /**
-   * @param value requires the value of the requested tiles
-   * @return Returns true, if value is bigger than bag amount
-   */
-  public synchronized boolean getAmountOverValue(int value) {
-    // TODO if bag amount >= value then
-    return (value >= 0) && (value <= 7);
-  }
-
-  /**
-   * a method to add the old tiles to the bag
-   *
-   * @param oldTiles requires the oldTiles array of tiles
-   */
-  public synchronized void addTiles(Tile[] oldTiles) {
-    // TODO add the old tiles to the bag
-  }
-
-  /**
-   * a method to update the GameSettings of the server
+   * a method to update the GameSettings of the server.
    *
    * @param tileScores Requires the tileScores array
    * @param tileDistributions Requires the tileDistribution array
@@ -340,6 +300,7 @@ public class Server extends Thread {
     return dictionary.getDictionary();
   }
 
+  /** @return Returns the game instance */
   public Game getGame() {
     return game;
   }

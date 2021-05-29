@@ -3,17 +3,16 @@ package net.message;
 import client.PlayerProfile;
 
 /**
- * An message that handles the player's connect Request to the server
+ * An message that handles the player's connect Request to the server.
  *
  * @author ygarip
  */
 public class ConnectMessage extends Message {
-  private int id = 0;
   private PlayerProfile profile;
   private PlayerProfile[] profiles;
 
   /**
-   * a constructor to create a ConnectMessage with a playerprofile
+   * a constructor to create a ConnectMessage with a PlayerProfile.
    *
    * @param profile Requires a PlayerProfile
    */
@@ -22,27 +21,13 @@ public class ConnectMessage extends Message {
     this.profile = profile;
   }
 
-  /**
-   * sets id of ConnectMessage object
-   *
-   * @param id requires id
-   */
-  public void setID(int id) {
-    this.id = id;
-  }
-
-  /** @return returns the id of the ConnectMessage object */
-  public int getID() {
-    return id;
-  }
-
-  /** @return returns the playerprofile */
+  /** @return returns the PlayerProfile */
   public PlayerProfile getProfile() {
     return profile;
   }
 
   /**
-   * sets profile array in message
+   * sets profile array in message.
    *
    * @param profiles requires profiles array to be set
    */
@@ -50,7 +35,7 @@ public class ConnectMessage extends Message {
     this.profiles = profiles;
   }
 
-  /** @return returns to the connected player all connected playerprofiles */
+  /** @return returns to the connected player all connected PlayerProfiles */
   public PlayerProfile[] getProfiles() {
     return this.profiles;
   }

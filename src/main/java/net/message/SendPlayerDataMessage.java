@@ -23,7 +23,7 @@ public class SendPlayerDataMessage extends Message {
   }
 
   /**
-   * Method for setting the playerProfile inside the message
+   * Method for setting the playerProfile inside the message.
    *
    * @param profile requires the playerProfile
    */

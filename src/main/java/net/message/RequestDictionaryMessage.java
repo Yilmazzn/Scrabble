@@ -1,7 +1,7 @@
 package net.message;
 
 /**
- * a message class to Request the dictionary from the Server
+ * a message class to Request the dictionary from the Server.
  *
  * @author vkaczmar
  */
@@ -14,7 +14,7 @@ public class RequestDictionaryMessage extends Message {
   }
 
   /**
-   * Sets dictionary to dictionary handed over
+   * Sets dictionary to dictionary handed over.
    *
    * @param dictionary Requires the dictionary as a String
    */

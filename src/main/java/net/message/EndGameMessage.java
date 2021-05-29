@@ -1,7 +1,7 @@
 package net.message;
 
 /**
- * We're in the Endgame now ~ Avengers
+ * We're in the Endgame now ~ Avengers. But still a class to communicate the EndGame.
  *
  * @author ygarip
  */
@@ -12,7 +12,7 @@ public class EndGameMessage extends Message {
   private int score;
 
   /**
-   * Constructor for creating EndGameMessage
+   * Constructor for creating EndGameMessage.
    *
    * @param type
    */
@@ -22,7 +22,7 @@ public class EndGameMessage extends Message {
   }
 
   /**
-   * Constructor for creating EndGameMessage
+   * Constructor for creating EndGameMessage.
    *
    * @param type Requires type to be send
    * @param winner Requires if player is winner
@@ -44,11 +44,6 @@ public class EndGameMessage extends Message {
   /** @return Returns winnerScore */
   public boolean getWinner() {
     return winner;
-  }
-
-  /** @return returns foundWords */
-  public String[][] getFoundWords() {
-    return this.foundWords;
   }
 
   /** @return Returns score of player */

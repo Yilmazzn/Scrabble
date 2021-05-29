@@ -3,7 +3,7 @@ package net.message;
 import game.components.Tile;
 
 /**
- * Message for toggling a tile on the board
+ * Message for toggling a tile on the board.
  *
  * @author ygarip
  */
@@ -14,7 +14,7 @@ public class PlaceTileMessage extends Message {
   private int col;
 
   /**
-   * Constructor for creating a new PlaceTileMessage
+   * Constructor for creating a new PlaceTileMessage.
    *
    * @param tile Requires Tile, which represents new tile on board
    * @param row Requires the row in board
@@ -28,7 +28,7 @@ public class PlaceTileMessage extends Message {
   }
 
   /**
-   * a method to set the Tile
+   * a method to set the Tile.
    *
    * @param tile Requires the Tile
    */

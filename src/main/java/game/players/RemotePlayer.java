@@ -3,12 +3,11 @@ package game.players;
 import client.PlayerProfile;
 import game.components.Board;
 import game.components.Tile;
+import java.util.Collection;
 import net.message.ChatMessage;
 import net.message.GiveTileMessage;
 import net.message.SubmitMoveMessage;
 import net.server.ServerProtocol;
-
-import java.util.Collection;
 
 /**
  * Remote player instance, which is controlled by ServerProtocol and sends messages back.
@@ -22,7 +21,7 @@ public class RemotePlayer extends Player {
   private boolean host;
 
   /**
-   * Creates new RemotePlayer instance
+   * Creates new RemotePlayer instance.
    *
    * @param connection requires the serverProtocol
    * @param host Requires boolean, if Player is host
@@ -43,7 +42,7 @@ public class RemotePlayer extends Player {
   }
 
   /**
-   * Sends board to set remote player's to the latest game board state
+   * Sends board to set remote player's to the latest game board state.
    *
    * @param board Requires board to send to server
    */
@@ -52,7 +51,7 @@ public class RemotePlayer extends Player {
   }
 
   /**
-   * Sets ready value for each player
+   * Sets ready value for each player.
    *
    * @param value Requires value to be set
    */
@@ -75,7 +74,7 @@ public class RemotePlayer extends Player {
     super.setPlayerProfile(profile);
   }
 
-  /** Quit from game. Player is sent all relevant information */
+  /** Quit from game. Player is sent all relevant information. */
   @Override
   public void quit() {
     if (game != null) {
@@ -84,7 +83,7 @@ public class RemotePlayer extends Player {
     }
   }
 
-  /** Add tile to player's rack */
+  /** Add tile to player's rack. */
   @Override
   public void addTilesToRack(Collection<Tile> tiles) {
     tiles.forEach(
@@ -100,7 +99,7 @@ public class RemotePlayer extends Player {
 
   /**
    * Sends remote player a system message with given reason Sends remote player the latest board
-   * after check (after validity of fields were checked and updated)
+   * after check (after validity of fields were checked and updated).
    */
   public void rejectSubmission(String reason) {
     connection.sendToClient(new ChatMessage(reason, null)); // Send System Message

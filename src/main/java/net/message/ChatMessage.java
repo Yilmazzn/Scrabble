@@ -1,7 +1,7 @@
 package net.message;
 
 /**
- * a message class to send chat messages
+ * a message class to send chat messages.
  *
  * @author ygarip
  */
@@ -10,7 +10,7 @@ public class ChatMessage extends Message {
   private final String username;
 
   /**
-   * a constructor for creating a new ChatMessage
+   * a constructor for creating a new ChatMessage.
    *
    * @param message the chatmessage that should be send
    */
@@ -20,12 +20,20 @@ public class ChatMessage extends Message {
     this.username = username;
   }
 
-  /** @return returns the msg */
+  /**
+   * a getter method.
+   *
+   * @return returns the msg
+   */
   public String getMsg() {
     return this.msg;
   }
 
-  /** @return Returns PlayerProfile attached to ChatMessage */
+  /**
+   * a getter method.
+   *
+   * @return Returns PlayerProfile attached to ChatMessage
+   */
   public String getUsername() {
     return this.username;
   }

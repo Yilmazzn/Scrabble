@@ -1,7 +1,7 @@
 package net.message;
 
 /**
- * Message class for adding an ai as player
+ * Message class for adding an ai as player.
  *
  * @author ygarip
  */
@@ -9,7 +9,7 @@ public class AddAIMessage extends Message {
   private boolean difficulty;
 
   /**
-   * Constructor for creating an AddAIMessage
+   * Constructor for creating an AddAIMessage.
    *
    * @param difficulty Requires difficulty to be set, true = hard, false = easy
    */

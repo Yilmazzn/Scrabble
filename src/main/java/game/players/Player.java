@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * @author yuzun
+ *
  *     <p>Actor interacting with game (exists only on the server). Subclasses are AiPlayer,
  *     RemotePlayer!
+ *     @author yuzun
  */
 public abstract class Player implements Serializable { // todo maybe delete serializable later
 
@@ -86,7 +87,7 @@ public abstract class Player implements Serializable { // todo maybe delete seri
   public void setTurn(boolean turn) {
     this.turn = turn;
   }
-
+ //here javadoc
   public boolean isTurn() {
     return turn;
   }
