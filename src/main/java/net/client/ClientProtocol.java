@@ -84,7 +84,6 @@ public class ClientProtocol extends Thread {
     while (running) {
       try {
         Message m = (Message) in.readObject();
-        System.out.println("Message received(Client-Side): " + m.getMessageType().toString());
         switch (m.getMessageType()) {
           case CONNECT:
             PlayerProfile[] lobbyProfiles = ((ConnectMessage) m).getProfiles();
