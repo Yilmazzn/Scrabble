@@ -225,7 +225,10 @@ public class CreateGameController {
     alert.setTitle("Add AI");
     alert.setHeaderText(null);
     alert.showAndWait();
-
+    DialogPane dialogPane = alert.getDialogPane();
+    dialogPane.getStylesheets().add(
+            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane.getStyleClass().add("dialog");
     if (alert.getResult() == ButtonType.CANCEL) {
       return;
     } else {
