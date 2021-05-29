@@ -105,7 +105,8 @@ public class Dictionary {
       String word = it.next();
       splitLine = word.split("\\s");
       words.add(splitLine[0]);
-      meanings.add(word.substring(word.indexOf("\\s+") + 1));
+      word = word.replaceAll("\\s+", " ").trim();
+      meanings.add(word.substring(word.indexOf(" ") + 1));
     }
   }
 

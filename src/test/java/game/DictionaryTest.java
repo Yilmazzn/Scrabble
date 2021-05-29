@@ -52,9 +52,9 @@ class DictionaryTest {
   // Test for checking meaning of word
   public void getMeaning() {
     String aaMeaning =
-        "AA\t(Hawaiian) a volcanic rock consisting of angular blocks of lava with a very rough surface [n -S]";
-    String housingsMeaning = "HOUSINGS\tHOUSING, any dwelling house [n]";
-    String villadomMeaning = "VILLADOM\tvillas collectively [n -S]";
+        "(Hawaiian) a volcanic rock consisting of angular blocks of lava with a very rough surface [n -S]";
+    String housingsMeaning = "HOUSING, any dwelling house [n]";
+    String villadomMeaning = "villas collectively [n -S]";
     Assertions.assertEquals(true, dictionary.getMeaning("AA").equals(aaMeaning));
     Assertions.assertEquals(true, dictionary.getMeaning("HOUSINGS").equals(housingsMeaning));
     Assertions.assertEquals(true, dictionary.getMeaning("VILLADOM").equals(villadomMeaning));
