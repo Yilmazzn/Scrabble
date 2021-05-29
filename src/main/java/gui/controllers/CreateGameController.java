@@ -225,8 +225,9 @@ public class CreateGameController {
     alert.setTitle("Add AI");
     alert.setHeaderText(null);
     DialogPane dialogPane = alert.getDialogPane();
-    dialogPane.getStylesheets().add(
-            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane
+        .getStylesheets()
+        .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
     dialogPane.getStyleClass().add("dialog");
     alert.showAndWait();
     if (alert.getResult() == ButtonType.CANCEL) {
@@ -408,8 +409,8 @@ public class CreateGameController {
    */
   public void startGameView(MouseEvent mouseEvent) throws IOException {
     System.out.println("createGame");
-    FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
+    FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));
     Parent gameView = loader.load();
     GameViewController controller = loader.getController();

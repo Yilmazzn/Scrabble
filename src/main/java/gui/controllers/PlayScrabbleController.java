@@ -48,12 +48,13 @@ public class PlayScrabbleController {
 
   /**
    * Method to start playing the Tutorial
+   *
    * @param mouseEvent to detect the current stage
    * @throws IOException
    */
   public void playTutorial(MouseEvent mouseEvent) throws IOException {
-    FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
+    FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/tutorial.fxml"));
     Parent tutorial = loader.load();
     TutorialController controller = loader.getController();

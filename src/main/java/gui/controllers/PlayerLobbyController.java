@@ -45,8 +45,9 @@ public class PlayerLobbyController {
    * @throws IOException
    */
   public void playScrabble(MouseEvent mouseEvent) throws IOException {
-    FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
+    FXMLLoader loader = new FXMLLoader();
+
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
     Parent playScrabbleView = loader.load();
     PlayScrabbleController controller = loader.getController();

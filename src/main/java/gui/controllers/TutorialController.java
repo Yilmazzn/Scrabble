@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import client.Client;
+import ft.Sound;
 import game.Dictionary;
 import game.components.Board;
 import game.components.BoardException;
@@ -174,6 +175,7 @@ public class TutorialController {
 
   public void loadStageTwo() {
     showErrorMessage(false);
+    Sound.playMusic(Sound.rightWord);
     if (!stageTwoUnlocked) {
       showErrorMessage(true);
       return;
@@ -214,6 +216,7 @@ public class TutorialController {
 
   public void loadStageThree() {
     showErrorMessage(false);
+    Sound.playMusic(Sound.rightWord);
     if (!stageThreeUnlocked) {
       showErrorMessage(true);
       return;
@@ -253,6 +256,7 @@ public class TutorialController {
 
   public void loadStageFour() {
     showErrorMessage(false);
+    Sound.playMusic(Sound.rightWord);
     if (!stageFourUnlocked) {
       showErrorMessage(true);
       return;
@@ -295,6 +299,7 @@ public class TutorialController {
    * @throws IOException
    */
   public void nextStep(MouseEvent mouseEvent) throws IOException {
+    Sound.playMusic(Sound.tileSet);
     if (counter < 3) {
       if ((stageTwoUnlocked && counter == 0)
           || (stageThreeUnlocked && counter == 1)
@@ -347,6 +352,7 @@ public class TutorialController {
    * @throws IOException
    */
   public void previousStep(MouseEvent mouseEvent) throws IOException {
+    Sound.playMusic(Sound.tileSet);
     if (counter > 0) {
       showErrorMessage(false);
       counter--;
@@ -357,6 +363,7 @@ public class TutorialController {
 
   /** method for allowing to submit and load the next stage with new tasks */
   public void submit() {
+    Sound.playMusic(Sound.tileSet);
     if (counter == 0) { // Stage 1
       try {
         gameBoard.check(placements, dictionary, true);
@@ -713,6 +720,7 @@ public class TutorialController {
    */
   public void placeTile(int position, int row, int col) {
     if (gameBoard.isEmpty(row, col)) {
+      Sound.playMusic(Sound.tileSet);
       if (rack.getTile(position).isJoker()) { // Joker -> Change letter
         // BUild CHoice DIalog
         List<String> choices = new ArrayList<>();
@@ -795,6 +803,7 @@ public class TutorialController {
    */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
+    Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/playScrabbleView.fxml"));
     Parent playScrabbleView = loader.load();
     PlayScrabbleController controller = loader.getController();
@@ -812,6 +821,7 @@ public class TutorialController {
 
   /** Shuffles the tiles on the rack */
   public void shuffle() {
+    Sound.playMusic(Sound.tileSet);
     if (counter == 2) {
       for (int i = 0; i < 7; i++) {
         if (!rack.isEmpty(i)) {
@@ -844,6 +854,7 @@ public class TutorialController {
     }
 
   public void start(MouseEvent mouseEvent) throws IOException {
+    Sound.playMusic(Sound.tileSet);
     showTutorialWelcome(false);
     loadStageOne();
   }
