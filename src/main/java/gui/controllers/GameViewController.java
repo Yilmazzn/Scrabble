@@ -588,12 +588,9 @@ public class GameViewController implements Initializable {
 
     pane.setOnDragOver(
             event -> {
-              /* data is dragged over the target */
-
               /* accept it only if it is  not dragged from the same node
                * and if it has a string data */
               if (event.getGestureSource() != pane && event.getDragboard().hasString()) {
-                /* allow for both copying and moving, whatever user chooses */
                 event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
               }
 
@@ -602,8 +599,6 @@ public class GameViewController implements Initializable {
 
     pane.setOnDragDropped(
             event -> {
-              /* data dropped */
-              /* if there is a string data on dragboard, read it and use it */
               Dragboard db = event.getDragboard();
               boolean success = false;
               if (db.hasString()) {
