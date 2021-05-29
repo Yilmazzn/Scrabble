@@ -212,6 +212,10 @@ public class Client extends Application {
       dialog.setTitle("Create your first profile!");
       dialog.setHeaderText(null);
       dialog.setContentText("Please enter your name:");
+      DialogPane dialogPane = dialog.getDialogPane();
+      dialogPane.getStylesheets().add(
+              getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+      dialogPane.getStyleClass().add("dialog");
 
       // Traditional way to get the response value.
       Optional<String> result;
