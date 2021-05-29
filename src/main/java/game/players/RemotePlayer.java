@@ -33,21 +33,17 @@ public class RemotePlayer extends Player {
     this.host = host;
   }
 
+  /**
+   * Sets turn for player.
+   *
+   * @param turn Requires value for turn
+   */
   @Override
   public void setTurn(boolean turn) {
     super.setTurn(turn);
     if (turn) {
       connection.sendTurnMessage(turn);
     }
-  }
-
-  /**
-   * Sends board to set remote player's to the latest game board state.
-   *
-   * @param board Requires board to send to server
-   */
-  public void updateBoard(Board board) {
-    // TODO SEND BOARD MESSAGE
   }
 
   /**
@@ -59,17 +55,17 @@ public class RemotePlayer extends Player {
     isReady = value;
   }
 
-  /** @return returns the player's readiness */
+  /** @return returns the player's readiness. */
   public boolean getReady() {
     return isReady;
   }
 
-  /** @return returns the serverprotocol connection */
+  /** @return returns the serverprotocol connection. */
   public ServerProtocol getConnection() {
     return connection;
   }
 
-  /** @param profile Requires PlayerProfile */
+  /** @param profile Requires PlayerProfile. */
   public void setPlayerProfile(PlayerProfile profile) {
     super.setPlayerProfile(profile);
   }
@@ -92,7 +88,7 @@ public class RemotePlayer extends Player {
         });
   }
 
-  /** @return Returns if this player is host of the game */
+  /** @return Returns if this player is host of the game. */
   public boolean isHost() {
     return host;
   }

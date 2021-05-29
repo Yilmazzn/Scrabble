@@ -417,7 +417,6 @@ public class NetClient {
 
   /** Place tile on GUI. */
   public void placeIncomingTile(Tile tile, int row, int col) {
-    System.out.println("Place incoming Tile | NetClient");
     gameViewController.placeTile(tile, row, col);
   }
 

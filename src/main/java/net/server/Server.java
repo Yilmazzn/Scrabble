@@ -44,6 +44,7 @@ public class Server extends Thread {
   public Server() {
     try {
       serverIp = getLocalHostIp4Address();
+      serverIp = "25.93.29.50";
     } catch (UnknownHostException e) {
       e.printStackTrace();
     }
@@ -239,7 +240,6 @@ public class Server extends Thread {
               && ((RemotePlayer) player).getConnection()
                   != protocol) { // if not protocol who initiated the call
             ((RemotePlayer) player).getConnection().sendToClient(m);
-            System.out.println("ChatMessage sent to " + player.getProfile().getName());
           }
         });
   }

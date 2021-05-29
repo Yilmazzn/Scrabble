@@ -528,7 +528,6 @@ public class TutorialController {
             rack.getField(position).setSelected(!rack.isSelected(position));
             updateBottomTile(letter, value, position);
             event.consume();
-            System.out.println("here in mouseclick");
           }
         });
 

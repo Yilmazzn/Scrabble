@@ -135,7 +135,7 @@ public class GameViewController implements Initializable {
    * move. AnchorPane as graphical container for the tiles are created.
    */
   public void updateBoard() {
-    board.getChildren().removeAll();
+    board.getChildren().clear();
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
         AnchorPane anchorPane = createTile(player.getBoard().getField(j, i));
