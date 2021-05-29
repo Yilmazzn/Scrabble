@@ -15,7 +15,7 @@ import java.util.Set;
 
 /**
  * @author nsiebler This class had a previous AI that was build, but a overwritten hardai was easier
- *     to build
+ *     to build. The entire code concept is created by yuzun
  *     <p>Simple Ai Player Only implements think method
  */
 public class EasyAiPlayer extends AiPlayer {
@@ -123,8 +123,6 @@ public class EasyAiPlayer extends AiPlayer {
         board.placeTile(tile, 7 + i, 7); // place vertically
         placements.add(new Placement(tile, 7 + i, 7));
       }
-
-      // TODO change to a placement which is not the best
       if (evaluatePlacement(board, placements) != -1) {
         bestPlacements = placements;
         break;
@@ -278,7 +276,7 @@ public class EasyAiPlayer extends AiPlayer {
     }
     int score = board.evaluateScore(boardPlacements);
     resetBoard(board, placements);
-    System.out.println("EASYAIPLAYER: SCORE: " + score);
+    System.out.println("EASY-AI-PLAYER: SCORE: " + score);
     return score;
   }
 

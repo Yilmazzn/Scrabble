@@ -5,12 +5,10 @@ import game.Game;
 import game.components.Board;
 import game.components.Tile;
 import org.junit.jupiter.api.Test;
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author nsiebler This class initally build by @author yuzun, used for the easy ai version too
  *     <p>Simple Ai Player Only implements think method

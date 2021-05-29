@@ -4,9 +4,7 @@ import game.components.Board;
 import game.components.BoardField;
 import game.components.Tile;
 import org.junit.jupiter.api.*;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,19 +47,12 @@ class GameTest {
     n = new Tile('N', 1);
     p = new Tile('P', 3);
     g = new Tile('G', 2);
-    t = new Tile('T',1);
-    a = new Tile('A',1);
-    s = new Tile('S',1);
+    t = new Tile('T', 1);
+    a = new Tile('A', 1);
+    s = new Tile('S', 1);
   }
 
   @Test
-  /**
-   * First round with word hello from the star tile to the right The second word is world and the
-   * 'o' of the world hello is used too The third word is middle and uses the 'd' from the world
-   * word The last word is wow and pene. In this turn the player sets different tiles on the
-   * position of the 'w' from world and the 'e' from middle. Therefore also the functionality and
-   * search capability of the ecvaluateScore is testes
-   */
   @DisplayName("Placing 'HELLO' (H on DWS, O on DLS)")
   void evaluateScoreTest1() {
     // First word
@@ -86,30 +77,30 @@ class GameTest {
     placements.clear();
   }
 
-    @Test
-    @DisplayName("Placing 'ELMETED' (Placements: HELMETED)")
-    void evaluateScoreTest3() {
-      // third word
-      place(e, 8, 7);
-      place(l, 9, 7);
-      place(m, 10, 7);
-      place(e, 11, 7);
-      place(t, 12, 7);
-      place(e, 13, 7);
-      place(d, 14, 7);
-      Assertions.assertEquals(95, board.evaluateScore(placements));
-      placements.clear();
-    }
+  @Test
+  @DisplayName("Placing 'ELMETED' (Placements: HELMETED)")
+  void evaluateScoreTest3() {
+    // third word
+    place(e, 8, 7);
+    place(l, 9, 7);
+    place(m, 10, 7);
+    place(e, 11, 7);
+    place(t, 12, 7);
+    place(e, 13, 7);
+    place(d, 14, 7);
+    Assertions.assertEquals(95, board.evaluateScore(placements));
+    placements.clear();
+  }
 
-    @Test
-    @DisplayName("Placing 'AT' (Placements: EAT)")
-    void evaluateScoreTest4() {
-      place(a, 11, 8);
-      place(t, 11, 9);
+  @Test
+  @DisplayName("Placing 'AT' (Placements: EAT)")
+  void evaluateScoreTest4() {
+    place(a, 11, 8);
+    place(t, 11, 9);
 
-      Assertions.assertEquals(3, board.evaluateScore(placements));
-      placements.clear();
-    }
+    Assertions.assertEquals(3, board.evaluateScore(placements));
+    placements.clear();
+  }
 
   @Test
   @DisplayName("Placing 'OW' (Placements: LOW)")

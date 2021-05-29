@@ -1,23 +1,17 @@
 package ft;
 
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.*;
-import java.io.File;
-
+/**
+ * @author nsiebler This class contains the sounds in the system. Each sound has a method and
+ *     refers to a sound in a folder. The sound are called by a Method. This class also contains a
+ *     method to mute all sounds The state of the mute variable is saved in a XML Document and
+ *     read out of it in order to save preferences
+ * This variable contains the soundPath. The regarding sound file name will be added to the path
+ * and than the sound will be played
+ */
 public class Sound {
-  /**
-   * @author nsiebler This class contains the sounds in the system. Each sound has a method and
-   *     refers to a sound in a folder. The sound are called by a Method. This class also contains a
-   *     method to mute all sounds The state of the mute variable is saved in a XML Document and
-   *     read out of it in order to save preferences
-   */
 
-  /**
-   * This variable contains the soundPath. The regarding sound file name will be added to the path
-   * and than the sound will be played
-   */
   public static String playerCreated = "PlayerCreated.mp3";
-
   public static String rightWord = "RightWord.mp3";
   public static String tileSet = "TileSet.mp3";
   public static String titleMusic = "TitleMusic.mp3";
@@ -35,8 +29,8 @@ public class Sound {
     }
   }
 
-  // Unmute function
-  public static void unmute() {
+  // UnMute function
+  public static void unMute() {
     muteStatus = false;
     playMusic(titleMusic);
   }

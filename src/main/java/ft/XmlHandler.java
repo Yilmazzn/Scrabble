@@ -14,27 +14,22 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * @author nsiebler This is the class that contains the Methods to Handle the XML files With that i
+ *     mean create new files and update files that are already existing as well as read the values
+ *     out of the data. This is made by the playertoElement and elementToPlayer functions Get Player
+ *     Functionality is made by the ArrayList
+ *     <p>This class creates the XML Document based on the NewPlayer Class We want a method that
+ *     just creates the Document here. The deletion and change of values is done on another Class.
+ *     We just wanna make sure that we can create the doc that we created here
+ */
 public class XmlHandler {
-
-  /**
-   * @author nsiebler This is the class that contains the Methods to Handle the XML files With that
-   *     i mean create new files and update files that are already existing as well as read the
-   *     values out of the data. This is made by the playertoElement and elementToPlayer functions
-   *     Get Player Functionality is made by the ArrayList
-   *     <p>This class creates the XML Document based on the NewPlayer Class We want a method that
-   *     just creates the Document here. The deletion and change of values is done on another Class.
-   *     We just wanna make sure that we can create the doc that we created here
-   */
   private static final String sep = System.getProperty("file.separator");
-
   public static final String XML_PATH =
       System.getProperty("user.dir") + sep + "res" + sep + "profiles.xml";
 
@@ -77,7 +72,7 @@ public class XmlHandler {
    * Parameters class)
    */
   public static void saveXML(List<PlayerProfile> profiles) {
-    // Prepare XMLOutputter and it's format
+    // Prepare XMLOutPutter and it's format
     if (xmlDoc == null) {
       initDocument();
     }
@@ -151,7 +146,7 @@ public class XmlHandler {
   /**
    * This Method creates an Element which can be added to the xml file
    *
-   * @param nPlayer
+   * @param nPlayer Player class instance
    * @return Element that can be added to the xml
    */
   public static Element playerToElement(PlayerProfile nPlayer) {
@@ -161,10 +156,10 @@ public class XmlHandler {
     Element name = new Element("name");
     name.addContent(nPlayer.getName());
     // For xml we treat the Integers as Strings to avoid using
-    // Attributes and faciliate the work by treating everthing as Strings
+    // Attributes and make the work easy by treating everything as Strings
 
     Element highscore = new Element("highscore");
-    highscore.addContent(Integer.toString(nPlayer.getHighscore()));
+    highscore.addContent(Integer.toString(nPlayer.getHighScore()));
 
     Element wins = new Element("wins");
     wins.addContent(Integer.toString(nPlayer.getWins()));
@@ -209,7 +204,7 @@ public class XmlHandler {
    */
   public static List<PlayerProfile> loadProfiles() {
     // Have to reset the List every time
-    List<PlayerProfile> players = new ArrayList<PlayerProfile>();
+    List<PlayerProfile> players = new ArrayList<>();
 
     if (xmlDoc == null) {
       initDocument();
@@ -225,16 +220,5 @@ public class XmlHandler {
     }
 
     return players;
-  }
-
-  /** Deletes the old Document when the Player Instances are changed and added to a new xml file */
-  static void deleteXML() {
-    try {
-      Files.delete(Path.of(XML_PATH));
-    } catch (NoSuchFileException x) {
-      System.err.format("%s: no such" + " file or directory%n", XML_PATH);
-    } catch (IOException x) {
-      System.err.println(x);
-    }
   }
 }
