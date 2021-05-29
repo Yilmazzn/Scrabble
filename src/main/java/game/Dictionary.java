@@ -1,14 +1,20 @@
 package game;
 
 import ft.NodeWordlist;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * @author vkaczmar Class that is able to load, read and manage all words from the wordlist in a BST
- *     Accessible via root Node
+ * Class that is able to load, read and manage all words from the wordlist in a BST
+ *
+ * @author vkaczmar
  */
 public class Dictionary {
   private BufferedReader br;
@@ -36,12 +42,12 @@ public class Dictionary {
     words = new ArrayList<>();
     meanings = new ArrayList<>();
     getWords();
-    root = createBSTFromArrayList(words, meanings, 0, words.size() - 1);
+    root = createBinaryTreeFromArrayList(words, meanings, 0, words.size() - 1);
   }
 
   /**
-   * Constructor with parameter to the wordlist.txt file. Does everything up to the * creation of
-   * the binary search tree
+   * Constructor with parameter to the wordlist.txt file. Does everything up to the creation of the
+   * binary search tree
    *
    * @param absolutePath Requires the absolute Path to the wordlist itself
    */
@@ -57,7 +63,7 @@ public class Dictionary {
     words = new ArrayList<>();
     meanings = new ArrayList<>();
     getWords();
-    root = createBSTFromArrayList(words, meanings, 0, words.size() - 1);
+    root = createBinaryTreeFromArrayList(words, meanings, 0, words.size() - 1);
   }
 
   /**
@@ -68,15 +74,15 @@ public class Dictionary {
    * @param end end index
    * @return returns root of BST
    */
-  private NodeWordlist createBSTFromArrayList(
+  private NodeWordlist createBinaryTreeFromArrayList(
       ArrayList<String> words, ArrayList<String> meanings, int start, int end) {
     if (start > end) {
       return null;
     }
     int middle = (start + end) / 2;
     NodeWordlist node = new NodeWordlist(words.get(middle), meanings.get(middle));
-    node.setLeft(createBSTFromArrayList(words, meanings, start, middle - 1));
-    node.setRight(createBSTFromArrayList(words, meanings, middle + 1, end));
+    node.setLeft(createBinaryTreeFromArrayList(words, meanings, start, middle - 1));
+    node.setRight(createBinaryTreeFromArrayList(words, meanings, middle + 1, end));
     return node;
   }
 
@@ -97,7 +103,7 @@ public class Dictionary {
     }
   }
 
-  /** Private method to get words from uneditedLines. words get added to ArrayList<String> words */
+  /** Private method to get words from uneditedLines. Words get added to ArrayList words */
   private void getWords() {
     String[] splitLine;
     Iterator<String> it = uneditedLines.iterator();
@@ -165,7 +171,15 @@ public class Dictionary {
     return node.getMeaning();
   }
 
-  public NodeWordlist getNode(NodeWordlist node, String word) {
+  /**
+   * Returns Node, associated with word
+   *
+   * @author yuzun
+   * @param node Node to start searching with (root)
+   * @param word word to serach node for
+   * @return Returns node, associated with word
+   */
+  private NodeWordlist getNode(NodeWordlist node, String word) {
     if (node == null) {
       return null;
     } else if (node.getData().compareTo(word.toUpperCase()) == 0) {

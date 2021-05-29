@@ -26,7 +26,7 @@ public class HardAiPlayer extends AiPlayer {
   private List<Placement> bestPlacements; // best placement
 
   public HardAiPlayer() {
-    super(DIFFICULTY.HARD);
+    super(Difficulty.HARD);
   }
 
   /** */

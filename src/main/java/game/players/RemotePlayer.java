@@ -1,7 +1,6 @@
 package game.players;
 
 import client.PlayerProfile;
-import game.Scoreboard;
 import game.components.Board;
 import game.components.Tile;
 import net.message.ChatMessage;
@@ -12,15 +11,15 @@ import net.server.ServerProtocol;
 import java.util.Collection;
 
 /**
+ * Remote player instance, which is controlled by ServerProtocol and sends messages back.
+ *
  * @author vkazmar | ygarip
- *     <p>Remote player instance, which is controlled by ServerProtocol and sends messages back
  */
 public class RemotePlayer extends Player {
 
   private final ServerProtocol connection;
   private boolean isReady;
   private boolean host;
-  private int id;
 
   /**
    * Creates new RemotePlayer instance
@@ -50,15 +49,6 @@ public class RemotePlayer extends Player {
    */
   public void updateBoard(Board board) {
     // TODO SEND BOARD MESSAGE
-  }
-
-  /**
-   * Sends scoreboard instance after every turn
-   *
-   * @param scoreboard Requires scoreboard to send to server
-   */
-  public void sendScoreboard(Scoreboard scoreboard) {
-    // TODO SEND SCOREBOARD
   }
 
   /**

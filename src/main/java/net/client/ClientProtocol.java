@@ -1,16 +1,32 @@
 package net.client;
 
 import client.PlayerProfile;
-import javafx.application.Platform;
-import net.message.*;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.time.LocalDate;
+import javafx.application.Platform;
+import net.message.ChatMessage;
+import net.message.ConnectMessage;
+import net.message.DisconnectMessage;
+import net.message.EndGameMessage;
+import net.message.GiveTileMessage;
+import net.message.Message;
+import net.message.PlaceTileMessage;
+import net.message.PlayerReadyMessage;
+import net.message.RefuseConnectionMessage;
+import net.message.RequestDictionaryMessage;
+import net.message.RequestDistributionsMessage;
+import net.message.RequestValuesMessage;
+import net.message.SendPlayerDataMessage;
+import net.message.TurnMessage;
 
-/** @author vkaczmar Handles all interactions from the server to the client */
+/**
+ * Handles all interactions from the server to the client
+ *
+ * @author vkaczmar
+ */
 public class ClientProtocol extends Thread {
   private final NetClient client;
   private final Socket clientSocket;
@@ -46,6 +62,11 @@ public class ClientProtocol extends Thread {
     }
   }
 
+  /**
+   * Sends all types of messages
+   *
+   * @param m Message to be send
+   */
   public void sendMessage(Message m) {
     try {
       if (!clientSocket.isClosed()) {
@@ -77,9 +98,6 @@ public class ClientProtocol extends Thread {
                   // set Data
                   client.setLobbyState(lobbyProfiles, new int[lobbyProfiles.length]);
                 });
-            // TODO if we just remove this, the join would work, without setting everyone to not
-            // ready again. We should just start with red boxes, if someone joins, but only for the
-            // new player
             client.setPlayerReady(false);
             break;
           case REFUSECONNECTION:
@@ -89,16 +107,12 @@ public class ClientProtocol extends Thread {
                 });
             running = false;
             break;
-          case UPDATEGAMESETTINGS: // todo done eigentlich nur connection zu controllern herstellen
-            // TODO netClient.getClient().updateGameSettings
-            // TODO Dictionary erstmal als String, erst beim Spielstart wird auf dem Server das
-            // richtige Dictionary erzeugt
+          case UPDATEGAMESETTINGS:
             break;
           case STARTGAME:
             client.initializeGame(); // load Game view
             break;
           case CHATMESSAGE:
-            // TODO add methode
             String username = ((ChatMessage) m).getUsername();
             String message = ((ChatMessage) m).getMsg();
             Platform.runLater(
@@ -114,7 +128,6 @@ public class ClientProtocol extends Thread {
                 });
             break;
           case SENDPLAYERDATA:
-            // TODO show Profile
             System.out.println(((SendPlayerDataMessage) m).getProfile().getName());
             break;
           case GIVETILE:

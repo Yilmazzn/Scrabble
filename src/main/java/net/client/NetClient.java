@@ -3,22 +3,37 @@ package net.client;
 import client.Client;
 import client.PlayerProfile;
 import ft.Sound;
-import game.Dictionary;
 import game.components.Tile;
-import gui.controllers.*;
+import game.Dictionary;
+import gui.controllers.CreateGameController;
+import gui.controllers.DictionaryController;
+import gui.controllers.GameResultsController;
+import gui.controllers.GameViewController;
+import gui.controllers.JoinGameController;
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import net.message.*;
+import net.message.AddAIMessage;
+import net.message.ChatMessage;
+import net.message.EndGameMessage;
+import net.message.ExchangeTileMessage;
+import net.message.KickPlayerMessage;
+import net.message.PlaceTileMessage;
+import net.message.PlayerReadyMessage;
+import net.message.RequestDictionaryMessage;
+import net.message.RequestDistributionsMessage;
+import net.message.RequestValuesMessage;
+import net.message.StartGameMessage;
+import net.message.SubmitMoveMessage;
+import net.message.UpdateGameSettingsMessage;
 import net.server.Server;
 
-import java.io.IOException;
-
 /**
- * a client class to create a client and connect with the server
+ * a client class to create a client and connect with the server.
  *
  * @author vkaczmar
  */
@@ -36,7 +51,7 @@ public class NetClient {
   private int[] coPlayerScores; // scores of players in lobby
 
   /**
-   * Constructor to create a NetClient with client
+   * Constructor to create a NetClient with client.
    *
    * @param client Requires client to connect from
    */
@@ -52,14 +67,14 @@ public class NetClient {
     }
   }
 
-  /** Creates and starts server */
+  /** Creates and starts server. */
   public void createServer() {
     server = new Server();
     server.start();
   }
 
   /**
-   * a method to connect the client to the server
+   * a method to connect the client to the server.
    *
    * @author ygarip
    */
@@ -83,7 +98,7 @@ public class NetClient {
   }
 
   /**
-   * method to set the ip
+   * method to set the ip.
    *
    * @param ip requires the ip
    */
@@ -97,7 +112,7 @@ public class NetClient {
   }
 
   /**
-   * a method to disconnect the client from the server
+   * a method to disconnect the client from the server.
    *
    * @throws IOException exception occurs if disconnect didn't work
    * @author ygarip
@@ -112,7 +127,7 @@ public class NetClient {
   }
 
   /**
-   * Calls method, whenever the host changed anything in the gamesettings
+   * Calls method, whenever the host changed anything in the gamesettings.
    *
    * @param tileScores Requires tileScores
    * @param tileDistributions requires tileDistribution
@@ -124,7 +139,7 @@ public class NetClient {
   }
 
   /**
-   * Initiates sending of Players readiness to server
+   * Initiates sending of Players readiness to server.
    *
    * @param ready Requires ready value to be sent
    */
@@ -133,7 +148,7 @@ public class NetClient {
   }
 
   /**
-   * a method to start the game
+   * a method to start the game.
    *
    * @author ygarip
    */
@@ -142,37 +157,49 @@ public class NetClient {
   }
 
   /**
-   * @author vkaczmar sends text message to all other clients
+   * sends text message to all other clients.
+   *
+   * @author vkaczmar
    * @param chatMessage Requires chatMessage to be sent to other players
    */
   public void sendChatMessage(String chatMessage) {
     connection.sendMessage(new ChatMessage(chatMessage, client.getSelectedProfile().getName()));
   }
 
-  /** @author ygarip checks if move is valid */
+  /**
+   * checks if move is valid
+   *
+   * @author ygarip
+   */
   public void submitMove() {
     connection.sendMessage(new SubmitMoveMessage());
   }
 
   /**
-   * @return returns the username of the client
-   * @author vkaczmar a method to get the username of client
+   * a method to get the username of client.
+   *
+   * @return returns username of client
+   * @author vkaczmar
    */
   public String getUsername() {
     return client.getSelectedProfile().getName();
   }
 
   /**
+   * a method to set the wished dictionary.
+   *
    * @param dictionary requires the dictionary to be set
-   * @author ygarip a method to set the wished dictionary
+   * @author ygarip
    */
   public void setDictionary(Dictionary dictionary) {
     this.dictionary = dictionary;
   }
 
   /**
+   * a method to return the player profile.
+   *
    * @return returns the players profile
-   * @author vkaczmar a method to return the player profile
+   * @author vkaczmar
    */
   public PlayerProfile getPlayerProfile() {
     return client.getSelectedProfile();
@@ -184,7 +211,7 @@ public class NetClient {
   }
 
   /**
-   * Method for initiating ExchangeTileMessage
+   * Method for initiating ExchangeTileMessage.
    *
    * @author vkaczmar a method to request the bag amount
    */
@@ -193,7 +220,7 @@ public class NetClient {
   }
 
   /**
-   * Sets create game Controller
+   * Sets create game Controller.
    *
    * @param createGameController Requires createGameController to be set
    */
@@ -202,7 +229,7 @@ public class NetClient {
   }
 
   /**
-   * Set players to update view
+   * Set players to update view.
    *
    * @param profiles Requires PlayerProfiles array
    */
@@ -216,6 +243,12 @@ public class NetClient {
     }
   }
 
+  /**
+   * Updates chat in different controllers.
+   *
+   * @param user Requires user as sender of message
+   * @param message Requires message to display
+   */
   public void updateChat(String user, String message) {
     if (user != null) { // not received from system
       if (isHost()
@@ -234,13 +267,20 @@ public class NetClient {
         if (gameViewController != null) {
           gameViewController.createSystemMessage(message);
         }
-        if (gameResultsController != null) { // todo
+        if (gameResultsController != null) {
           gameResultsController.createSystemMessage(message);
         }
       }
     }
   }
 
+  /**
+   * Show Requested content.
+   *
+   * @param scores if score != null display score
+   * @param distributions if distributions != null display distributions
+   * @param dictionaryContent if dictionaryContent != null display dictionary
+   */
   public void updateGameSettings(int[] scores, int[] distributions, String dictionaryContent) {
     Platform.runLater(
         () -> {
@@ -286,7 +326,7 @@ public class NetClient {
   }
 
   /**
-   * Sets joinGameController
+   * Sets joinGameController.
    *
    * @param joinController Requires join game Controller to be set
    */
@@ -295,7 +335,7 @@ public class NetClient {
   }
 
   /**
-   * Sets gameViewController
+   * Sets gameViewController.
    *
    * @param gameController Requires gameViewController to be set
    */
@@ -303,7 +343,7 @@ public class NetClient {
     this.gameViewController = gameController;
   }
 
-  /** Load game view */
+  /** Load game view. */
   public void loadGameView() {
     try {
       joinGameController.loadGameView();
@@ -328,7 +368,7 @@ public class NetClient {
   }
 
   /**
-   * Sets coPlayerScores
+   * Sets coPlayerScores.
    *
    * @param scores Requires scores array to be set
    */
@@ -338,7 +378,7 @@ public class NetClient {
   }
 
   /**
-   * Initiates sending of difficulty for AI Creation
+   * Initiates sending of difficulty for AI Creation.
    *
    * @param difficult Requires difficulty, true = hard, false = easy
    */
@@ -347,7 +387,7 @@ public class NetClient {
   }
 
   /**
-   * Kicks player out of the game
+   * Kicks player out of the game.
    *
    * @param index Requires index, which player you want to kick
    */
@@ -355,39 +395,40 @@ public class NetClient {
     connection.sendMessage(new KickPlayerMessage(index));
   }
 
-  /** Initiates RequestValuesMessage */
+  /** Initiates RequestValuesMessage. */
   public void requestValues() {
     connection.sendMessage(new RequestValuesMessage());
   }
 
-  /** */
+  /** Request distributions. */
   public void requestDistributions() {
     connection.sendMessage(new RequestDistributionsMessage());
   }
 
+  /** Request dictionary. */
   public void requestDictionary() {
     connection.sendMessage(new RequestDictionaryMessage());
   }
 
-  /** send Message to */
+  /** sends placeTile Message. */
   public void placeTile(Tile tile, int row, int col) {
     connection.sendMessage(new PlaceTileMessage(tile, row, col));
   }
 
-  /** Place tile on GUI */
+  /** Place tile on GUI. */
   public void placeIncomingTile(Tile tile, int row, int col) {
     System.out.println("Place incoming Tile | NetClient");
     gameViewController.placeTile(tile, row, col);
   }
 
-  /** Initializes game in GameView Controller */
+  /** Initializes game in GameView Controller. */
   public void initializeGame() {
     if (!isHost()) {
       gameViewController.showAgreements(false);
     }
   }
 
-  /** Triggered by incoming PLAYERREADYMESSAGE */
+  /** Triggered by incoming PLAYERREADYMESSAGE. */
   public void setReadies(boolean[] readies) {
     if (isHost()) {
       createGameController.updatePlayerReadies(readies);
@@ -395,7 +436,7 @@ public class NetClient {
   }
 
   /**
-   * Triggered by incoming TURN MESSAGE
+   * Triggered by incoming TURN MESSAGE.
    *
    * @param turn true if it is this client's turn
    * @param turns array of turn state (to be able to show whose turn it is)
@@ -406,7 +447,7 @@ public class NetClient {
   }
 
   /**
-   * changes bag size to given int value
+   * changes bag size to given int value.
    *
    * @param bagSize Requires value to set to
    */
@@ -415,7 +456,7 @@ public class NetClient {
   }
 
   /**
-   * Send End Message (type 0 bag empty, type 2 overtime exceeded)
+   * Send End Message (type 0 bag empty, type 2 overtime exceeded).
    *
    * @param type Requires the EndGameMessage int type
    */
@@ -423,10 +464,12 @@ public class NetClient {
     connection.sendMessage(new EndGameMessage(type));
   }
 
+  /** Enable EndGameButton in gameView. */
   public void enableEndGameButton() {
     gameViewController.showEndButton();
   }
 
+  /** Change View to result. */
   public void changeToResultView() {
     try {
       gameViewController.changeToResultView();
@@ -436,6 +479,11 @@ public class NetClient {
     }
   }
 
+  /**
+   * Sets Game Result Controller.
+   *
+   * @param gameResultsController Requires controller to be set
+   */
   public void setGameResultsController(GameResultsController gameResultsController) {
     this.gameResultsController = gameResultsController;
   }

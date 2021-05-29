@@ -1,7 +1,7 @@
 package net.message;
 
 /**
- * Message class for indicating whether it is your turn or not
+ * Message class for indicating whether it is your turn or not.
  *
  * @author vkaczmar
  */
@@ -12,7 +12,7 @@ public class TurnMessage extends Message {
   private final int[] points;
 
   /**
-   * Constructor for Creating TurnMessage
+   * Constructor for Creating TurnMessage.
    *
    * @param turn Requires the boolean value for turn
    */
@@ -39,6 +39,7 @@ public class TurnMessage extends Message {
     return bagSize;
   }
 
+  /** @return Returns points */
   public int[] getPoints() {
     return points;
   }

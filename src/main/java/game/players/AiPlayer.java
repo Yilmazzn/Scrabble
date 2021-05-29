@@ -28,10 +28,10 @@ public abstract class AiPlayer extends Player {
   private final String name;
   // duplicates)
   protected ArrayList<Tile> rack = new ArrayList<>();
-  private final DIFFICULTY difficulty;
+  private final Difficulty difficulty;
 
   /** Initializes Bot with random name of collection and removes it from list of available names */
-  public AiPlayer(DIFFICULTY difficulty) {
+  public AiPlayer(Difficulty difficulty) {
     super(new PlayerProfile("", 0, 0, 0, 0, LocalDate.now(), LocalDate.now()), false);
 
     this.difficulty = difficulty;
@@ -42,7 +42,7 @@ public abstract class AiPlayer extends Player {
 
     // Set name of profile to 'Bot <name>' and remove name from list
     super.getProfile()
-        .setName("Bot " + name + " (" + (difficulty == DIFFICULTY.EASY ? "Easy" : "Hard") + ")");
+        .setName("Bot " + name + " (" + (difficulty == Difficulty.EASY ? "Easy" : "Hard") + ")");
     botNames.remove(randomIdx);
   }
 
@@ -58,10 +58,6 @@ public abstract class AiPlayer extends Player {
     rack.addAll(tiles);
   }
 
-  /** Return Difficulty of Ai (Used to be able to differentiate, e.g. by colors blue/red) */
-  public DIFFICULTY getDifficulty() {
-    return difficulty;
-  }
 
   /** Quit from game. Set username back to list of available bot names */
   public void quit() {

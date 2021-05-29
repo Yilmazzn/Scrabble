@@ -24,7 +24,7 @@ public class EasyAiPlayer extends AiPlayer {
   private List<Placement> bestPlacements; // best placement
 
   public EasyAiPlayer() {
-    super(DIFFICULTY.EASY);
+    super(Difficulty.EASY);
   }
 
   /** */
