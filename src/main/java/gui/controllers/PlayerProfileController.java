@@ -8,13 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -101,6 +99,10 @@ public class PlayerProfileController {
     td.setTitle("Edit Profile");
     td.setHeaderText("Enter new name of profile");
     td.setContentText("Name: ");
+    DialogPane dialogPane = td.getDialogPane();
+    dialogPane.getStylesheets().add(
+            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane.getStyleClass().add("dialog");
     Optional<String> result = td.showAndWait();
     result.ifPresent(
         name -> {
@@ -157,6 +159,10 @@ public class PlayerProfileController {
     td.setTitle("Create New Profile");
     td.setHeaderText("Enter name of new profile");
     td.setContentText("Name: ");
+    DialogPane dialogPane = td.getDialogPane();
+    dialogPane.getStylesheets().add(
+            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane.getStyleClass().add("dialog");
     Optional<String> result = td.showAndWait();
     result.ifPresent(
         name -> {
@@ -177,6 +183,10 @@ public class PlayerProfileController {
       alert.setTitle("Minimum Profile");
       alert.setHeaderText(null);
       alert.setContentText("You cannot delete your last profile!");
+      DialogPane dialogPane = alert.getDialogPane();
+      dialogPane.getStylesheets().add(
+              getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+      dialogPane.getStyleClass().add("dialog");
       alert.showAndWait();
     } else {
       profiles.remove(profiles.get(selectedIdx));
