@@ -103,6 +103,10 @@ public class Client extends Application {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
     alert.setHeaderText(null);
     alert.setTitle("Information");
+    DialogPane dialogPane = alert.getDialogPane();
+    dialogPane.getStylesheets().add(
+            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane.getStyleClass().add("dialog");
     alert.showAndWait();
   }
 
@@ -130,6 +134,10 @@ public class Client extends Application {
     Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
     alert.setHeaderText(null);
     alert.setTitle("Error");
+    DialogPane dialogPane = alert.getDialogPane();
+    dialogPane.getStylesheets().add(
+            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane.getStyleClass().add("dialog");
     alert.showAndWait();
   }
 

@@ -78,6 +78,7 @@ public class GameViewController implements Initializable {
     Tooltip tip = new Tooltip();
     tip.setText("There are 0 tiles in the bag");
     tip.setShowDelay(Duration.seconds(0.1));
+    tip.setFont(Font.font("Chalkboard"));
     bag.setTooltip(tip);
     agreements.managedProperty().bind(agreements.visibleProperty());
     finishGame.setVisible(false);
@@ -202,6 +203,7 @@ public class GameViewController implements Initializable {
     player.setBagSize(bagSize);
     Tooltip tip = bag.getTooltip();
     tip.setText("There are " + bagSize + " tiles in the game bag");
+    tip.setFont(Font.font("Chalkboard"));
   }
 
   /** @author vihofman for statistics */
@@ -267,6 +269,10 @@ public class GameViewController implements Initializable {
             ButtonType.YES,
             ButtonType.CANCEL);
     alert.setHeaderText(null);
+    DialogPane dialogPane = alert.getDialogPane();
+    dialogPane.getStylesheets().add(
+            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane.getStyleClass().add("dialog");
     alert.showAndWait();
 
     if (alert.getResult() != ButtonType.YES) { // if not yes then leave method
@@ -296,6 +302,10 @@ public class GameViewController implements Initializable {
             ButtonType.YES,
             ButtonType.CANCEL);
     alert.setHeaderText(null);
+    DialogPane dialogPane = alert.getDialogPane();
+    dialogPane.getStylesheets().add(
+            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane.getStyleClass().add("dialog");
     alert.showAndWait();
 
     if (alert.getResult() != ButtonType.YES) { // if not yes then leave method
@@ -450,6 +460,7 @@ public class GameViewController implements Initializable {
     // Tooltip if Joker
     if (letter == '#') {
       Tooltip tip = new Tooltip("This is a joker tile");
+      tip.setFont(Font.font("Chalkboard"));
       tip.setShowDelay(Duration.millis(1500));
       tip.setShowDuration(Duration.millis(3000));
     }

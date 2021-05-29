@@ -9,6 +9,7 @@ import game.components.Tile;
 import gui.components.Rack;
 import gui.controllers.GameViewController;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.DialogPane;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -172,6 +173,10 @@ public class LocalPlayer {
         dialog.setTitle("Joker Tile");
         dialog.setHeaderText(null);
         dialog.setContentText("Choose your letter:");
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+        dialogPane.getStyleClass().add("dialog");
         String choice = client.showDialog(dialog);
         if (choice == null) { // Cancel --> do nothing
           return;

@@ -75,6 +75,9 @@
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="Chalkboard" size="13.0" />
+                     </font>
                   </TextField>
                   <Button alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#increaseValue" prefHeight="37.0" prefWidth="37.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="+">
                      <HBox.margin>
@@ -111,6 +114,9 @@
                      <HBox.margin>
                         <Insets left="10.0" top="15.0" />
                      </HBox.margin>
+                     <font>
+                        <Font name="Chalkboard" size="13.0" />
+                     </font>
                   </TextField>
                   <Button alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#increaseDistribution" prefHeight="37.0" prefWidth="37.0" styleClass="smallButton" stylesheets="@../stylesheets/buttonstyle.css" text="+">
                      <HBox.margin>

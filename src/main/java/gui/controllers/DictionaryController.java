@@ -34,6 +34,7 @@ public class DictionaryController {
     for (int i = start; i < Math.min(end, dictionaryText.length); i++) {
       Label label = new Label(dictionaryText[i]);
       label.setWrapText(true);
+      label.setStyle("-fx-font-family: Chalkboard");
       vbox.getChildren().add(label);
     }
     scrollPane.setContent(vbox);
@@ -55,6 +56,7 @@ public class DictionaryController {
     for (int i = start; i < Math.min(end, dictionaryText.length); i++) {
       Label label = new Label(dictionaryText[i]);
       label.setWrapText(true);
+      label.setStyle("-fx-font-family: Chalkboard");
       vbox.getChildren().add(label);
     }
     scrollPane.setContent(vbox);
@@ -78,6 +80,7 @@ public class DictionaryController {
     for (int i = start; i < Math.min(end, dictionaryText.length); i++) {
       Label label = new Label(dictionaryText[i]);
       label.setWrapText(true);
+      label.setStyle("-fx-font-family: Chalkboard");
       vbox.getChildren().add(label);
     }
     scrollPane.setContent(vbox);
