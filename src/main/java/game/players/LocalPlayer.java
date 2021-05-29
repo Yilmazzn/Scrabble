@@ -8,18 +8,19 @@ import game.components.BoardField;
 import game.components.Tile;
 import gui.components.Rack;
 import gui.controllers.GameViewController;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.DialogPane;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.DialogPane;
+
 /**
- * Class for representing player on client side
+ * Class for representing player on client side.
  *
- * @author yuzun
+ * @author yuzun | mnetzer
  */
 public class LocalPlayer {
 
@@ -42,7 +43,7 @@ public class LocalPlayer {
   private boolean beginning = false;
 
   /**
-   * Sets basic attributes of class, for testing it creates 5 tiles in personal rack
+   * Sets basic attributes of class, for testing it creates 5 tiles in personal rack.
    *
    * @param client Requires Client
    * @param controller Requires GameViewController to interact with GUI
@@ -59,7 +60,7 @@ public class LocalPlayer {
   }
 
   /**
-   * Adds tiles to personal Rack and updates GUI
+   * Adds tiles to personal Rack and updates GUI.
    *
    * @param tile Tile to add to rack (GUI)
    */
@@ -77,7 +78,7 @@ public class LocalPlayer {
   }
 
   /**
-   * Toggles isSelected state of one tile of rack
+   * Toggles isSelected state of one tile of rack.
    *
    * @param position Requires position in rack
    */
@@ -85,10 +86,16 @@ public class LocalPlayer {
     rack.getField(position).setSelected(!rack.isSelected(position));
   }
 
+  /**
+   * Saves amount of tiles in gamebag in a variable.
+   *
+   * @param bagSize amount of tile in game bag
+   */
   public void setBagSize(int bagSize) {
     this.bagSize = bagSize;
   }
 
+  /** Exchanges selected tiles in rack if its player's turn. */
   public void exchange() {
 
     if (!turn) {
@@ -138,6 +145,8 @@ public class LocalPlayer {
   }
 
   /**
+   * Returns true if a tile at given position is selected
+   *
    * @param position Requires position in rack
    * @return Returns if a specific tile is selected
    */
@@ -145,13 +154,13 @@ public class LocalPlayer {
     return rack.getField(position).isSelected();
   }
 
-  /** @return Returns Game Board */
+  /** @return Returns Board */
   public Board getBoard() {
     return board;
   }
 
   /**
-   * Place Tile on board when player himself
+   * Place Tile on board when player himself.
    *
    * @param position Requires which tile from rack you want to set
    * @param row Requires which row you placed the tile in
@@ -174,8 +183,9 @@ public class LocalPlayer {
         dialog.setHeaderText(null);
         dialog.setContentText("Choose your letter:");
         DialogPane dialogPane = dialog.getDialogPane();
-        dialogPane.getStylesheets().add(
-                getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+        dialogPane
+            .getStylesheets()
+            .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
         dialogPane.getStyleClass().add("dialog");
         String choice = client.showDialog(dialog);
         if (choice == null) { // Cancel --> do nothing
@@ -192,7 +202,7 @@ public class LocalPlayer {
   }
 
   /**
-   * Removes tiles from board
+   * Removes tiles from board.
    *
    * @param row Requires row, where to remove tile from board from
    * @param col Requires column, where to remove tile from board from
@@ -213,7 +223,7 @@ public class LocalPlayer {
   }
 
   /**
-   * Sets turn of own player
+   * Sets turn of own player.
    *
    * @param turn Requires new value of turn
    */
@@ -230,24 +240,28 @@ public class LocalPlayer {
       overtimeWatch.start();
     }
 
-    if (bagSize == 0 && rack.isEmpty() && beginning) { //player has empty Rack and no tiles remaining in bag
+    if (bagSize == 0
+        && rack.isEmpty()
+        && beginning) { // player has empty Rack and no tiles remaining in bag
       client.getNetClient().sendEndMessage(0);
     }
   }
 
-  public void sendMessage(String message) {
-    client.getNetClient().sendChatMessage(message);
-  }
-
+  /**
+   * Saves given profiles as CoPlayers
+   *
+   * @param profiles list of profiles from coplayers
+   */
   public void setProfiles(PlayerProfile[] profiles) {
     this.profiles = profiles;
   }
 
-  /** @return Returns playerProfiles as an Array */
+  /** @return Returns playerProfiles */
   public PlayerProfile[] getProfiles() {
     return profiles;
   }
 
+  /** @return Profile of own player (selected profile) */
   public PlayerProfile getProfile() {
     return this.profile;
   }

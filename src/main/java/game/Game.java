@@ -8,35 +8,37 @@ import game.components.Tile;
 import game.players.AiPlayer;
 import game.players.Player;
 import game.players.RemotePlayer;
-import net.message.*;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.message.EndGameMessage;
+import net.message.EndableGameMessage;
+import net.message.Message;
+import net.message.ChatMessage;
+import net.message.PlaceTileMessage;
+
 /**
+ * Single instance running on the hosted server Handles game flow and logic, manages * every
+ * interaction with board and game bag.
+ *
  * @author yuzun
- *     <p>Single instance running on the hosted server Handles game flow and logic
  */
 public class Game {
 
   private final List<Player>
       players; // Players playing this game (in opposite order of their turns)   [0: last player, 1:
   // second last player, ...]
-  private final boolean running; // true if game is running
   private final Board board; // Game Board
   private final LinkedList<Tile> bag; // bag of tiles in the game
-  private final Dictionary
-      dictionary; // Dictionary this game relies on   TODO Dictionary class, getter&setter
+  private final Dictionary dictionary; // Dictionary this game relies on
   private int roundsSinceLastScore = 0; // last n amount of rounds without points
-  private Board
-      lastValidBoard; // Game Board which was last accepted as valid to reset after invalid player
   private int roundNum = -1; // amount of total rounds since start
   private Player playerInTurn; // Player whose turn it is
   private List<BoardField> placementsInTurn =
       new LinkedList<>(); // Placements on the board in the last turn
-  private Scoreboard scoreboard; // Scoreboard containing game statistics
 
   /**
    * A game instance is created by the server, when the host decided to start the game A game
@@ -45,7 +47,7 @@ public class Game {
    * element represents the score of the (n+1)th letter in the alphabet (26th element is the joker
    * tile) When a game is created it sets the status 'running' to true creates a board creates the
    * tiles (amount & score determined by the given arrays), shuffles them and distributes them to
-   * the players
+   * the players.
    */
   public Game(List<Player> players, LinkedList<Tile> bag, Dictionary dictionary) {
 
@@ -55,9 +57,6 @@ public class Game {
     // Players participating
     this.players = players;
     players.forEach(player -> player.joinGame(this));
-
-    // Set running to true
-    this.running = true;
 
     // Set up a board
     this.board = new Board();
@@ -77,22 +76,18 @@ public class Game {
 
   /**
    * Called to start a new round increments round number assigns turn, if it is the turn of an AI
-   * player, then trigger it to to think and make a move
+   * player, then trigger it to to think and make a move.
    */
   public void nextRound() {
 
     // increment round number
     roundNum++;
     System.out.println("Round Number: " + (roundNum + 1));
-    // TODO no Tiles in rack has to be added
     if (roundsSinceLastScore >= 6) { // six turns without anyone scoring points
       notify(new EndableGameMessage());
     }
-    // Save last valid board state
-    this.lastValidBoard = new Board(board); // deep copy
 
     // reassign turns
-    // TODO Handle with care, check for 3 and 4 players
     players.get(Math.abs(roundNum - 1) % players.size()).setTurn(false);
     playerInTurn = players.get(roundNum % players.size());
     playerInTurn.setTurn(true);
@@ -109,7 +104,7 @@ public class Game {
   /**
    * Removes the tiles given to the game from the player's rack Gets equal amount of tiles out of
    * the bag and adds them to the rack of the player The new tiles from the player are put back in
-   * the bag and the bag gets shuffled
+   * the bag and the bag gets shuffled.
    *
    * @param tilesFromPlayer collection of tiles the player wants to exchange
    */
@@ -139,7 +134,9 @@ public class Game {
   public void placeTile(Tile tile, int row, int col) {
 
     if (board.isEmpty(row, col)) {
-      if (playerInTurn.isHuman()){ Sound.playMusic(Sound.tileSet);}
+      if (playerInTurn.isHuman()) {
+        Sound.playMusic(Sound.tileSet);
+      }
       board.placeTile(tile, row, col);
       placementsInTurn.add(board.getField(row, col));
       notify(new PlaceTileMessage(tile, row, col));
@@ -147,7 +144,7 @@ public class Game {
   }
 
   /**
-   * Removes tile at given row and column. Removes placmeent from the list of placements in this
+   * Removes tile at given row and column. Removes placement from the list of placements in this
    * turn. Checks new board state. If field was empty, then nothing happens.
    */
   public void removeTile(int row, int col) {
@@ -162,7 +159,7 @@ public class Game {
    * @author ygarip Ends game (can also be called by incoming EXCEEDED_TIME_MESSAGE or
    *     HOST_DISCONNECT_MESSAGE) If ended abruptly, then because of a user running out of time -->
    *     removing pending placements from the board Else just end normally and show every human
-   *     player scoreboard. No checks here
+   *     player scoreboard. No checks here.
    */
   public void end(int type) {
     for (Player player : players) {
@@ -187,13 +184,17 @@ public class Game {
     for (Player p : players) {
       if (p.isHuman()) {
         ((RemotePlayer) p)
-                .getConnection()
-                .sendToClient(new EndGameMessage(type, p.getScore() == winnerScore, p.getScore(), foundWords));
+            .getConnection()
+            .sendToClient(
+                new EndGameMessage(type, p.getScore() == winnerScore, p.getScore(), foundWords));
       }
     }
   }
 
-  /** TODO change some things maybe... */
+  /**
+   * Called when player submits/passes turn. Checks if submission was valid, calculates scores, new
+   * found words, assigns them and gives back tiles from game bag to player.
+   */
   public void submit() {
 
     try { // Try checking board which throws BoardException if any checks fail
@@ -215,7 +216,9 @@ public class Game {
 
       // Notify which words were found & Score
       if (score > 0) { // if words found
-        if (playerInTurn.isHuman()) {Sound.playMusic(Sound.rightWord);}
+        if (playerInTurn.isHuman()) {
+          Sound.playMusic(Sound.rightWord);
+        }
         String message = playerInTurn.getProfile().getName() + " found: ";
         for (String word : foundWords) {
           message += "\n- " + word + ": " + dictionary.getMeaning(word);
@@ -244,7 +247,7 @@ public class Game {
   }
 
   /**
-   * Resets board to last valid state and puts tiles into game bag Use only if player suddenly quit
+   * Resets board to last valid state and puts tiles into game bag Use only if player suddenly quit.
    */
   public void resetBoard() {
     placementsInTurn.forEach(
@@ -255,32 +258,38 @@ public class Game {
   }
 
   /***
-   * Evaluates the score of the play in the last turn. Iterates over placements in last turn and only ever starts evaluating if placement is to the most top/left placement of all placements in last turn of the specific word it is forming
+   * Evaluates the score of the play in the last turn. Iterates over placements in last turn and only ever
+   * starts evaluating if placement is to the most top/left placement of all placements in last turn of the
+   * specific word it is forming.
    * @return score of play in last turn
    */
   public int evaluateScore() {
     return board.evaluateScore(placementsInTurn);
   }
 
+  /** @return amount tiles in game bag */
   public int getBagSize() {
     return bag.size();
   }
 
+  /** @return game board the game is based on */
   public Board getBoard() {
     return board;
   }
 
+  /** @return dictionary the game is based on */
   public Dictionary getDictionary() {
     return this.dictionary;
   }
 
+  /** @return round number */
   public int getRoundNumber() {
     return roundNum + 1;
   }
 
   /**
    * Creates System message This method is only used by the AI to flex with possible placements,
-   * processing time, etc. ;)
+   * processing time, etc. ;).
    */
   public void notify(Message m) {
     for (Player player : players) {
@@ -291,7 +300,11 @@ public class Game {
     }
   }
 
-  /** @return Returns list of players */
+  /**
+   * Returns list of player taking part in game.
+   *
+   * @return Returns list of players
+   */
   public List<Player> getPlayers() {
     return players;
   }

@@ -4,9 +4,11 @@ import gui.controllers.GameViewController;
 import javafx.application.Platform;
 
 /**
- * @author yuzun Thread which runs parallel to the game application Counts down from 10mins and ends
- *     the associated game object if player runs out of time If player made a move before then, then
- *     thread is interrupted
+ * Thread which runs parallel to the game application Counts down from 10mins and ends * the
+ * associated game object if player runs out of time If player made a move before then, then *
+ * thread is interrupted.
+ *
+ * @author yuzun
  */
 public class OvertimeWatch extends Thread {
 
@@ -16,6 +18,10 @@ public class OvertimeWatch extends Thread {
   private GameViewController
       gameViewController; // Controller to interact with GUI and update time every second
 
+  /**
+   * Initializes with game view controller to be able to manipulate the clock on the view and
+   * remaining overtime in ms as a starting point.
+   */
   public OvertimeWatch(GameViewController gameViewController, int overtime) {
     this.gameViewController = gameViewController;
     this.overtime = overtime;
@@ -23,7 +29,7 @@ public class OvertimeWatch extends Thread {
 
   /**
    * Waits for 10mins after calling and ends game if not stopped till then Thread is interrupted by
-   * game if player made a move
+   * game if player made a move.
    */
   @Override
   public void run() {
@@ -46,7 +52,7 @@ public class OvertimeWatch extends Thread {
     }
   }
 
-  /** Stops countdown by interrupting and killing this thread */
+  /** Stops countdown by interrupting and killing this thread. */
   public int stopCountdown() {
     running = false;
     gameViewController.updateTime(overtime);

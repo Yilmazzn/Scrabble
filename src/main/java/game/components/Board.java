@@ -9,9 +9,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * @author yuzun The board is the main object in the game of scrabble This class handles all
- *     interactions with the board itself -- Integrated Board Validity Check || Score evaluation --
- *     Saves founds already found
+ * The board is the main object in the game of scrabble This class handles all interactions with the
+ * board itself -- Integrated Board Validity Check || Score evaluation -- Saves all found words
+ *
+ * @author yuzun
  */
 public class Board implements Serializable {
 
@@ -20,7 +21,7 @@ public class Board implements Serializable {
   private final List<String> allFoundWords = new ArrayList<>(); // all found words
   private List<String> newFoundWords = new ArrayList<>(); // new found words since last check
 
-  /** Initializes an empty board */
+  /** Initializes an empty board. */
   public Board() {
     fields = new BoardField[BOARD_SIZE][BOARD_SIZE];
 
@@ -81,7 +82,7 @@ public class Board implements Serializable {
     }
   }
 
-  /** Creates deep copy of board (Used by AiPlayer to test moves without interacting with game) */
+  /** Creates deep copy of board (Used by AiPlayer to test moves without interacting with game). */
   public Board(Board board) {
     fields = new BoardField[BOARD_SIZE][BOARD_SIZE];
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -96,7 +97,7 @@ public class Board implements Serializable {
   }
 
   /**
-   * Set given tile at given row and column
+   * Set given tile at given row and column.
    *
    * @param tile Tile to place
    * @param row Row number of field on board (starting from 0)
@@ -107,7 +108,7 @@ public class Board implements Serializable {
   }
 
   /**
-   * Returns true if field is empty
+   * Returns true if field is empty.
    *
    * @param row Row number of field on board (starting from 0)
    * @param col Column number of field on board (starting from 0)
@@ -118,7 +119,7 @@ public class Board implements Serializable {
   }
 
   /**
-   * Returns the tile at given row and column
+   * Returns the tile at given row and column.
    *
    * @param row Row number of field on board (starting from 0)
    * @param col Column number of field on board (starting from 0)
@@ -129,7 +130,7 @@ public class Board implements Serializable {
   }
 
   /**
-   * Returns the BoardField at given row and column counting from 0
+   * Returns the BoardField at given row and column counting from 0.
    *
    * @param row Row number of field on board (starting from 0)
    * @param col Column number of field on board (starting from 0)
@@ -144,7 +145,7 @@ public class Board implements Serializable {
    * efficient! Checks validity of board state checks if STAR field is covered, checks that there
    * are no tiles not adjacent to others, checks that valid words are formed on the board based on
    * the dictionary, As it checks it sets fields which hold invalid tiles as invalid (field.valid =
-   * false)
+   * false).
    *
    * @param placements placements in the last turn
    * @param dictionary Dictionary the game is based on
@@ -287,7 +288,6 @@ public class Board implements Serializable {
 
     // Check: Valid words are formed (Dictionary
     List<String> allNewFoundWords = new ArrayList<>(); // all found words
-    int countWordsFound = 0; // count and only add if > amount already found
     // Check horizontal
     for (int i = 0; i < BOARD_SIZE; i++) {
       for (int j = 0; j < BOARD_SIZE - 1; j++) {
@@ -341,15 +341,15 @@ public class Board implements Serializable {
     // get difference between all new found words and all found words --> new found words
     if (save) {
       this.allFoundWords.forEach(
-          w -> allNewFoundWords.remove(w)); // remove old found words from whole list
+          allNewFoundWords::remove); // remove old found words from whole list
       this.newFoundWords = allNewFoundWords; // list of newfound words
-      this.newFoundWords.forEach(w -> allFoundWords.add(w)); // add new found list to whole list
+      allFoundWords.addAll(this.newFoundWords); // add new found list to whole list
     }
   }
   /**
    * Evaluates the score of the play in the last turn (Efficient). Iterates over placements in last
    * turn and only ever starts evaluating if placement is to the most top/left placement of all
-   * placements in last turn of the specific word it is forming
+   * placements in last turn of the specific word it is forming.
    *
    * @param placementsInTurn Placements which shall be evaluated
    * @return total score of placements
@@ -446,6 +446,7 @@ public class Board implements Serializable {
               case TLS:
                 letterMult *= 3;
                 break;
+              default:
             }
             wordScore += (letterScore * letterMult);
           }
@@ -490,6 +491,7 @@ public class Board implements Serializable {
               case TLS:
                 letterMult *= 3;
                 break;
+              default:
             }
             wordScore += (letterScore * letterMult);
           }

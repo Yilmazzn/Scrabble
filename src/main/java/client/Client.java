@@ -7,25 +7,29 @@ import gui.controllers.GameViewController;
 import gui.controllers.WelcomeViewController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import net.client.NetClient;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import net.client.NetClient;
+
 /**
+ * Main class launches JavaFX window and manages navigation between scenes holds * application-scope
+ * data.
+ *
  * @author yuzun
- *     <p>Main class launches JavaFX window and manages navigation between scenes holds
- *     application-scope data
  */
 public class Client extends Application {
 
@@ -38,7 +42,7 @@ public class Client extends Application {
   private Stage primaryStage; // MAin window
 
   /**
-   * Main method which is called from Launcher, starts gui
+   * Main method which is called from Launcher, starts gui.
    *
    * @param args Requires args to be sent over from Launcher
    */
@@ -46,7 +50,11 @@ public class Client extends Application {
     launch(args);
   }
 
-  /** @return Returns list of playerProfiles */
+  /**
+   * Returns list of client's profiles.
+   *
+   * @return list of profiles
+   */
   public List<PlayerProfile> getPlayerProfiles() {
     return playerProfiles;
   }
@@ -57,7 +65,7 @@ public class Client extends Application {
   }
 
   /**
-   * Sets selected profile to specified profile
+   * Sets selected profile to specified profile.
    *
    * @param profile Requires profile to be set as selected
    */
@@ -65,12 +73,20 @@ public class Client extends Application {
     this.selectedProfile = profile;
   }
 
-  /** @return Returns selected Profile */
+  /**
+   * Returns selected Profile.
+   *
+   * @return profile
+   */
   public PlayerProfile getSelectedProfile() {
     return selectedProfile;
   }
 
-  /** @return Returns NetClient, creates new if none is existent */
+  /**
+   * Returns NetClient, creates new if none is existent.
+   *
+   * @return instance of NetClient (singleton)
+   */
   public NetClient getNetClient() {
     if (netClient == null) {
       netClient = new NetClient(this);
@@ -79,7 +95,7 @@ public class Client extends Application {
   }
 
   /**
-   * Initializes LocalPlayer instance
+   * Initializes LocalPlayer instance.
    *
    * @param controller Requires GameViewController to be sent over to create LocalPlayer with it
    * @return Returns LocalPlayer, creates new one if none is existent
@@ -94,9 +110,8 @@ public class Client extends Application {
   }
 
   /**
-   * Method for creating a custom Popup for different Use Cases
+   * Method for creating a custom Popup for different Use Cases.
    *
-   * @author yuzun
    * @param message Requires Message to be displayed
    */
   public void showPopUp(String message) {
@@ -104,30 +119,17 @@ public class Client extends Application {
     alert.setHeaderText(null);
     alert.setTitle("Information");
     DialogPane dialogPane = alert.getDialogPane();
-    dialogPane.getStylesheets().add(
-            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    String style = getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm();
+    if (style != null) {
+      dialogPane.getStylesheets().add(style);
+    }
     dialogPane.getStyleClass().add("dialog");
     alert.showAndWait();
   }
 
-  public void showPopUpDictionary(String message){
-    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Dictionary", ButtonType.OK);
-    alert.setHeaderText(null);
-    alert.setTitle("Information");
-
-    TextArea textArea = new TextArea(message);
-    textArea.setEditable(false);
-    textArea.setWrapText(true);
-
-    textArea.setMaxWidth(Double.MAX_VALUE);
-    textArea.setMaxHeight(Double.MAX_VALUE);
-    alert.getDialogPane().setExpandableContent(textArea);
-
-    alert.showAndWait();
-  }
-
   /**
-   * Method for creating a custom Popup for different Use Cases
+   * Method for creating a custom Popup for different Use Cases.
+   *
    * @param message Requires Message to be displayed
    */
   public void showError(String message) {
@@ -135,14 +137,15 @@ public class Client extends Application {
     alert.setHeaderText(null);
     alert.setTitle("Error");
     DialogPane dialogPane = alert.getDialogPane();
-    dialogPane.getStylesheets().add(
-            getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+    dialogPane
+        .getStylesheets()
+        .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
     dialogPane.getStyleClass().add("dialog");
     alert.showAndWait();
   }
 
   /**
-   * Show dialog
+   * Shows dialog.
    *
    * @return input (null string if cancelled)
    */
@@ -151,15 +154,19 @@ public class Client extends Application {
     return result.isPresent() ? result.get() : null;
   }
 
-  /** @return Returns primaryStage (MainMenu) of program */
+  /**
+   * Returns main window of program.
+   *
+   * @return stage
+   */
   public Stage getStage() {
     return primaryStage;
   }
 
   /**
-   * FXML Method for showing Main Menu, also disconnects client, if you close window
+   * FXML Method for showing Main Menu, also disconnects client, if you close window.
    *
-   * @throws IOException
+   * @throws IOException if fxml is not found
    */
   public void showMainMenu() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -168,29 +175,29 @@ public class Client extends Application {
     // Parent root = FXMLLoader.load(this.getClass().getResource("/views/playerLobbyView.fxml"));
     WelcomeViewController controller = loader.getController();
     controller.setModel(this);
-    /**
-     * sound from tile Set is not playing
-     */
+    // sound from tile Set is not playing
     Sound.playMusic(Sound.titleMusic);
     primaryStage.setScene(new Scene(root));
 
     primaryStage.setOnCloseRequest(
-        new EventHandler<WindowEvent>() {
-          public void handle(WindowEvent event) {
-            Platform.exit();
-            if (netClient != null
-                && netClient.getConnection() != null) { // disconnect if connection is open
-              netClient.disconnect();
-            }
+        event -> {
+          Platform.exit();
+          if (netClient != null
+              && netClient.getConnection() != null) { // disconnect if connection is open
+            netClient.disconnect();
+          }
 
-            if (localPlayer != null) {
-              localPlayer.setTurn(false); // stop countdown
-            }
+          if (localPlayer != null) {
+            localPlayer.setTurn(false); // stop countdown
           }
         });
   }
 
-  /** @author mnetzer open window with first fxml: start game */
+  /**
+   * Open window with first fxml: start game.
+   *
+   * @author mnetzer
+   */
   @Override
   public void start(Stage primaryStage) throws Exception {
     this.primaryStage = primaryStage;
@@ -213,8 +220,9 @@ public class Client extends Application {
       dialog.setHeaderText(null);
       dialog.setContentText("Please enter your name:");
       DialogPane dialogPane = dialog.getDialogPane();
-      dialogPane.getStylesheets().add(
-              getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
+      dialogPane
+          .getStylesheets()
+          .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
       dialogPane.getStyleClass().add("dialog");
 
       // Traditional way to get the response value.

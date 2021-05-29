@@ -8,12 +8,18 @@ import net.message.ChatMessage;
 import net.message.TurnMessage;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
-/**
+/***
+ * AI player/actor in game. Provides method 'think' which is the main feature
+ *
  * @author yuzun
- *     <p>AI player/actor in game. Provides method 'think' which is the main feature
  */
+
 public abstract class AiPlayer extends Player {
 
   private static final List<String> botNames =
@@ -65,27 +71,23 @@ public abstract class AiPlayer extends Player {
     botNames.add(name);
   }
 
-  public ArrayList<Tile> getTilesFromPlayer() {
-    return this.rack;
-  }
-
-  public enum DIFFICULTY {
-    EASY,
-    HARD
-  }
-
+  /**
+   * Something must have gone veeeereeeeey wrong in the code, since we checked before if it is
+   * valid.
+   */
   @Override
   public void rejectSubmission(String reason) {
     System.out.println("CRITICAL ERROR");
   }
 
+  /** Sends a TurnMessage. */
   @Override
-  public void setTurn(boolean turn){
+  public void setTurn(boolean turn) {
     super.setTurn(turn);
-    if(turn){
+    if (turn) {
       boolean[] turns = new boolean[game.getPlayers().size()];
       int[] scores = new int[game.getPlayers().size()];
-      for(int i = 0; i < turns.length; i++){
+      for (int i = 0; i < turns.length; i++) {
         turns[i] = game.getPlayers().get(i).isTurn();
         scores[i] = game.getPlayers().get(i).getScore();
       }
@@ -93,8 +95,14 @@ public abstract class AiPlayer extends Player {
     }
   }
 
-  /** Flex on 'em with stats */
+  /** Flex on 'em with stats. */
   public void flex(String message) {
     game.notify(new ChatMessage(message, null));
+  }
+
+  /** Difficulty of ai player. */
+  public enum Difficulty {
+    EASY,
+    HARD
   }
 }
