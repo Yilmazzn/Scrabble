@@ -2,13 +2,16 @@ package net.client;
 
 import client.Client;
 import client.PlayerProfile;
+import ft.Sound;
 import game.Dictionary;
 import game.components.Tile;
-import gui.controllers.CreateGameController;
-import gui.controllers.GameResultsController;
-import gui.controllers.GameViewController;
-import gui.controllers.JoinGameController;
+import gui.controllers.*;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import net.message.*;
 import net.server.Server;
 
@@ -258,7 +261,26 @@ public class NetClient {
             client.showPopUp(content);
           }
           if (dictionaryContent != null) {
-            client.showPopUpDictionary(dictionaryContent);
+            FXMLLoader loader = new FXMLLoader();
+            Sound.playMusic(Sound.tileSet);
+            loader.setLocation(this.getClass().getResource("/views/dictionary.fxml"));
+            Parent dictionary = null;
+            try {
+              dictionary = loader.load();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+            DictionaryController controller = loader.getController();
+            controller.setModel(client);
+            controller.showDictionary(dictionaryContent);
+
+            Scene dictionaryScene = new Scene(dictionary);
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Dictionary");
+            window.setResizable(false);
+            window.setScene(dictionaryScene);
+            window.showAndWait();
           }
         });
   }

@@ -5,8 +5,9 @@ import game.components.Tile;
 import java.io.Serializable;
 
 /**
+ * Single tile on the rack which can hold a tile
+ *
  * @author mnetzer
- *     <p>Single tile on the rack which can hold a tile
  */
 public class RackField implements Serializable {
 
@@ -48,5 +49,4 @@ public class RackField implements Serializable {
   public int getColumn() {
     return col;
   }
-
 }
