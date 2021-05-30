@@ -5,7 +5,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-/** @author nsiebler for Dictionary test */
+/** @author nsiebler for Dictionary test
+ * this test checks the functionality of the dictionary and its word as well as the meaning of
+ * the words
+ * */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class DictionaryTest {
   Dictionary dictionary;
@@ -51,7 +54,8 @@ class DictionaryTest {
   // Test for checking meaning of word
   public void getMeaning() {
     String aaMeaning =
-        "(Hawaiian) a volcanic rock consisting of angular blocks of lava with a very rough surface [n -S]";
+        "(Hawaiian) a volcanic rock consisting of angular blocks of"
+            + " lava with a very rough surface [n -S]";
     String housingsMeaning = "HOUSING, any dwelling house [n]";
     String villadomMeaning = "villas collectively [n -S]";
     Assertions.assertEquals(true, dictionary.getMeaning("AA").equals(aaMeaning));
