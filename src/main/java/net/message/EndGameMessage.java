@@ -14,7 +14,7 @@ public class EndGameMessage extends Message {
   /**
    * Constructor for creating EndGameMessage.
    *
-   * @param type
+   * @param type Requires the int type of EndGameMessage
    */
   public EndGameMessage(int type) {
     super(MessageType.ENDGAME);
@@ -36,17 +36,17 @@ public class EndGameMessage extends Message {
     this.foundWords = foundWords;
   }
 
-  /** @return Returns type of message */
+  /**  Returns type of message. */
   public int getType() {
     return this.type;
   }
 
-  /** @return Returns winnerScore */
+  /** Returns winnerScore. */
   public boolean getWinner() {
     return winner;
   }
 
-  /** @return Returns score of player */
+  /**  Returns score of player. */
   public int getScore() {
     return score;
   }

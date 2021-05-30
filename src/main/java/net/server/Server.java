@@ -55,12 +55,12 @@ public class Server extends Thread {
     this.listen();
   }
 
-  /** @return returns the playerList in an array */
+  /** returns the playerList in an array. */
   public synchronized List<Player> getPlayers() {
     return players;
   }
 
-  /** Starts game from server */
+  /** Starts game from server. */
   public void startGame() {
     // set game bag
     LinkedList<Tile> gameBag = new LinkedList<>();
@@ -78,7 +78,7 @@ public class Server extends Thread {
     game.nextRound(); // Start first round
   }
 
-  /** @return returns if the game is running */
+  /** returns if the game is running. */
   public boolean gameIsRunning() {
     return game != null;
   }
@@ -163,7 +163,8 @@ public class Server extends Thread {
         } else if (game != null) {
           clientThread.sendToClient(
               new RefuseConnectionMessage(
-                  "Connection Refused. Game is already running.\n\nSorry, your friends started the game without you :("));
+                  "Connection Refused. Game is already running.\n\nSorry, " +
+                          "your friends started the game without you :("));
         } else {
           RemotePlayer newPlayer = new RemotePlayer(clientThread, players.size() == 0);
           clientThread.setPlayer(newPlayer);
@@ -243,7 +244,7 @@ public class Server extends Thread {
 
   // send this one back to the server protocol
 
-  /** @return returns a Tile from the bag */
+  /**  Returns a Tile from the bag. */
   public synchronized Tile getTile() {
     return new Tile('A', 2);
   }
@@ -268,12 +269,12 @@ public class Server extends Thread {
     }
   }
 
-  /** @return Returns if server is still running */
+  /** Returns if server is still running. */
   public boolean isRunning() {
     return running;
   }
 
-  /** @return Returns array with all playerProfiles */
+  /** Returns array with all playerProfiles. */
   public PlayerProfile[] getPlayerProfilesArray() {
     PlayerProfile[] temp = new PlayerProfile[players.size()];
     for (int i = 0; i < players.size(); i++) {
@@ -282,22 +283,22 @@ public class Server extends Thread {
     return temp;
   }
 
-  /** @return Returns TileValues */
+  /** Returns TileValues. */
   public int[] getTileScores() {
     return tileScores;
   }
 
-  /** @return Returns TileDistributions */
+  /**  Returns TileDistributions. */
   public int[] getTileDistributions() {
     return tileDistributions;
   }
 
-  /** @return Returns dictionaryString */
+  /**  Returns dictionaryString. */
   public String getDictionaryString() {
     return dictionary.getDictionary();
   }
 
-  /** @return Returns the game instance */
+  /**  Returns the game instance. */
   public Game getGame() {
     return game;
   }

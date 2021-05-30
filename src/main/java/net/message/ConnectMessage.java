@@ -21,7 +21,7 @@ public class ConnectMessage extends Message {
     this.profile = profile;
   }
 
-  /** @return returns the PlayerProfile */
+  /** Returns the PlayerProfile. */
   public PlayerProfile getProfile() {
     return profile;
   }
@@ -35,7 +35,7 @@ public class ConnectMessage extends Message {
     this.profiles = profiles;
   }
 
-  /** @return returns to the connected player all connected PlayerProfiles */
+  /** Returns to the connected player all connected PlayerProfiles. */
   public PlayerProfile[] getProfiles() {
     return this.profiles;
   }

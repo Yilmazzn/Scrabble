@@ -54,17 +54,18 @@ public class RemotePlayer extends Player {
     isReady = value;
   }
 
-  /** @return returns the player's readiness. */
+  /** Returns the player's readiness. */
   public boolean getReady() {
     return isReady;
   }
 
-  /** @return returns the serverprotocol connection. */
+  /** Returns the serverprotocol connection. */
   public ServerProtocol getConnection() {
     return connection;
   }
 
-  /** @param profile Requires PlayerProfile. */
+  /** a method to set the Player.
+   *  @param profile Requires PlayerProfile. */
   public void setPlayerProfile(PlayerProfile profile) {
     super.setPlayerProfile(profile);
   }
@@ -87,7 +88,7 @@ public class RemotePlayer extends Player {
         });
   }
 
-  /** @return Returns if this player is host of the game. */
+  /** Returns if this player is host of the game. */
   public boolean isHost() {
     return host;
   }

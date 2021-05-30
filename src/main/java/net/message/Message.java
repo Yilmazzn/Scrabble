@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public abstract class Message implements Serializable {
   private static final long serialVersionUID = 1L;
-  private MessageType mType;
+  private MessageType messageType;
 
   /**
    * an abstract constructor for creating a new message.
@@ -17,7 +17,7 @@ public abstract class Message implements Serializable {
    * @param type an enumtype of messageType
    */
   public Message(MessageType type) {
-    this.mType = type;
+    this.messageType = type;
   }
 
   /**
@@ -26,6 +26,6 @@ public abstract class Message implements Serializable {
    * @return returns the MessageType
    */
   public MessageType getMessageType() {
-    return this.mType;
+    return this.messageType;
   }
 }

@@ -19,7 +19,7 @@ public class KickPlayerMessage extends Message {
 
   /**
    *
-   * @return Returns index, of which player you want to kick
+   * Returns index, of which player you want to kick.
    */
   public int getIndex() {
     return index;

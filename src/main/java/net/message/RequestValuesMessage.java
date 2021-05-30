@@ -21,7 +21,7 @@ public class RequestValuesMessage extends Message {
     this.values = values;
   }
 
-  /** @return returns the values */
+  /**  Returns the values. */
   public int[] getValues() {
     return this.values;
   }

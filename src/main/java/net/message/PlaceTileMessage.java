@@ -36,17 +36,17 @@ public class PlaceTileMessage extends Message {
     this.tile = tile;
   }
 
-  /** @return returns the Tile of the PlaceTileMessage */
+  /** Returns the Tile of the PlaceTileMessage. */
   public Tile getTile() {
     return tile;
   }
 
-  /** @return returns the Row of the PlaceTileMessage */
+  /**  Returns the Row of the PlaceTileMessage. */
   public int getRow() {
     return row;
   }
 
-  /** @return returns the Column of the PlaceTileMessage */
+  /**  Returns the Column of the PlaceTileMessage. */
   public int getCol() {
     return col;
   }

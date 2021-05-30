@@ -7,7 +7,7 @@ package net.message;
  */
 public class StartGameMessage extends Message {
 
-  /** a constructor to create a StartGame Message */
+  /** a constructor to create a StartGame Message. */
   public StartGameMessage() {
     super(MessageType.STARTGAME);
   }
