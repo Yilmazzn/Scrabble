@@ -54,7 +54,11 @@ public class LocalPlayer {
     this.profile = client.getSelectedProfile();
   }
 
-  /** @return returns true if it is turn of localplayer instance */
+  /**
+   * Return if its the turn of the localPlayer.
+   *
+   * @return returns true if it is turn of localPlayer instance
+   */
   public boolean isTurn() {
     return turn;
   }
@@ -72,7 +76,11 @@ public class LocalPlayer {
     controller.updateRack();
   }
 
-  /** @return Returns personal rack */
+  /**
+   * Get the rack.
+   *
+   * @return Returns personal rack
+   */
   public Rack getRack() {
     return rack;
   }
@@ -145,7 +153,7 @@ public class LocalPlayer {
   }
 
   /**
-   * Returns true if a tile at given position is selected
+   * Returns true if a tile at given position is selected.
    *
    * @param position Requires position in rack
    * @return Returns if a specific tile is selected
@@ -154,7 +162,11 @@ public class LocalPlayer {
     return rack.getField(position).isSelected();
   }
 
-  /** @return Returns Board */
+  /**
+   * Get the Board instance.
+   *
+   * @return Returns Board
+   */
   public Board getBoard() {
     return board;
   }
@@ -248,7 +260,7 @@ public class LocalPlayer {
   }
 
   /**
-   * Saves given profiles as CoPlayers
+   * Saves given profiles as CoPlayers.
    *
    * @param profiles list of profiles from coplayers
    */
@@ -256,24 +268,32 @@ public class LocalPlayer {
     this.profiles = profiles;
   }
 
-  /** @return Returns playerProfiles */
+  /**
+   * Get all the PlayerProfiles.
+   *
+   * @return Returns playerProfiles
+   */
   public PlayerProfile[] getProfiles() {
     return profiles;
   }
 
-  /** @return Profile of own player (selected profile) */
+  /**
+   * Get the profile of own player.
+   *
+   * @return Profile of own player (selected profile)
+   */
   public PlayerProfile getProfile() {
     return this.profile;
   }
 
-  /** Submits turn */
+  /** Submits turn. */
   public void submit() {
     if (turn) {
       client.getNetClient().submitMove();
     }
   }
 
-  /** Returns placements of this player this turn */
+  /** Returns placements of this player this turn. */
   public List<BoardField> getPlacements() {
     return placements;
   }
