@@ -4,17 +4,21 @@ import client.Client;
 import ft.Sound;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /** @author vihofman Controller for the Settings */
-public class SettingsController {
+public class SettingsController implements Initializable {
 
   @FXML private CheckBox soundOn;
   @FXML private CheckBox soundOff;
@@ -77,5 +81,11 @@ public class SettingsController {
     Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
     window.setScene(playerLobbyScene);
     window.show();
+  }
+
+  @Override
+  public void initialize(URL url, ResourceBundle resourceBundle) {
+    soundOn.setSelected(!Sound.muteStatus);
+    soundOff.setSelected(Sound.muteStatus);
   }
 }
