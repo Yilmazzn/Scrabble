@@ -32,6 +32,8 @@ import java.util.List;
 
 /** @author vihofman Controller for the tutorial controller */
 public class TutorialController {
+  private final Image defaultImage =
+      new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
   /** instructions shows the tutorial tips */
   @FXML private Label instructions;
   /** stepOverview shows the progress of tutorial */
@@ -50,32 +52,25 @@ public class TutorialController {
   @FXML private GridPane tiles;
   @FXML private Label errorMessage;
   @FXML private Label endTutorial;
-
   private Client client;
   private int counter = 0;
   private int draggedTileIndex = -1;
   private Rack rack;
-  private List<BoardField> placements = new ArrayList<>();
-  private Dictionary dictionary = new Dictionary();
+  private final List<BoardField> placements = new ArrayList<>();
+  private final Dictionary dictionary = new Dictionary();
   private Board gameBoard;
-
-  private boolean stageOneUnlocked = true, stageTwoUnlocked, stageThreeUnlocked, stageFourUnlocked;
-
-  private final Image defaultImage =
-      new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
-
-  private int[] tileScores = {
+  private final boolean stageOneUnlocked = true;
+  private final int[] tileScores = {
     1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
   };
-  private int[] tileDistributions = {
+  private final int[] tileDistributions = {
     9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
   };
-
   /**
    * This array consists of all the advice given by the tutorial. The content of the indices will be
    * printed out onto the instructions label.
    */
-  private String[] steps = {
+  private final String[] steps = {
     "Place the tiles from your rack onto the board so they form a word."
         + "\n"
         + "You can place tiles either vertically or horizontally, always joining the cluster of tiles already placed."
@@ -114,7 +109,7 @@ public class TutorialController {
         + "From here on please press 'Next step'",
     "Not only tiles have different values, but the board colors also increase your score."
         + "\n"
-            + "\n"
+        + "\n"
         + "Light Blue: doubles letter value"
         + "\n"
         + "Dark Blue: triples letter value"
@@ -123,26 +118,30 @@ public class TutorialController {
         + "\n"
         + "Red: triples the word value"
         + "\n"
-            + "\n"
+        + "\n"
         + "Words crossing the middle tile are doubled in value",
     "Premium squares apply only when newly placed tiles cover them. Any subsequent plays do not count those premium squares."
-            + "\n"
-            + "\n"
+        + "\n"
+        + "\n"
         + "If a player covers both letter and word premium squares with a single word, the letter premium(s) is/are calculated first, followed by the word premium(s)."
-            + "\n"
-            + "\n"
-        + "If seven tiles have been laid on the board in one turn after all of the words formed have been scored, 50 bonus points are added. (Bingo or Bonus)",
+        + "\n"
+        + "\n"
+        + "If seven tiles have been laid on the board in one turn after all of the words formed have been scored, 50 bonus points are added. (Bingo)",
     "The timer in the top left corner indicates the amount of time left for you to finish you turn."
         + "\n"
-            + "\n"
+        + "\n"
         + "Every turn can last up to 10 minutes, if exceeded the game ends."
         + "\n"
-            + "\n"
+        + "\n"
         + "The game finishes as well, if all the tiles from a players rack and the bag have been removed or "
         + "\n"
-            + "\n"
+        + "\n"
         + "within 6 rounds nothing has been placed and one of the players decides to leave."
   };
+
+  private boolean stageTwoUnlocked;
+  private boolean stageThreeUnlocked;
+  private boolean stageFourUnlocked;
 
   /**
    * Sets client in TutorialController
@@ -153,14 +152,19 @@ public class TutorialController {
     this.client = client;
     gameBoard = new Board();
     rack = new Rack();
+    image1.setImage(client.getSelectedProfile().getImage());
     showTutorialWelcome(true);
     showErrorMessage(false);
     showEndTutorial(false);
+    instructions.setVisible(false);
+    stepOverview.setVisible(false);
   }
 
   /** Learns how to place tiles */
   public void loadStageOne() {
     showErrorMessage(false);
+    instructions.setVisible(true);
+    stepOverview.setVisible(true);
     // give player tiles HELLO
     rack.add(new Tile('L', tileScores['L' - 65]));
     rack.add(new Tile('L', tileScores['L' - 65]));
@@ -184,7 +188,7 @@ public class TutorialController {
     updateScoreboard(1, 16); // 1 für player 2 für bot
     updateScoreboard(2, 5);
 
-    for (int i = 0; i < rack.RACK_SIZE; i++) {
+    for (int i = 0; i < Rack.RACK_SIZE; i++) {
       rack.remove(i);
     }
     rack.add(new Tile('#', 0));
@@ -225,7 +229,7 @@ public class TutorialController {
     updateScoreboard(1, 25); // 1 für player 2 für bot
     updateScoreboard(2, 25);
 
-    for (int i = 0; i < rack.RACK_SIZE; i++) {
+    for (int i = 0; i < Rack.RACK_SIZE; i++) {
       rack.remove(i);
     }
     rack.add(new Tile('O', tileScores['O' - 65]));
@@ -265,12 +269,12 @@ public class TutorialController {
     updateScoreboard(1, 39); // 1 für player 2 für bot
     updateScoreboard(2, 29);
 
-    for (int i = 0; i < rack.RACK_SIZE; i++) {
+    for (int i = 0; i < Rack.RACK_SIZE; i++) {
       rack.remove(i);
     }
-    rack.add(new Tile('I', tileScores['I' - 65]));
-    rack.add(new Tile('C', tileScores['C' - 65]));
-    rack.add(new Tile('E', tileScores['E' - 65]));
+    rack.add(new Tile('Q', tileScores['Q' - 65]));
+    rack.add(new Tile('H', tileScores['H' - 65]));
+    rack.add(new Tile('Z', tileScores['Z' - 65]));
 
     gameBoard.placeTile(new Tile('I', tileScores['I' - 65]), 6, 10);
     gameBoard.placeTile(new Tile('R', tileScores['R' - 65]), 6, 11);
@@ -306,14 +310,15 @@ public class TutorialController {
           || (stageFourUnlocked && counter == 2)) {
         showErrorMessage(false);
         counter++;
-        System.out.println(counter);
         instructions.setText(steps[counter]);
         stepOverview.setText(counter + 1 + "/7");
       } else {
         showErrorMessage(true);
       }
     }
-    if (counter == 3) { // from here only information on the instructions are shown, no more tasks to complete
+    if (counter
+        == 3) { // from here only information on the instructions are shown, no more tasks to
+      // complete
       showErrorMessage(false);
       counter++;
       instructions.setText(steps[counter]);
@@ -334,7 +339,7 @@ public class TutorialController {
       stepOverview.setText(counter + 1 + "/7");
       return;
     }
-    if(counter >= 6) {
+    if (counter >= 6) {
       System.out.println(counter);
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
@@ -390,7 +395,10 @@ public class TutorialController {
           loadStageThree();
           return;
         } else {
-          client.showPopUp("Please try again...");
+          client.showPopUp(
+              "Great!-.. but"
+                  + gameBoard.getFoundWords().get(0)
+                  + " is not the word we are looking for here...Please try again!");
         }
       } catch (BoardException be) {
         client.showPopUp(be.getMessage());
@@ -406,7 +414,28 @@ public class TutorialController {
           loadStageFour();
           return;
         } else {
-          client.showPopUp("Please try again...");
+          client.showPopUp(
+              "Great!-.. but"
+                  + gameBoard.getFoundWords().get(0)
+                  + " is not the word we are looking for here...Please try again!");
+        }
+      } catch (BoardException be) {
+        client.showPopUp(be.getMessage());
+      }
+    }
+    if (counter == 3) { // Stage 4
+      try {
+        gameBoard.check(placements, dictionary, true);
+        if (gameBoard.getFoundWords().size() == 0) {
+          errorMessage.setText("Try to place a word first");
+          showErrorMessage(true);
+        } else {
+          showErrorMessage(false);
+          stepOverview.setText((++counter + 1) + "/7");
+          instructions.setText(steps[counter]);
+          placements.clear();
+          updateBoard();
+          return;
         }
       } catch (BoardException be) {
         client.showPopUp(be.getMessage());
@@ -839,6 +868,16 @@ public class TutorialController {
   }
 
   public void tiles() {
+
+    if (!(rack.isSelected(0) && rack.isSelected(1) && rack.isSelected(2))) {
+      errorMessage.setText("Select all tiles on your rack first!");
+      showErrorMessage(true);
+      return;
+    } else {
+      errorMessage.setText("Please complete this step first before advancing");
+      showErrorMessage(false);
+    }
+
     if (counter == 3) {
       for (int i = 0; i < 7; i++) {
         if (!rack.isEmpty(i)) {
@@ -850,7 +889,7 @@ public class TutorialController {
       rack.add(new Tile('C', tileScores['C' - 65]));
       updateRack();
     }
-    }
+  }
 
   public void start(MouseEvent mouseEvent) throws IOException {
     Sound.playMusic(Sound.tileSet);
