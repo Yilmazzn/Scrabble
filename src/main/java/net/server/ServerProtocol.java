@@ -2,33 +2,19 @@ package net.server;
 
 import client.PlayerProfile;
 import game.components.Tile;
-import game.players.AiPlayer;
-import game.players.EasyAiPlayer;
-import game.players.HardAiPlayer;
 import game.players.Player;
 import game.players.RemotePlayer;
+import game.players.aiplayers.AiPlayer;
+import game.players.aiplayers.EasyAiPlayer;
+import game.players.aiplayers.HardAiPlayer;
+import net.message.*;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import net.message.AddAIMessage;
-import net.message.ChatMessage;
-import net.message.ConnectMessage;
-import net.message.DisconnectMessage;
-import net.message.EndGameMessage;
-import net.message.ExchangeTileMessage;
-import net.message.KickPlayerMessage;
-import net.message.Message;
-import net.message.PlaceTileMessage;
-import net.message.PlayerReadyMessage;
-import net.message.RequestDictionaryMessage;
-import net.message.RequestDistributionsMessage;
-import net.message.RequestValuesMessage;
-import net.message.SendPlayerDataMessage;
-import net.message.TurnMessage;
-import net.message.UpdateGameSettingsMessage;
 
 /**
  * A ServerProtocol class to handle serverside messages.

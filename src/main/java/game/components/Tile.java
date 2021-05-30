@@ -29,11 +29,7 @@ public class Tile implements Serializable {
     return letter;
   }
 
-  /**
-   * Only used when joker tile was played and tile letter can be set.
-   *
-   * @param letter
-   */
+  /** Only used when joker tile was played and tile letter can be set. */
   public void setLetter(char letter) {
     this.letter = Character.toUpperCase(letter);
   }

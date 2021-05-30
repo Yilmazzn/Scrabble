@@ -71,7 +71,7 @@ public class XmlHandler {
    * Method saves the document given by the attribute xmlDoc in XML format to a file (defined in
    * Parameters class)
    */
-  public static void saveXML(List<PlayerProfile> profiles) {
+  public static void saveXml(List<PlayerProfile> profiles) {
     // Prepare XMLOutPutter and it's format
     if (xmlDoc == null) {
       initDocument();

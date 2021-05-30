@@ -3,53 +3,29 @@ package ft;
 import client.PlayerProfile;
 import org.junit.jupiter.api.*;
 
-import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
+ * Test class of XmlHandler. Uses profiles.xml since its final in XmlHandler
+ *
  * @author yuzun
- *     <p>Test class of XmlHandler
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class XmlHandlerTest {
 
-  private String sep = System.getProperty("file.separator");
-  private String xmlPathTest =
-      System.getProperty("user.dir")
-          + sep
-          + "src"
-          + sep
-          + "test"
-          + sep
-          + "resources"
-          + sep
-          + "xmlTest"
-          + sep
-          + "profilesTest.xml";
+  private final String sep = System.getProperty("file.separator");
+  private String originalContent; // to restore file contents
   private List<PlayerProfile> profiles;
-
-  /**
-   * Used to change XML_PATH in XmlHandler to test path location
-   * https://stackoverflow.com/questions/30703149/mock-private-static-final-field-using-mockito-or-jmockit
-   */
-  static void setFinalStatic(Field field, Object newValue) throws Exception {
-    field.setAccessible(true);
-    Field modifiersField = Field.class.getDeclaredField("modifiers");
-    modifiersField.setAccessible(true);
-    modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-    field.set(null, newValue);
-  }
 
   public static List<PlayerProfile> getMockProfiles() {
     ArrayList<PlayerProfile> profiles = new ArrayList<>();
 
-    for (int i = 1; i <= 100; i++) {
+    for (int i = 1; i <= 20; i++) {
       String name = "Profile " + i + "";
       Random rand = new Random();
       int highscore = rand.nextInt(1000);
@@ -62,29 +38,48 @@ class XmlHandlerTest {
       profiles.add(
           new PlayerProfile(name, highscore, wins, losses, totalScore, create, lastLogged));
     }
-
     return profiles;
   }
 
+  /** Save prior state of file content into a string to restore later. */
   @BeforeAll
   void setUp() throws Exception {
-    Field pathField = XmlHandler.class.getDeclaredField("XML_PATH");
-    setFinalStatic(pathField, xmlPathTest); // mock static final parameter
+    String line;
+    File xmlFile = new File(XmlHandler.XML_PATH);
+    if (xmlFile.exists()) {
+      BufferedReader reader = new BufferedReader(new FileReader(xmlFile));
+      StringBuilder sb = new StringBuilder();
+      while ((line = reader.readLine()) != null) {
+        sb.append(line).append("\n");
+      }
+      originalContent = sb.toString();
+      reader.close();
+      // empty Xml
+      FileWriter writer = new FileWriter(xmlFile);
+      writer.write(
+          "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+              + "\n<PlayerProfiles></PlayerProfiles>"); // Write new XML
+      writer.flush();
+      writer.close();
+    } else {
+      originalContent = "";
+    }
+    System.out.println("Original Content: \n" + originalContent);
     profiles = getMockProfiles();
   }
 
   @Test
   @Order(1)
   @DisplayName("Save profiles to XML")
-  void saveXML() {
-    XmlHandler.saveXML(profiles);
-    Assertions.assertTrue(new File(xmlPathTest).exists());
+  void saveXmlTest() throws InterruptedException {
+    XmlHandler.saveXml(profiles);
+    Assertions.assertTrue(new File(XmlHandler.XML_PATH).exists());
   }
 
   @Test
   @Order(2)
   @DisplayName("Load profiles")
-  void loadProfiles() {
+  void loadProfilesTest() {
 
     List<PlayerProfile> loadedProfiles = XmlHandler.loadProfiles();
     // size
@@ -97,7 +92,6 @@ class XmlHandlerTest {
     }
 
     for (int i = 0; i < profiles.size(); i++) {
-      System.out.println(profiles.get(i).getName());
       Assertions.assertEquals(profiles.get(i).getName(), loadedProfiles.get(i).getName());
       Assertions.assertEquals(profiles.get(i).getHighScore(), loadedProfiles.get(i).getHighScore());
       Assertions.assertEquals(profiles.get(i).getWins(), loadedProfiles.get(i).getWins());
@@ -108,5 +102,28 @@ class XmlHandlerTest {
       Assertions.assertEquals(
           profiles.get(i).getLastLogged(), loadedProfiles.get(i).getLastLogged());
     }
+    System.out.println("Tested to save and load " + profiles.size() + " different profiles");
+  }
+
+  @AfterAll
+  public void restore() throws IOException {
+    if (!originalContent.equals("")) {
+      File resDir = new File(System.getProperty("user.dir") + sep + "res");
+      if (!resDir.exists()) {
+        resDir.mkdir();
+      }
+      File xmlFile = new File(XmlHandler.XML_PATH);
+      if (!xmlFile.exists()) {
+        xmlFile.createNewFile();
+      }
+      FileWriter writer = new FileWriter(xmlFile);
+      writer.write(originalContent);
+      writer.flush();
+      writer.close();
+    } else {
+      new File(XmlHandler.XML_PATH).delete();
+      new File(System.getProperty("user.dir") + sep + "res").delete();
+    }
+    System.out.println("Restored prior state");
   }
 }

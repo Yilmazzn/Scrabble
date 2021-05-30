@@ -4,6 +4,7 @@ import game.Dictionary;
 import game.Game;
 import game.components.Board;
 import game.components.Tile;
+import game.players.aiplayers.HardAiPlayer;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;

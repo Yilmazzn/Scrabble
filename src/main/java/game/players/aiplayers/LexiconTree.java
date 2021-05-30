@@ -6,15 +6,16 @@ import game.components.Tile;
 import java.util.*;
 
 /**
+ * A Directed-Acyclic Word Graph.
+ *
  * @author yuzun
- *     <p>A Directed-Acyclic Word Graph
  */
 public class LexiconTree {
 
   private final Node root;
   private Set<String> possibleWords; // Filled recursively by method calculatePossibleWords
 
-  /** Build Tree based on given dictionary */
+  /** Build Tree based on given dictionary. */
   public LexiconTree(Dictionary dictionary) {
     String[] words = dictionary.getWordsAsArray();
     this.root = new Node(false); // Empty character literal for root
@@ -37,6 +38,13 @@ public class LexiconTree {
     // TODO REMOVE DUPLICATE SUBTREES --> Saving a lot of space
   }
 
+  /**
+   * Calls internal function to calculate possible words. Pattern must not be fully filled e.g. a
+   * possible word for a#########xy would be apple.
+   *
+   * @param wordPattern pattern to search (# is wildcard)
+   * @param tiles tiles on rack
+   */
   public Set<String> calculatePossibleWords(String wordPattern, List<Tile> tiles) {
     possibleWords = new TreeSet<>();
 
@@ -52,7 +60,8 @@ public class LexiconTree {
   }
 
   /**
-   * A tree built by the bot at the start of game (PREFIX-/SUFFIX-TREE) Only used here for this bot
+   * A tree built by the bot at the start of game (PREFIX-/SUFFIX-TREE). Only used here for this
+   * bot.
    */
   private class Node {
     private final Map<Character, Node> children; // Children nodes
@@ -63,7 +72,7 @@ public class LexiconTree {
       this.end = end;
     }
 
-    /** Adds new node with given letter to children */
+    /** Adds new node with given letter to children. */
     public void add(char letter, boolean end) {
       children.put(letter, new Node(end));
     }
@@ -72,14 +81,14 @@ public class LexiconTree {
       return children.get(letter);
     }
 
-    /** true if word (can) end here */
+    /** true if word (can) end here. */
     public boolean isEnd() {
       return end;
     }
 
     /**
      * Recursive Method, checks which words are possible given a pattern. Pattern must not be fully
-     * filled e.g. a possible word for a#########xy would be apple
+     * filled e.g. a possible word for a#########xy would be apple.
      *
      * @param pattern Given Pattern (# element if empty on board)
      * @param path list of characters already visited

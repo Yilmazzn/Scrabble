@@ -1,33 +1,38 @@
-package game.players;
+package game.players.aiplayers;
 
 import game.Dictionary;
 import game.Game;
 import game.components.Board;
-
 import game.components.BoardException;
 import game.components.BoardField;
 import game.components.Tile;
-import game.players.aiplayers.LexiconTree;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 /**
- * @author nsiebler This class had a previous AI that was build, but a overwritten hardai was easier
- *     to build. The entire code concept is created by yuzun
- *     <p>Simple Ai Player Only implements think method
+ * Hard AI Player actor interacting with game. Inspiration by - "The World's Fastest Scrabble
+ * Program" by ANDREW W. APPEL AND GUY J. * JACOBSON.
+ *
+ * @author yuzun
  */
-public class EasyAiPlayer extends AiPlayer {
+public class HardAiPlayer extends AiPlayer {
 
   private static LexiconTree tree;
+  // Root of Word Directed-Acyclic Word Graph!
+  // if multiple hard bots exist, only once created!
+  // Only used for hard ai up till now , I dont know what Nico will use :)
   private List<Placement> bestPlacements; // best placement
 
-  public EasyAiPlayer() {
-    super(Difficulty.EASY);
+  public HardAiPlayer() {
+    super(Difficulty.HARD);
   }
 
-  /** */
+  /**
+   * Assigns the bot the game instance which it partakes in. if no lexicon tree was built by a bot
+   * prior to this one, it will create one here.
+   */
   @Override
   public void joinGame(Game game) {
     super.joinGame(game); // assign game to this player
@@ -38,7 +43,7 @@ public class EasyAiPlayer extends AiPlayer {
   /**
    * Main method which is triggered by the game instance All computations from start of round till
    * end need to be done in here! START COMPUTATION in THREAD as to not block any functionalities of
-   * server
+   * server.
    */
   @Override
   public void think(Board gameBoard, Dictionary dictionary) {
@@ -46,15 +51,27 @@ public class EasyAiPlayer extends AiPlayer {
   }
 
   /**
-   * Main method which is triggered by the game instance All computations from start of round till
-   * end need to be done in here!
+   * Main method which is triggered by the game instance. All computations from start of round till
+   * end need to be done in here.
    */
   public void thinkInternal(Board gameBoard, Dictionary dictionary) {
     Board board = new Board(gameBoard); // Deep copy of game board
     bestPlacements = new ArrayList<>();
 
     // fill placements with best computed solution
-    if (game.getRoundNumber() == 1) { // First round --> think different since no anchors
+    // Check if there are already placements on board (check by roundnum doesnt work since
+    //  first roun can be passed too
+    boolean priorPlacements = false;
+    for (int i = 0; i < Board.BOARD_SIZE; i++) {
+      for (int j = 0; j < Board.BOARD_SIZE; j++) {
+        if (!board.isEmpty(i, j)) {
+          priorPlacements = true;
+          break;
+        }
+      }
+    }
+
+    if (!priorPlacements) { //
       computeFirstRound(board); // fills placements with best computed solution
     } else {
       compute(board);
@@ -67,11 +84,6 @@ public class EasyAiPlayer extends AiPlayer {
       for (Placement placement : bestPlacements) {
         placeTile(placement.getTile(), placement.getRow(), placement.getColumn());
         rack.remove(placement.getTile());
-        try {
-          Thread.sleep(0); // TODO INCREASE
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
       }
 
     } else { // if placement could not be found --> randomly exchange tiles
@@ -92,29 +104,27 @@ public class EasyAiPlayer extends AiPlayer {
     submit();
   }
 
-  /** Reset board */
+  /** Resets the board by undoing the given placements. */
   private void resetBoard(Board board, List<Placement> placements) {
     placements.forEach(
         placement -> board.placeTile(null, placement.getRow(), placement.getColumn()));
   }
 
   /**
-   * Called if first round. Tries to build word with tiles on hand
+   * Called if first round. Tries to build word with tiles on hand.
    *
    * @param board copy of game board
    */
   private void computeFirstRound(Board board) {
+    long startTime = System.currentTimeMillis();
     String wordPattern = "";
     for (int i = 0; i < rack.size(); i++) {
       wordPattern += '#';
     }
     Set<String> possibleWords = tree.calculatePossibleWords(wordPattern, rack);
-    System.out.println();
-    System.out.println(
-        super.getProfile().getName() + " found " + possibleWords.size() + " possible words");
 
     // For every possible word try placing and evaluate
-
+    int maxScore = 0;
     for (String word : possibleWords) {
       List<Placement> placements = new ArrayList<>();
 
@@ -123,20 +133,31 @@ public class EasyAiPlayer extends AiPlayer {
         board.placeTile(tile, 7 + i, 7); // place vertically
         placements.add(new Placement(tile, 7 + i, 7));
       }
-      if (evaluatePlacement(board, placements) != -1) {
+
+      int score = evaluatePlacement(board, placements); // evaluate placement
+      if (maxScore < score) {
         bestPlacements = placements;
-        break;
+        maxScore = score;
       }
     }
+
+    flex(
+        super.getProfile().getName()
+            + " computed "
+            + possibleWords.size()
+            + " possible words in "
+            + (System.currentTimeMillis() - startTime)
+            + "ms");
   }
 
   /**
    * Computes best possible placement. Reduces dimensions to one by first checking only horizontal,
-   * then vertical
+   * then vertical.
    *
    * @param board copy of game board
    */
   private void compute(Board board) {
+    final long startTime = System.currentTimeMillis(); // track time
     List<List<Placement>> possiblePlacements = new ArrayList<>();
     // Traverse through every row
     for (int row = 0; row < Board.BOARD_SIZE; row++) {
@@ -229,33 +250,47 @@ public class EasyAiPlayer extends AiPlayer {
         }
       }
     }
-    System.out.println("-->" + possiblePlacements.size() + " possible Placements found");
-    // TODO change to a placement which is not the best
-    // Try out placements and get the smallest one
+    // Try out placements and get best one
+    int maxScore = 0;
+    int count = 0; // valid placements
     for (List<Placement> placements : possiblePlacements) {
       if (placements.size() == 0) {
         continue;
       }
-      if (evaluatePlacement(board, placements) != -1) {
+      int score = evaluatePlacement(board, placements);
+      if (score > 0) {
+        count++;
+      }
+      if (maxScore < score) {
+        maxScore = score;
         bestPlacements = placements;
-        break;
       }
     }
+    flex(
+        super.getProfile().getName()
+            + " computed "
+            + possiblePlacements.size()
+            + " possible words and calculated best one out of "
+            + count
+            + " valid placements in "
+            + (System.currentTimeMillis() - startTime)
+            + "ms");
   }
 
-  /** Returns a tile with given letter */
+  /** Returns a tile with given letter. */
   private Tile getTile(char letter) {
     for (Tile tile : rack) {
       if (tile.getLetter() == letter) {
         return tile;
       }
     }
-    return null; // should never be reached since method only called with values known to be in hand
+    // should never be reached since method only called with values known to be in hand
+    return null;
   }
 
   /**
    * Simulates placements on copy of board, evaluates score, resets board back to state prior to
-   * placements
+   * placements.
    *
    * @param board board object
    * @param placements placements to be simulated and scored
@@ -276,11 +311,10 @@ public class EasyAiPlayer extends AiPlayer {
     }
     int score = board.evaluateScore(boardPlacements);
     resetBoard(board, placements);
-    System.out.println("EASY-AI-PLAYER: SCORE: " + score);
     return score;
   }
 
-  /** Class for single placement */
+  /** Class for single placement. */
   private class Placement {
 
     private final int row;
