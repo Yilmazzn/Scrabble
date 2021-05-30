@@ -18,7 +18,7 @@ public class AddAiMessage extends Message {
     this.difficulty = difficulty;
   }
 
-  /** @return Returns difficulty */
+  /**  Returns difficulty. */
   public boolean getDifficulty() {
     return difficulty;
   }
