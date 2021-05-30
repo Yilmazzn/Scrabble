@@ -9,8 +9,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * The board is the main object in the game of scrabble This class handles all interactions with the
- * board itself -- Integrated Board Validity Check || Score evaluation -- Saves all found words
+ * The board is the main object in the game of scrabble. This class handles all interactions with
+ * the board itself. -- Integrated Board Validity Check. -- Score evaluation. -- Saves all found
+ * words.
  *
  * @author yuzun
  */
@@ -346,6 +347,7 @@ public class Board implements Serializable {
       allFoundWords.addAll(this.newFoundWords); // add new found list to whole list
     }
   }
+
   /**
    * Evaluates the score of the play in the last turn (Efficient). Iterates over placements in last
    * turn and only ever starts evaluating if placement is to the most top/left placement of all
@@ -510,7 +512,7 @@ public class Board implements Serializable {
     return totalScore;
   }
 
-  /** @return found words up till now (filled in check) */
+  /** returns found words up till now (filled in check). */
   public List<String> getFoundWords() {
     return newFoundWords;
   }

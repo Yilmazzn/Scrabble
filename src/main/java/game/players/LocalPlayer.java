@@ -8,14 +8,13 @@ import game.components.BoardField;
 import game.components.Tile;
 import gui.components.Rack;
 import gui.controllers.GameViewController;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.DialogPane;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.DialogPane;
 
 /**
  * Class for representing player on client side.
@@ -54,11 +53,7 @@ public class LocalPlayer {
     this.profile = client.getSelectedProfile();
   }
 
-  /**
-   * Return if its the turn of the localPlayer.
-   *
-   * @return returns true if it is turn of localPlayer instance
-   */
+  /** Returns true if it is turn of localPlayer instance. */
   public boolean isTurn() {
     return turn;
   }
@@ -76,11 +71,7 @@ public class LocalPlayer {
     controller.updateRack();
   }
 
-  /**
-   * Get the rack.
-   *
-   * @return Returns personal rack
-   */
+  /** Returns personal rack. */
   public Rack getRack() {
     return rack;
   }
@@ -95,7 +86,7 @@ public class LocalPlayer {
   }
 
   /**
-   * Saves amount of tiles in gamebag in a variable.
+   * Saves amount of tiles in gameBag in a variable.
    *
    * @param bagSize amount of tile in game bag
    */
@@ -162,11 +153,7 @@ public class LocalPlayer {
     return rack.getField(position).isSelected();
   }
 
-  /**
-   * Get the Board instance.
-   *
-   * @return Returns Board
-   */
+  /** Returns Board. */
   public Board getBoard() {
     return board;
   }
@@ -259,29 +246,21 @@ public class LocalPlayer {
     }
   }
 
-  /**
-   * Saves given profiles as CoPlayers.
-   *
-   * @param profiles list of profiles from coplayers
-   */
-  public void setProfiles(PlayerProfile[] profiles) {
-    this.profiles = profiles;
-  }
-
-  /**
-   * Get all the PlayerProfiles.
-   *
-   * @return Returns playerProfiles
-   */
+  /** Returns playerProfiles. */
   public PlayerProfile[] getProfiles() {
     return profiles;
   }
 
   /**
-   * Get the profile of own player.
+   * Saves given profiles as CoPlayers.
    *
-   * @return Profile of own player (selected profile)
+   * @param profiles list of profiles from coPlayers
    */
+  public void setProfiles(PlayerProfile[] profiles) {
+    this.profiles = profiles;
+  }
+
+  /** returns Profile of own player (selected profile). */
   public PlayerProfile getProfile() {
     return this.profile;
   }

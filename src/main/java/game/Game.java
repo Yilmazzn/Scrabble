@@ -5,20 +5,15 @@ import game.components.Board;
 import game.components.BoardException;
 import game.components.BoardField;
 import game.components.Tile;
-import game.players.AiPlayer;
 import game.players.Player;
 import game.players.RemotePlayer;
+import game.players.aiplayers.AiPlayer;
+import net.message.*;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import net.message.EndGameMessage;
-import net.message.EndableGameMessage;
-import net.message.Message;
-import net.message.ChatMessage;
-import net.message.PlaceTileMessage;
 
 /**
  * Single instance running on the hosted server Handles game flow and logic, manages * every
@@ -156,10 +151,11 @@ public class Game {
   }
 
   /**
-   * @author ygarip Ends game (can also be called by incoming EXCEEDED_TIME_MESSAGE or
-   *     HOST_DISCONNECT_MESSAGE) If ended abruptly, then because of a user running out of time -->
-   *     removing pending placements from the board Else just end normally and show every human
-   *     player scoreboard. No checks here.
+   * Ends game (can also be called by incoming EXCEEDED_TIME_MESSAGE or * HOST_DISCONNECT_MESSAGE)
+   * If ended abruptly, then because of a user running out of time --> * removing pending placements
+   * from the board Else just end normally and show every human * player scoreboard. No checks here.
+   *
+   * @author ygarip
    */
   public void end(int type) {
     for (Player player : players) {
@@ -192,7 +188,7 @@ public class Game {
   }
 
   /**
-   * Called when player submits/passes turn. Checks if submission was valid, calculates scores, new
+   * Called when player submits/passes turn. Checks if submission was valid, calculates scores new
    * found words, assigns them and gives back tiles from game bag to player.
    */
   public void submit() {
@@ -258,31 +254,31 @@ public class Game {
   }
 
   /***
-   * Evaluates the score of the play in the last turn. Iterates over placements in last turn and only ever
-   * starts evaluating if placement is to the most top/left placement of all placements in last turn of the
-   * specific word it is forming.
+   * Evaluates the score of the play in the last turn. Iterates over placements in last turn and
+   * only ever starts evaluating if placement is to the most top/left placement of all placements
+   * in last turn of the specific word it is forming.
    * @return score of play in last turn
    */
   public int evaluateScore() {
     return board.evaluateScore(placementsInTurn);
   }
 
-  /** @return amount tiles in game bag */
+  /** Returns amount of tiles int game bag. */
   public int getBagSize() {
     return bag.size();
   }
 
-  /** @return game board the game is based on */
+  /** returns game board the game is based on. */
   public Board getBoard() {
     return board;
   }
 
-  /** @return dictionary the game is based on */
+  /** returns dictionary the game is based on. */
   public Dictionary getDictionary() {
     return this.dictionary;
   }
 
-  /** @return round number */
+  /** returns round number. */
   public int getRoundNumber() {
     return roundNum + 1;
   }

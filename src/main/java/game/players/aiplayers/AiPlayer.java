@@ -1,22 +1,18 @@
-package game.players;
+package game.players.aiplayers;
 
 import client.PlayerProfile;
 import game.Dictionary;
 import game.components.Board;
 import game.components.Tile;
+import game.players.Player;
 import net.message.ChatMessage;
 import net.message.TurnMessage;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /***
- * AI player/actor in game. Provides method 'think' which is the main feature
- *
+ * AI player/actor in game. Provides method 'think' which is the main feature.
  * @author yuzun
  */
 
@@ -36,7 +32,7 @@ public abstract class AiPlayer extends Player {
   protected ArrayList<Tile> rack = new ArrayList<>();
   private final Difficulty difficulty;
 
-  /** Initializes Bot with random name of collection and removes it from list of available names */
+  /** Initializes Bot with random name of collection and removes it from list of available names. */
   public AiPlayer(Difficulty difficulty) {
     super(new PlayerProfile("", 0, 0, 0, 0, LocalDate.now(), LocalDate.now()), false);
 
@@ -53,19 +49,18 @@ public abstract class AiPlayer extends Player {
   }
 
   /**
-   * Main method which is triggered by the game instance All computations from start of round till
-   * end need to be done in here!
+   * Main method which is triggered by the game instance. All computations from start of round till
+   * end need to be done in here.
    */
   public abstract void think(Board board, Dictionary dictionary);
 
-  /** Adds given tiles to rack */
+  /** Adds given tiles to rack. */
   @Override
   public void addTilesToRack(Collection<Tile> tiles) {
     rack.addAll(tiles);
   }
 
-
-  /** Quit from game. Set username back to list of available bot names */
+  /** Quit from game. Set username back to list of available bot names. */
   public void quit() {
     // Adds botName back to 'pool' of available names
     botNames.add(name);

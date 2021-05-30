@@ -1,4 +1,4 @@
-package game.players;
+package game.players.aiplayers;
 
 import game.Dictionary;
 import game.Game;
@@ -6,27 +6,26 @@ import game.components.Board;
 import game.components.BoardException;
 import game.components.BoardField;
 import game.components.Tile;
-import game.players.aiplayers.LexiconTree;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 /**
- * @author yuzun Hard AI Player actor, interacting with game
- *     <p>Inspiration by - "The World's Fastest Scrabble Program" by ANDREW W. APPEL AND GUY J.
- *     JACOBSON
+ * This class had a previous AI that was build, but a overwritten hardai was easier to build. The
+ * entire code concept is created by yuzun.
+ *
+ * <p>Simple Ai Player Only implements think method
+ *
+ * @author nsiebler
  */
-public class HardAiPlayer extends AiPlayer {
+public class EasyAiPlayer extends AiPlayer {
 
   private static LexiconTree tree;
-  // Root of Word Directed-Acyclic Word Graph!
-  // if multiple hard bots exist, only once created!
-  // Only used for hard ai up till now , I dont know what Nico will use :)
   private List<Placement> bestPlacements; // best placement
 
-  public HardAiPlayer() {
-    super(Difficulty.HARD);
+  public EasyAiPlayer() {
+    super(Difficulty.EASY);
   }
 
   /** */
@@ -56,19 +55,7 @@ public class HardAiPlayer extends AiPlayer {
     bestPlacements = new ArrayList<>();
 
     // fill placements with best computed solution
-    // Check if there are already placements on baord (check by roundnum doesnt work since
-    //  first roun can be passed too
-    boolean priorPlacements = false;
-    for (int i = 0; i < Board.BOARD_SIZE; i++) {
-      for (int j = 0; j < Board.BOARD_SIZE; j++) {
-        if (!board.isEmpty(i, j)) {
-          priorPlacements = true;
-          break;
-        }
-      }
-    }
-
-    if (!priorPlacements) { //
+    if (game.getRoundNumber() == 1) { // First round --> think different since no anchors
       computeFirstRound(board); // fills placements with best computed solution
     } else {
       compute(board);
@@ -118,15 +105,17 @@ public class HardAiPlayer extends AiPlayer {
    * @param board copy of game board
    */
   private void computeFirstRound(Board board) {
-    long startTime = System.currentTimeMillis();
     String wordPattern = "";
     for (int i = 0; i < rack.size(); i++) {
       wordPattern += '#';
     }
     Set<String> possibleWords = tree.calculatePossibleWords(wordPattern, rack);
+    System.out.println();
+    System.out.println(
+        super.getProfile().getName() + " found " + possibleWords.size() + " possible words");
 
     // For every possible word try placing and evaluate
-    int maxScore = 0;
+
     for (String word : possibleWords) {
       List<Placement> placements = new ArrayList<>();
 
@@ -135,21 +124,11 @@ public class HardAiPlayer extends AiPlayer {
         board.placeTile(tile, 7 + i, 7); // place vertically
         placements.add(new Placement(tile, 7 + i, 7));
       }
-
-      int score = evaluatePlacement(board, placements); // evaluate placement
-      if (maxScore < score) {
+      if (evaluatePlacement(board, placements) != -1) {
         bestPlacements = placements;
-        maxScore = score;
+        break;
       }
     }
-
-    flex(
-        super.getProfile().getName()
-            + " computed "
-            + possibleWords.size()
-            + " possible words in "
-            + (System.currentTimeMillis() - startTime)
-            + "ms");
   }
 
   /**
@@ -159,7 +138,6 @@ public class HardAiPlayer extends AiPlayer {
    * @param board copy of game board
    */
   private void compute(Board board) {
-    long startTime = System.currentTimeMillis(); // track time
     List<List<Placement>> possiblePlacements = new ArrayList<>();
     // Traverse through every row
     for (int row = 0; row < Board.BOARD_SIZE; row++) {
@@ -252,31 +230,18 @@ public class HardAiPlayer extends AiPlayer {
         }
       }
     }
-    // Try out placements and get best one
-    int maxScore = 0;
-    int count = 0; // valid placements
+    System.out.println("-->" + possiblePlacements.size() + " possible Placements found");
+    // TODO change to a placement which is not the best
+    // Try out placements and get the smallest one
     for (List<Placement> placements : possiblePlacements) {
       if (placements.size() == 0) {
         continue;
       }
-      int score = evaluatePlacement(board, placements);
-      if (score > 0) {
-        count++;
-      }
-      if (maxScore < score) {
-        maxScore = score;
+      if (evaluatePlacement(board, placements) != -1) {
         bestPlacements = placements;
+        break;
       }
     }
-    flex(
-        super.getProfile().getName()
-            + " computed "
-            + possiblePlacements.size()
-            + " possible words and calculated best one out of "
-            + count
-            + " valid placements in "
-            + (System.currentTimeMillis() - startTime)
-            + "ms");
   }
 
   /** Returns a tile with given letter */
@@ -312,6 +277,7 @@ public class HardAiPlayer extends AiPlayer {
     }
     int score = board.evaluateScore(boardPlacements);
     resetBoard(board, placements);
+    System.out.println("EASY-AI-PLAYER: SCORE: " + score);
     return score;
   }
 

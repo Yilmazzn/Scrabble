@@ -4,7 +4,9 @@ import game.Dictionary;
 import game.Game;
 import game.components.Board;
 import game.components.Tile;
+import game.players.aiplayers.EasyAiPlayer;
 import org.junit.jupiter.api.Test;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +44,7 @@ class EasyAiPlayerTest extends EasyAiPlayer {
       }
     }
     new Game(players, gameBag, dictionary).nextRound();
+    players.forEach(player -> player.quit());
   }
 
   @Override

@@ -12,8 +12,8 @@ public class BoardField implements Serializable {
   private final FieldType type; // Type of field
   private Tile tile; // Tile placed on this field
   private boolean valid = true; // true if valid placement was made on this field
-  private int row; // Row on the board this field is located at
-  private int col; // Column on the board this field is located at
+  private final int row; // Row on the board this field is located at
+  private final int col; // Column on the board this field is located at
 
   /** Initialize the field with the type of field this instance represents. */
   public BoardField(FieldType type, int row, int col) {
@@ -62,7 +62,7 @@ public class BoardField implements Serializable {
     return col;
   }
 
-  /** Field Classification for different squares, */
+  /** Field Classification for different squares. */
   public enum FieldType {
     NORMAL,
     STAR,
