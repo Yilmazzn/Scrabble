@@ -127,7 +127,6 @@ public class ClientProtocol extends Thread {
                 });
             break;
           case SENDPLAYERDATA:
-            System.out.println(((SendPlayerDataMessage) m).getProfile().getName());
             break;
           case GIVETILE:
             Platform.runLater(

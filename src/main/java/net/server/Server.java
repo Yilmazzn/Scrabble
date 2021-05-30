@@ -153,7 +153,6 @@ public class Server extends Thread {
     running = true;
     try {
       serverSocket = new ServerSocket(Server.PORT);
-      System.out.println("Server running on " + serverIp + ":" + PORT);
       while (running) {
         Socket clientSocket = serverSocket.accept();
         ServerProtocol clientThread = new ServerProtocol(clientSocket, this);
@@ -175,12 +174,10 @@ public class Server extends Thread {
       }
     } catch (IOException e) {
       if (serverSocket != null && serverSocket.isClosed()) {
-        System.out.println("Server stopped | " + e.getMessage());
       } else {
         e.printStackTrace();
       }
     }
-    System.out.println("Server: Server stopped");
   }
 
   /**

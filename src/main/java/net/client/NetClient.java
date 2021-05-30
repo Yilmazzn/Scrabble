@@ -62,7 +62,6 @@ public class NetClient {
       coPlayers = new PlayerProfile[] {client.getSelectedProfile()};
       coPlayerScores = new int[1];
     } catch (Exception e) {
-      System.out.println("Netclient create didnt worked");
       e.printStackTrace();
     }
   }
@@ -284,7 +283,6 @@ public class NetClient {
   public void updateGameSettings(int[] scores, int[] distributions, String dictionaryContent) {
     Platform.runLater(
         () -> {
-          System.out.println("NetClient: in updateGameSettings");
           if (scores != null) {
             String content = "";
             for (int i = 0; i < scores.length; i++) {

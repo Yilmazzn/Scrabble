@@ -110,9 +110,6 @@ public class EasyAiPlayer extends AiPlayer {
       wordPattern += '#';
     }
     Set<String> possibleWords = tree.calculatePossibleWords(wordPattern, rack);
-    System.out.println();
-    System.out.println(
-        super.getProfile().getName() + " found " + possibleWords.size() + " possible words");
 
     // For every possible word try placing and evaluate
 
@@ -230,7 +227,6 @@ public class EasyAiPlayer extends AiPlayer {
         }
       }
     }
-    System.out.println("-->" + possiblePlacements.size() + " possible Placements found");
     // TODO change to a placement which is not the best
     // Try out placements and get the smallest one
     for (List<Placement> placements : possiblePlacements) {
@@ -277,7 +273,6 @@ public class EasyAiPlayer extends AiPlayer {
     }
     int score = board.evaluateScore(boardPlacements);
     resetBoard(board, placements);
-    System.out.println("EASY-AI-PLAYER: SCORE: " + score);
     return score;
   }
 

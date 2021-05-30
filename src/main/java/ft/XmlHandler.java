@@ -44,13 +44,13 @@ public class XmlHandler {
         File resDir = new File(System.getProperty("user.dir") + sep + "res");
         if (!resDir.exists()) {
           if (!resDir.mkdir()) { // Create directory
-            System.out.println("Directory 'res' could not be created.");
+            System.out.println("ERROR: Directory 'res' could not be created.");
           }
         }
         File xmlFile = new File(XML_PATH);
         if (!xmlFile.exists()) {
           if (!xmlFile.createNewFile()) { // Create new file
-            System.out.println("File 'profiles.xml' could not be created.");
+            System.out.println("ERROR: File 'profiles.xml' could not be created.");
           } else {
             FileWriter writer = new FileWriter(xmlFile);
             writer.write(
@@ -136,7 +136,6 @@ public class XmlHandler {
 
       return nPlayer;
     } catch (Exception exp) {
-      System.out.println(exp);
       System.exit(0);
     }
 

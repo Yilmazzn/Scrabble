@@ -55,10 +55,10 @@ public class CreateGameController {
   private Client client;
   PlayerProfile[] profiles; // manage profiles with arrayList
 
-  private int[] tileValues = {
+  private final int[] tileValues = {
     1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
   }; // array storing values of letters
-  private int[] tileDistributions = {
+  private final int[] tileDistributions = {
     9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
   }; // array storing distribution of letters
   private String dictionaryPath;
@@ -111,7 +111,6 @@ public class CreateGameController {
     for (int i = 0; i < values.length; i++) {
       this.tileValues[i] = values[i];
     }
-    System.out.println("setValues used");
   }
 
   /** @return Returns tile Values */
@@ -128,7 +127,6 @@ public class CreateGameController {
     for (int i = 0; i < tileDistributions.length; i++) {
       this.tileDistributions[i] = distributions[i];
     }
-    System.out.println("setDistributions used");
   }
 
   /** @return Returns tile distributions */
@@ -353,13 +351,11 @@ public class CreateGameController {
   public void kickPlayerThree() {
     Sound.playMusic(Sound.tileSet);
     client.getNetClient().kickPlayer(2);
-    ;
   }
 
   public void kickPlayerFour() {
     Sound.playMusic(Sound.tileSet);
     client.getNetClient().kickPlayer(3);
-    ;
   }
 
   /**
@@ -408,7 +404,6 @@ public class CreateGameController {
    * @param mouseEvent to detect the current Stage
    */
   public void startGameView(MouseEvent mouseEvent) throws IOException {
-    System.out.println("createGame");
     Sound.playMusic(Sound.tileSet);
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(this.getClass().getResource("/views/gameView.fxml"));

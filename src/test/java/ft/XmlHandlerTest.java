@@ -64,7 +64,6 @@ class XmlHandlerTest {
     } else {
       originalContent = "";
     }
-    System.out.println("Original Content: \n" + originalContent);
     profiles = getMockProfiles();
   }
 

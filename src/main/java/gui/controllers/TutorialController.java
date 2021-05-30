@@ -340,7 +340,6 @@ public class TutorialController {
       return;
     }
     if (counter >= 6) {
-      System.out.println(counter);
       instructions.setText(steps[counter]);
       stepOverview.setText(counter + 1 + "/7");
       showErrorMessage(false);
@@ -780,7 +779,6 @@ public class TutorialController {
 
   /** Method to update the graphical containers of he board after a move */
   public void placeTile(Tile tile, int row, int col) {
-    System.out.println("Place Tile | GameViewController | " + row + ", " + col);
     gameBoard.placeTile(tile, row, col);
     updateBoard();
   }

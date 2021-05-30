@@ -8,8 +8,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.util.Duration?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/11.0.1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="700.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx"
             fx:controller="gui.controllers.TutorialController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="268.0" layoutY="321.0" prefHeight="80.0"

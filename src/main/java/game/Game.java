@@ -77,7 +77,6 @@ public class Game {
 
     // increment round number
     roundNum++;
-    System.out.println("Round Number: " + (roundNum + 1));
     if (roundsSinceLastScore >= 6) { // six turns without anyone scoring points
       notify(new EndableGameMessage());
     }
@@ -236,7 +235,6 @@ public class Game {
       nextRound();
     } catch (BoardException e) {
       // Send SubmitMoveMessage back, acts as RejectMessage
-      System.out.println("BOARD_ERROR: " + e.getMessage());
       playerInTurn.rejectSubmission(
           e.getMessage()); // Reject player's submission with reason of exception
     }

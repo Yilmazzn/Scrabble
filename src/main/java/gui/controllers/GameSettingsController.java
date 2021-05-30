@@ -69,7 +69,6 @@ public class GameSettingsController {
   /** Applies the Settings and closes the GameSettingView through the CreateGameController */
   public void apply() {
     Sound.playMusic(Sound.tileSet);
-    System.out.println("APPLY");
     createController.closeSettings();
     createController.setValues(values);
     createController.setDistributions(distributions);
@@ -82,7 +81,6 @@ public class GameSettingsController {
   /** Closes the GameSettings Screen through the CreateGameController */
   public void cancel() {
     Sound.playMusic(Sound.tileSet);
-    System.out.println("Cancel_Button");
     createController.closeSettings();
   }
 
@@ -104,7 +102,6 @@ public class GameSettingsController {
       if (selectedFile.getName().matches("/*.*.txt")) {
         dictionary.setText(selectedFile.getPath());
         dictionaryID = dictionary.getText();
-        System.out.println("Dictionary has been uploaded successfully!");
       } else {
         openDictionaryError();
       }
@@ -247,7 +244,6 @@ public class GameSettingsController {
     loader.setLocation(this.getClass().getResource("/views/createGame.fxml"));
     Parent createGame = loader.load();
     CreateGameController controller = loader.getController();
-    System.out.println("Back to Create Game");
     controller.setModel(client);
     controller.setDictionaryPath(dictionaryID);
     controller.setValues(values);

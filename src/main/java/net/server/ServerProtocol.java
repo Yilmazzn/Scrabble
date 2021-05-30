@@ -110,7 +110,6 @@ public class ServerProtocol extends Thread {
             ConnectMessage cm = (ConnectMessage) m;
             player.setPlayerProfile(profile);
 
-            System.out.println("Server added: " + player.getProfile().getName());
             if (!player.isHost()) { // if not host --> joined us message
               server.sendToAll(
                   new ChatMessage(
@@ -295,7 +294,6 @@ public class ServerProtocol extends Thread {
         }
       }
     } catch (ClassNotFoundException e2) {
-      System.out.println(e2.getMessage());
       e2.printStackTrace();
     }
   }

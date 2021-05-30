@@ -124,7 +124,6 @@ public class Rack implements Serializable {
    * @param position identifies the tile position
    */
   public void remove(int position) {
-    System.out.println("Position: " + position);
     fields[position].setTile(null);
     fields[position].setSelected(false);
   }
