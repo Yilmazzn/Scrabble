@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Test class of XmlHandler. Uses profiles.xml since its final in XmlHandler
+ * Test class of XmlHandler. Uses profiles.xml since its final in XmlHandler.
  *
  * @author yuzun
  */

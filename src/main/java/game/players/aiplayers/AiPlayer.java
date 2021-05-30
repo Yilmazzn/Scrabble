@@ -9,7 +9,11 @@ import net.message.ChatMessage;
 import net.message.TurnMessage;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /***
  * AI player/actor in game. Provides method 'think' which is the main feature.
