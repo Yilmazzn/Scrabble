@@ -24,22 +24,22 @@ public class TurnMessage extends Message {
     this.points = points;
   }
 
-  /** @return returns the boolean value of turn */
+  /** Returns the boolean value of turn. */
   public boolean getTurn() {
     return this.turn;
   }
 
-  /** @return returns in the boolean array the player's turns */
+  /** Returns in the boolean array the player's turns. */
   public boolean[] getTurns() {
     return this.turns;
   }
 
-  /** @return returns amount of tiles in game bag */
+  /** Returns amount of tiles in game bag. */
   public int getBagSize() {
     return bagSize;
   }
 
-  /** @return Returns points */
+  /** Returns points. */
   public int[] getPoints() {
     return points;
   }

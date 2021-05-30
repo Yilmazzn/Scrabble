@@ -18,7 +18,7 @@ public class RefuseConnectionMessage extends Message {
     this.message = message;
   }
 
-  /** @return returns the Message */
+  /** Returns the Message. */
   public String getMessage() {
     return this.message;
   }

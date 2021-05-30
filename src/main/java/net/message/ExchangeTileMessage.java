@@ -23,7 +23,7 @@ public class ExchangeTileMessage extends Message {
     }
   }
 
-  /** @return returns the requested tiles to exchange */
+  /** Returns the requested tiles to exchange. */
   public Tile[] getOldTiles() {
     return oldTiles;
   }

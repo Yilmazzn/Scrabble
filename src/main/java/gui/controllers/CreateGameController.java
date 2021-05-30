@@ -205,7 +205,7 @@ public class CreateGameController {
     if (alert.getResult() == ButtonType.CANCEL) {
       return;
     } else {
-      client.getNetClient().addAIPlayer(alert.getResult() == ButtonType.NO);
+      client.getNetClient().addAiPlayer(alert.getResult() == ButtonType.NO);
     }
   }
 

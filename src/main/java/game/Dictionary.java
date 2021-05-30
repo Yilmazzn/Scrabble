@@ -3,16 +3,16 @@ package game;
 import ft.NodeWordlist;
 import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Class that is able to load, read and manage all words from the wordlist in a BST
+ * Class that is able to load, read and manage all words from the wordlist in a BST.
  *
  * @author vkaczmar
  */
@@ -23,7 +23,7 @@ public class Dictionary {
   private final ArrayList<String> meanings;
   private final NodeWordlist root;
 
-  /** Default Dictionary when called without specifying a path (dictionary is given in resources) */
+  /** Default Dictionary when called without specifying a path (dictionary is given in resources). */
   public Dictionary() {
     String defaultDictionaryPath = "/data/Collins Scrabble Words (2019) with definitions.txt";
     uneditedLines = new ArrayList<>();
@@ -47,7 +47,7 @@ public class Dictionary {
 
   /**
    * Constructor with parameter to the wordlist.txt file. Does everything up to the creation of the
-   * binary search tree
+   * binary search tree.
    *
    * @param absolutePath Requires the absolute Path to the wordlist itself
    */
@@ -67,7 +67,7 @@ public class Dictionary {
   }
 
   /**
-   * CreatesBinarySearchTree
+   * CreatesBinarySearchTree.
    *
    * @param words requires ArrayList with Strings
    * @param start start index
@@ -117,7 +117,7 @@ public class Dictionary {
   }
 
   /**
-   * Checks if word exists
+   * Checks if word exists.
    *
    * @param word requires word to be searched for
    * @return returns true, if word exists
@@ -147,7 +147,7 @@ public class Dictionary {
     }
   }
 
-  /** @return returns a String array of all the words */
+  /** returns a String array of all the words. */
   public String[] getWordsAsArray() {
     String[] s = new String[words.size()];
     for (int i = 0; i < words.size(); i++) {
@@ -156,7 +156,7 @@ public class Dictionary {
     return s;
   }
 
-  /** @return returns the whole dictionary as one String */
+  /** returns the whole dictionary as one String. */
   public String getDictionary() {
     StringBuffer sb = new StringBuffer();
     for (String s : uneditedLines) {
@@ -165,14 +165,14 @@ public class Dictionary {
     return sb.toString();
   }
 
-  /** @return meaning of word */
+  /** meaning of word. */
   public String getMeaning(String word) {
     NodeWordlist node = getNode(root, word);
     return node.getMeaning();
   }
 
   /**
-   * Returns Node, associated with word
+   * Returns Node, associated with word.
    *
    * @author yuzun
    * @param node Node to start searching with (root)

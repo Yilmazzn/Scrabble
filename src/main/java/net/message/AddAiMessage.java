@@ -5,7 +5,7 @@ package net.message;
  *
  * @author ygarip
  */
-public class AddAIMessage extends Message {
+public class AddAiMessage extends Message {
   private boolean difficulty;
 
   /**
@@ -13,7 +13,7 @@ public class AddAIMessage extends Message {
    *
    * @param difficulty Requires difficulty to be set, true = hard, false = easy
    */
-  public AddAIMessage(boolean difficulty) {
+  public AddAiMessage(boolean difficulty) {
     super(MessageType.ADDAI);
     this.difficulty = difficulty;
   }

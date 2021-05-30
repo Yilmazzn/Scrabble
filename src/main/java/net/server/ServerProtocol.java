@@ -182,7 +182,7 @@ public class ServerProtocol extends Thread {
             break;
           case SENDPLAYERDATA:
             SendPlayerDataMessage spdm = (SendPlayerDataMessage) m;
-            spdm.setProfile(server.getPlayers().get(spdm.getID()).getProfile());
+            spdm.setProfile(server.getPlayers().get(spdm.getId()).getProfile());
             sendToClient(spdm);
             break;
           case EXCHANGETILES:
@@ -202,7 +202,7 @@ public class ServerProtocol extends Thread {
             if (server.getPlayers().size() >= 4) {
               break;
             }
-            AddAIMessage ai = (AddAIMessage) m;
+            AddAiMessage ai = (AddAiMessage) m;
             AiPlayer aiPlayer;
             if (ai.getDifficulty()) {
               aiPlayer = new HardAiPlayer();

@@ -16,7 +16,7 @@ public class GiveTileMessage extends Message {
     this.tile = tile;
   }
 
-  /** @return returns Tile */
+  /** Returns Tile. */
   public Tile getTile() {
     return this.tile;
   }

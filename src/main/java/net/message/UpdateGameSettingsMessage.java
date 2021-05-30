@@ -24,17 +24,17 @@ public class UpdateGameSettingsMessage extends Message {
     this.dictionary = dictionary;
   }
 
-  /** @return returns tileScores */
+  /** Returns tileScores. */
   public int[] getTileScores() {
     return tileScores;
   }
 
-  /** @return returns dictionary */
+  /** Returns dictionary. */
   public String getDictionary() {
     return this.dictionary;
   }
 
-  /** @return returns tile distribution */
+  /** Returns tile distribution. */
   public int[] getTileDistributions() {
     return this.tileDistributions;
   }

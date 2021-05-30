@@ -19,7 +19,7 @@ public class PlayerReadyMessage extends Message {
     this.ready = ready;
   }
 
-  /** @return returns readyState */
+  /** Returns readyState. */
   public boolean getReady() {
     return this.ready;
   }
@@ -42,7 +42,7 @@ public class PlayerReadyMessage extends Message {
     this.values = values;
   }
 
-  /** @return Returns boolean[] with all ready values for all players */
+  /** Returns boolean[] with all ready values for all players. */
   public boolean[] getValues() {
     return this.values;
   }

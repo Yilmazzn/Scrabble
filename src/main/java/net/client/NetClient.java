@@ -3,8 +3,8 @@ package net.client;
 import client.Client;
 import client.PlayerProfile;
 import ft.Sound;
-import game.components.Tile;
 import game.Dictionary;
+import game.components.Tile;
 import gui.controllers.CreateGameController;
 import gui.controllers.DictionaryController;
 import gui.controllers.GameResultsController;
@@ -17,7 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import net.message.AddAIMessage;
+import net.message.AddAiMessage;
 import net.message.ChatMessage;
 import net.message.EndGameMessage;
 import net.message.ExchangeTileMessage;
@@ -86,12 +86,12 @@ public class NetClient {
     }
   }
 
-  /** @return Returns ClientProtocol connected to NetClient */
+  /** Returns ClientProtocol connected to NetClient. */
   public ClientProtocol getConnection() {
     return connection;
   }
 
-  /** @return Returns up of NetClient */
+  /** Returns up of NetClient. */
   public String getIp() {
     return ipAdr;
   }
@@ -105,7 +105,7 @@ public class NetClient {
     this.ipAdr = ip;
   }
 
-  /** @return Returns server */
+  /** Returns server */
   public Server getServer() {
     return this.server;
   }
@@ -166,7 +166,7 @@ public class NetClient {
   }
 
   /**
-   * checks if move is valid
+   * checks if move is valid.
    *
    * @author ygarip
    */
@@ -204,7 +204,7 @@ public class NetClient {
     return client.getSelectedProfile();
   }
 
-  /** @return Returns client */
+  /** Returns client */
   public Client getClient() {
     return client;
   }
@@ -350,17 +350,17 @@ public class NetClient {
     }
   }
 
-  /** @return Returns if client is host or not */
+  /** Returns if client is host or not. */
   public boolean isHost() {
     return server != null && server.isRunning();
   }
 
-  /** @return Returns playerProfiles as an Array */
+  /** Returns playerProfiles as an Array. */
   public PlayerProfile[] getCoPlayers() {
     return coPlayers;
   }
 
-  /** @return Returns coPlayerScores as Array */
+  /** Returns coPlayerScores as Array. */
   public int[] getCoPlayerScores() {
     return coPlayerScores;
   }
@@ -380,8 +380,8 @@ public class NetClient {
    *
    * @param difficult Requires difficulty, true = hard, false = easy
    */
-  public void addAIPlayer(boolean difficult) {
-    connection.sendMessage(new AddAIMessage(difficult));
+  public void addAiPlayer(boolean difficult) {
+    connection.sendMessage(new AddAiMessage(difficult));
   }
 
   /**

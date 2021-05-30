@@ -8,7 +8,7 @@ package net.message;
 public class RequestDictionaryMessage extends Message {
   private String dictionary;
 
-  /** a constructor to create a RequestDictionaryMessage */
+  /** a constructor to create a RequestDictionaryMessage. */
   public RequestDictionaryMessage() {
     super(MessageType.REQUESTDICTIONARY);
   }
@@ -22,7 +22,7 @@ public class RequestDictionaryMessage extends Message {
     this.dictionary = dictionary;
   }
 
-  /** @return returns the dictionary in one String */
+  /** Returns the dictionary in one String. */
   public String getDictionary() {
     return dictionary;
   }

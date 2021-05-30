@@ -2,13 +2,17 @@ package net.message;
 
 import client.PlayerProfile;
 
-/** @author vkaczmar a message class to send the data of the player */
+/**
+ * a message class to send the data of the player.
+ *
+ * @author vkaczmar
+ */
 public class SendPlayerDataMessage extends Message {
   private PlayerProfile profile;
   private int id;
 
   /**
-   * a constructor to create a SendPlayerDataMessage
+   * a constructor to create a SendPlayerDataMessage.
    *
    * @param id requires id
    */
@@ -17,7 +21,7 @@ public class SendPlayerDataMessage extends Message {
     this.id = id;
   }
 
-  /** @return Returns profile from Message */
+  /** Returns profile from Message. */
   public PlayerProfile getProfile() {
     return profile;
   }
@@ -31,8 +35,8 @@ public class SendPlayerDataMessage extends Message {
     this.profile = profile;
   }
 
-  /** @return returns the id of the player message */
-  public int getID() {
+  /** Returns the id of the player message. */
+  public int getId() {
     return id;
   }
 }

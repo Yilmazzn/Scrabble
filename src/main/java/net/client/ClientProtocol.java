@@ -22,7 +22,7 @@ import net.message.RequestValuesMessage;
 import net.message.TurnMessage;
 
 /**
- * Handles all interactions from the server to the client
+ * Handles all interactions from the server to the client.
  *
  * @author vkaczmar
  */
@@ -34,7 +34,7 @@ public class ClientProtocol extends Thread {
   private boolean running = true;
 
   /**
-   * Constructor for creating streams and connecting a client
+   * Constructor for creating streams and connecting a client.
    *
    * @param ip Requires the ip, the server runs on
    * @param netClient Requires username for current profile
@@ -48,7 +48,7 @@ public class ClientProtocol extends Thread {
     this.out.flush();
   }
 
-  /** Method for writing a DisconnectMessage Object to the server */
+  /** Method for writing a DisconnectMessage Object to the server. */
   public void disconnect() {
     running = false;
     try {
@@ -62,7 +62,7 @@ public class ClientProtocol extends Thread {
   }
 
   /**
-   * Sends all types of messages
+   * Sends all types of messages.
    *
    * @param m Message to be send
    */

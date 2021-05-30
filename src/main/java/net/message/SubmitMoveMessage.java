@@ -28,7 +28,7 @@ public class SubmitMoveMessage extends Message {
     this.board = board;
   }
 
-  /** @return Returns board */
+  /** Returns board. */
   public Board getBoard() {
     return board;
   }
