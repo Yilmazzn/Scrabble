@@ -32,7 +32,7 @@ public class SettingsController {
 
   /** Enable the gameSound within the game */
   public void enableSound() {
-    Sound.unmute();
+    Sound.unMute();
     soundOff.setSelected(false);
     Sound.playMusic(Sound.tileSet);
   }

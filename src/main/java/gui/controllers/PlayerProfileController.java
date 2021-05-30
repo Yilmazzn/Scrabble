@@ -61,7 +61,7 @@ public class PlayerProfileController {
     playerNo.setText(String.valueOf(selectedIdx + 1));
     playerName.setText(profiles.get(selectedIdx).getName());
     playerTotalPoints.setText(String.valueOf(profiles.get(selectedIdx).getTotalScore()));
-    playerCurrentHighscore.setText(String.valueOf(profiles.get(selectedIdx).getHighscore()));
+    playerCurrentHighscore.setText(String.valueOf(profiles.get(selectedIdx).getHighScore()));
     playerPlayedGames.setText(profiles.get(selectedIdx).getPlayedGames() + " Game(s)");
     playerWins.setText(String.valueOf(profiles.get(selectedIdx).getWins()));
     playerLosses.setText(String.valueOf(profiles.get(selectedIdx).getLosses()));

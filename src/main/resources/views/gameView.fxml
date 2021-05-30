@@ -370,6 +370,9 @@
                                     <showDelay>
                                         <Duration millis="500" />
                                     </showDelay>
+                           <font>
+                              <Font name="Chalkboard" size="13.0" />
+                           </font>
                                 </Tooltip>
                             </tooltip>
                         </Button>
@@ -385,6 +388,9 @@
                                     <showDelay>
                                         <Duration millis="500" />
                                     </showDelay>
+                           <font>
+                              <Font name="Chalkboard" size="13.0" />
+                           </font>
                                 </Tooltip>
                             </tooltip>
                         </Button>
@@ -405,6 +411,9 @@
                             <showDelay>
                                 <Duration millis="500" />
                             </showDelay>
+                     <font>
+                        <Font name="Chalkboard" size="13.0" />
+                     </font>
                         </Tooltip>
                     </tooltip>
                 </Button>

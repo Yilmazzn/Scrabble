@@ -99,7 +99,7 @@ class XmlHandlerTest {
     for (int i = 0; i < profiles.size(); i++) {
       System.out.println(profiles.get(i).getName());
       Assertions.assertEquals(profiles.get(i).getName(), loadedProfiles.get(i).getName());
-      Assertions.assertEquals(profiles.get(i).getHighscore(), loadedProfiles.get(i).getHighscore());
+      Assertions.assertEquals(profiles.get(i).getHighScore(), loadedProfiles.get(i).getHighScore());
       Assertions.assertEquals(profiles.get(i).getWins(), loadedProfiles.get(i).getWins());
       Assertions.assertEquals(profiles.get(i).getLosses(), loadedProfiles.get(i).getLosses());
       Assertions.assertEquals(
