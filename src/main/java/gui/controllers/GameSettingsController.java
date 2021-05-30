@@ -2,22 +2,23 @@ package gui.controllers;
 
 import client.Client;
 import ft.Sound;
+import java.io.File;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-
-/** @author vihofman Controller for the Game Settings */
+/**
+ * Controller for the Game Settings.
+ *
+ * @author vihofman
+ */
 public class GameSettingsController {
 
   @FXML private TextField letter;
@@ -28,15 +29,16 @@ public class GameSettingsController {
 
   private Client client;
   private CreateGameController createController;
-  private char letterID; // represents the current letter chosen
-  private int valueID; // represents the current value of chosen letter
-  private int distributionID; // represents the current distribution of chosen letter
-  private int jokerID; // represents the amount of jokers in the game
-  private String dictionaryID; // current dictionary
+  private char letterId; // represents the current letter chosen
+  private int valueId; // represents the current value of chosen letter
+  private int distributionId; // represents the current distribution of chosen letter
+
+  private String dictionaryId; // current dictionary
 
   private int[] values; // array storing values of letters
   private int[] distributions; // array storing distribution of letters
 
+  /** Set model method. */
   public void setModel(Client client, CreateGameController createController) {
     this.client = client;
     this.createController = createController;
@@ -56,7 +58,8 @@ public class GameSettingsController {
     dictionary.setText(createController.getDictionaryPath());
   }
 
-  public void initData() { // initializes fields in gui
+  /** Method which initializes all the fields in the GUI. */
+  public void initData() {
     for (int i = 65; i <= 90; i++) {
       char test = (char) i;
       if (String.valueOf(test).equals(letter.getText())) {
@@ -66,7 +69,8 @@ public class GameSettingsController {
       }
     }
   }
-  /** Applies the Settings and closes the GameSettingView through the CreateGameController */
+
+  /** Applies the Settings and closes the GameSettingView through the CreateGameController. */
   public void apply() {
     Sound.playMusic(Sound.tileSet);
     createController.closeSettings();
@@ -78,15 +82,17 @@ public class GameSettingsController {
         .sendGameSettings(values, distributions, createController.getDictionaryPath());
   }
 
-  /** Closes the GameSettings Screen through the CreateGameController */
+  /** Closes the GameSettings Screen through the CreateGameController. */
   public void cancel() {
     Sound.playMusic(Sound.tileSet);
     createController.closeSettings();
   }
 
-  /** opens a FileChooser to choose the fxml File which is supposed to be the dictionary */
-  /** if File is not a txt File or nothing has been selected, then show Error Message */
-  public void selectDictionary(MouseEvent mouseEvent) throws IOException {
+  /**
+   * Opens a FileChooser to choose the fxml File which is supposed to be the dictionary. If File is
+   * not a txt File or nothing has been selected, then show Error Message.
+   */
+  public void selectDictionary() throws IOException {
     FileChooser fc = new FileChooser();
     // Filter .txt files
     Sound.playMusic(Sound.tileSet);
@@ -101,33 +107,14 @@ public class GameSettingsController {
     if (selectedFile != null) {
       if (selectedFile.getName().matches("/*.*.txt")) {
         dictionary.setText(selectedFile.getPath());
-        dictionaryID = dictionary.getText();
+        dictionaryId = dictionary.getText();
       } else {
         openDictionaryError();
       }
     }
   }
 
-  public int getValue(char a) { // getter method for value of letter
-    int valueLetter = Character.getNumericValue(a);
-    if ((valueLetter >= 97) && (valueLetter <= 122)) { // no caps
-      return values[valueLetter - 97];
-    }
-    if ((valueLetter >= 65) && (valueLetter <= 90)) { // caps
-      return values[valueLetter - 65];
-    } else return 0;
-  }
-
-  public int getDistribution(char a) { // getter method for distribution of letter
-    int distributionLetter = Character.getNumericValue(a);
-    if ((distributionLetter >= 97) && (distributionLetter <= 122)) { // no caps
-      return values[distributionLetter - 97];
-    }
-    if ((distributionLetter >= 65) && (distributionLetter <= 90)) { // caps
-      return values[distributionLetter - 65];
-    } else return 0;
-  }
-
+  /** Decreasing the Joker tile. */
   public void decreaseJoker() {
     Sound.playMusic(Sound.tileSet);
     int jokers = distributions[26];
@@ -136,6 +123,7 @@ public class GameSettingsController {
     distributions[26] = jokers;
   }
 
+  /** Increasing the Joker tile. */
   public void increaseJoker() {
     Sound.playMusic(Sound.tileSet);
     int jokers = distributions[26];
@@ -144,70 +132,77 @@ public class GameSettingsController {
     distributions[26] = jokers;
   }
 
+  /** Increasing the letter. */
   public void increaseLetter() { // to swap to next letter
     Sound.playMusic(Sound.tileSet);
-    letterID = letter.getText().charAt(0);
-    if (letterID <= 89) {
-      letterID++;
-      letter.setText(String.valueOf(letterID));
+    letterId = letter.getText().charAt(0);
+    if (letterId <= 89) {
+      letterId++;
+      letter.setText(String.valueOf(letterId));
       initData();
     }
   }
 
+  /** Decreasing the letter. */
   public void decreaseLetter() { // to swap to letter before
     Sound.playMusic(Sound.tileSet);
-    letterID = letter.getText().charAt(0);
-    if (letterID >= 66) {
-      letterID--;
-      letter.setText(String.valueOf(letterID));
+    letterId = letter.getText().charAt(0);
+    if (letterId >= 66) {
+      letterId--;
+      letter.setText(String.valueOf(letterId));
     }
     initData();
   }
 
+  /** increasing the value. */
   public void increaseValue() { // to increase selected letter above
     Sound.playMusic(Sound.tileSet);
-    letterID = letter.getText().charAt(0);
-    valueID = Integer.parseInt(value.getText());
-    if (valueID > 0) {
-      valueID++;
-      this.values[letterID - 65] = valueID;
+    letterId = letter.getText().charAt(0);
+    valueId = Integer.parseInt(value.getText());
+    if (valueId > 0) {
+      valueId++;
+      this.values[letterId - 65] = valueId;
       initData();
     }
   }
 
+  /** Decreasing the value. */
   public void decreaseValue() { // to decrease selected letter above
     Sound.playMusic(Sound.tileSet);
-    letterID = letter.getText().charAt(0);
-    valueID = Integer.parseInt(value.getText());
-    if (valueID > 0) {
-      valueID--;
-      this.values[letterID - 65] = valueID;
+    letterId = letter.getText().charAt(0);
+    valueId = Integer.parseInt(value.getText());
+    if (valueId > 0) {
+      valueId--;
+      this.values[letterId - 65] = valueId;
     }
     initData();
   }
 
+  /** Increasing the distribution. */
   public void increaseDistribution() { // to increase distribution of selected letter above
     Sound.playMusic(Sound.tileSet);
-    letterID = letter.getText().charAt(0);
-    distributionID = Integer.parseInt(distribution.getText());
-    if (distributionID >= 0) {
-      distributionID++;
-      this.distributions[letterID - 65] = distributionID;
+    letterId = letter.getText().charAt(0);
+    distributionId = Integer.parseInt(distribution.getText());
+    if (distributionId >= 0) {
+      distributionId++;
+      this.distributions[letterId - 65] = distributionId;
     }
     initData();
   }
 
+  /** Decreasing the distribution. */
   public void decreaseDistribution() { // to decrease distribution of selected letter above
     Sound.playMusic(Sound.tileSet);
-    letterID = letter.getText().charAt(0);
-    distributionID = Integer.parseInt(distribution.getText());
-    if (distributionID > 0) {
-      distributionID--;
-      this.distributions[letterID - 65] = distributionID;
+    letterId = letter.getText().charAt(0);
+    distributionId = Integer.parseInt(distribution.getText());
+    if (distributionId > 0) {
+      distributionId--;
+      this.distributions[letterId - 65] = distributionId;
     }
     initData();
   }
 
+  /** Opens the dictionary error. */
   public void openDictionaryError() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
@@ -224,6 +219,7 @@ public class GameSettingsController {
     window.showAndWait();
   }
 
+  /** Exits the game. */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
@@ -237,21 +233,5 @@ public class GameSettingsController {
     window.setWidth(300);
     window.setHeight(200);
     window.showAndWait();
-  }
-
-  public void backToCreateGame(MouseEvent mouseEvent) throws IOException {
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/createGame.fxml"));
-    Parent createGame = loader.load();
-    CreateGameController controller = loader.getController();
-    controller.setModel(client);
-    controller.setDictionaryPath(dictionaryID);
-    controller.setValues(values);
-    controller.setDistributions(distributions);
-
-    Scene playerLobbyScene = new Scene(createGame);
-    Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-    window.setScene(playerLobbyScene);
-    window.show();
   }
 }

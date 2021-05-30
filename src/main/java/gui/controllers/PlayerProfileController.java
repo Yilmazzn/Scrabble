@@ -146,7 +146,6 @@ public class PlayerProfileController {
     selectedIdx = Math.abs((selectedIdx - 1) % profiles.size());
     client.setSelectedProfile(profiles.get(selectedIdx));
     showPlayer();
-    // TODO Fehler bei der Auswahl: springt nicht zum Ende
   }
 
   /** Shows the next playerProfile in the list. Jumps from the end to the beginning. */

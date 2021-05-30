@@ -2,22 +2,25 @@ package gui.controllers;
 
 import client.Client;
 import ft.Sound;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-/** @author vihofman Controller for the Settings */
+/**
+ * Controller for managing the settings.
+ *
+ * @author vihofman
+ */
 public class SettingsController implements Initializable {
 
   @FXML private CheckBox soundOn;
@@ -34,24 +37,25 @@ public class SettingsController implements Initializable {
   }
   // settings logic with setter methods
 
-  /** Enable the gameSound within the game */
+  /** Enable the gameSound within the game. */
   public void enableSound() {
     Sound.unMute();
     soundOff.setSelected(false);
     Sound.playMusic(Sound.tileSet);
   }
 
-  /** Disable the gameSound within the game */
+  /** Disable the gameSound within the game. */
   public void disableSound() {
     soundOn.setSelected(false);
     Sound.mute();
   }
 
-  // Getter methods for settings
+  /** Method for getting the Sound settings. */
   public boolean getSound() {
     return soundOn.isSelected();
   }
 
+  /** Method for exiting the game. */
   public void exitGame() throws IOException {
 
     FXMLLoader loader = new FXMLLoader();
@@ -69,6 +73,7 @@ public class SettingsController implements Initializable {
     window.showAndWait();
   }
 
+  /** Method for returning back to the player lobby when triggered. */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
@@ -83,6 +88,7 @@ public class SettingsController implements Initializable {
     window.show();
   }
 
+  /** Method for initializing. */
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     soundOn.setSelected(!Sound.muteStatus);

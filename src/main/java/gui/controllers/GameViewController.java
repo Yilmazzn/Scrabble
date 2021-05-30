@@ -290,7 +290,7 @@ public class GameViewController implements Initializable {
    * Returns to player Lobby and disconnects client.
    *
    * @param mouseEvent Requires MouseEvent generated on Click
-   * @throws IOException fxml file could notbe loaded
+   * @throws IOException fxml file could not be loaded
    */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     Sound.playMusic(Sound.tileSet);

@@ -7,36 +7,35 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-
+/**
+ * Class for the join Game Controller.
+ *
+ * @author vihofman
+ */
 public class JoinGameController {
-  /** @author vihofman for functionality */
   @FXML private TextField ipField;
-
-  @FXML private AnchorPane scene; // Whole scene
-
   private Client client;
 
   /**
-   * Sets client in JoinGameController
+   * Sets client in JoinGameController.
    *
    * @param client Requires client to be set
    */
   public void setModel(Client client) {
     this.client = client;
     ipField.setOnKeyPressed(
-        new EventHandler<KeyEvent>() {
+        new EventHandler<>() {
           @Override
           public void handle(KeyEvent keyEvent) {
             if (keyEvent.getCode().equals(KeyCode.ENTER)) {
@@ -47,6 +46,7 @@ public class JoinGameController {
         });
   }
 
+  /** InvalidTriggered when wrong IP has been entered. */
   public void showErrorMessage() {
     try {
       FXMLLoader loader = new FXMLLoader();
@@ -71,7 +71,7 @@ public class JoinGameController {
     }
   }
 
-  /** Triggered when 'Join' clicked */
+  /** Triggered when 'Join' clicked. */
   @FXML
   public void gameView() {
     Sound.playMusic(Sound.tileSet);
@@ -86,7 +86,7 @@ public class JoinGameController {
     }
   }
 
-  /** Triggered when message CONNECT received */
+  /** Triggered when message CONNECT received. */
   public void loadGameView() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
@@ -102,9 +102,9 @@ public class JoinGameController {
   }
 
   /**
-   * Method to open the exit Screen in a new window
+   * Method to open the exit Screen in a new window.
    *
-   * @throws IOException
+   * @throws IOException IOException
    */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
@@ -125,9 +125,11 @@ public class JoinGameController {
   }
 
   /**
-   * @author mnetzer Method to get back to the PlayScrabble Screen
+   * Method to get back to the PlayScrabble Screen.
+   *
+   * @author mnetzer
    * @param mouseEvent to detect the current Stage
-   * @throws IOException
+   * @throws IOException IOException
    */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();

@@ -2,53 +2,42 @@ package gui.controllers;
 
 import client.Client;
 import ft.Sound;
-import game.Dictionary;
 import game.components.Board;
 import game.components.BoardException;
 import game.components.BoardField;
 import game.components.Tile;
+import game.Dictionary;
 import gui.components.Rack;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
+import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
-/** @author vihofman Controller for the tutorial controller */
+/**
+ * Controller tor the Tutorial.
+ *
+ * @author vihofman
+ */
 public class TutorialController {
-  private final Image defaultImage =
-      new Image(getClass().getResourceAsStream("/pictures/ProfileIcon.png"));
-  /** instructions shows the tutorial tips */
   @FXML private Label instructions;
-  /** stepOverview shows the progress of tutorial */
   @FXML private Label stepOverview;
-  /** tutorialWelcome is welcoming screen */
   @FXML private VBox tutorialWelcome;
-  /** counter indicates the current step of the tutorial */
   @FXML private GridPane board;
-
-  @FXML private Label player1;
-  @FXML private Label player2;
   @FXML private Label pointsPlayer1;
   @FXML private Label pointsPlayer2;
-  @FXML private ImageView image1;
-  @FXML private ImageView image2;
   @FXML private GridPane tiles;
   @FXML private Label errorMessage;
   @FXML private Label endTutorial;
@@ -59,13 +48,11 @@ public class TutorialController {
   private final List<BoardField> placements = new ArrayList<>();
   private final Dictionary dictionary = new Dictionary();
   private Board gameBoard;
-  private final boolean stageOneUnlocked = true;
+
   private final int[] tileScores = {
     1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
   };
-  private final int[] tileDistributions = {
-    9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
-  };
+
   /**
    * This array consists of all the advice given by the tutorial. The content of the indices will be
    * printed out onto the instructions label.
@@ -144,7 +131,7 @@ public class TutorialController {
   private boolean stageFourUnlocked;
 
   /**
-   * Sets client in TutorialController
+   * Sets client in TutorialController.
    *
    * @param client Requires client to be set
    */
@@ -152,7 +139,6 @@ public class TutorialController {
     this.client = client;
     gameBoard = new Board();
     rack = new Rack();
-    image1.setImage(client.getSelectedProfile().getImage());
     showTutorialWelcome(true);
     showErrorMessage(false);
     showEndTutorial(false);
@@ -160,7 +146,7 @@ public class TutorialController {
     stepOverview.setVisible(false);
   }
 
-  /** Learns how to place tiles */
+  /** Learns how to place tiles. */
   public void loadStageOne() {
     showErrorMessage(false);
     instructions.setVisible(true);
@@ -177,6 +163,7 @@ public class TutorialController {
     updateRack();
   }
 
+  /** Learns how to use the joker. */
   public void loadStageTwo() {
     showErrorMessage(false);
     Sound.playMusic(Sound.rightWord);
@@ -218,6 +205,7 @@ public class TutorialController {
     updateRack();
   }
 
+  /** Learns how to Shuffle the tiles. */
   public void loadStageThree() {
     showErrorMessage(false);
     Sound.playMusic(Sound.rightWord);
@@ -258,6 +246,7 @@ public class TutorialController {
     updateRack();
   }
 
+  /** Learns how to exchange the tiles the player has selected. */
   public void loadStageFour() {
     showErrorMessage(false);
     Sound.playMusic(Sound.rightWord);
@@ -296,13 +285,8 @@ public class TutorialController {
     updateRack();
   }
 
-  /**
-   * method for getting to the next tutorial step
-   *
-   * @param mouseEvent
-   * @throws IOException
-   */
-  public void nextStep(MouseEvent mouseEvent) throws IOException {
+  /** Method for getting to the next tutorial s. */
+  public void nextStep() {
     Sound.playMusic(Sound.tileSet);
     if (counter < 3) {
       if ((stageTwoUnlocked && counter == 0)
@@ -349,13 +333,8 @@ public class TutorialController {
     }
   }
 
-  /**
-   * method for getting to the previous tutorial step
-   *
-   * @param mouseEvent
-   * @throws IOException
-   */
-  public void previousStep(MouseEvent mouseEvent) throws IOException {
+  /** Method for getting to the previous tutorial */
+  public void previousStep() {
     Sound.playMusic(Sound.tileSet);
     if (counter > 0) {
       showErrorMessage(false);
@@ -365,7 +344,7 @@ public class TutorialController {
     }
   }
 
-  /** method for allowing to submit and load the next stage with new tasks */
+  /** Method for allowing to submit and load the next stage with new tasks. */
   public void submit() {
     Sound.playMusic(Sound.tileSet);
     if (counter == 0) { // Stage 1
@@ -434,7 +413,6 @@ public class TutorialController {
           instructions.setText(steps[counter]);
           placements.clear();
           updateBoard();
-          return;
         }
       } catch (BoardException be) {
         client.showPopUp(be.getMessage());
@@ -443,10 +421,10 @@ public class TutorialController {
   }
 
   /**
-   * Update the graphics of the board with instances of PlayerProfiles/Board. Called after each move
+   * Update the graphics of the board with instances of PlayerProfiles/Board. Called after each
+   * move. AnchorPane as graphical container for the tiles are created.
    */
   public void updateBoard() {
-    /** AnchorPane as graphical container for the tiles are created */
     board.getChildren().removeAll();
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
@@ -456,7 +434,7 @@ public class TutorialController {
     }
   }
 
-  /** Updates Scoreboard, called from NetClient if changes are made */
+  /** Updates Scoreboard, called from NetClient if changes are made. */
   public void updateScoreboard(int idx, int score) {
     if (idx == 1) {
       pointsPlayer1.setText(Integer.toString(score));
@@ -465,7 +443,7 @@ public class TutorialController {
     }
   }
 
-  /** Updates Rack, called after each move the LocalPlayer makes */
+  /** Updates Rack, called after each move the LocalPlayer makes. */
   public void updateRack() {
     tiles.getChildren().clear();
     for (int i = 0; i < Rack.RACK_SIZE; i++) {
@@ -480,9 +458,11 @@ public class TutorialController {
 
   /**
    * Method to create the Containers for the tiles on the Rack includes graphical components and
-   * adds the Drag and Drop feature
+   * adds the Drag and Drop feature.
    *
-   * @param letter,value,position
+   * @param letter char
+   * @param value int
+   * @param position int
    * @return AnchorPane
    */
   public AnchorPane createBottomTile(char letter, int value, int position) {
@@ -505,7 +485,7 @@ public class TutorialController {
     AnchorPane.setBottomAnchor(label, 1.0);
     label.setAlignment(Pos.CENTER);
     label.getStylesheets().add("/stylesheets/labelstyle.css");
-    String help = "rack" + (position + 1);
+
     if (rack.getField(position).isSelected()) {
       label.getStyleClass().add("tileBottomSelected");
     } else {
@@ -525,38 +505,31 @@ public class TutorialController {
     pane.getChildren().add(points);
 
     pane.setOnDragDetected(
-        new EventHandler<MouseEvent>() {
-          @Override
-          public void handle(MouseEvent mouseEvent) {
-            String exchange = label.getText() + points.getText();
-            Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
-            draggedTileIndex = position;
-            ClipboardContent content = new ClipboardContent();
-            content.putString(exchange);
-            db.setContent(content);
-            mouseEvent.consume();
-          }
+        mouseEvent -> {
+          String exchange = label.getText() + points.getText();
+          Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
+          draggedTileIndex = position;
+          ClipboardContent content = new ClipboardContent();
+          content.putString(exchange);
+          db.setContent(content);
+          mouseEvent.consume();
         });
 
     pane.setOnDragDone(
-        new EventHandler<DragEvent>() {
-          public void handle(DragEvent event) {
-            /* the drag-and-drop gesture ended */
-            if (event.isDropCompleted()) {
-              draggedTileIndex = -1;
-            }
-
-            event.consume();
+        event -> {
+          /* the drag-and-drop gesture ended */
+          if (event.isDropCompleted()) {
+            draggedTileIndex = -1;
           }
+
+          event.consume();
         });
 
     pane.setOnMouseClicked(
-        new EventHandler<MouseEvent>() {
-          public void handle(MouseEvent event) {
-            rack.getField(position).setSelected(!rack.isSelected(position));
-            updateBottomTile(letter, value, position);
-            event.consume();
-          }
+        event -> {
+          rack.getField(position).setSelected(!rack.isSelected(position));
+          updateBottomTile(letter, value, position);
+          event.consume();
         });
 
     pane.setStyle("-fx-cursor: hand");
@@ -566,9 +539,9 @@ public class TutorialController {
 
   /**
    * Method to create the Containers for the tiles on the Board includes graphical components and
-   * adds the Drag and Drop feature
+   * adds the Drag and Drop feature.
    *
-   * @param boardField
+   * @param boardField board Field
    * @return AnchorPane
    */
   public AnchorPane createTile(BoardField boardField) {
@@ -602,7 +575,7 @@ public class TutorialController {
     points.getStylesheets().add("/stylesheets/labelstyle.css");
     points.getStyleClass().add("digitTile");
 
-    /** Assignment of different styles of the field to the labels */
+    // Assignment of different styles of the field to the labels
     if (!boardField.isEmpty()) {
       label.getStyleClass().add("tileWithLetter");
       if (placements.contains(
@@ -637,95 +610,85 @@ public class TutorialController {
     pane.getChildren().add(points);
 
     pane.setOnDragOver(
-        new EventHandler<DragEvent>() {
-          public void handle(DragEvent event) {
-            /* data is dragged over the target */
+        event -> {
+          /* data is dragged over the target */
 
-            /* accept it only if it is  not dragged from the same node
-             * and if it has a string data */
-            if (event.getGestureSource() != pane && event.getDragboard().hasString()) {
-              /* allow for both copying and moving, whatever user chooses */
-              event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-            }
-
-            event.consume();
+          /* accept it only if it is  not dragged from the same node
+           * and if it has a string data */
+          if (event.getGestureSource() != pane && event.getDragboard().hasString()) {
+            /* allow for both copying and moving, whatever user chooses */
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
           }
+
+          event.consume();
         });
 
     pane.setOnDragDropped(
-        new EventHandler<DragEvent>() {
-          public void handle(DragEvent event) {
-            /* data dropped */
-            /* if there is a string data on dragboard, read it and use it */
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-            if (db.hasString()) {
-              updateTile(
-                  db.getString().charAt(0),
-                  Integer.valueOf(db.getString().substring(1)),
-                  boardField.getRow(),
-                  boardField.getColumn());
-              // label.setText(db.getString());
-              // label.getStyleClass().add("tileWithLetter");
-              success = true;
-            }
-            /* let the source know whether the string was successfully
-             * transferred and used */
-            event.setDropCompleted(success);
+        event -> {
+          /* data dropped */
+          /* if there is a string data on dragboard, read it and use it */
+          Dragboard db = event.getDragboard();
+          boolean success = false;
+          if (db.hasString()) {
+            updateTile(
+                db.getString().charAt(0),
+                Integer.parseInt(db.getString().substring(1)),
+                boardField.getRow(),
+                boardField.getColumn());
 
-            event.consume();
+            success = true;
           }
+          /* let the source know whether the string was successfully
+           * transferred and used */
+          event.setDropCompleted(success);
+
+          event.consume();
         });
 
     pane.setOnMouseClicked(
-        new EventHandler<MouseEvent>() {
-          public void handle(MouseEvent event) {
-            if (!boardField.isEmpty()) {
-              int row = boardField.getRow();
-              int col = boardField.getColumn();
-              if (placements.contains(gameBoard.getField(row, col))) {
-                if (gameBoard
-                    .getTile(row, col)
-                    .isJoker()) { // if it was a joker --> back to being a joker
-                  gameBoard.getTile(row, col).setLetter('#');
-                }
-                addTilesToRack(gameBoard.getTile(row, col));
-                gameBoard.getField(row, col).setTile(null);
-                placements.remove(gameBoard.getField(row, col));
+        event -> {
+          if (!boardField.isEmpty()) {
+            int row = boardField.getRow();
+            int col = boardField.getColumn();
+            if (placements.contains(gameBoard.getField(row, col))) {
+              if (gameBoard
+                  .getTile(row, col)
+                  .isJoker()) { // if it was a joker --> back to being a joker
+                gameBoard.getTile(row, col).setLetter('#');
               }
-              updateBoard();
-              updateRack();
+              addTilesToRack(gameBoard.getTile(row, col));
+              gameBoard.getField(row, col).setTile(null);
+              placements.remove(gameBoard.getField(row, col));
             }
+            updateBoard();
+            updateRack();
           }
         });
 
     // Color border yellow when entered
     pane.setOnDragEntered(
-        event -> {
-          pane.setBorder(
-              new Border(
-                  new BorderStroke(
-                      Color.YELLOW,
-                      BorderStrokeStyle.SOLID,
-                      CornerRadii.EMPTY,
-                      BorderWidths.DEFAULT)));
-        });
+        event ->
+            pane.setBorder(
+                new Border(
+                    new BorderStroke(
+                        Color.YELLOW,
+                        BorderStrokeStyle.SOLID,
+                        CornerRadii.EMPTY,
+                        BorderWidths.DEFAULT))));
 
     // Remove border
-    pane.setOnDragExited(
-        event -> {
-          pane.setBorder(null);
-        });
+    pane.setOnDragExited(event -> pane.setBorder(null));
 
     return pane;
   }
 
+  /** Method for adding tiles to the rack. */
   public void addTilesToRack(Tile tile) {
     rack.add(tile);
     updateRack();
   }
 
-  /** Method to update the graphical container of a Tile on the board */
+  /** Method to update the graphical container of a Tile on the board. */
   public void updateTile(char letter, int points, int row, int col) {
     if (!gameBoard.isEmpty(row, col)) {
 
@@ -739,7 +702,7 @@ public class TutorialController {
   }
 
   /**
-   * Place Tile on board when player himself
+   * Place Tile on board when player himself.
    *
    * @param position Requires which tile from rack you want to set
    * @param row Requires which row you placed the tile in
@@ -749,7 +712,7 @@ public class TutorialController {
     if (gameBoard.isEmpty(row, col)) {
       Sound.playMusic(Sound.tileSet);
       if (rack.getTile(position).isJoker()) { // Joker -> Change letter
-        // BUild CHoice DIalog
+        // Build Choice Dialog
         List<String> choices = new ArrayList<>();
         for (char c = 'A'; c <= 'Z'; c++) {
           choices.add(Character.toString(c));
@@ -771,48 +734,48 @@ public class TutorialController {
     }
   }
 
-  /** Method to update the graphical container of a Tile on the rack */
+  /** Method to update the graphical container of a Tile on the rack. */
   public void updateBottomTile(char letter, int points, int col) {
     AnchorPane pane = createBottomTile(letter, points, col);
     tiles.add(pane, col, 0);
   }
 
-  /** Method to update the graphical containers of he board after a move */
+  /** Method to update the graphical containers of he board after a move. */
   public void placeTile(Tile tile, int row, int col) {
     gameBoard.placeTile(tile, row, col);
     updateBoard();
   }
 
   /**
-   * method for showing the welcome screen
+   * method for showing the welcome screen.
    *
-   * @param show
+   * @param show Welcoming screen
    */
   public void showTutorialWelcome(boolean show) {
     tutorialWelcome.setVisible(show);
   }
 
   /**
-   * method for showing that steps have not been completed while trying to click submit or next step
-   * button
+   * Method for showing that steps have not been completed while trying to click submit or next step
+   * button.
    *
-   * @param show
+   * @param show error Message
    */
   public void showErrorMessage(boolean show) {
     errorMessage.setVisible(show);
   }
 
   /**
-   * method for indicating the tutorial is finished and allowing the player to finish it and
-   * navigate back to play scrabble
+   * Method for indicating the tutorial is finished and allowing the player to finish it and
+   * navigate back to play scrabble.
    *
-   * @param show
+   * @param show end Tutorial button
    */
   public void showEndTutorial(boolean show) {
     endTutorial.setVisible(show);
   }
 
-  /** method for initializing the starting interface */
+  /** Method for initializing the starting interface. */
   public void initialize() {
 
     instructions.setText(steps[0]);
@@ -821,12 +784,7 @@ public class TutorialController {
     errorMessage.managedProperty().bind(errorMessage.visibleProperty());
   }
 
-  /**
-   * Method for getting back to the play Scrabble Screen after finishing the tutorial
-   *
-   * @param mouseEvent
-   * @throws IOException
-   */
+  /** Method for getting back to the play Scrabble Screen after finishing the tut. */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
@@ -841,11 +799,13 @@ public class TutorialController {
     window.show();
   }
 
+  /** Does nothing. Placeholder. */
   public void playerOne() {}
 
+  /** Does nothing. Placeholder. */
   public void bot() {}
 
-  /** Shuffles the tiles on the rack */
+  /** Shuffles the tiles on the rack. */
   public void shuffle() {
     Sound.playMusic(Sound.tileSet);
     if (counter == 2) {
@@ -865,6 +825,7 @@ public class TutorialController {
     updateRack();
   }
 
+  /** Triggered when Shuffle button is being pressed. */
   public void tiles() {
 
     if (!(rack.isSelected(0) && rack.isSelected(1) && rack.isSelected(2))) {
@@ -889,7 +850,8 @@ public class TutorialController {
     }
   }
 
-  public void start(MouseEvent mouseEvent) throws IOException {
+  /** Triggered when start button on welcoming page is being pressed. */
+  public void start() throws IOException {
     Sound.playMusic(Sound.tileSet);
     showTutorialWelcome(false);
     loadStageOne();

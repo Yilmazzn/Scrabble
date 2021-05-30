@@ -19,7 +19,6 @@ import net.message.RefuseConnectionMessage;
 import net.message.RequestDictionaryMessage;
 import net.message.RequestDistributionsMessage;
 import net.message.RequestValuesMessage;
-import net.message.SendPlayerDataMessage;
 import net.message.TurnMessage;
 
 /**

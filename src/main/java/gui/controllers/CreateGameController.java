@@ -3,36 +3,44 @@ package gui.controllers;
 import client.Client;
 import client.PlayerProfile;
 import ft.Sound;
-import javafx.event.EventHandler;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
+/**
+ * Controller for the create game View.
+ *
+ * @author vihofman
+ */
 public class CreateGameController {
-  /** @author vihofman for gameSettings and functionality */
   // setup for joined player
   @FXML private Label playerOne;
-
   @FXML private Label playerTwo;
   @FXML private Label playerThree;
   @FXML private Label playerFour;
@@ -42,14 +50,12 @@ public class CreateGameController {
   @FXML private Button kickTwo;
   @FXML private Button kickThree;
   @FXML private Button kickFour;
-  @FXML private Label host;
   @FXML private TextArea textArea;
   @FXML private ScrollPane scrollPane;
   @FXML private VBox chat;
   @FXML private Button startButton;
   @FXML private AnchorPane gameSettingsPane;
   @FXML private BorderPane createGamePane;
-
   @FXML private Label connectionDetails;
 
   private Client client;
@@ -64,7 +70,7 @@ public class CreateGameController {
   private String dictionaryPath;
 
   /**
-   * Sets client instance in CreateGameController, creates Server and connect first client
+   * Sets client instance in CreateGameController, creates Server and connect first client.
    *
    * @param client Requires client to be set
    */
@@ -76,6 +82,7 @@ public class CreateGameController {
     try {
       Thread.sleep(10);
     } catch (Exception e) {
+      e.printStackTrace();
     }
 
     client.getNetClient().connect();
@@ -89,7 +96,7 @@ public class CreateGameController {
   }
 
   /**
-   * Sets absolute path to dictionary
+   * Sets absolute path to dictionary.
    *
    * @param path Requires path for dictionary
    */
@@ -97,13 +104,13 @@ public class CreateGameController {
     dictionaryPath = path;
   }
 
-  /** */
+  /** Returns the path to the dictionary. */
   public String getDictionaryPath() {
     return dictionaryPath;
   }
 
   /**
-   * Sets tile values
+   * Sets tile values.
    *
    * @param values Requires values to be set
    */
@@ -113,13 +120,13 @@ public class CreateGameController {
     }
   }
 
-  /** @return Returns tile Values */
+  /** Returns tile Values. */
   public int[] getValues() {
     return tileValues;
   }
 
   /**
-   * Sets tile distributions
+   * Sets tile distributions.
    *
    * @param distributions Requires tile distributions
    */
@@ -129,13 +136,13 @@ public class CreateGameController {
     }
   }
 
-  /** @return Returns tile distributions */
+  /** Returns tile distributions. */
   public int[] getDistributions() {
     return tileDistributions;
   }
 
   /**
-   * Fills lobby with current client' profiles
+   * Fills lobby with current client' profiles.
    *
    * @param profiles Requires profiles to be set
    */
@@ -155,12 +162,8 @@ public class CreateGameController {
     }
   }
 
-  /**
-   * Method to get to the Settings
-   *
-   * @param mouseEvent to detect the current Stage
-   */
-  public void openGameSettings(MouseEvent mouseEvent) throws IOException {
+  /** Method to get to the Set. */
+  public void openGameSettings() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
     loader.setLocation(this.getClass().getResource("/views/gameSettings.fxml"));
@@ -171,47 +174,17 @@ public class CreateGameController {
     GameSettingsController controller = loader.getController();
 
     controller.setModel(client, this);
-
-    /*Scene gameSettingsScene = new Scene(gameSettings);
-    Stage window = new Stage();
-    window.setScene(gameSettingsScene);
-    window.show();*/
   }
 
-  /** Closes the GameSettings */
+  /** Closes the GameSettings. */
   public void closeSettings() {
     Sound.playMusic(Sound.tileSet);
     createGamePane.setVisible(true);
     gameSettingsPane.setVisible(false);
   }
 
-  /** Method to open the Chat Screen */
-  public void openChat() throws IOException {
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(this.getClass().getResource("/views/gameChat.fxml"));
-    Parent gameChat = loader.load();
-    Scene gameChatScene = new Scene(gameChat);
-    Stage window = new Stage();
-    window.initModality(Modality.APPLICATION_MODAL);
-    window.setTitle("Chat");
-    window.setScene(gameChatScene);
-    window.setWidth(300);
-    window.setHeight(500);
-    window.show();
-    Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-    double x = bounds.getMinX() + (bounds.getWidth() - window.getWidth()) * 0.78;
-    double y = bounds.getMinY() + (bounds.getHeight() - window.getHeight()) * 0.45;
-    window.setX(x);
-    window.setY(y);
-    window.show();
-  }
-
-  /**
-   * Shows Popup, for AI difficulty, then adds AI Player
-   *
-   * @throws IOException
-   */
-  public void addAiPlayer() throws IOException { // add AI player to the GUI
+  /** Shows Popup, for AI difficulty, then adds AI Player. */
+  public void addAiPlayer() { // add AI player to the GUI
     Sound.playMusic(Sound.tileSet);
     Alert alert =
         new Alert(
@@ -223,6 +196,7 @@ public class CreateGameController {
     alert.setTitle("Add AI");
     alert.setHeaderText(null);
     DialogPane dialogPane = alert.getDialogPane();
+
     dialogPane
         .getStylesheets()
         .add(getClass().getResource("/stylesheets/dialogstyle.css").toExternalForm());
@@ -235,22 +209,19 @@ public class CreateGameController {
     }
   }
 
-  /** Creates a listener for the TextArea so Enter can be pressed */
+  /** Creates a listener for the TextArea so Enter can be pressed. */
   public void updateChat() {
     textArea.setOnKeyPressed(
-        new EventHandler<KeyEvent>() {
-          @Override
-          public void handle(KeyEvent keyEvent) {
-            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-              textArea.deletePreviousChar();
-              sendMessage();
-              keyEvent.consume();
-            }
+        keyEvent -> {
+          if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            textArea.deletePreviousChar();
+            sendMessage();
+            keyEvent.consume();
           }
         });
   }
 
-  /** Creates a Box/Label when player sends a message Necessary to fill the ChatField */
+  /** Creates a Box/Label when player sends a message Necessary to fill the ChatField. */
   public void sendMessage() {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -285,9 +256,10 @@ public class CreateGameController {
   }
 
   /**
-   * Creates a Box/Label when player gets a message Necessary to fill the ChatField
+   * Creates a Box/Label when player gets a message Necessary to fill the ChatField.
    *
-   * @param username,text to fill the Label with relevant data
+   * @param username to fill the Label with relevant data
+   * @param text to fill the Label with relevant data
    */
   public void getMessage(String username, String text) {
     HBox box = new HBox();
@@ -317,7 +289,7 @@ public class CreateGameController {
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
 
-  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField */
+  /** Creates a Box/Label to display system messages. Necessary to fill the ChatField. */
   public void createSystemMessage(String message) {
     HBox box = new HBox();
     box.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -342,7 +314,8 @@ public class CreateGameController {
     chat.getChildren().add(box);
     chat.heightProperty().addListener(observer -> scrollPane.setVvalue(1.0));
   }
-  /** Methods for kicking a particular player */
+
+  /** Methods for kicking a particular player. */
   public void kickPlayerTwo() {
     Sound.playMusic(Sound.tileSet);
     client.getNetClient().kickPlayer(1);
@@ -359,11 +332,13 @@ public class CreateGameController {
   }
 
   /**
-   * @author mnetzer Method to get back to the PlayScrabble Screen
+   * Method to get back to the PlayScrabble Screen.
+   *
+   * @author mnetzer
    * @param mouseEvent to detect the current Stage
    */
   public void backToPlayScrabble(MouseEvent mouseEvent) throws IOException {
-    // disonnect player from server (server shuts down because client was host)
+    // disconnect player from server (server shuts down because client was host)
     Sound.playMusic(Sound.tileSet);
     client.getNetClient().disconnect();
 
@@ -379,7 +354,7 @@ public class CreateGameController {
     window.show();
   }
 
-  /** Method to open the exit Screen in a new window */
+  /** Method to open the exit Screen in a new window. */
   public void exitGame() throws IOException {
     FXMLLoader loader = new FXMLLoader();
     Sound.playMusic(Sound.tileSet);
@@ -399,7 +374,7 @@ public class CreateGameController {
   }
 
   /**
-   * Method to get to the GameView Screen
+   * Method to get to the GameView Screen.
    *
    * @param mouseEvent to detect the current Stage
    */
@@ -423,7 +398,7 @@ public class CreateGameController {
   }
 
   /**
-   * Sets the state of the start game button to a specific value, if enabled, it can be pressed
+   * Sets the state of the start game button to a specific value, if enabled, it can be pressed.
    *
    * @param enabled Requires the boolean value for enabled state of start game button
    */
@@ -431,7 +406,7 @@ public class CreateGameController {
     startButton.setDisable(!enabled);
   }
 
-  /** Set player's turns */
+  /** Set player's turns. */
   public void updatePlayerReadies(boolean[] readies) {
     boolean allReady = true;
     for (int i = 1; i < readies.length; i++) {
