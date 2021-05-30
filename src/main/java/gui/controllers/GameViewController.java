@@ -260,23 +260,26 @@ public class GameViewController implements Initializable {
     window.show();
   }
 
-  /** @author vihofman for statistic functionality */
+  /** Show statistics of player one. */
   public void playerOne() throws IOException {
     openStatistics(client.getNetClient().getCoPlayers()[0]);
   }
 
+  /** Show statistics of player two. */
   public void playerTwo() throws IOException {
     if (client.getNetClient().getCoPlayers().length >= 2) {
       openStatistics(client.getNetClient().getCoPlayers()[1]);
     }
   }
 
+  /** Show statistics of player three. */
   public void playerThree() throws IOException {
     if (client.getNetClient().getCoPlayers().length >= 3) {
       openStatistics(client.getNetClient().getCoPlayers()[2]);
     }
   }
 
+  /** Show statistics of player four. */
   public void playerFour() throws IOException {
     if (client.getNetClient().getCoPlayers().length >= 4) {
       openStatistics(client.getNetClient().getCoPlayers()[3]);
@@ -291,12 +294,10 @@ public class GameViewController implements Initializable {
    */
   public void backToPlayerLobby(MouseEvent mouseEvent) throws IOException {
     Sound.playMusic(Sound.tileSet);
+    String alertMessage =
+        "Are you sure you want to quit a running game?\n\nYour Co-Players would be very disappointed...";
     Alert alert =
-        new Alert(
-            Alert.AlertType.CONFIRMATION,
-            "Are you sure you want to quit a running game?\n\nYour Co-Players would be very disappointed...",
-            ButtonType.YES,
-            ButtonType.CANCEL);
+        new Alert(Alert.AlertType.CONFIRMATION, alertMessage, ButtonType.YES, ButtonType.CANCEL);
     alert.setHeaderText(null);
     DialogPane dialogPane = alert.getDialogPane();
     dialogPane
@@ -482,12 +483,11 @@ public class GameViewController implements Initializable {
    * adds the Drag and Drop feature.
    *
    * @param letter,value,position Used letter with value and position
-   * @return AnchorPane
    */
   public AnchorPane createBottomTile(char letter, int value, int position) {
-    AnchorPane pane = new AnchorPane();
+    AnchorPane pane;
     Label label = new Label();
-    Label points = new Label();
+    Label points;
 
     label.setText("" + letter);
 
@@ -511,6 +511,7 @@ public class GameViewController implements Initializable {
       label.getStyleClass().add("tileBottom");
     }
 
+    points = new Label();
     points.setText(Integer.toString(value));
     AnchorPane.setTopAnchor(points, 1.0);
     AnchorPane.setLeftAnchor(points, 5.0);
@@ -520,6 +521,7 @@ public class GameViewController implements Initializable {
     points.getStylesheets().add("/stylesheets/labelstyle.css");
     points.getStyleClass().add("digitRack");
 
+    pane = new AnchorPane();
     pane.getChildren().add(label);
     pane.getChildren().add(points);
 
@@ -564,7 +566,7 @@ public class GameViewController implements Initializable {
    * @return AnchorPane
    */
   public AnchorPane createTile(BoardField boardField) {
-    AnchorPane pane = new AnchorPane();
+    AnchorPane pane;
     Label label = new Label();
     Label points = new Label();
 
@@ -627,6 +629,7 @@ public class GameViewController implements Initializable {
       }
     }
 
+    pane = new AnchorPane();
     pane.getChildren().add(label);
     pane.getChildren().add(points);
 
