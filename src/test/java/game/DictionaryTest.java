@@ -5,9 +5,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-/** @author nsiebler for Dictionary test
+/**
+ * for Dictionary test
  * this test checks the functionality of the dictionary and its word as well as the meaning of
- * the words
+ * the words.
+ * @author nsiebler
  * */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class DictionaryTest {

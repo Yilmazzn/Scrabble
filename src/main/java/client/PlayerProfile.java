@@ -2,17 +2,18 @@ package client;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
-
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.imageio.ImageIO;
+
 /**
- * @author nsiebler This class creates a new Player instance with all the values that are saved in
- *     the xml file later
+ *     This class creates a new Player instance with all the values that are saved in
+ *     the xml file later.
+ *     @author nsiebler
  */
 public class PlayerProfile implements Serializable {
 
@@ -32,6 +33,17 @@ public class PlayerProfile implements Serializable {
 
   // Icon will be added, just have to clear which format will be excepted
 
+  /**
+   * Constructor to initialize a player
+   * @param name name of the player
+   * @param highscore score of the player
+   * @param wins wins of a player
+   * @param looses looses of a player
+   * @param totalScore score of a player
+   * @param creation date when a player is created
+   * @param lastLogged date when a player was lastly created
+   * @param image profile picture of the image
+   */
   public PlayerProfile(
       String name,
       int highscore,

@@ -7,8 +7,6 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -19,14 +17,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.jdom2.output.XMLOutputter;
+
 /**
- * @author nsiebler This is the class that contains the Methods to Handle the XML files With that i
+ *   This is the class that contains the Methods to Handle the XML files With that i
  *     mean create new files and update files that are already existing as well as read the values
  *     out of the data. This is made by the playertoElement and elementToPlayer functions Get Player
- *     Functionality is made by the ArrayList
- *     <p>This class creates the XML Document based on the NewPlayer Class We want a method that
+ *     Functionality is made by the ArrayList.
+ *     This class creates the XML Document based on the NewPlayer Class We want a method that
  *     just creates the Document here. The deletion and change of values is done on another Class.
  *     We just wanna make sure that we can create the doc that we created here
+ *     @author nsiebler
  */
 public class XmlHandler {
   private static final String sep = System.getProperty("file.separator");
@@ -69,7 +70,7 @@ public class XmlHandler {
 
   /**
    * Method saves the document given by the attribute xmlDoc in XML format to a file (defined in
-   * Parameters class)
+   * Parameters class).
    */
   public static void saveXml(List<PlayerProfile> profiles) {
     // Prepare XMLOutPutter and it's format
@@ -93,10 +94,11 @@ public class XmlHandler {
   }
 
   /**
-   * This Method creates a New Player Instance, which can be changed based on new Values for example
+   * This Method creates a New Player Instance, which can be changed based on new Values
+   * for example.
    */
   public static PlayerProfile elementToPlayer(Element player) {
-    PlayerProfile nPlayer = null;
+    PlayerProfile newPlayer = null;
     try {
 
       // Local Date logged is 0/0/0
@@ -123,7 +125,7 @@ public class XmlHandler {
           image = new Image(imageUrl);
         }
       }
-      nPlayer =
+      newPlayer =
           new PlayerProfile(
               player.getChildText("name"),
               Integer.parseInt(player.getChildText("highscore")),
@@ -134,29 +136,26 @@ public class XmlHandler {
               lastLogged,
               image);
 
-      return nPlayer;
+      return newPlayer;
     } catch (Exception exp) {
       System.exit(0);
     }
 
-    return nPlayer;
+    return newPlayer;
   }
 
   /**
-   * This Method creates an Element which can be added to the xml file
-   *
+   * This Method creates an Element which can be added to the xml file.
    * @param nPlayer Player class instance
    * @return Element that can be added to the xml
    */
   public static Element playerToElement(PlayerProfile nPlayer) {
     // Root Element
     Element newPlayer = new Element("profile");
-
     Element name = new Element("name");
     name.addContent(nPlayer.getName());
     // For xml we treat the Integers as Strings to avoid using
     // Attributes and make the work easy by treating everything as Strings
-
     Element highscore = new Element("highscore");
     highscore.addContent(Integer.toString(nPlayer.getHighScore()));
 
@@ -199,7 +198,7 @@ public class XmlHandler {
 
   /**
    * Worked Sav Method which generates a updated XML-file the normal save method still has to be
-   * their because this method saves the xml document itself
+   * their because this method saves the xml document itself.
    */
   public static List<PlayerProfile> loadProfiles() {
     // Have to reset the List every time

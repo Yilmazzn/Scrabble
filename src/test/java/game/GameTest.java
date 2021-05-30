@@ -15,53 +15,55 @@ import org.junit.jupiter.api.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GameTest {
 
-  Tile hLetter;
-  Tile lLetter;
-  Tile oLetter;
-  Tile wLetter;
-  Tile rLetter;
-  Tile dLetter;
-  Tile mLetter;
-  Tile iLetter;
-  Tile eLetter;
-  Tile nLetter;
-  Tile pLetter;
-  Tile gLetter;
-  Tile tLetter;
-  Tile aLetter;
-  Tile sLetter;
+  Tile letterH;
+  Tile letterL;
+  Tile letterO;
+  Tile letterW;
+  Tile letterR;
+  Tile letterD;
+  Tile letterM;
+  Tile letterI;
+  Tile letterE;
+  Tile letterN;
+  Tile letterP;
+  Tile letterG;
+  Tile letterT;
+  Tile letterA;
+  Tile letterS;
+
+
   Board board = new Board();
   List<BoardField> placements = new ArrayList<>();
 
   @BeforeAll
   void setUp() throws Exception {
     // Initialize all the tiles for the test words
-    hLetter = new Tile('H', 4);
-    lLetter = new Tile('L', 1);
-    oLetter = new Tile('O', 1);
-    wLetter = new Tile('W', 4);
-    rLetter = new Tile('R', 1);
-    dLetter = new Tile('D', 2);
-    mLetter = new Tile('M', 3);
-    iLetter = new Tile('I', 1);
-    eLetter = new Tile('E', 1);
-    nLetter = new Tile('N', 1);
-    pLetter = new Tile('P', 3);
-    gLetter = new Tile('G', 2);
-    tLetter = new Tile('T', 1);
-    aLetter = new Tile('A', 1);
-    sLetter = new Tile('S', 1);
+    letterH = new Tile('H', 4);
+    letterL = new Tile('L', 1);
+    letterO = new Tile('O', 1);
+    letterW = new Tile('W', 4);
+    letterR = new Tile('R', 1);
+    letterD = new Tile('D', 2);
+    letterM = new Tile('M', 3);
+    letterI = new Tile('I', 1);
+    letterE = new Tile('E', 1);
+    letterN = new Tile('N', 1);
+    letterP = new Tile('P', 3);
+    letterG = new Tile('G', 2);
+    letterT = new Tile('T', 1);
+    letterA = new Tile('A', 1);
+    letterS = new Tile('S', 1);
   }
 
   @Test
   @DisplayName("Placing 'HELLO' (H on DWS, O on DLS)")
   void evaluateScoreTest1() {
     // First word
-    place(hLetter, 7, 7);
-    place(eLetter, 7, 8);
-    place(lLetter, 7, 9);
-    place(lLetter, 7, 10);
-    place(oLetter, 7, 11);
+    place(letterH, 7, 7);
+    place(letterE, 7, 8);
+    place(letterL, 7, 9);
+    place(letterL, 7, 10);
+    place(letterO, 7, 11);
 
     Assertions.assertEquals(18, board.evaluateScore(placements));
     placements.clear();
@@ -71,9 +73,9 @@ class GameTest {
   @DisplayName("Placing 'ING' (Placements: HELLOING)")
   void evaluateScoreTest2() {
     // second word
-    place(iLetter, 7, 12);
-    place(nLetter, 7, 13);
-    place(gLetter, 7, 14);
+    place(letterI, 7, 12);
+    place(letterN, 7, 13);
+    place(letterG, 7, 14);
     Assertions.assertEquals(36, board.evaluateScore(placements));
     placements.clear();
   }
@@ -82,13 +84,13 @@ class GameTest {
   @DisplayName("Placing 'ELMETED' (Placements: HELMETED)")
   void evaluateScoreTest3() {
     // third word
-    place(eLetter, 8, 7);
-    place(lLetter, 9, 7);
-    place(mLetter, 10, 7);
-    place(eLetter, 11, 7);
-    place(tLetter, 12, 7);
-    place(eLetter, 13, 7);
-    place(dLetter, 14, 7);
+    place(letterE, 8, 7);
+    place(letterL, 9, 7);
+    place(letterM, 10, 7);
+    place(letterE, 11, 7);
+    place(letterT, 12, 7);
+    place(letterE, 13, 7);
+    place(letterD, 14, 7);
     Assertions.assertEquals(95, board.evaluateScore(placements));
     placements.clear();
   }
@@ -96,8 +98,8 @@ class GameTest {
   @Test
   @DisplayName("Placing 'AT' (Placements: EAT)")
   void evaluateScoreTest4() {
-    place(aLetter, 11, 8);
-    place(tLetter, 11, 9);
+    place(letterA, 11, 8);
+    place(letterT, 11, 9);
 
     Assertions.assertEquals(3, board.evaluateScore(placements));
     placements.clear();
@@ -106,8 +108,8 @@ class GameTest {
   @Test
   @DisplayName("Placing 'OW' (Placements: LOW)")
   void evaluateScoreTest5() {
-    place(oLetter, 8, 9);
-    place(wLetter, 9, 9);
+    place(letterO, 8, 9);
+    place(letterW, 9, 9);
 
     Assertions.assertEquals(14, board.evaluateScore(placements));
     placements.clear();
@@ -116,9 +118,9 @@ class GameTest {
   @Test
   @DisplayName("Placing 'EST' (Placements: LOWEST)")
   void evaluateScoreTest6() {
-    place(eLetter, 10, 9);
-    place(sLetter, 11, 9);
-    place(tLetter, 12, 9);
+    place(letterE, 10, 9);
+    place(letterS, 11, 9);
+    place(letterT, 12, 9);
     Assertions.assertEquals(12, board.evaluateScore(placements));
     placements.clear();
   }
