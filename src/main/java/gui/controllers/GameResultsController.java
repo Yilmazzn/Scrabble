@@ -67,18 +67,19 @@ public class GameResultsController {
     updateChat();
   }
 
-  /** Updates Scoreboard, called from NetClient if changes are made */
+  /** Updates Scoreboard, called from NetClient if changes are made. */
   public void updateScoreboard(PlayerProfile[] profiles, int[] scores) {
     Label[] playerLabels = {player1, player2, player3, player4};
     Label[] pointsLabels = {pointsPlayer1, pointsPlayer2, pointsPlayer3, pointsPlayer4};
     ImageView[] images = {image1, image2, image3, image4};
+    int tmpScore;
 
     // Sort Array from highest score to lowest
     for (int i = 0; i < profiles.length; i++) {
       for (int j = 0; j < profiles.length - 1; j++) {
         if (scores[j] < scores[j + 1]) {
           PlayerProfile tmpProf = profiles[j];
-          int tmpScore = scores[j];
+          tmpScore = scores[j];
           profiles[j] = profiles[j + 1];
           profiles[j + 1] = tmpProf;
           scores[j] = scores[j + 1];
@@ -105,16 +106,16 @@ public class GameResultsController {
     }
   }
 
-  /** Creates a listener for the TextArea so Enter can be pressed */
+  /** Creates a listener for the TextArea so Enter can be pressed. */
   public void updateChat() {
     textArea.setOnKeyPressed(
-            keyEvent -> {
-              if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-                textArea.deletePreviousChar();
-                sendMessage();
-                keyEvent.consume();
-              }
-            });
+        keyEvent -> {
+          if (keyEvent.getCode().equals(KeyCode.ENTER)) {
+            textArea.deletePreviousChar();
+            sendMessage();
+            keyEvent.consume();
+          }
+        });
   }
 
   /** Load chat into current view. */

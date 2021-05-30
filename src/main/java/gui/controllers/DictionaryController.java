@@ -69,7 +69,7 @@ public class DictionaryController {
     page.setText(currentPage + "/" + pages);
   }
 
-  /** Show next page of the dictionary */
+  /** Show next page of the dictionary. */
   public void nextPage() {
     currentPage++;
     start += 2000;
