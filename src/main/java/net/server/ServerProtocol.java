@@ -121,9 +121,8 @@ public class ServerProtocol extends Thread {
         switch (m.getMessageType()) {
           case CONNECT:
             PlayerProfile profile = ((ConnectMessage) m).getProfile();
-            ConnectMessage cm = (ConnectMessage) m;
             player.setPlayerProfile(profile);
-
+            ConnectMessage cm = (ConnectMessage) m;
             if (!player.isHost()) { // if not host --> joined us message
               server.sendToAll(
                   new ChatMessage(
@@ -226,13 +225,13 @@ public class ServerProtocol extends Thread {
             ChatMessage c1 =
                 new ChatMessage(
                     aiPlayer.getProfile().getName() + " joined our Round. *Beep-Boop*", null);
-
+            server.sendToAll(c1);
             server.addPlayer(aiPlayer);
 
             ConnectMessage cm1 = new ConnectMessage(null);
             cm1.setProfiles(server.getPlayerProfilesArray());
             server.sendToAll(cm1);
-            server.sendToAll(c1);
+
             break;
           case KICKPLAYER:
             DisconnectMessage dm =
@@ -292,6 +291,7 @@ public class ServerProtocol extends Thread {
             break;
           case ENDGAME:
             server.getGame().end(((EndGameMessage) m).getType());
+            break;
           default:
             break;
         }
@@ -299,7 +299,7 @@ public class ServerProtocol extends Thread {
     } catch (IOException e) {
       running = false;
       if (socket.isClosed()) {
-
+        System.out.println();
       } else {
         try {
           socket.close();
