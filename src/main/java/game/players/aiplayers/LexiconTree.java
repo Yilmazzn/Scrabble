@@ -3,7 +3,12 @@ package game.players.aiplayers;
 import game.Dictionary;
 import game.components.Tile;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * A Directed-Acyclic Word Graph.

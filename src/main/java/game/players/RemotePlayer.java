@@ -1,7 +1,6 @@
 package game.players;
 
 import client.PlayerProfile;
-import game.components.Board;
 import game.components.Tile;
 import java.util.Collection;
 import net.message.ChatMessage;
