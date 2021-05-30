@@ -25,7 +25,6 @@ public class PlayerProfile implements Serializable {
   private int losses;
   private LocalDate creation;
   private int totalScore;
-  /** This functionality will be implemented by this week */
   private LocalDate lastLogged;
 
   // default image

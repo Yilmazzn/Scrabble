@@ -77,7 +77,7 @@ public class ClientProtocol extends Thread {
   }
 
   /**
-   * Overwritten run method from Thread. Accepts and works through incoming messages from the server
+   * Overwritten run method from Thread. Accepts and works through incoming messages from the server.
    */
   public void run() {
     while (running) {

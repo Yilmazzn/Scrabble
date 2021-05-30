@@ -53,8 +53,8 @@ public abstract class AiPlayer extends Player {
   }
 
   /**
-   * Main method which is triggered by the game instance. All computations from start of round till
-   * end need to be done in here.
+   * Main method which is triggered by the game instance. All computations from start of
+   * round till end need to be done in here.
    */
   public abstract void think(Board board, Dictionary dictionary);
 

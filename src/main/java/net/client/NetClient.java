@@ -204,7 +204,7 @@ public class NetClient {
     return client.getSelectedProfile();
   }
 
-  /** Returns client */
+  /** Returns client. */
   public Client getClient() {
     return client;
   }

@@ -1,7 +1,7 @@
 package ft;
 
 /**
- * Class for data in BST
+ * Class for data in BST.
  *
  * @author vkaczmar
  */
@@ -70,7 +70,7 @@ public class NodeWordlist {
     this.right = right;
   }
 
-  /** Returns Meaning */
+  /** Returns Meaning. */
   public String getMeaning() {
     return meaning;
   }

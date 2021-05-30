@@ -15,8 +15,6 @@ import java.util.Set;
  * This class had a previous AI that was build, but a overwritten hardai was easier to build. The
  * entire code concept is created by yuzun.
  *
- * <p>Simple Ai Player Only implements think method
- *
  * @author nsiebler
  */
 public class EasyAiPlayer extends AiPlayer {
@@ -28,7 +26,7 @@ public class EasyAiPlayer extends AiPlayer {
     super(Difficulty.EASY);
   }
 
-  /** */
+  /** Assigns Game to player when starting a game. */
   @Override
   public void joinGame(Game game) {
     super.joinGame(game); // assign game to this player
@@ -39,7 +37,7 @@ public class EasyAiPlayer extends AiPlayer {
   /**
    * Main method which is triggered by the game instance All computations from start of round till
    * end need to be done in here! START COMPUTATION in THREAD as to not block any functionalities of
-   * server
+   * server.
    */
   @Override
   public void think(Board gameBoard, Dictionary dictionary) {
@@ -47,8 +45,8 @@ public class EasyAiPlayer extends AiPlayer {
   }
 
   /**
-   * Main method which is triggered by the game instance All computations from start of round till
-   * end need to be done in here!
+   * Main method which is triggered by the game instance. All computations from start of round till
+   * end need to be done in here.
    */
   public void thinkInternal(Board gameBoard, Dictionary dictionary) {
     Board board = new Board(gameBoard); // Deep copy of game board
@@ -93,14 +91,14 @@ public class EasyAiPlayer extends AiPlayer {
     submit();
   }
 
-  /** Reset board */
+  /** Reset board. */
   private void resetBoard(Board board, List<Placement> placements) {
     placements.forEach(
         placement -> board.placeTile(null, placement.getRow(), placement.getColumn()));
   }
 
   /**
-   * Called if first round. Tries to build word with tiles on hand
+   * Called if first round. Tries to build word with tiles on hand.
    *
    * @param board copy of game board
    */
@@ -130,7 +128,7 @@ public class EasyAiPlayer extends AiPlayer {
 
   /**
    * Computes best possible placement. Reduces dimensions to one by first checking only horizontal,
-   * then vertical
+   * then vertical.
    *
    * @param board copy of game board
    */
@@ -227,7 +225,7 @@ public class EasyAiPlayer extends AiPlayer {
         }
       }
     }
-    // TODO change to a placement which is not the best
+
     // Try out placements and get the smallest one
     for (List<Placement> placements : possiblePlacements) {
       if (placements.size() == 0) {
@@ -240,7 +238,7 @@ public class EasyAiPlayer extends AiPlayer {
     }
   }
 
-  /** Returns a tile with given letter */
+  /** Returns a tile with given letter. */
   private Tile getTile(char letter) {
     for (Tile tile : rack) {
       if (tile.getLetter() == letter) {
@@ -252,7 +250,7 @@ public class EasyAiPlayer extends AiPlayer {
 
   /**
    * Simulates placements on copy of board, evaluates score, resets board back to state prior to
-   * placements
+   * placements.
    *
    * @param board board object
    * @param placements placements to be simulated and scored
@@ -276,7 +274,7 @@ public class EasyAiPlayer extends AiPlayer {
     return score;
   }
 
-  /** Class for single placement */
+  /** Class for single placement. */
   private class Placement {
 
     private final int row;

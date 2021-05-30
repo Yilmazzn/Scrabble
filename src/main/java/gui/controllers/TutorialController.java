@@ -343,7 +343,7 @@ public class TutorialController {
     }
   }
 
-  /** Method for getting to the previous tutorial */
+  /** Method for getting to the previous tutorial. */
   public void previousStep() {
     Sound.playMusic(Sound.tileSet);
     if (counter > 0) {

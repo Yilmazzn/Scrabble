@@ -103,7 +103,7 @@ public class Dictionary {
     }
   }
 
-  /** Private method to get words from uneditedLines. Words get added to ArrayList words */
+  /** Private method to get words from uneditedLines. Words get added to ArrayList words. */
   private void getWords() {
     String[] splitLine;
     Iterator<String> it = uneditedLines.iterator();

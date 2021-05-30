@@ -65,8 +65,7 @@ public class LexiconTree {
   }
 
   /**
-   * A tree built by the bot at the start of game (PREFIX-/SUFFIX-TREE). Only used here for this
-   * bot.
+   * A node in the tree built by the bot at the start of game (PREFIX-/SUFFIX-TREE).
    */
   private class Node {
     private final Map<Character, Node> children; // Children nodes

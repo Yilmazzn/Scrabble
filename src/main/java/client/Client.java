@@ -57,7 +57,7 @@ public class Client extends Application {
     return playerProfiles;
   }
 
-  /** Saves all players to profiles.xml */
+  /** Saves all players to profiles.xml. */
   public void savePlayerProfiles() {
     XmlHandler.saveXml(playerProfiles);
   }
