@@ -8,7 +8,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
-/** @yuzun Checks board functionalities */
+/**
+ * Checks board functionalities.
+ *
+ * @author yuzun
+ */
 public class BoardTest {
 
   private static final int BOARD_SIZE = 15;
@@ -142,7 +146,7 @@ public class BoardTest {
   }
 
   /**
-   * Builds board corresponding to the .txt files
+   * Builds board corresponding to the .txt files.
    *
    * @param filename path to file
    * @throws IOException if file at given path does not exist
