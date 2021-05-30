@@ -11,9 +11,10 @@ import java.time.format.DateTimeFormatter;
 import javax.imageio.ImageIO;
 
 /**
- *     This class creates a new Player instance with all the values that are saved in
- *     the xml file later.
- *     @author nsiebler
+ * This class creates a new Player instance with all the values that are saved in the xml file
+ * later.
+ *
+ * @author nsiebler
  */
 public class PlayerProfile implements Serializable {
 
@@ -34,7 +35,8 @@ public class PlayerProfile implements Serializable {
   // Icon will be added, just have to clear which format will be excepted
 
   /**
-   * Constructor to initialize a player
+   * Constructor to initialize a player.
+   *
    * @param name name of the player
    * @param highscore score of the player
    * @param wins wins of a player
@@ -85,7 +87,7 @@ public class PlayerProfile implements Serializable {
   }
 
   /**
-   * the following methods will just contain all necessary getters and setters
+   * The following methods will just contain all necessary getters and setters.
    *
    * @return getValue
    */

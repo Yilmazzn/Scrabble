@@ -12,9 +12,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *     This class initally build by @author yuzun, used for the easy ai version too
- *     Simple Ai Player Only implements think method.
- *     @author nsiebler
+ * This class initally build by the author yuzun, used for the easy ai version too Simple Ai Player.
+ * Only implements think method.
+ *
+ * @author nsiebler
  */
 class EasyAiPlayerTest extends EasyAiPlayer {
 

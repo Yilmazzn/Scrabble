@@ -1,17 +1,16 @@
 package ft;
 
-
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 /**
- *  This class contains the sounds in the system. Each sound has a method and
- *  refers to a sound in a folder. The sound are called by a Method. This class also contains a
- *  method to mute all sounds The state of the mute variable is saved in a XML Document and
- *  read out of it in order to save preferences
- *  This variable contains the soundPath. The regarding sound file name will be added to the path
- *  and than the sound will be played
- *  @author nsiebler
+ * This class contains the sounds in the system. Each sound has a method and refers to a sound in a
+ * folder. The sound are called by a Method. This class also contains a method to mute all sounds
+ * The state of the mute variable is saved in a XML Document and read out of it in order to save
+ * preferences This variable contains the soundPath. The regarding sound file name will be added to
+ * the path and than the sound will be played.
+ *
+ * @author nsiebler
  */
 public class Sound {
 

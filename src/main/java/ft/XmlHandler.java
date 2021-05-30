@@ -20,14 +20,14 @@ import java.util.List;
 import org.jdom2.output.XMLOutputter;
 
 /**
- *   This is the class that contains the Methods to Handle the XML files With that i
- *     mean create new files and update files that are already existing as well as read the values
- *     out of the data. This is made by the playertoElement and elementToPlayer functions Get Player
- *     Functionality is made by the ArrayList.
- *     This class creates the XML Document based on the NewPlayer Class We want a method that
- *     just creates the Document here. The deletion and change of values is done on another Class.
- *     We just wanna make sure that we can create the doc that we created here
- *     @author nsiebler
+ * This is the class that contains the Methods to Handle the XML files With that i mean create new
+ * files and update files that are already existing as well as read the values out of the data. This
+ * is made by the playertoElement and elementToPlayer functions Get Player Functionality is made by
+ * the ArrayList. This class creates the XML Document based on the NewPlayer Class We want a method
+ * that just creates the Document here. The deletion and change of values is done on another Class.
+ * We just wanna make sure that we can create the doc that we created here.
+ *
+ * @author nsiebler
  */
 public class XmlHandler {
   private static final String sep = System.getProperty("file.separator");
@@ -94,8 +94,8 @@ public class XmlHandler {
   }
 
   /**
-   * This Method creates a New Player Instance, which can be changed based on new Values
-   * for example.
+   * This Method creates a New Player Instance, which can be changed based on new Values for
+   * example.
    */
   public static PlayerProfile elementToPlayer(Element player) {
     PlayerProfile newPlayer = null;
@@ -146,6 +146,7 @@ public class XmlHandler {
 
   /**
    * This Method creates an Element which can be added to the xml file.
+   *
    * @param nPlayer Player class instance
    * @return Element that can be added to the xml
    */

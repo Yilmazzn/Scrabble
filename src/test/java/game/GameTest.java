@@ -8,9 +8,10 @@ import java.util.List;
 import org.junit.jupiter.api.*;
 
 /**
+ * The test is about the words hallo, world and middle, and test the various cases * that can occur
+ * while playing.
+ *
  * @author nsiebler
- * the test is about the words hallo, world and middle, and test the various cases
- *     that can occur while playing
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GameTest {
@@ -30,7 +31,6 @@ class GameTest {
   Tile letterT;
   Tile letterA;
   Tile letterS;
-
 
   Board board = new Board();
   List<BoardField> placements = new ArrayList<>();
