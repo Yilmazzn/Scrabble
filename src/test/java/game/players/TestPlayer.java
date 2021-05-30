@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
+ * Player test class for tests.
  * @author yuzun
- *     <p>Player test class for tests
  */
 public class TestPlayer extends Player {
 
@@ -19,24 +19,31 @@ public class TestPlayer extends Player {
     super(new PlayerProfile(username, 0, 0, 0, 0, LocalDate.now(), LocalDate.now()), true);
   }
 
-  /** Quit from game. Player is sent all relevant informations */
+  /** Quit from game. Player is sent all relevant information. */
   @Override
   public void quit() {
-    // empty
+    System.out.println("Ended");
   }
 
-  @Override
-  public void rejectSubmission(String reason) {
-    // empty
-  }
 
   /**
-   * Add tile to player's rack
+   * Add tile to player's rack.
    *
-   * @param tiles
+   * @param tiles tiles to add rack
    */
   @Override
   public void addTilesToRack(Collection<Tile> tiles) {
     tiles.addAll(tiles);
+  }
+
+  /**
+   * Submission invalid. Logic on what to do if game rejects submission should be implement in
+   * subclasses.
+   *
+   * @param reason reason for rejection
+   */
+  @Override
+  public void rejectSubmission(String reason) {
+    System.out.println("Move invalid because: " + reason);
   }
 }

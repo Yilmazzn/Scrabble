@@ -12,8 +12,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author yuzun Test class of my Hard AI extends the class HardAiPlayer overrides methods and just
- *     adds simple valuable System.out.prints
+ * Test class of my Hard AI extends the class HardAiPlayer overrides methods and just * adds simple
+ * valuable System.out.prints.
+ *
+ * @author yuzun
  */
 class HardAiPlayerTest extends HardAiPlayer {
 
