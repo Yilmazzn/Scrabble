@@ -87,8 +87,8 @@ public class LexiconTree {
     }
 
     /**
-     * Recursive Method, checks which words are possible given a pattern. Pattern must not be fully
-     * filled e.g. a possible word for a#########xy would be apple.
+     * Recursive Method, checks which words are possible given a pattern. Pattern must not be
+     * fully filled e.g. a possible word for a#########xy would be apple.
      *
      * @param pattern Given Pattern (# element if empty on board)
      * @param path list of characters already visited
