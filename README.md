@@ -20,7 +20,7 @@ Project is created with
 * Maven               -- Project Build Management
 
 ## Setup
-To run this project you must have JDK 11 or above, and install the JAR-file locally.  
+To run this project you must have JDK 11 or above, and install the JAR-file (of the latest release) locally.  
 * For Windows:  Scrabble13_Win.jar  
 * For MacOS:    Scrabble13_Mac.jar  
   
